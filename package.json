@@ -1,0 +1,17 @@
+{
+  "name": "peter",
+  "version": "0.0.1",
+  "description": "The replacement to Bonzi Buddy Bot.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BR88C/peter.git"
+  },
+  "author": "BR88C",
+  "license": "ISC",
+  "homepage": "https://github.com/BR88C/peter#readme"
+}
