@@ -13,5 +13,9 @@
   },
   "author": "BR88C",
   "license": "ISC",
-  "homepage": "https://github.com/BR88C/peter#readme"
+  "homepage": "https://github.com/BR88C/peter#readme",
+  "dependencies": {
+    "@discordjs/opus": "^0.3.2",
+    "discord.js": "^12.3.1"
+  }
 }
