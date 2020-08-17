@@ -9,38 +9,59 @@ module.exports = {
 	async execute(client, message, args) {
 		const data = [];
 		const { commands } = message.client;
+		const shown = commands.filter(command => command.hide !== true)
 
 		if(!args.length) {
-			data.push('Here\'s a list of all my commands:');
-			data.push(commands.map(command => command.name).join(', '));
-			data.push(`\nYou can also do \`${config.prefix}help [command name]\` to get more information on a specific command!`);
 
-			return message.author.send(data, { split: true })
+			// Lists the commands
+			data.push(shown.map(shown => shown.name).join('\n'));
+			data.push(`You can also do \`\`${config.prefix}help [command name]\`\`\nto get more info on a command!`)
+
+			// Create the Embed
+			let helpEmbed = new Discord.MessageEmbed()
+			.setColor(0xdbbe00)
+			.setTitle(`**Peter\'s commands:**`)
+			.setDescription(data, { split: true })
+			.setFooter(`Hosted by ${config.BR88C.tag} | Made by ${config.BR88C.tag}`)
+
+			// Send the message in a DM
+			return message.author.send(helpEmbed)
 				.then(() => {
 					if(message.channel.type === 'dm') return;
 					message.reply('I\'ve sent you a DM with all my commands!');
 				})
+				// If Peter is unable to send a DM
 				.catch(error => {
 					console.error('\x1b[31m',`Could not send help DM to ${message.author.tag}.`);
 					message.reply('it seems like I can\'t DM you!');
 				});
 		}
 
+		// Finds the command specified
 		const name = args[0].toLowerCase();
 		const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
+		// If the command does not exist
 		if(!command) {
 			return message.reply('that\'s not a valid command!');
 		}
 
+		// Gets info on the command
 		data.push(`**Name:** ${command.name}`);
 		if(command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
 		if(command.description) data.push(`**Description:** ${command.description}`);
 		if(command.usage) data.push(`**Usage:** ${config.prefix}${command.name} ${command.usage}`);
 		if(command.devOnly) data.push(`**Dev Only:** ${command.devOnly}`);
 		if(command.cooldown) data.push(`**Cooldown:** ${command.cooldown} second(s)`);
+		
+		// Create the Embed
+		let helpEmbed = new Discord.MessageEmbed()
+		.setColor(0xdbbe00)
+		.setTitle(`**${config.prefix}${command.name} info:**`)
+		.setDescription(data, { split: true })
+		.setFooter(`Hosted by ${config.BR88C.tag} | Made by ${config.BR88C.tag}`)
 
-		console.log(data)
-		message.channel.send(data, { split: true });
+		// Send the Embed
+		message.channel.send(helpEmbed);
 	},
 };

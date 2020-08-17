@@ -9,7 +9,7 @@ module.exports = {
 		actualping = client.ws.ping
 		ping = Math.round(100*actualping)/100;
 		let pingEmbed = new Discord.MessageEmbed()
-			.setColor(1257717)
+			.setColor(0x2100db)
 			.setAuthor(`Pong!`)
 			.setDescription(`\`\`` + ping + `ms\`\``)
 		message.channel.send(pingEmbed)
