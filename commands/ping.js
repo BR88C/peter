@@ -4,6 +4,7 @@ module.exports = {
 	name: 'ping',
 	description: 'Shows ping in Milliseconds!',
 	guildOnly: true,
+	cooldown: 3,
 	async execute(client, message, args) {
 		actualping = client.ws.ping
 		ping = Math.round(100*actualping)/100;
