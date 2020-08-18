@@ -1,4 +1,4 @@
-const Discord = require(`discord.js`)
+const Discord = require(`discord.js`);
 
 module.exports = {
 	name: `echo`,
@@ -7,8 +7,8 @@ module.exports = {
 	hide: true,
 	usage: `[message]`,
 	async execute(client, message, args) {
-        var customMessage = args.slice(0).join(" ")
+        var customMessage = args.slice(0).join(" ");
         await message.delete().catch(O_o=>{});
-        message.channel.send(customMessage)
+        message.channel.send(customMessage);
 	},
 };

@@ -1,8 +1,9 @@
-const Discord = require(`discord.js`)
+const Discord = require(`discord.js`);
 
 module.exports = {
 	name: ``,
 	description: ``,
+	args: false,
 	guildOnly: false,
 	devOnly: false,
 	hide: false,
