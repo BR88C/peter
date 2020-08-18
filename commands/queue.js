@@ -1,0 +1,22 @@
+const Discord = require(`discord.js`);
+
+module.exports = {
+	name: `queue`,
+	description: `Lists the queue.`,
+	guildOnly: true,
+	aliases: [`q`],
+	async execute(client, message, args) {
+		const serverQueue = message.client.queue.get(message.guild.id);
+		if (!serverQueue) return message.channel.send(`There is nothing in the queue.`);
+
+		let queueEmbed = new Discord.MessageEmbed()
+			.setAuthor(`Song Queue`)
+			.setColor(0x1e90ff)
+			.setDescription(`
+			**Now Playing**: ${serverQueue.songs[0].title}
+			${serverQueue.songs.map((song, i) => i == 0 ? null: `\`${i}\`. ${song.title}`).join(`\n`)}
+			`)
+			.setTimestamp(new Date());
+		return message.channel.send(queueEmbed);
+	},
+};
