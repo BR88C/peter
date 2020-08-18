@@ -2,13 +2,14 @@
 const Discord = require(`discord.js`);
 const fs = require(`fs`);
 const dotenv = require(`dotenv`).config();
-
-
+const GphApiClient = require('giphy-js-sdk-core');
 
 /* Config */
-const config = require(`./config.json`)
-const pjson = require(`./package.json`)
-const token = process.env.BOT_TOKEN
+const config = require(`./config.json`);
+const pjson = require(`./package.json`);
+const token = process.env.BOT_TOKEN;
+const giphyToken = process.env.GIPHY_TOKEN;
+const giphy = GphApiClient(giphyToken);
 const client = new Discord.Client();
 
 
@@ -35,11 +36,11 @@ client.on('message', message => {
 			if(message.author.id === client.user.id) {
 				// If the message has an embed it logs it as an embed
 				if(message.embeds.length > 0){
-					console.log(`\x1b[35m`,`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] `,'\x1b[36m',`{Embed}`)
+					console.log(`\x1b[35m`,`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] `,'\x1b[36m',`{Embed}`);
 					return;
 				// If the message does not have am embed it logs the message normally
 				} else {
-					console.log(`\x1b[35m`,`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] ${message.content}`)
+					console.log(`\x1b[35m`,`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] ${message.content}`);
 					return;
 				}
 			// If the message is by any other bot
@@ -60,11 +61,11 @@ client.on('message', message => {
 			if(message.author.id === client.user.id) {
 				// If the message has an embed it logs it as an embed
 				if(message.embeds.length > 0){
-					console.log(`\x1b[35m`,`Server: DM | [${message.author.tag}] `,'\x1b[36m',`{Embed}`)
+					console.log(`\x1b[35m`,`Server: DM | [${message.author.tag}] `,'\x1b[36m',`{Embed}`);
 					return;
 				// If the message does not have am embed it logs the message normally
 				} else {
-					console.log(`\x1b[35m`,`Server: DM | [${message.author.tag}] ${message.content}`)
+					console.log(`\x1b[35m`,`Server: DM | [${message.author.tag}] ${message.content}`);
 					return;
 				}
 			// If the message is by any other bot
@@ -87,18 +88,18 @@ client.on('message', message => {
 	if (!command) {
 		// If command does not exist it logs it in red
 		if(message.guild !==null) {
-			console.log(`\x1b[31m`,`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] ${message.content}`)
+			console.log(`\x1b[31m`,`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] ${message.content}`);
 			return;
 		} else {
-			console.log(`\x1b[31m`,`Server: DM | [${message.author.tag}] ${message.content}`)
+			console.log(`\x1b[31m`,`Server: DM | [${message.author.tag}] ${message.content}`);
 			return;
 		}
 	} else {
 		// If the command exists it logs it in green
 		if(message.guild !==null) {
-			console.log(`\x1b[32m`,`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] ${message.content}`)
+			console.log(`\x1b[32m`,`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] ${message.content}`);
 		} else {
-			console.log(`\x1b[32m`,`Server: DM | [${message.author.tag}] ${message.content}`)
+			console.log(`\x1b[32m`,`Server: DM | [${message.author.tag}] ${message.content}`);
 		}
 	}
 	// Checks if command is Guild Only
