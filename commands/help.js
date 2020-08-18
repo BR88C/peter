@@ -3,7 +3,7 @@ const config = require(`../config.json`);
 
 module.exports = {
 	name: 'help',
-	description: 'List all of my commands or info about a specific command.',
+	description: 'Lists all of my commands or info about a specific command.',
 	aliases: ['commands'],
 	usage: '[command name]',
 	async execute(client, message, args) {
