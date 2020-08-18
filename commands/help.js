@@ -50,6 +50,7 @@ module.exports = {
 		data.push(`**Name:** ${command.name}`);
 		if(command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
 		if(command.description) data.push(`**Description:** ${command.description}`);
+		if(command.args) data.push(`**Arguments Required:** ${command.args}`);
 		if(command.usage) data.push(`**Usage:** ${config.prefix}${command.name} ${command.usage}`);
 		if(command.devOnly) data.push(`**Dev Only:** ${command.devOnly}`);
 		if(command.cooldown) data.push(`**Cooldown:** ${command.cooldown} second(s)`);
