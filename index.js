@@ -25,7 +25,8 @@ const cooldowns = new Discord.Collection();
 
 // Once ready
 client.once('ready', () => {
-	console.log(`\x1b[32m`, `Ready! Serving ${client.guilds.cache.size} servers, ${client.channels.cache.size} channels and ${client.users.cache.size} users!\n`);
+	console.log(`\x1b[32m`, `Ready! Serving ${client.guilds.cache.size} servers, ${client.channels.cache.size} channels and ${client.users.cache.size} users!`);
+	console.log(`\x1b[32m`, `Running version ${pjson.version}\n`)
 });
 
 client.on('message', message => {
