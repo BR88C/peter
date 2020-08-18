@@ -1,5 +1,5 @@
-const Discord = require(`discord.js`)
-const config = require(`../config.json`)
+const Discord = require(`discord.js`);
+const config = require(`../config.json`);
 
 module.exports = {
 	name: 'help',
@@ -15,7 +15,7 @@ module.exports = {
 
 			// Lists the commands
 			data.push(shown.map(shown => shown.name).join('\n'));
-			data.push(`You can also do \`\`${config.prefix}help [command name]\`\`\nto get more info on a command!`)
+			data.push(`You can also do \`\`${config.prefix}help [command name]\`\`\nto get more info on a command!`);
 
 			// Create the Embed
 			let helpEmbed = new Discord.MessageEmbed()
