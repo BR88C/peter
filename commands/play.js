@@ -7,7 +7,7 @@ module.exports = {
 	description: `Plays a song in a vc.`,
 	args: true,
 	guildOnly: true,
-	cooldown: 3,
+	cooldown: 2,
 	aliases: [`p`],
 	usage: `[search query] or [url]`,
 	async execute(client, message, args) {
@@ -28,8 +28,7 @@ module.exports = {
 		}
 		
 		const song = {
-			id: songInfo.videoDetails.id,
-			title: (songInfo.videoDetails.title),
+			title: songInfo.videoDetails.title,
 			url: songInfo.videoDetails.video_url,
 		}
 
@@ -48,7 +47,7 @@ module.exports = {
 			channel,
 			connection: null,
 			songs: [],
-			volume: 2,
+			volume: 100,
 			playing: true
 		}
 
@@ -59,20 +58,18 @@ module.exports = {
 			const queue = message.client.queue.get(message.guild.id);
 
 			if(!song) {
-				queue.channel.leave();
 				message.client.queue.delete(message.guild.id);
 				return;
 			}
 
 			const dispatcher = queue.connection.play(ytdl(song.url , { quality: 'lowestaudio' }), {bitrate: 64000 /* 64kbps */})
-				.on(`end`, reason => {
+				.on(`finish`, reason => {
 					if (reason === `Stream is not generating quickly enough.`) console.log(`Song ended due to stream is not generating quickly enough.`);
-					else console.log(reason);
 					queue.songs.shift();
 					play(queue.songs[0]);
 				})
 				.on(`error`, error => console.error(error));
-			dispatcher.setVolumeLogarithmic(queue.volume / 5);
+			dispatcher.setVolumeLogarithmic(queue.volume / 250);
 
 			const playingEmbed = new Discord.MessageEmbed()
 				.setColor(0x5ce6c8)
