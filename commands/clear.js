@@ -12,7 +12,6 @@ module.exports = {
 
 		if (!serverQueue) return message.reply(`I can't clear the queue if there is nothing in the queue!`);
 
-        const currentSong = serverQueue.songs[0]
         serverQueue.songs = [serverQueue.songs[0]];
         message.channel.send(`Cleared the Queue!`)
 	},
