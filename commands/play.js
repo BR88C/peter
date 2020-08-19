@@ -21,9 +21,9 @@ module.exports = {
 
 		const serverQueue = message.client.queue.get(message.guild.id);
 		let songInfo;
-		if(await ytdl.validateURL(args.slice(0).join(" "))) songInfo = await ytdl.getInfo(args[0]);
+		if(await ytdl.validateURL(args.slice(0).join(` `))) songInfo = await ytdl.getInfo(args[0]);
 		else {
-			let pingPong = await yts(args.slice(0).join(" ")); 
+			let pingPong = await yts(args.slice(0).join(` `)); 
 			songInfo = await ytdl.getInfo(pingPong.videos[0].url);
 		}
 		
