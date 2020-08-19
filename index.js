@@ -25,6 +25,7 @@ const cooldowns = new Discord.Collection();
 
 // Once ready
 client.once('ready', () => {
+	client.user.setActivity('A kid\'s guid to the Internet', { type: 'WATCHING' });
 	console.log(`\x1b[32m`, `Ready! Serving ${client.guilds.cache.size} servers, ${client.channels.cache.size} channels and ${client.users.cache.size} users!`);
 	console.log(`\x1b[32m`, `Running version ${pjson.version}\n`)
 });
