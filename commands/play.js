@@ -30,14 +30,16 @@ module.exports = {
 		const song = {
 			title: songInfo.videoDetails.title,
 			url: songInfo.videoDetails.video_url,
+			thumbnail: songInfo.videoDetails.thumbnail.thumbnails[0].url
 		}
-
+		
 		if (serverQueue) {
 			serverQueue.songs.push(song);
 
 			const queueAddEmbed = new Discord.MessageEmbed()
 				.setColor(0x0cdf24)
 				.setAuthor(`✅ "${song.title}" has been added to the queue!`)
+				.setImage(song.thumbnail)
 				.setDescription(song.url)
 			return message.channel.send(queueAddEmbed);
 		}
@@ -74,6 +76,7 @@ module.exports = {
 			const playingEmbed = new Discord.MessageEmbed()
 				.setColor(0x5ce6c8)
 				.setAuthor(`🎶 Started playing: ${song.title}`)
+				.setImage(song.thumbnail)
 				.setDescription(song.url)
 
 			queue.textChannel.send(playingEmbed);
