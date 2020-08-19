@@ -12,7 +12,7 @@ const giphyToken = process.env.GIPHY_TOKEN;
 const giphy = GphApiClient(giphyToken);
 const client = new Discord.Client();
 const ytdl = require(`ytdl-core`);
-const yts = require(`yt-search`);
+const ytsr = require(`ytsr`);
 
 /* Command Handler */
 client.commands = new Discord.Collection();

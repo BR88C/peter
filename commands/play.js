@@ -1,6 +1,6 @@
 const Discord = require(`discord.js`);
 const ytdl = require(`ytdl-core`);
-const yts = require(`yt-search`);
+const ytsr = require(`ytsr`);
 
 module.exports = {
 	name: `play`,
@@ -23,8 +23,8 @@ module.exports = {
 		let songInfo;
 		if(await ytdl.validateURL(args.slice(0).join(` `))) songInfo = await ytdl.getInfo(args[0]);
 		else {
-			let pingPong = await yts(args.slice(0).join(` `)); 
-			songInfo = await ytdl.getInfo(pingPong.videos[0].url);
+			let ytsrResult = await ytsr(args.slice(0).join(` `), {limit: 1}); 
+			songInfo = await ytdl.getInfo(ytsrResult.items[0].link);
 		}
 		
 		const song = {
