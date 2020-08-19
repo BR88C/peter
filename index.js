@@ -30,6 +30,7 @@ client.once('ready', () => {
 	console.log(`\x1b[32m`, `Running version ${pjson.version}\n`)
 });
 
+// Message Event
 client.on('message', message => {
 	// If the message is in a Server
 	if(message.guild !== null) {
