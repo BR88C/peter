@@ -12,7 +12,7 @@ module.exports = {
 
 		if (!serverQueue) return message.channel.send(`There is nothing playing that I could stop for you.`);
 
-		serverQueue.connection.dispatcher.destroy();
+		if(channel) serverQueue.connection.dispatcher.destroy();
 		serverQueue.songs = [];
 		message.client.queue.delete(message.guild.id);
 		message.channel.send(`🛑 Music stopped.`);
