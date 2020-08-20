@@ -12,7 +12,6 @@ module.exports = {
 
 		if(message.guild.voice.connection) {
 			if(serverQueue) serverQueue.connection.dispatcher.destroy();
-			serverQueue.songs = [];
 			message.client.queue.delete(message.guild.id);
 			message.member.voice.channel.leave();
 			message.channel.send(`👋 Left the VC.`);
