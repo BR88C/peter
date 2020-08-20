@@ -64,7 +64,7 @@ module.exports = {
 				return;
 			}
 
-			const dispatcher = queue.connection.play(ytdl(song.url , { quality: 'lowestaudio' }), {bitrate: 64000 /* 64kbps */})
+			const dispatcher = queue.connection.play(ytdl(song.url , { type: 'opus' }), {bitrate: 64 /* 64kbps */}, { highWaterMark : 50 })
 				.on(`finish`, reason => {
 					if (reason === `Stream is not generating quickly enough.`) console.log(`Song ended due to stream is not generating quickly enough.`);
 					queue.songs.shift();
