@@ -23,7 +23,13 @@ module.exports = {
 		let songInfo;
 		if(await ytdl.validateURL(args.slice(0).join(` `))) songInfo = await ytdl.getInfo(args[0]);
 		else {
-			let ytsrResult = await ytsr(args.slice(0).join(` `), {limit: 1}); 
+			let filter = await ytsr.getFilters(args.slice(0).join(` `));
+			filter = filter.get('Type').find(o => o.name === 'Video');
+			var options = {
+				limit: 1,
+				nextpageRef: filter.ref
+			}
+			let ytsrResult = await ytsr(args.slice(0).join(` `), options); 
 			songInfo = await ytdl.getInfo(ytsrResult.items[0].link);
 		}
 		
