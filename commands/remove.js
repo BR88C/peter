@@ -5,6 +5,7 @@ module.exports = {
 	description: `Removes a song from the queue`,
     guildOnly: true,
     args: true,
+    aliases: [`rm`],
     usage: `[Queue Number of Song]`,
 	async execute(client, message, args) {
 		const { channel } = message.member.voice;
@@ -17,15 +18,10 @@ module.exports = {
         if(isNaN(parseInt(args[0]))) return message.reply(`please specify an Integer!`);
         
         const queueLength = (serverQueue.songs).length - 1;
-        console.log(queueLength)
         if(args[0] > queueLength || args[0] < 1 ) return message.reply(`there isnt a song in the queue with that number!`);
 
-        console.log(serverQueue.songs)
         const song = serverQueue.songs.splice(args[0], 1)
-        serverQueue.songs = serverQueue.songs.splice(args[0], 1, '');
-        console.log(song)
-        console.log(serverQueue.songs)
-        console.log(`done`)
+        message.channel.send(`❌ Removed **${song[0].title}** from the queue!`)
 
 	},
 };
