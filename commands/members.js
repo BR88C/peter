@@ -22,8 +22,6 @@ module.exports = {
 			{ name: '**Total People:**', value: memberPeople },
 			{ name: '**Total Online:**', value: memberOnline },
 		)
-		
-	
     message.channel.send(memberEmbed);
 	},
-};
+}

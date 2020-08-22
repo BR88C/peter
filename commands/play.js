@@ -100,4 +100,4 @@ module.exports = {
 			return message.channel.send(`I could not join the voice channel: ${error}`);
         }  
 	},
-};
+}

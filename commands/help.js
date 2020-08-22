@@ -65,4 +65,4 @@ module.exports = {
 		// Send the Embed
 		message.channel.send(helpEmbed);
 	},
-};
+}

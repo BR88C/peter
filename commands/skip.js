@@ -14,4 +14,4 @@ module.exports = {
 		serverQueue.connection.dispatcher.end();
 		message.channel.send(`⏩ The current song has been skipped.`)
 		},
-};
+}

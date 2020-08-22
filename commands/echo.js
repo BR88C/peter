@@ -11,4 +11,4 @@ module.exports = {
         await message.delete().catch(O_o=>{});
         message.channel.send(customMessage);
 	},
-};
+}

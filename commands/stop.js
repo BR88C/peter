@@ -23,4 +23,4 @@ module.exports = {
 			message.reply(`I'm not in a VC, so there is no music to stop!`);
 		}
 	},
-};
+}

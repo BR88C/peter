@@ -10,4 +10,4 @@ module.exports = {
 		if (!serverQueue) return message.channel.send(`There is nothing playing.`);
 		return message.channel.send(`🎶 Now playing: **${serverQueue.songs[0].title}**`);
 	},
-};
+}

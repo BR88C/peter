@@ -60,4 +60,4 @@ module.exports = {
                     message.reply('Looks like I couldn\'t get a gif based on your search query... sorry :tired_face:');
                 })
 	},
-};
+}

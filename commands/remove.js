@@ -24,4 +24,4 @@ module.exports = {
         message.channel.send(`❌ Removed **${song[0].title}** from the queue!`)
 
 	},
-};
+}

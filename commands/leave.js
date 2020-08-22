@@ -21,4 +21,4 @@ module.exports = {
 			message.reply(`I can't leave if I'm not in a VC!`);
 		}
 	},
-};
+}

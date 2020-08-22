@@ -19,4 +19,4 @@ module.exports = {
 			.setTimestamp(new Date());
 		return message.channel.send(queueEmbed);
 	},
-};
+}

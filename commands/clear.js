@@ -15,4 +15,4 @@ module.exports = {
         serverQueue.songs = [serverQueue.songs[0]];
         message.channel.send(`Cleared the Queue!`)
 	},
-};
+}

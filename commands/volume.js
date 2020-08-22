@@ -25,4 +25,4 @@ module.exports = {
 
 		return message.channel.send(`🔊 Set the volume to: **${args[0]}%**`);
 	},
-};
+}
