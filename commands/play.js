@@ -56,7 +56,8 @@ module.exports = {
 			connection: null,
 			songs: [],
 			volume: 100,
-			playing: true
+			playing: true,
+			loop: false
 		}
 
 		message.client.queue.set(message.guild.id, queueConstruct);
@@ -73,8 +74,12 @@ module.exports = {
 			const dispatcher = queue.connection.play(ytdl(song.url, { type: `opus` }, { quality: `lowestaudio` }), { bitrate: 64 /* 64kbps */ })
 				.on(`finish`, reason => {
 					if (reason === `Stream is not generating quickly enough.`) console.log(`Song ended due to stream is not generating quickly enough.`);
-					queue.songs.shift();
-					play(queue.songs[0]);
+					if(queue.loop === false) {
+						queue.songs.shift();
+						play(queue.songs[0]);
+					} else if(queue.loop === true) {
+						play(queue.songs[0]);
+					}
 				})
 				.on(`error`, error => console.error(error));
 			dispatcher.setVolumeLogarithmic(queue.volume / 250);
