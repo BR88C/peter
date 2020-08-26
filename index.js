@@ -14,6 +14,8 @@ const client = new Discord.Client();
 const ytdl = require(`ytdl-core`);
 const ytsr = require(`ytsr`);
 
+
+
 /* Command Handler */
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync(`./commands`).filter(file => file.endsWith(`.js`));
@@ -152,7 +154,7 @@ client.on('message', message => {
 
 /* Leaves VCs if only the bot is present */
 client.on("voiceStateUpdate", (oldState, newState) => { 
-	// If there is a change
+	// If there is a user change
 	if(oldState.channelID != newState.channelID) {
 		// If a user joins the vc do nothing  
 		if(oldState.channelID == null) {
