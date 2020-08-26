@@ -7,8 +7,11 @@ module.exports = {
 	aliases: [`q`],
 	async execute(client, message, args) {
 		const serverQueue = message.client.queue.get(message.guild.id);
+		
+		// If the queue is empty reply with an error
 		if (!serverQueue) return message.channel.send(`There is nothing in the queue.`);
 
+		// Creates and sends the embed
 		let queueEmbed = new Discord.MessageEmbed()
 			.setAuthor(`Song Queue`)
 			.setColor(0x1e90ff)

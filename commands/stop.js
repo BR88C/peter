@@ -7,16 +7,20 @@ module.exports = {
 	async execute(client, message, args) {
 		const { channel } = message.member.voice;
 
+		// Checks if user is in a vc
 		if (!channel) return message.reply(`I'm sorry but you need to be in a voice channel to stop music!`);
 		const serverQueue = message.client.queue.get(message.guild.id);
 
+		// If the queue is empty reply with an error
 		if (!serverQueue) return message.reply(`There is nothing playing that I could stop for you.`);
 
+		// If the bot is in a vc, clear the queue as normal
 		if(message.guild.voice.connection) {
 			serverQueue.connection.dispatcher.destroy();
 			serverQueue.songs = [];
 			message.client.queue.delete(message.guild.id);
 			message.channel.send(`Queue cleared and Music stopped. 🛑`);
+		// If the bot is not in a vc, clear the queue and report an error
 		} else {
 			serverQueue.songs = [];
 			message.client.queue.delete(message.guild.id);

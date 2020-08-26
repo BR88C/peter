@@ -6,8 +6,12 @@ module.exports = {
 	guildOnly: true,
 	aliases: [`np`],
 	async execute(client, message, args) {
-        const serverQueue = message.client.queue.get(message.guild.id);
+		const serverQueue = message.client.queue.get(message.guild.id);
+		
+		// If the queue is empty
 		if (!serverQueue) return message.channel.send(`There is nothing playing.`);
+
+		// Replies with song currently playing
 		return message.channel.send(`🎶 Now playing: **${serverQueue.songs[0].title}**`);
 	},
 }
