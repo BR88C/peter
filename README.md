@@ -14,7 +14,7 @@ BOT_TOKEN=your_bot_token
 GIPHY_TOKEN=your_giphy_token
 ```
 and save the file as ".env"
-You can the run the bot with:
+You can the run then bot with:
 ```
 npm start
 ```
