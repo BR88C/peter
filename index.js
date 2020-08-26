@@ -150,6 +150,29 @@ client.on('message', message => {
 
 
 
+/* Leaves VCs if only the bot is present */
+client.on("voiceStateUpdate", (oldState, newState) => { 
+	// If there is a change
+	if (oldState.channelID != newState.channelID) {
+		// If a user joins the vc do nothing  
+		if (oldState.channelID == null) {
+			return;
+		// If a user leaves the vc
+	  	} else {
+			var channelInfo = oldState.guild.channels.cache.get(oldState.channelID);
+			// If the bot is the only user in the VC clear the queue and leave
+			if(channelInfo.members.has(client.user.id) && channelInfo.members.size == 1) {
+				const serverQueue = client.queue.get(oldState.guild.id)
+				if(serverQueue) serverQueue.connection.dispatcher.destroy();
+				client.queue.delete(oldState.guild.id);
+				channelInfo.leave()
+			}
+	  	}
+	}
+});
+
+
+
 /* Queue and Login */
 client.queue = new Map();
 client.login(token).catch(err => console.error(`Failed to authenticate client with application.`));
