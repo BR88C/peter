@@ -22,7 +22,7 @@ module.exports = {
 			.setColor(0xdbbe00)
 			.setTitle(`**Peter\'s commands:**`)
 			.setDescription(data, { split: true })
-			.setFooter(`Hosted by ${config.BR88C.tag} | Made by ${config.BR88C.tag}`)
+			.setFooter(`Hosted by ${config.dev.tag} | Made by ${config.dev.tag}`)
 
 			// Send the message in a DM
 			return message.author.send(helpEmbed)
@@ -60,7 +60,7 @@ module.exports = {
 		.setColor(0xdbbe00)
 		.setTitle(`**${config.prefix}${command.name} info:**`)
 		.setDescription(data, { split: true })
-		.setFooter(`Hosted by ${config.BR88C.tag} | Made by ${config.BR88C.tag}`)
+		.setFooter(`Hosted by ${config.dev.tag} | Made by ${config.dev.tag}`)
 
 		// Send the Embed
 		message.channel.send(helpEmbed);
