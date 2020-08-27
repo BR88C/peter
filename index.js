@@ -162,10 +162,10 @@ client.on("voiceStateUpdate", (oldState, newState) => {
 		// If the bot is the only user in the VC clear the queue and leave
 		if(channelInfo.members.has(client.user.id) && channelInfo.members.size == 1) {
 			musicTimeout = setTimeout(() => {
+				channelInfo.leave();
 				const serverQueue = client.queue.get(oldState.guild.id);
 				if(serverQueue) serverQueue.connection.dispatcher.destroy();
 				client.queue.delete(oldState.guild.id);
-				channelInfo.leave();
 			}, (config.musicTimeout * 1000));
 		}
 	}
