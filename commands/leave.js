@@ -23,5 +23,5 @@ module.exports = {
 			message.client.queue.delete(message.guild.id);
 			message.reply(`I can't leave if I'm not in a VC!`);
 		}
-	},
+	}
 }
