@@ -153,20 +153,18 @@ client.on('message', message => {
 
 
 /* Leaves VCs if only the bot is present */
-var musicTimeout = config.musicTimeout
 client.on("voiceStateUpdate", (oldState, newState) => { 
-	clearTimeout(musicTimeout);
 	// If a user leaves or changes channels
 	if(oldState.channelID != newState.channelID && oldState.channelID != null) {
 		var channelInfo = oldState.guild.channels.cache.get(oldState.channelID);
 		// If the bot is the only user in the VC clear the queue and leave
 		if(channelInfo.members.has(client.user.id) && channelInfo.members.size == 1) {
-			musicTimeout = setTimeout(() => {
-				channelInfo.leave();
-				const serverQueue = client.queue.get(oldState.guild.id);
-				if(serverQueue) serverQueue.connection.dispatcher.destroy();
+			const serverQueue = client.queue.get(oldState.guild.id);
+			if(serverQueue) {
+				serverQueue.connection.dispatcher.destroy();
 				client.queue.delete(oldState.guild.id);
-			}, (config.musicTimeout * 1000));
+			}
+			channelInfo.leave();
 		}
 	}
 });
