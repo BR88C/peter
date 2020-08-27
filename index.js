@@ -109,13 +109,13 @@ client.on('message', message => {
 	}
 	// Checks if command is Guild Only
 	if (command.guildOnly && message.channel.type === `dm`) {
-		return message.reply(`I can\'t execute that command inside DMs!`);
+		return message.reply(`I can't execute that command inside DMs!`);
 	}
 	// Checks if command is Dev Only
-	if (command.devOnly && message.author.id !== config.BR88C.id) {
-		return message.reply(`That command is only for this bot\'s dev, BR88C!`);
+	if (command.devOnly && message.author.id !== config.dev.id) {
+		return message.reply(`That command is only for this bot's dev, ${config.dev.tag}!`);
 	}
-	// Chck if command needs agrs
+	// Chck if command needs args
 	if (command.args && !args.length) {
 		let reply = `You didn't provide any arguments, ${message.author}!`;
 		if (command.usage) {
