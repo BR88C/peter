@@ -33,7 +33,7 @@ module.exports = {
 				// If Peter is unable to send a DM
 				.catch(error => {
 					console.error('\x1b[31m',`Could not send help DM to ${message.author.tag}.`);
-					message.reply('it seems like I can\'t DM you!');
+					message.reply('It seems like I can\'t DM you! Make sure to check your privacy settings!');
 				});
 		}
 
