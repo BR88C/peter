@@ -21,7 +21,7 @@ module.exports = {
 		if(!args[0]) return message.channel.send(`The current volume is: **${serverQueue.volume}**`);
 		
 		// Checks to make sure the volume specified is greater or equal to 0 and less or equal to 10,000
-		if((config.BR88C.id !== message.author.id) && parseInt(args[0]) > 10000 || parseInt(args[0]) <= 0) {
+		if((config.dev.id !== message.author.id) && parseInt(args[0]) > 10000 || parseInt(args[0]) <= 0) {
 			return message.reply(`volume must be between 1 and 10,000%!`);
 		}
 
