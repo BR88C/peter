@@ -152,7 +152,7 @@ client.on('message', message => {
 
 
 
-/* Leaves VCs if only the bot is present */
+/* Leaves VCs if only the bot is present, or if bot is manually disconnected from vc */
 client.on("voiceStateUpdate", (oldState, newState) => { 
 	// If a user leaves or changes channels
 	if(oldState.channelID != newState.channelID && oldState.channelID != null) {
@@ -165,6 +165,12 @@ client.on("voiceStateUpdate", (oldState, newState) => {
 				client.queue.delete(oldState.guild.id);
 			}
 			channelInfo.leave();
+		// If the bot is manually disconnected clear the queue
+		} else if(!channelInfo.members.has(client.user.id)) {
+			const serverQueue = client.queue.get(oldState.guild.id);
+			if(serverQueue) {
+				client.queue.delete(oldState.guild.id);
+			}
 		}
 	}
 });
