@@ -60,7 +60,7 @@ module.exports = {
 		.setColor(0xdbbe00)
 		.setTitle(`**${config.prefix}${command.name} info:**`)
 		.setDescription(data, { split: true })
-		.setFooter(`Hosted by ${config.dev.tag} | Made by ${config.dev.tag}`)
+		.setFooter(`Hosted by ${client.config.get('dev').tag} | Made by ${client.config.get('dev').tag}`)
 
 		// Send the Embed
 		message.channel.send(helpEmbed);
