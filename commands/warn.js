@@ -37,7 +37,7 @@ module.exports = {
         .setDescription(`Reason: ${warnReason}`)
 
         // Send the embeds and warn the user
-        console.log(`\x1b[31m`, `${user.tag} warned for ${warnReason}`)
+        console.log(`\x1b[33m`, `${user.tag} warned for ${warnReason}`)
         await user.send(warnEmbed).catch(error=>{});
         message.channel.send(logWarnEmbed)
 	},
