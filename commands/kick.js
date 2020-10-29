@@ -38,7 +38,7 @@ module.exports = {
         // Create embeds
         let kickedEmbed = new Discord.MessageEmbed()
 		.setColor(0xdb1226)
-		.setTitle(`**You have been kicked from the Carp Tank!**`)
+		.setTitle(`**You have been kicked from ${message.guild.name}!**`)
         .setDescription(`Reason: ${kickReason}`)
         
         let logKickedEmbed = new Discord.MessageEmbed()
@@ -51,6 +51,5 @@ module.exports = {
         await user.send(kickedEmbed).catch(error=>{});
         await message.guild.member(user).kick({ reason: kickReason });
         message.channel.send(logKickedEmbed)
-        client.channels.cache.get(client.config.get('loggingChannel')).send(logKickedEmbed);
 	},
 }
