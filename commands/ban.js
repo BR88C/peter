@@ -38,7 +38,7 @@ module.exports = {
         // Create embeds
         let bannedEmbed = new Discord.MessageEmbed()
 		.setColor(0xdb1226)
-		.setTitle(`**You have been banned from the Carp Tank!**`)
+		.setTitle(`**You have been banned from ${message.guild.name}!**`)
         .setDescription(`Reason: ${banReason}`)
         
         let logBannedEmbed = new Discord.MessageEmbed()
@@ -51,6 +51,5 @@ module.exports = {
         await user.send(bannedEmbed).catch(error=>{});
         await message.guild.member(user).ban({ reason: banReason });
         message.channel.send(logBannedEmbed)
-        client.channels.cache.get(client.config.get('loggingChannel')).send(logBannedEmbed);
 	},
 }
