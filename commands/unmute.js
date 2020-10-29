@@ -5,7 +5,6 @@ module.exports = {
 	description: `Unmute a specified user`,
 	args: true,
 	guildOnly: true,
-	hide: true,
 	usage: `[@user]`,
 	async execute(client, message, args) {
         // Check if user can mute

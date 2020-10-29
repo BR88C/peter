@@ -5,7 +5,6 @@ module.exports = {
 	description: `Warn a specified user`,
 	args: true,
 	guildOnly: true,
-	hide: true,
 	usage: `[@user] [reason]`,
 	async execute(client, message, args) {
         // Check if user can warn
