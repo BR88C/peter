@@ -21,6 +21,12 @@ module.exports = {
             return;
         }
 
+        // Checks if the muted role exists
+        if(!mutedRole) {
+            message.reply(`I can\'t unmute users if a muted role does not exist! Please make sure you have a role called "Muted" to use this command!`)
+            return;
+        }
+
         // Check if the specified user is already muted
         if(!message.guild.member(user).roles.cache.has(mutedRole.id)) {
             message.reply(`that user isn\'t muted!`)
