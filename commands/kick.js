@@ -9,8 +9,8 @@ module.exports = {
 	usage: `[@user] [reason]`,
 	async execute(client, message, args) {
         // Check if user can kick
-        if(!message.guild.member(message.author).hasPermission("KICK_MEMBERS")) {
-            return message.reply(`you don\'t have permission to kick!`)
+        if(!message.guild.member(message.author).hasPermission('KICK_MEMBERS')) {
+            return message.reply(`you don't have permission to kick!`)
         }
 
         // Set up kick reason and user

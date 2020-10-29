@@ -9,8 +9,8 @@ module.exports = {
 	usage: `[@user] [reason]`,
 	async execute(client, message, args) {
         // Check if user can warn
-        if(!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) {
-            return message.reply(`you don\'t have permission to warn!`)
+        if(!message.guild.member(message.author).hasPermission('MANAGE_MESSAGES')) {
+            return message.reply(`you don't have permission to warn! (Manage messages permission required)`)
         }
 
         // Set up reason and user

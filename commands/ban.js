@@ -9,8 +9,8 @@ module.exports = {
 	usage: `[@user] [reason]`,
 	async execute(client, message, args) {
         // Check if user can ban
-        if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) {
-            return message.reply(`you don\'t have permission to ban!`)
+        if(!message.guild.member(message.author).hasPermission('BAN_MEMBERS')) {
+            return message.reply(`you don't have permission to ban!`)
         }
 
         // Set up ban reason and user
@@ -27,12 +27,12 @@ module.exports = {
 
         // Checks to see if the message author is trying to be banned
         if(user === message.author) {
-            return message.reply('you can\'t ban yourself!');
+            return message.reply(`you can't ban yourself!`);
         }
 
         // Makes sure the bot can ban the user
         if(!message.guild.member(user).bannable) {
-            return message.reply('I do not have sufficient permissions to ban this user!');
+            return message.reply(`I do not have sufficient permissions to ban this user!`);
         }
 
         // Create embeds

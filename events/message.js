@@ -83,7 +83,7 @@ module.exports = (client, message) => {
 	}
 	// Checks if command is Dev Only
 	if (command.devOnly && message.author.id !== client.config.get('dev').id) {
-		return message.reply(`That command is only for this bot's dev, ${client.config.get('dev').tag}!`);
+		return message.reply(`that command is only for this bot's dev, ${client.config.get('dev').tag}!`);
 	}
 	// Chck if command needs args
 	if (command.args && !args.length) {

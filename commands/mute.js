@@ -9,12 +9,12 @@ module.exports = {
 	usage: `[@user] [reason]`,
 	async execute(client, message, args) {
         // Check if user can mute
-        if(!message.guild.member(message.author).hasPermission("MANAGE_ROLES")) {
-            return message.reply(`you don\'t have permission to mute!`)
+        if(!message.guild.member(message.author).hasPermission('MANAGE_ROLES')) {
+            return message.reply(`you don't have permission to mute! (Manage roles permission required)`)
         }
 
         // Set up mute role, reason and user
-        var mutedRole = message.guild.roles.cache.find(role => role.name.toLowerCase() === "muted");
+        var mutedRole = message.guild.roles.cache.find(role => role.name.toLowerCase() === 'muted');
         if(args.slice(1).join(' ')) {
             var muteReason = args.slice(1).join(' ');
         } else {
@@ -28,7 +28,7 @@ module.exports = {
 
         // Checks if the muted role exists
         if(!mutedRole) {
-            message.reply(`I can\'t mute users if a muted role does not exist! Please make sure you have a role called "Muted" to use this command!`)
+            message.reply(`I can't mute users if a muted role does not exist! Please make sure you have a role called "Muted" to use this command!`)
             return;
         }
         
@@ -40,12 +40,12 @@ module.exports = {
         
         // Checks to see if the message author is trying to be muted
         if(user === message.author) {
-            return message.reply('you can\'t mute yourself!');
+            return message.reply(`you can't mute yourself!`);
         }
 
         // Makes sure the bot can mute the user
         if(!message.guild.member(user).manageable) {
-            return message.reply('I do not have sufficient permissions to mute this user!');
+            return message.reply(`I do not have sufficient permissions to mute this user!`);
         }
 
         // Create embeds
