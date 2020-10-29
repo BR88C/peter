@@ -11,7 +11,7 @@ module.exports = (client, message) => {
 			if(message.author.id === client.user.id) {
 				// If the message has an embed it logs it as an embed
 				if(message.embeds.length > 0){
-					console.log(`\x1b[35m`,(`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] `).replace(/[^ -~]+/g, ``),'\x1b[36m',`{Embed}`);
+					console.log(`\x1b[35m`,(`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] `).replace(/[^ -~]+/g, ``),`\x1b[36m`,`{Embed}`);
 					return;
 				// If the message does not have am embed it logs the message normally
 				} else {
@@ -36,7 +36,7 @@ module.exports = (client, message) => {
 			if(message.author.id === client.user.id) {
 				// If the message has an embed it logs it as an embed
 				if(message.embeds.length > 0){
-					console.log(`\x1b[35m`,(`Server: DM | [${message.author.tag}] `).replace(/[^ -~]+/g, ``), '\x1b[36m',`{Embed}`);
+					console.log(`\x1b[35m`,(`Server: DM | [${message.author.tag}] `).replace(/[^ -~]+/g, ``), `\x1b[36m`,`{Embed}`);
 					return;
 				// If the message does not have am embed it logs the message normally
 				} else {

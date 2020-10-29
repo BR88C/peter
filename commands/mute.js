@@ -9,7 +9,7 @@ module.exports = {
 	async execute(client, message, args) {
         // Check if user can mute
         if(!message.guild.member(message.author).hasPermission('MANAGE_ROLES')) {
-            return message.reply(`you don't have permission to mute! (Manage roles permission required)`)
+            return message.reply(`you don't have permission to mute! (Manage roles permission required)`);
         }
 
         // Set up mute role, reason and user
@@ -21,20 +21,17 @@ module.exports = {
         }
         var user = message.mentions.users.first();
         if(!user) {
-            message.reply(`please specify a user to mute!`)
-            return;
+            return message.reply(`please specify a user to mute!`);
         }
 
         // Checks if the muted role exists
         if(!mutedRole) {
-            message.reply(`I can't mute users if a muted role does not exist! Please make sure you have a role called "Muted" to use this command!`)
-            return;
+            return message.reply(`I can't mute users if a muted role does not exist! Please make sure you have a role called "Muted" to use this command!`);
         }
         
         // Check if the specified user is already muted
         if(message.guild.member(user).roles.cache.has(mutedRole.id)) {
-            message.reply(`that user is already muted!`)
-            return;
+            return message.reply(`that user is already muted!`);
         }
         
         // Checks to see if the message author is trying to be muted
@@ -59,9 +56,9 @@ module.exports = {
         .setDescription(`Reason: ${muteReason}`)
 
         // Send the embeds and mute the user
-        console.log(`\x1b[33m`, `${user.tag} muted for ${muteReason}`)
+        console.log(`\x1b[33m`, `${user.tag} muted for ${muteReason}`);
         await user.send(mutedEmbed).catch(error=>{});
         await message.guild.member(user).roles.add(mutedRole);
-        message.channel.send(logMutedEmbed)
+        message.channel.send(logMutedEmbed);
 	},
 }

@@ -9,7 +9,7 @@ module.exports = {
 	async execute(client, message, args) {
 		const data = [];
 		const { commands } = message.client;
-		const shown = commands.filter(command => command.hide !== true)
+		const shown = commands.filter(command => command.hide !== true);
 
 		if(!args.length) {
 
@@ -32,7 +32,7 @@ module.exports = {
 				})
 				// If Peter is unable to send a DM
 				.catch(error => {
-					console.error('\x1b[31m',`Could not send help DM to ${message.author.tag}.`);
+					console.error(`\x1b[31m`,`Could not send help DM to ${message.author.tag}.`);
 					message.reply('It seems like I can\'t DM you! Make sure to check your privacy settings!');
 				});
 		}

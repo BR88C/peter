@@ -9,7 +9,7 @@ module.exports = {
 	async execute(client, message, args) {
         // Check if user can kick
         if(!message.guild.member(message.author).hasPermission('KICK_MEMBERS')) {
-            return message.reply(`you don't have permission to kick!`)
+            return message.reply(`you don't have permission to kick!`);
         }
 
         // Set up kick reason and user
@@ -20,8 +20,7 @@ module.exports = {
         }
         var user = message.mentions.users.first();
         if(!user) {
-            message.reply(`please specify a user to kick!`)
-            return;
+            return message.reply(`please specify a user to kick!`);
         }
 
         // Checks to see if the message author is trying to be kicked
@@ -46,9 +45,9 @@ module.exports = {
         .setDescription(`Reason: ${kickReason}`)
 
         // Send the embeds and kick the user
-        console.log(`\x1b[31m`, `${user.tag} kicked for ${kickReason}`)
+        console.log(`\x1b[31m`, `${user.tag} kicked for ${kickReason}`);
         await user.send(kickedEmbed).catch(error=>{});
         await message.guild.member(user).kick({ reason: kickReason });
-        message.channel.send(logKickedEmbed)
+        message.channel.send(logKickedEmbed);
 	},
 }

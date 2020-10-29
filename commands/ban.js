@@ -9,7 +9,7 @@ module.exports = {
 	async execute(client, message, args) {
         // Check if user can ban
         if(!message.guild.member(message.author).hasPermission('BAN_MEMBERS')) {
-            return message.reply(`you don't have permission to ban!`)
+            return message.reply(`you don't have permission to ban!`);
         }
 
         // Set up ban reason and user
@@ -20,8 +20,7 @@ module.exports = {
         }
         var user = message.mentions.users.first();
         if(!user) {
-            message.reply(`please specify a user to ban!`)
-            return;
+            return message.reply(`please specify a user to ban!`);
         }
 
         // Checks to see if the message author is trying to be banned
@@ -46,9 +45,9 @@ module.exports = {
         .setDescription(`Reason: ${banReason}`)
 
         // Send the embeds and ban the user
-        console.log(`\x1b[31m`, `${user.tag} banned for ${banReason}`)
+        console.log(`\x1b[31m`, `${user.tag} banned for ${banReason}`);
         await user.send(bannedEmbed).catch(error=>{});
         await message.guild.member(user).ban({ reason: banReason });
-        message.channel.send(logBannedEmbed)
+        message.channel.send(logBannedEmbed);
 	},
 }

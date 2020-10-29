@@ -9,7 +9,7 @@ module.exports = {
 	async execute(client, message, args) {
         // Check if user can warn
         if(!message.guild.member(message.author).hasPermission('MANAGE_MESSAGES')) {
-            return message.reply(`you don't have permission to warn! (Manage messages permission required)`)
+            return message.reply(`you don't have permission to warn! (Manage messages permission required)`);
         }
 
         // Set up reason and user
@@ -20,8 +20,7 @@ module.exports = {
         }
         var user = message.mentions.users.first();
         if(!user) {
-            message.reply(`please specify a user to warn!`)
-            return;
+            return message.reply(`please specify a user to warn!`);
         }
 
         // Create embeds
@@ -36,8 +35,8 @@ module.exports = {
         .setDescription(`Reason: ${warnReason}`)
 
         // Send the embeds and warn the user
-        console.log(`\x1b[33m`, `${user.tag} warned for ${warnReason}`)
+        console.log(`\x1b[33m`, `${user.tag} warned for ${warnReason}`);
         await user.send(warnEmbed).catch(error=>{});
-        message.channel.send(logWarnEmbed)
+        message.channel.send(logWarnEmbed);
 	},
 }

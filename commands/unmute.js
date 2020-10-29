@@ -9,27 +9,24 @@ module.exports = {
 	async execute(client, message, args) {
         // Check if user can mute
         if(!message.guild.member(message.author).hasPermission('MANAGE_ROLES')) {
-            return message.reply(`you don't have permission to unmute! (Manage roles permission required)`)
+            return message.reply(`you don't have permission to unmute! (Manage roles permission required)`);
         }
 
         // Set up mute role and user
         var mutedRole = message.guild.roles.cache.find(role => role.name.toLowerCase() === 'muted');
         var user = message.mentions.users.first();
         if(!user) {
-            message.reply(`please specify a user to unmute!`)
-            return;
+            return message.reply(`please specify a user to unmute!`);
         }
 
         // Checks if the muted role exists
         if(!mutedRole) {
-            message.reply(`I can't unmute users if a muted role does not exist! Please make sure you have a role called "Muted" to use this command!`)
-            return;
+            return message.reply(`I can't unmute users if a muted role does not exist! Please make sure you have a role called "Muted" to use this command!`);
         }
 
         // Check if the specified user is already muted
         if(!message.guild.member(user).roles.cache.has(mutedRole.id)) {
-            message.reply(`that user isn't muted!`)
-            return;
+            return message.reply(`that user isn't muted!`);
         }
 
         // Makes sure the bot can unmute the user
@@ -47,9 +44,9 @@ module.exports = {
 		.setTitle(`**${user.tag} has been unmuted**`)
 
         // Send the embeds and mute the user
-        console.log(`\x1b[32m`, `${user.tag} unmuted`)
+        console.log(`\x1b[32m`, `${user.tag} unmuted`);
         await user.send(unmutedEmbed).catch(error=>{});
         await message.guild.member(user).roles.remove(mutedRole);
-        message.channel.send(logUnmutedEmbed)
+        message.channel.send(logUnmutedEmbed);
 	},
 }
