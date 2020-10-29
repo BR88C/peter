@@ -1,0 +1,50 @@
+const Discord = require(`discord.js`);
+
+module.exports = {
+	name: `unmute`,
+	description: `Unmute a specified user`,
+	args: true,
+	guildOnly: true,
+	hide: true,
+	usage: `[@user]`,
+	async execute(client, message, args) {
+        // Check if user can mute
+        if(!message.guild.member(message.author).hasPermission("MANAGE_ROLES")) {
+            return message.reply(`you don\'t have permission to unmute!`)
+        }
+
+        // Set up mute role and user
+        var mutedRole = message.guild.roles.cache.find(role => role.name.toLowerCase() === "muted");
+        var user = message.mentions.users.first();
+        if(!user) {
+            message.reply(`please specify a user to unmute!`)
+            return;
+        }
+
+        // Check if the specified user is already muted
+        if(!message.guild.member(user).roles.cache.has(mutedRole.id)) {
+            message.reply(`that user isn\'t muted!`)
+            return;
+        }
+
+        // Makes sure the bot can unmute the user
+        if(!message.guild.member(user).manageable) {
+            return message.reply('I do not have sufficient permissions to unmute this user!');
+        }
+
+        // Create embeds
+        let unmutedEmbed = new Discord.MessageEmbed()
+		.setColor(0x57ff5c)
+		.setTitle(`**You have been unmuted in ${message.guild.name}!**`)
+        
+        let logUnmutedEmbed = new Discord.MessageEmbed()
+		.setColor(0x57ff5c)
+		.setTitle(`**${user.tag} has been unmuted**`)
+
+        // Send the embeds and mute the user
+        console.log(`\x1b[32m`, `${user.tag} unmuted`)
+        await user.send(unmutedEmbed).catch(error=>{});
+        await message.guild.member(user).roles.remove(mutedRole);
+        message.channel.send(logUnmutedEmbed)
+	},
+}
