@@ -46,18 +46,16 @@ module.exports = {
                     .setFooter(`Images courtesy of giphy`)
                 
                 // Logs that the embed is created
-                console.log('\x1b[33m','   Created Embed');
+                console.log(`\x1b[33m`,`   Created Embed`);
 
                 // Logs that the message is done then posts it"
-                console.log('\x1b[32m', '   [FINISHED GIF SEARCH');
-                console.log('\x1b[37m');
+                console.log(`\x1b[32m`, `   [FINISHED GIF SEARCH`);
                 message.channel.send(gifEmbed);
 
                 // If there is an error with the code, Giphy, or if it couldnt find the image based on the query it sends an error message
                 }).catch(() => {
-                    console.log('\x1b[31m','   [ERROR] Unable to send, create, or find an image for the gif post.');
-                    console.log('');
-                    message.reply('Looks like I couldn\'t get a gif based on your search query... sorry :tired_face:');
+                    console.log(`\x1b[31m`,`   [ERROR] Unable to send, create, or find an image for the gif post.\n`);
+                    message.reply(`Looks like I couldn't get a gif based on your search query... sorry :tired_face:`);
                 })
 	},
 }
