@@ -4,7 +4,6 @@ module.exports = {
 	name: `members`,
 	description: `Lists the number of members in your server.`,
 	guildOnly: true,
-	cooldown: 0,
 	aliases: [`users`],
 	async execute(client, message, args) {
 		let memberEmbed = new Discord.MessageEmbed()
