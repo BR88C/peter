@@ -27,13 +27,21 @@ module.exports = {
             var serverBanner = `❌ Server Banner`;
         }
 
+        // Checks to make sure owner exists (applicable on large servers where the owner property will not be returned when the owner is offline)
+        if(client.guilds.cache.get(message.guild.id).owner.user.username) {
+            var serverOwner = client.guilds.cache.get(message.guild.id).owner.user.username;
+        } else {
+            var serverOwner = `Owner Offline`
+        }
+
+
         // Create Embed
         let serverInfoEmbed = new Discord.MessageEmbed()
             .setColor(0x949fff)
             .setTitle(`Information about ${message.guild.name}`)
             .setThumbnail(`https://cdn.discordapp.com/icons/${message.guild.id}/${message.guild.icon}`)
             .addFields(
-                { name: `**Owner**`, value: client.guilds.cache.get(message.guild.id).owner.user.username, inline: true },
+                { name: `**Owner**`, value: serverOwner, inline: true },
                 { name: `**Members**`, value: `Total Members: ${await message.guild.memberCount}\nRoles: ${await message.guild.roles.cache.size}`, inline: true },
                 { name: `**Boosts**`, value: `Server Level: ${message.guild.premiumTier}\nPeople Boosting: ${message.guild.premiumSubscriptionCount}`, inline: true },
                 { name: `**Channels**`, value: `Categories: ${message.guild.channels.cache.filter(channel => channel.type == 'category').size}\nText Channels: ${message.guild.channels.cache.filter(channel => channel.type == 'text').size}\nVoice Channels: ${message.guild.channels.cache.filter(channel => channel.type == 'voice').size}`, inline: true },
