@@ -1,6 +1,6 @@
 {
   "name": "peter",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "The replacement to Bonzi Buddy Bot.",
   "main": "index.js",
   "scripts": {
