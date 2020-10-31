@@ -9,9 +9,8 @@ module.exports = {
 	async execute(client, message, args) {
 		let memberEmbed = new Discord.MessageEmbed()
 			.setColor(0xacecb6)
-			.setAuthor(`Guild Member Information`)
-			.setTitle(`**Total Guild Members**`)
-			.setDescription(message.guild.memberCount)
+			.setTitle(`**Total Guild Members:**`)
+			.setDescription(await message.guild.memberCount)
 
 		message.channel.send(memberEmbed);
 	},
