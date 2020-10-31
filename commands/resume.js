@@ -10,9 +10,9 @@ module.exports = {
 		if (serverQueue && !serverQueue.playing) {
 			serverQueue.playing = true;
 			serverQueue.connection.dispatcher.resume();
-			return message.channel.send('▶ Current song was resumed!');
+			return message.channel.send(`▶ Current song was resumed!`);
 		}
 		// If nothing is playing
-		return message.channel.send('There is nothing playing.');
+		return message.channel.send(`There is nothing playing.`);
 	},
 }

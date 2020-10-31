@@ -10,9 +10,9 @@ module.exports = {
 		if (serverQueue && serverQueue.playing) {
 			serverQueue.playing = false;
             serverQueue.connection.dispatcher.pause();
-			return message.channel.send('⏸ Current song was paused!');
+			return message.channel.send(`⏸ Current song was paused!`);
 		}
 		// If the music is paused or nothing is playing
-		return message.channel.send('There is nothing playing.');
+		return message.channel.send(`There is nothing playing.`);
 	},
 }
