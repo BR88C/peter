@@ -39,7 +39,7 @@ module.exports = {
 		var minutes = Math.floor(songInfo.videoDetails.lengthSeconds / 60) - (hours * 60);
 		var seconds = songInfo.videoDetails.lengthSeconds % 60;
 		if(hours > 0) {
-			var videoTime = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+			var videoTime = hours.toString() + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
 		} else {
 			var videoTime = minutes.toString()+ ':' + seconds.toString().padStart(2, '0');
 		}
