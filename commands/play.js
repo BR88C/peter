@@ -31,6 +31,10 @@ module.exports = {
 		} else {
 			const ytsResult = await yts(args.slice(0).join(` `));
 			const ytsVideo = ytsResult.videos.slice( 0, 1 );
+			// Checks to see if video was found
+			if(!ytsVideo[0]) {
+				return message.reply(`I couldn't find anything based on your query!`);
+			}
 			songInfo = await ytdl.getInfo(ytsVideo[0].url);
 		}
 		
