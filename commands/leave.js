@@ -19,7 +19,7 @@ module.exports = {
 			message.channel.send(`👋 Left the VC.`);
 		// If the bot is not in a vc, clear the queue and reply with an error
 		} else {
-			serverQueue.songs = [];
+			if(serverQueue.songs) serverQueue.songs = [];
 			message.client.queue.delete(message.guild.id);
 			message.reply(`I can't leave if I'm not in a VC!`);
 		}
