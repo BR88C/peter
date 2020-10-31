@@ -28,12 +28,12 @@ module.exports = {
 			return message.author.send(helpEmbed)
 				.then(() => {
 					if(message.channel.type === 'dm') return;
-					message.reply('I\'ve sent you a DM with all my commands!');
+					message.reply(`I've sent you a DM with all my commands!`);
 				})
 				// If Peter is unable to send a DM
 				.catch(error => {
-					console.error(`\x1b[31m`,`Could not send help DM to ${message.author.tag}.`);
-					message.reply('It seems like I can\'t DM you! Make sure to check your privacy settings!');
+					console.error(`\x1b[31m`, `Could not send help DM to ${message.author.tag}.`);
+					message.reply(`It seems like I can't DM you! Make sure to check your privacy settings!`);
 				});
 		}
 
@@ -43,7 +43,7 @@ module.exports = {
 
 		// If the command does not exist
 		if(!command) {
-			return message.reply('that\'s not a valid command!');
+			return message.reply(`that's not a valid command!`);
 		}
 
 		// Gets info on the command
