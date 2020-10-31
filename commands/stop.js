@@ -17,12 +17,12 @@ module.exports = {
 		// If the bot is in a vc, clear the queue as normal
 		if(message.guild.voice.connection) {
 			serverQueue.connection.dispatcher.destroy();
-			serverQueue.songs = [];
+			if(serverQueue.songs) serverQueue.songs = [];
 			message.client.queue.delete(message.guild.id);
 			message.channel.send(`Queue cleared and Music stopped. 🛑`);
-		// If the bot is not in a vc, clear the queue and report an error
+		// If the bot is not in a vc, make sure the queue is cleared and report an error
 		} else {
-			serverQueue.songs = [];
+			if(serverQueue.songs) serverQueue.songs = [];
 			message.client.queue.delete(message.guild.id);
 			message.reply(`I'm not in a VC, so there is no music to stop!`);
 		}

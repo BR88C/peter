@@ -17,7 +17,7 @@ module.exports = {
 			message.client.queue.delete(message.guild.id);
 			message.member.voice.channel.leave();
 			message.channel.send(`👋 Left the VC.`);
-		// If the bot is not in a vc, clear the queue and reply with an error
+		// If the bot is not in a vc, make sure the queue is cleared and report an error
 		} else {
 			if(serverQueue.songs) serverQueue.songs = [];
 			message.client.queue.delete(message.guild.id);
