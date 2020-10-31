@@ -25,14 +25,14 @@ module.exports = {
 
         // Create embeds
         let warnEmbed = new Discord.MessageEmbed()
-		.setColor(0xffd000)
-		.setTitle(`**You have been warned in ${message.guild.name}!**`)
-        .setDescription(`Reason: ${warnReason}`)
+		    .setColor(0xffd000)
+		    .setTitle(`**You have been warned in ${message.guild.name}!**`)
+            .setDescription(`Reason: ${warnReason}`)
         
         let logWarnEmbed = new Discord.MessageEmbed()
-		.setColor(0xffd000)
-		.setTitle(`**${user.tag} has been warned**`)
-        .setDescription(`Reason: ${warnReason}`)
+		    .setColor(0xffd000)
+		    .setTitle(`**${user.tag} has been warned**`)
+            .setDescription(`Reason: ${warnReason}`)
 
         // Send the embeds and warn the user
         console.log(`\x1b[33m`, `${user.tag} warned for ${warnReason}`);

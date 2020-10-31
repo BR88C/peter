@@ -15,6 +15,7 @@ module.exports = {
 			.setColor(0x2100db)
 			.setAuthor(`Pong!`)
 			.setDescription(`\`\`` + ping + `ms\`\``)
+			
 		message.channel.send(pingEmbed);
 	},
 }

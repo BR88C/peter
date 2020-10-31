@@ -46,14 +46,14 @@ module.exports = {
 
         // Create embeds
         let mutedEmbed = new Discord.MessageEmbed()
-		.setColor(0xffd000)
-		.setTitle(`**You have been muted in ${message.guild.name}!**`)
-        .setDescription(`Reason: ${muteReason}`)
+		    .setColor(0xffd000)
+		    .setTitle(`**You have been muted in ${message.guild.name}!**`)
+            .setDescription(`Reason: ${muteReason}`)
         
         let logMutedEmbed = new Discord.MessageEmbed()
-		.setColor(0xffd000)
-		.setTitle(`**${user.tag} has been muted**`)
-        .setDescription(`Reason: ${muteReason}`)
+		    .setColor(0xffd000)
+		    .setTitle(`**${user.tag} has been muted**`)
+            .setDescription(`Reason: ${muteReason}`)
 
         // Send the embeds and mute the user
         console.log(`\x1b[33m`, `${user.tag} muted for ${muteReason}`);

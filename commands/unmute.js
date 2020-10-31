@@ -36,12 +36,12 @@ module.exports = {
 
         // Create embeds
         let unmutedEmbed = new Discord.MessageEmbed()
-		.setColor(0x57ff5c)
-		.setTitle(`**You have been unmuted in ${message.guild.name}!**`)
+		    .setColor(0x57ff5c)
+		    .setTitle(`**You have been unmuted in ${message.guild.name}!**`)
         
         let logUnmutedEmbed = new Discord.MessageEmbed()
-		.setColor(0x57ff5c)
-		.setTitle(`**${user.tag} has been unmuted**`)
+		    .setColor(0x57ff5c)
+		    .setTitle(`**${user.tag} has been unmuted**`)
 
         // Send the embeds and mute the user
         console.log(`\x1b[32m`, `${user.tag} unmuted`);

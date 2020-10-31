@@ -20,6 +20,7 @@ module.exports = {
 			${serverQueue.songs.map((song, i) => i == 0 ? null: `\`${i}\`. ${song.title} [${song.timestamp}]`).join(`\n`)}
 			`)
 			.setTimestamp(new Date());
+			
 		return message.channel.send(queueEmbed);
 	},
 }

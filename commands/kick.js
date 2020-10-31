@@ -35,14 +35,14 @@ module.exports = {
 
         // Create embeds
         let kickedEmbed = new Discord.MessageEmbed()
-		.setColor(0xdb1226)
-		.setTitle(`**You have been kicked from ${message.guild.name}!**`)
-        .setDescription(`Reason: ${kickReason}`)
+		    .setColor(0xdb1226)
+		    .setTitle(`**You have been kicked from ${message.guild.name}!**`)
+            .setDescription(`Reason: ${kickReason}`)
         
         let logKickedEmbed = new Discord.MessageEmbed()
-		.setColor(0xdb1226)
-		.setTitle(`**${user.tag} has been kicked**`)
-        .setDescription(`Reason: ${kickReason}`)
+		    .setColor(0xdb1226)
+		    .setTitle(`**${user.tag} has been kicked**`)
+            .setDescription(`Reason: ${kickReason}`)
 
         // Send the embeds and kick the user
         console.log(`\x1b[31m`, `${user.tag} kicked for ${kickReason}`);

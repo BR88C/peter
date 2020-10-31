@@ -35,14 +35,14 @@ module.exports = {
 
         // Create embeds
         let bannedEmbed = new Discord.MessageEmbed()
-		.setColor(0xdb1226)
-		.setTitle(`**You have been banned from ${message.guild.name}!**`)
-        .setDescription(`Reason: ${banReason}`)
+		    .setColor(0xdb1226)
+		    .setTitle(`**You have been banned from ${message.guild.name}!**`)
+            .setDescription(`Reason: ${banReason}`)
         
         let logBannedEmbed = new Discord.MessageEmbed()
-		.setColor(0xdb1226)
-		.setTitle(`**${user.tag} has been banned**`)
-        .setDescription(`Reason: ${banReason}`)
+		    .setColor(0xdb1226)
+		    .setTitle(`**${user.tag} has been banned**`)
+            .setDescription(`Reason: ${banReason}`)
 
         // Send the embeds and ban the user
         console.log(`\x1b[31m`, `${user.tag} banned for ${banReason}`);
