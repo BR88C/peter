@@ -28,6 +28,11 @@ module.exports = {
 		// Sets the volume
 		serverQueue.volume = args[0];
 		serverQueue.connection.dispatcher.setVolume(parseInt(args[0]) / 500);
-		return message.channel.send(`🔊 Set the volume to: **${args[0]}%**`);
+
+		let volumeEmbed = new Discord.MessageEmbed()
+			.setColor(0xbccbd1)
+			.setTitle(`🔊 Set the volume to **${args[0]}%**`) 
+
+		return message.channel.send(volumeEmbed);
 	},
 }

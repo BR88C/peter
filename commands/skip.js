@@ -16,6 +16,11 @@ module.exports = {
 		
 		// Skips to the next song
 		serverQueue.connection.dispatcher.end();
-		message.channel.send(`⏩ The current song has been skipped.`)
+
+		let skipEmbed = new Discord.MessageEmbed()
+			.setColor(0x9cd6ff)
+			.setTitle(`⏩ The current song has been skipped.`)
+
+		message.channel.send(skipEmbed);
 		},
 }

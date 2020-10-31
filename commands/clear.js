@@ -15,7 +15,14 @@ module.exports = {
 		if (!serverQueue) return message.reply(`I can't clear the queue if there is nothing in the queue!`);
 
 		// Clears the queue without removing the song currently playing
-        serverQueue.songs = [serverQueue.songs[0]];
-        message.channel.send(`Cleared the Queue!`)
+		serverQueue.songs = [serverQueue.songs[0]];
+		
+		// Create embed
+		let clearEmbed = new Discord.MessageEmbed()
+		 	.setColor(0xff642b)
+			.setTitle(`Cleared the Queue!`)
+
+		// Send embed
+        message.channel.send(clearEmbed);
 	},
 }

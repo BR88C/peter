@@ -10,7 +10,12 @@ module.exports = {
 		if (serverQueue && !serverQueue.playing) {
 			serverQueue.playing = true;
 			serverQueue.connection.dispatcher.resume();
-			return message.channel.send(`▶ Current song was resumed!`);
+
+			let resumeEmbed = new Discord.MessageEmbed()
+				.setColor(0xb8ff9c)
+				.setTitle(`▶ Current song was resumed!`)
+
+			return message.channel.send(resumeEmbed);
 		}
 		// If nothing is playing
 		return message.channel.send(`There is nothing playing.`);

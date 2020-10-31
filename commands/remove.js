@@ -26,7 +26,12 @@ module.exports = {
 
         // Removes the specified song from the queue
         const song = serverQueue.songs.splice(args[0], 1)
-        message.channel.send(`❌ Removed **${song[0].title}** from the queue!`)
+
+        let removeEmbed = new Discord.MessageEmbed()
+            .setColor(0xff668a)
+            .setTitle(`❌ Removed **${song[0].title}** from the queue!`)
+
+        message.channel.send(removeEmbed);
 
 	},
 }

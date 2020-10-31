@@ -19,7 +19,12 @@ module.exports = {
 			serverQueue.connection.dispatcher.destroy();
 			if(serverQueue.songs) serverQueue.songs = [];
 			message.client.queue.delete(message.guild.id);
-			message.channel.send(`Queue cleared and Music stopped. 🛑`);
+
+			let stopEmbed = new Discord.MessageEmbed()
+				.setColor(0xff0000)
+				.setTitle(`🛑 Queue cleared and Music stopped.`)
+
+			message.channel.send(stopEmbed);
 		// If the bot is not in a vc, make sure the queue is cleared and report an error
 		} else {
 			if(serverQueue.songs) serverQueue.songs = [];

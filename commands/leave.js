@@ -16,7 +16,13 @@ module.exports = {
 			if(serverQueue) serverQueue.connection.dispatcher.destroy();
 			message.client.queue.delete(message.guild.id);
 			message.member.voice.channel.leave();
-			message.channel.send(`👋 Left the VC.`);
+
+			let leaveEmbed = new Discord.MessageEmbed()
+				.setColor(0xff4a4a)
+				.setTitle(`👋 Left the VC.`)
+
+			message.channel.send(leaveEmbed);
+
 		// If the bot is not in a vc, make sure the queue is cleared and report an error
 		} else {
 			if(serverQueue.songs) serverQueue.songs = [];

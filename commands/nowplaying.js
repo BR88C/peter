@@ -11,7 +11,16 @@ module.exports = {
 		// If the queue is empty
 		if (!serverQueue) return message.channel.send(`There is nothing playing.`);
 
-		// Replies with song currently playing
-		return message.channel.send(`🎶 Now playing: **${serverQueue.songs[0].title}**`);
+		// Create embed
+		let nowPlayingEmbed = new Discord.MessageEmbed()
+			.setColor(0xb0ffe2)
+			.setAuthor(`🎶 Currently playing:`)
+			.setTitle(`**${serverQueue.songs[0].title}**`)
+			.setURL(serverQueue.songs[0].url)
+			.setDescription(`Song Length: ${serverQueue.songs[0].timestamp}`)
+			.setImage(serverQueue.songs[0].thumbnail)
+
+		// Send Embed
+		return message.channel.send(nowPlayingEmbed);
 	},
 }
