@@ -83,7 +83,7 @@ module.exports = (client, message) => {
 		return message.reply(`that command is only for this bot's dev, ${client.config.get('dev').tag}!`);
 	}
 	
-	// Chck if command needs args
+	// Check if command needs args
 	if(command.args && !args.length) {
 		let reply = `You didn't provide any arguments, ${message.author}!`;
 		if(command.usage) {
