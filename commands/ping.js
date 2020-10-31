@@ -6,11 +6,9 @@ module.exports = {
 	guildOnly: true,
 	cooldown: 3,
 	async execute(client, message, args) {
-		// Grabs ping
-		actualping = client.ws.ping;
 
-		// Rounds ping to nearest hundreth
-		ping = Math.round(100*actualping)/100;
+		// Get ping
+		ping = Math.round(100*client.ws.ping)/100;
 
 		// Creates and sends the embed
 		let pingEmbed = new Discord.MessageEmbed()
