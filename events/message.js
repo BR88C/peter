@@ -11,12 +11,10 @@ module.exports = (client, message) => {
 			if(message.author.id === client.user.id) {
 				// If the message has an embed it logs it as an embed
 				if(message.embeds.length > 0){
-					console.log(`\x1b[35m`,(`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] `).replace(/[^ -~]+/g, ``),`\x1b[36m`,`{Embed}`);
-					return;
+					return console.log(`\x1b[35m`,(`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] `).replace(/[^ -~]+/g, ``),`\x1b[36m`,`{Embed}`);
 				// If the message does not have am embed it logs the message normally
 				} else {
-					console.log(`\x1b[35m`,(`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] ${message.content}`).replace(/[^ -~]+/g, ``));
-					return;
+					return console.log(`\x1b[35m`,(`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] ${message.content}`).replace(/[^ -~]+/g, ``));
 				}
 			// If the message is by any other bot
 			} else {
@@ -36,12 +34,10 @@ module.exports = (client, message) => {
 			if(message.author.id === client.user.id) {
 				// If the message has an embed it logs it as an embed
 				if(message.embeds.length > 0){
-					console.log(`\x1b[35m`,(`Server: DM | [${message.author.tag}] `).replace(/[^ -~]+/g, ``), `\x1b[36m`,`{Embed}`);
-					return;
+					return console.log(`\x1b[35m`,(`Server: DM | [${message.author.tag}] `).replace(/[^ -~]+/g, ``), `\x1b[36m`,`{Embed}`);
 				// If the message does not have am embed it logs the message normally
 				} else {
-					console.log(`\x1b[35m`,(`Server: DM | [${message.author.tag}] ${message.content}`).replace(/[^ -~]+/g, ``));
-					return;
+					return console.log(`\x1b[35m`,(`Server: DM | [${message.author.tag}] ${message.content}`).replace(/[^ -~]+/g, ``));
 				}
 			// If the message is by any other bot
 			} else {
@@ -55,19 +51,18 @@ module.exports = (client, message) => {
 			}
 		}
 	}
+
 	// Sets up args, command names, and checks for aliases
 	const args = message.content.slice(client.config.get('prefix').length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
-	const command = client.commands.get(commandName)
-		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+	const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+	
 	if(!command) {
 		// If command does not exist it logs it in red
 		if(message.guild !==null) {
-			console.log(`\x1b[31m`,(`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] ${message.content}`).replace(/[^ -~]+/g, ""));
-			return;
+			return console.log(`\x1b[31m`,(`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] ${message.content}`).replace(/[^ -~]+/g, ""));
 		} else {
-			console.log(`\x1b[31m`,(`Server: DM | [${message.author.tag}] ${message.content}`).replace(/[^ -~]+/g, ``));
-			return;
+			return console.log(`\x1b[31m`,(`Server: DM | [${message.author.tag}] ${message.content}`).replace(/[^ -~]+/g, ``));
 		}
 	} else {
 		// If the command exists it logs it in green
@@ -77,14 +72,17 @@ module.exports = (client, message) => {
 			console.log(`\x1b[32m`,(`Server: DM | [${message.author.tag}] ${message.content}`).replace(/[^ -~]+/g, ``));
 		}
 	}
+
 	// Checks if command is Guild Only
 	if(command.guildOnly && message.channel.type === `dm`) {
 		return message.reply(`I can't execute that command inside DMs!`);
 	}
+
 	// Checks if command is Dev Only
 	if(command.devOnly && message.author.id !== client.config.get('dev').id) {
 		return message.reply(`that command is only for this bot's dev, ${client.config.get('dev').tag}!`);
 	}
+	
 	// Chck if command needs args
 	if(command.args && !args.length) {
 		let reply = `You didn't provide any arguments, ${message.author}!`;
