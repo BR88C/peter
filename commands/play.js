@@ -29,8 +29,8 @@ module.exports = {
 			songInfo = await ytdl.getInfo(args[0]);
 		// If the arguments provided are not a url, search youutbe for a video
 		} else {
-			const ytsResult = await yts(args.slice(0).join(` `))
-			const ytsVideo = ytsResult.videos.slice( 0, 1 )
+			const ytsResult = await yts(args.slice(0).join(` `));
+			const ytsVideo = ytsResult.videos.slice( 0, 1 );
 			songInfo = await ytdl.getInfo(ytsVideo[0].url);
 		}
 		

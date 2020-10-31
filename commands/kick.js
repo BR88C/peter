@@ -25,12 +25,12 @@ module.exports = {
 
         // Checks to see if the message author is trying to be kicked
         if(user === message.author) {
-            return message.reply('you can\'t kick yourself!');
+            return message.reply(`you can't kick yourself!`);
         }
 
         // Makes sure the bot can kick the user
         if(!message.guild.member(user).kickable) {
-            return message.reply('I do not have sufficient permissions to kick this user!');
+            return message.reply(`I do not have sufficient permissions to kick this user!`);
         }
 
         // Create embeds
