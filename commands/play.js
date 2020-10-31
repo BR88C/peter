@@ -1,6 +1,6 @@
 const Discord = require(`discord.js`);
 const ytdl = require(`ytdl-core`);
-const ytsr = require(`ytsr`);
+const yts = require(`yt-search`);
 
 module.exports = {
 	name: `play`,
@@ -25,24 +25,31 @@ module.exports = {
 		const serverQueue = message.client.queue.get(message.guild.id);
 		let songInfo;
 		// Checks if the arguments provided is a url
-		if(await ytdl.validateURL(args.slice(0).join(` `))) songInfo = await ytdl.getInfo(args[0]);
+		if(await ytdl.validateURL(args.slice(0).join(` `))) { 
+			songInfo = await ytdl.getInfo(args[0]);
 		// If the arguments provided are not a url, search youutbe for a video
-		else {
-			let filter = await ytsr.getFilters(args.slice(0).join(` `));
-			filter = filter.get('Type').find(o => o.name === 'Video');
-			var options = {
-				limit: 1,
-				nextpageRef: filter.ref
-			}
-			let ytsrResult = await ytsr(args.slice(0).join(` `), options); 
-			songInfo = await ytdl.getInfo(ytsrResult.items[0].link);
+		} else {
+			const ytsResult = await yts(args.slice(0).join(` `))
+			const ytsVideo = ytsResult.videos.slice( 0, 1 )
+			songInfo = await ytdl.getInfo(ytsVideo[0].url);
 		}
 		
+		// Get time
+		var hours = Math.floor(songInfo.videoDetails.lengthSeconds / 60 / 60);
+		var minutes = Math.floor(songInfo.videoDetails.lengthSeconds / 60) - (hours * 60);
+		var seconds = songInfo.videoDetails.lengthSeconds % 60;
+		if(hours > 0) {
+			var videoTime = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+		} else {
+			var videoTime = minutes.toString()+ ':' + seconds.toString().padStart(2, '0');
+		}
+
 		// Defines song info
 		const song = {
 			title: songInfo.videoDetails.title,
 			url: songInfo.videoDetails.video_url,
-			thumbnail: songInfo.videoDetails.thumbnail.thumbnails[0].url
+			thumbnail: songInfo.videoDetails.thumbnail.thumbnails[0].url,
+			timestamp: videoTime
 		}
 		
 		// Adding songs to the queue

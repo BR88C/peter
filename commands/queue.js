@@ -16,8 +16,8 @@ module.exports = {
 			.setAuthor(`Song Queue`)
 			.setColor(0x1e90ff)
 			.setDescription(`
-			**Now Playing**: ${serverQueue.songs[0].title}
-			${serverQueue.songs.map((song, i) => i == 0 ? null: `\`${i}\`. ${song.title}`).join(`\n`)}
+			**Now Playing**: ${serverQueue.songs[0].title} [${serverQueue.songs[0].timestamp}]
+			${serverQueue.songs.map((song, i) => i == 0 ? null: `\`${i}\`. ${song.title} [${song.timestamp}]`).join(`\n`)}
 			`)
 			.setTimestamp(new Date());
 		return message.channel.send(queueEmbed);
