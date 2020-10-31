@@ -7,7 +7,7 @@ module.exports = {
 	description: `Plays a song in a vc.`,
 	args: true,
 	guildOnly: true,
-	cooldown: 2,
+	cooldown: 5,
 	aliases: [`p`],
 	usage: `[search query] or [url]`,
 	async execute(client, message, args) {
@@ -60,7 +60,7 @@ module.exports = {
 		if (serverQueue) {
 			serverQueue.songs.push(song);
 
-			const queueAddEmbed = new Discord.MessageEmbed()
+			let queueAddEmbed = new Discord.MessageEmbed()
 				.setColor(0x0cdf24)
 				.setAuthor(`✅ "${song.title}" has been added to the queue!`)
 				.setImage(song.thumbnail)
@@ -90,7 +90,7 @@ module.exports = {
 				return;
 			}
 
-			const dispatcher = queue.connection.play(ytdl(song.url, { type: `opus` }, { quality: `highestaudio` }, { highWaterMark: 1<<25 }), { bitrate: 64 /* 64kbps */ })
+			const dispatcher = queue.connection.play(ytdl(song.url, { type: `opus` }, { highWaterMark: 1<<25 }), { bitrate: 64 /* 64kbps */ })
 				// When the song ends
 				.on(`finish`, reason => {
 					if (reason === `Stream is not generating quickly enough.`) console.log(`Song ended due to stream is not generating quickly enough.`);
@@ -107,7 +107,7 @@ module.exports = {
 			dispatcher.setVolumeLogarithmic(queue.volume / 250);
 
 			// Now playing embed
-			const playingEmbed = new Discord.MessageEmbed()
+			let playingEmbed = new Discord.MessageEmbed()
 				.setColor(0x5ce6c8)
 				.setAuthor(`🎶 Started playing: ${song.title}`)
 				.setImage(song.thumbnail)
