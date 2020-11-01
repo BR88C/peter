@@ -90,7 +90,7 @@ module.exports = {
 				return;
 			}
 
-			const dispatcher = queue.connection.play(ytdl(song.url, { type: `opus` }, { highWaterMark: 1<<25 }), { bitrate: 64 /* 64kbps */ })
+			const dispatcher = queue.connection.play(ytdl(song.url, { type: `opus` }, {filter: `audioonly`}, { highWaterMark: 1<<25 }), { bitrate: 64 /* 64kbps */ })
 				// When the song ends
 				.on(`finish`, reason => {
 					if (reason === `Stream is not generating quickly enough.`) console.log(`Song ended due to stream is not generating quickly enough.`);
