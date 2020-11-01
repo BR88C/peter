@@ -50,7 +50,7 @@ module.exports = {
 
 		// Defines song info
 		const song = {
-			title: songInfo.videoDetails.title,
+			title: songInfo.videoDetails.title.replace(/-|\*|_|\|/g, ` `),
 			url: songInfo.videoDetails.video_url,
 			thumbnail: songInfo.videoDetails.thumbnail.thumbnails[0].url,
 			timestamp: videoTime
