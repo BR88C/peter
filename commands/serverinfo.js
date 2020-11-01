@@ -39,7 +39,7 @@ module.exports = {
         let serverInfoEmbed = new Discord.MessageEmbed()
             .setColor(0x949fff)
             .setTitle(`Information about ${message.guild.name}`)
-            .setThumbnail(`https://cdn.discordapp.com/icons/${message.guild.id}/${message.guild.icon}`)
+            .setThumbnail(message.guild.iconURL({ dynamic: true, size: 256 }))
             .addFields(
                 { name: `**Owner**`, value: serverOwner, inline: true },
                 { name: `**Members**`, value: `Total Members: ${await message.guild.memberCount}\nRoles: ${await message.guild.roles.cache.size}`, inline: true },
