@@ -6,8 +6,9 @@ module.exports = {
 	aliases: [`bot`, `about`],
 	async execute(client, message, args) {
         let botInfoEmbed = new Discord.MessageEmbed()
+            .setColor(0xffd87d)
             .setTitle(`Information about Peter!`)
-            .setThumbnail(client.user.avatarURL())
+            .setThumbnail(client.user.avatarURL({ dynamic: true, size: 256 }))
             .addFields(
                 { name: `**Tag**`, value: client.user.tag, inline: true },
                 { name: `**Number of Commands**`, value: client.commands.size, inline: true },
