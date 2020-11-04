@@ -15,13 +15,13 @@
   "license": "ISC",
   "homepage": "https://github.com/BR88C/peter#readme",
   "dependencies": {
-    "@discordjs/opus": "^0.3.2",
-    "discord.js": "^12.3.1",
+    "@discordjs/opus": "^0.3.3",
+    "discord.js": "^12.4.1",
     "dotenv": "^8.2.0",
     "ffmpeg": "0.0.4",
     "fluent-ffmpeg": "^2.1.2",
     "giphy-js-sdk-core": "^1.0.6",
-    "yt-search": "^2.3.3",
-    "ytdl-core": "^4.0.1"
+    "yt-search": "^2.4.2",
+    "ytdl-core": "^4.0.3"
   }
 }
