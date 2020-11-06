@@ -20,13 +20,12 @@ client.pjson = new Map(Object.entries(pjson));
 
 
 /* Load events */
-fs.readdir("./events/", (err, files) => {
-    if (err) return console.error(err);
-    files.forEach(file => {
-    	const event = require(`./events/${file}`);
-    	let eventName = file.split(".")[0];
-    	client.on(eventName, event.bind(null, client));
-    });
+const eventFiles = fs.readdirSync(`./events`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
+eventFiles.forEach(file => {
+   	const event = require(`./events/${file}`);
+    let eventName = file.split(".")[0];
+    console.log(`\x1b[33m`, `Loaded event ${eventName}`)   
+   	client.on(eventName, event.bind(null, client));
 });
 
 
@@ -34,11 +33,11 @@ fs.readdir("./events/", (err, files) => {
 /* Load commands */
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync(`./commands`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
-for (const file of commandFiles) {
+commandFiles.forEach(file => {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.name, command);
-	console.log('\x1b[33m',`Loaded command ${command.name}`);
-}
+	console.log(`\x1b[33m`, `Loaded command ${command.name}`);
+})
 
 
 
