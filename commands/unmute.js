@@ -13,8 +13,8 @@ module.exports = {
         }
 
         // Set up mute role and user
-        var mutedRole = message.guild.roles.cache.find(role => role.name.toLowerCase() === 'muted');
-        var user = message.mentions.users.first();
+        const mutedRole = message.guild.roles.cache.find(role => role.name.toLowerCase() === 'muted');
+        const user = message.mentions.users.first();
         if(!user) {
             return message.reply(`please specify a user to unmute!`);
         }

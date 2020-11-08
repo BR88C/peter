@@ -13,12 +13,13 @@ module.exports = {
         }
 
         // Set up kick reason and user
+        const kickReason;
         if(args.slice(1).join(' ')) {
-            var kickReason = args.slice(1).join(' ');
+            kickReason = args.slice(1).join(' ');
         } else {
-            var kickReason = `No reason specified`;
+            kickReason = `No reason specified`;
         }
-        var user = message.mentions.users.first();
+        const user = message.mentions.users.first();
         if(!user) {
             return message.reply(`please specify a user to kick!`);
         }

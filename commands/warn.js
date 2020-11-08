@@ -13,12 +13,13 @@ module.exports = {
         }
 
         // Set up reason and user
+        const warnReason;
         if(args.slice(1).join(' ')) {
-            var warnReason = args.slice(1).join(' ');
+            warnReason = args.slice(1).join(' ');
         } else {
-            var warnReason = `No reason specified`;
+            warnReason = `No reason specified`;
         }
-        var user = message.mentions.users.first();
+        const user = message.mentions.users.first();
         if(!user) {
             return message.reply(`please specify a user to warn!`);
         }

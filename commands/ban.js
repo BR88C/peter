@@ -13,12 +13,13 @@ module.exports = {
         }
 
         // Set up ban reason and user
+        const banReason;
         if(args.slice(1).join(' ')) {
-            var banReason = args.slice(1).join(' ');
+            banReason = args.slice(1).join(' ');
         } else {
-            var banReason = `No reason specified`;
+            banReason = `No reason specified`;
         }
-        var user = message.mentions.users.first();
+        const user = message.mentions.users.first();
         if(!user) {
             return message.reply(`please specify a user to ban!`);
         }

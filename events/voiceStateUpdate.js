@@ -5,7 +5,7 @@ const Discord = require(`discord.js`);
 module.exports = (client, oldState, newState) => {
 	// If a user leaves or changes channels
 	if(oldState.channelID != newState.channelID && oldState.channelID != null) {
-		var channelInfo = oldState.guild.channels.cache.get(oldState.channelID);
+		const channelInfo = oldState.guild.channels.cache.get(oldState.channelID);
 		// If the bot is the only user in the VC clear the queue and leave
 		if(channelInfo.members.has(client.user.id) && channelInfo.members.size == 1) {
 			const serverQueue = client.queue.get(oldState.guild.id);

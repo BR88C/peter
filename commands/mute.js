@@ -13,13 +13,14 @@ module.exports = {
         }
 
         // Set up mute role, reason and user
-        var mutedRole = message.guild.roles.cache.find(role => role.name.toLowerCase() === 'muted');
+        const mutedRole = message.guild.roles.cache.find(role => role.name.toLowerCase() === 'muted');
+        const muteReason;
         if(args.slice(1).join(' ')) {
-            var muteReason = args.slice(1).join(' ');
+            muteReason = args.slice(1).join(' ');
         } else {
-            var muteReason = `No reason specified`;
+            muteReason = `No reason specified`;
         }
-        var user = message.mentions.users.first();
+        const user = message.mentions.users.first();
         if(!user) {
             return message.reply(`please specify a user to mute!`);
         }

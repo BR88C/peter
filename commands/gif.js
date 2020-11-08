@@ -30,10 +30,10 @@ module.exports = {
             .then((response) => {
                     
                 // Gets One Random Image from search results
-                var totalResponses = response.data.length;
-                var responseIndex =Math.floor((Math.random() * 15) +1) % totalResponses;
-                var responseFinal = response.data[responseIndex];
-                var imageURL = responseFinal.images.fixed_height.url;
+                const totalResponses = response.data.length;
+                const responseIndex =Math.floor((Math.random() * 15) +1) % totalResponses;
+                const responseFinal = response.data[responseIndex];
+                const imageURL = responseFinal.images.fixed_height.url;
 
                 // Prints the final url in the console log
                 console.log('\x1b[33m', `   URL: ${imageURL}`);
