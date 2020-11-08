@@ -13,7 +13,7 @@ module.exports = {
         }
 
         // Set up kick reason and user
-        const kickReason;
+        var kickReason;
         if(args.slice(1).join(' ')) {
             kickReason = args.slice(1).join(' ');
         } else {

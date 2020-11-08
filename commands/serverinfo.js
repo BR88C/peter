@@ -7,7 +7,7 @@ module.exports = {
 	aliases: [`guildinfo`, `server`, `guild`],
 	async execute(client, message, args) {
         // Check if server has news channel
-        const newsChannel;
+        var newsChannel;
         if(message.guild.channels.cache.filter(channel => channel.type == 'news').size > 0) {
             newsChannel = `✅ News Channel`;
         } else {
@@ -15,7 +15,7 @@ module.exports = {
         }
 
         // Check if server has invite splash
-        const inviteSplash;
+        var inviteSplash;
         if(message.guild.splash) {
             inviteSplash = `✅ Invite Splash`;
         } else {
@@ -23,7 +23,7 @@ module.exports = {
         }
 
         // Check if server has banner
-        const serverBanner;
+        var serverBanner;
         if(message.guild.banner) {
             serverBanner = `✅ Server Banner`;
         } else {
@@ -31,7 +31,7 @@ module.exports = {
         }
 
         // Checks to make sure owner exists (applicable on large servers where the owner property will not be returned when the owner is offline)
-        const serverOwner;
+        var serverOwner;
         if(client.guilds.cache.get(message.guild.id).owner) {
             serverOwner = client.guilds.cache.get(message.guild.id).owner.user.username;
         } else {

@@ -13,7 +13,7 @@ module.exports = {
         }
 
         // Set up ban reason and user
-        const banReason;
+        var banReason;
         if(args.slice(1).join(' ')) {
             banReason = args.slice(1).join(' ');
         } else {

@@ -14,7 +14,7 @@ module.exports = {
 
         // Set up mute role, reason and user
         const mutedRole = message.guild.roles.cache.find(role => role.name.toLowerCase() === 'muted');
-        const muteReason;
+        var muteReason;
         if(args.slice(1).join(' ')) {
             muteReason = args.slice(1).join(' ');
         } else {

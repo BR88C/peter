@@ -13,7 +13,7 @@ module.exports = {
         }
 
         // Set up reason and user
-        const warnReason;
+        var warnReason;
         if(args.slice(1).join(' ')) {
             warnReason = args.slice(1).join(' ');
         } else {

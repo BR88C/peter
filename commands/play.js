@@ -42,7 +42,7 @@ module.exports = {
 		const hours = Math.floor(songInfo.videoDetails.lengthSeconds / 60 / 60);
 		const minutes = Math.floor(songInfo.videoDetails.lengthSeconds / 60) - (hours * 60);
 		const seconds = songInfo.videoDetails.lengthSeconds % 60;
-		const videoTime;
+		var videoTime;
 		if(hours > 0) {
 			videoTime = hours.toString() + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
 		} else {
