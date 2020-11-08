@@ -3,6 +3,7 @@ const Discord = require(`discord.js`);
 module.exports = {
 	name: `members`,
 	description: `Lists the number of members in your server.`,
+	category: `Utility`,
 	guildOnly: true,
 	aliases: [`users`],
 	async execute(client, message, args) {

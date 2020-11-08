@@ -2,7 +2,8 @@ const Discord = require(`discord.js`);
 
 module.exports = {
 	name: `remove`,
-	description: `Removes a song from the queue`,
+    description: `Removes a song from the queue`,
+    category: `Music`,
     guildOnly: true,
     args: true,
     aliases: [`rm`],

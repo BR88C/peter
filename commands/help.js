@@ -2,42 +2,76 @@ const Discord = require(`discord.js`);
 const config = require(`../config.json`);
 
 module.exports = {
-	name: 'help',
-	description: 'Lists all of my commands or info about a specific command.',
-	aliases: ['commands'],
-	usage: '[command name]',
+	name: `help`,
+	description: `Get info on Peter's commands`,
+	aliases: [`commands`],
+	usage: `category [category name] **or** ${config.prefix} [command name]`,
 	async execute(client, message, args) {
 		const data = [];
 		const { commands } = message.client;
 		const shown = commands.filter(command => command.hide !== true);
 
+		const categoriesData = [];
+		commands.forEach(command => {
+			if(command.category) categoriesData.push(command.category);
+		})
+		categoriesData.push(`Misc`);
+		categoriesData.sort();
+		const categories = Array.from(new Set(categoriesData));
+
+		// If no arguments, list categories
 		if(!args.length) {
+			// Create embed content
+			data.push(categories.join('\n'));
+			data.push(`\nDo \`\`${config.prefix}help category [category name]\`\`\nto list all commands in a category\n\nDo \`\`${config.prefix}help [command name]\`\`\nto get more info on a command`);
 
-			// Lists the commands
-			data.push(shown.map(shown => shown.name).join('\n'));
-			data.push(`You can also do \`\`${config.prefix}help [command name]\`\`\nto get more info on a command!`);
-
-			// Create the Embed
+			// Create embed
 			let helpEmbed = new Discord.MessageEmbed()
 				.setColor(0xdbbe00)
-				.setTitle(`**Peter\'s commands:**`)
+				.setTitle(`**Command Categories:**`)
 				.setDescription(data, { split: true })
 				.setFooter(`Hosted by ${config.dev.tag} | Made by ${config.dev.tag}`)
 
-			// Send the message in a DM
-			return message.author.send(helpEmbed)
-				.then(() => {
-					if(message.channel.type === 'dm') return;
-					message.reply(`I've sent you a DM with all my commands!`);
-				})
-				// If Peter is unable to send a DM
-				.catch(error => {
-					console.error(`\x1b[31m`, `Could not send help DM to ${message.author.tag}.`);
-					message.reply(`It seems like I can't DM you! Make sure to check your privacy settings!`);
-				});
+			// Send embed
+			return message.channel.send(helpEmbed)
 		}
 
-		// Finds the command specified
+
+		// If the user specifies a category, list commands in category
+		if(args[0].toLowerCase() === `category`) {
+			const categoryName = args.slice(1).join(` `).toLowerCase();
+
+			// Checks if category exists
+			if(!categories.map(category => category.toLowerCase()).includes(categoryName)) {
+				return message.reply(`please specify a valid category!`);
+			}
+
+			// Get all commands in category
+			const categoryCommands = [];
+			commands.forEach(command => {
+				if(categoryName === `misc`) {
+					if(!command.category && !command.hide) {
+						categoryCommands.push(command.name);
+					}
+				} else if(command.category && !command.hide && command.category.toLowerCase() === categoryName) {
+					categoryCommands.push(command.name);
+				}
+			})
+			data.push(categoryCommands.join(`\n`));
+
+			// Create embed
+			let helpEmbed = new Discord.MessageEmbed()
+				.setColor(0xdbbe00)
+				.setTitle(`**Commands in the ${categoryName} category:**`)
+				.setDescription(data, { split: true })
+				.setFooter(`Hosted by ${config.dev.tag} | Made by ${config.dev.tag}`)
+
+			// Send embed
+			return message.channel.send(helpEmbed)
+		}
+
+
+		// If the user specifies a command, list information on that command
 		const name = args[0].toLowerCase();
 		const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
@@ -58,9 +92,9 @@ module.exports = {
 		// Create the Embed
 		let helpEmbed = new Discord.MessageEmbed()
 			.setColor(0xdbbe00)
-			.setTitle(`**${config.prefix}${command.name} info:**`)
+			.setTitle(`**${config.prefix}${command.name} command information:**`)
 			.setDescription(data, { split: true })
-			.setFooter(`Hosted by ${client.config.get('dev').tag} | Made by ${client.config.get('dev').tag}`)
+			.setFooter(`Hosted by ${config.dev.tag} | Made by ${config.dev.tag}`)
 
 		// Send the Embed
 		message.channel.send(helpEmbed);

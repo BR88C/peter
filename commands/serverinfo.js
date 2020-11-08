@@ -2,7 +2,8 @@ const Discord = require(`discord.js`);
 
 module.exports = {
 	name: `serverinfo`,
-	description: `Get info on your server`,
+    description: `Get info on your server`,
+    category: `Utility`,
 	guildOnly: true,
 	aliases: [`guildinfo`, `server`, `guild`],
 	async execute(client, message, args) {

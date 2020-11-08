@@ -2,7 +2,8 @@ const Discord = require(`discord.js`);
 
 module.exports = {
 	name: `warn`,
-	description: `Warn a specified user`,
+    description: `Warn a specified user`,
+    category: `Moderation`,
 	args: true,
 	guildOnly: true,
 	usage: `[@user] [reason]`,

@@ -3,6 +3,7 @@ const Discord = require(`discord.js`);
 module.exports = {
 	name: `stop`,
 	description: `Stops all music and clears the queue.`,
+	category: `Music`,
 	guildOnly: true,
 	async execute(client, message, args) {
 		const { channel } = message.member.voice;

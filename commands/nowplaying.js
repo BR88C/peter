@@ -3,6 +3,7 @@ const Discord = require(`discord.js`);
 module.exports = {
 	name: `nowplaying`,
 	description: `Replies with the song currently playing.`,
+	category: `Music`,
 	guildOnly: true,
 	aliases: [`np`],
 	async execute(client, message, args) {

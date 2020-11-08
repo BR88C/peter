@@ -4,6 +4,7 @@ const config = require("../config.json");
 module.exports = {
 	name: `volume`,
 	description: `Sets the volume for the music`,
+	category: `Music`,
 	guildOnly: true,
 	aliases: [`v`],
 	usage: `[volume %]`,

@@ -5,6 +5,7 @@ const yts = require(`yt-search`);
 module.exports = {
 	name: `play`,
 	description: `Plays a song in a vc.`,
+	category: `Music`,
 	args: true,
 	guildOnly: true,
 	cooldown: 5,

@@ -3,6 +3,7 @@ const Discord = require(`discord.js`);
 module.exports = {
 	name: `queue`,
 	description: `Lists the queue.`,
+	category: `Music`,
 	guildOnly: true,
 	aliases: [`q`],
 	async execute(client, message, args) {

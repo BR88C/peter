@@ -3,6 +3,7 @@ const Discord = require(`discord.js`);
 module.exports = {
 	name: 'ping',
 	description: 'Shows ping in Milliseconds.',
+	category: `Bot Info`,
 	guildOnly: true,
 	cooldown: 3,
 	async execute(client, message, args) {

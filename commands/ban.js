@@ -2,7 +2,8 @@ const Discord = require(`discord.js`);
 
 module.exports = {
 	name: `ban`,
-	description: `Ban a specified user`,
+    description: `Ban a specified user`,
+    category: `Moderation`,
 	args: true,
 	guildOnly: true,
 	usage: `[@user] [reason]`,

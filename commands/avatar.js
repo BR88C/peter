@@ -2,7 +2,8 @@ const Discord = require(`discord.js`);
 
 module.exports = {
 	name: `avatar`,
-	description: `Displays the profile picture of you or a user`,
+    description: `Displays the profile picture of you or a user`,
+    category: `Utility`,
 	guildOnly: false,
 	cooldown: 5,
     aliases: [`pfp`],

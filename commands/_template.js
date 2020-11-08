@@ -3,6 +3,7 @@ const Discord = require(`discord.js`);
 module.exports = {
 	name: ``,
 	description: ``,
+	category: ``,
 	args: false,
 	guildOnly: false,
 	devOnly: false,

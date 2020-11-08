@@ -3,6 +3,7 @@ const Discord = require(`discord.js`);
 module.exports = {
 	name: `leave`,
 	description: `Leaves the voice channel.`,
+	category: `Music`,
 	guildOnly: true,
 	async execute(client, message, args) {
 		const { channel } = message.member.voice;
