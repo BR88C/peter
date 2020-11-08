@@ -1,9 +1,10 @@
 const Discord = require(`discord.js`);
 
 module.exports = {
-	name: `botinfo`,
-	description: `Displays information about the bot`,
-	aliases: [`bot`, `about`],
+	name: `bot`,
+    description: `Displays information about the bot`,
+    category: `Bot Info`,
+	aliases: [`about`],
 	async execute(client, message, args) {
         let botInfoEmbed = new Discord.MessageEmbed()
             .setColor(0xffd87d)
