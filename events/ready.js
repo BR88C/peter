@@ -3,7 +3,7 @@
 const Discord = require(`discord.js`);
 
 module.exports = (client) => {
-    client.user.setActivity(`A kid's guide to the Internet`, { type: 'WATCHING' });
+    client.user.setPresence({activity: { name: `a kid's guide to the Internet`, type: 'WATCHING' }, status: 'online'});
     console.log(``);
     console.log('\x1b[32m', `Using prefix ${client.config.get('prefix')}`);
     console.log(`\x1b[32m`, `Running version ${client.pjson.get('version')}`);
