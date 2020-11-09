@@ -42,7 +42,9 @@ client.login(token).catch(err => console.error(`Failed to authenticate client wi
 
 /* If the Bot is Stopped with Ctrl+C */
 process.on(`SIGINT`, () => {
-    console.log(`\x1b[31m`, `\nStopped. Bot Offline.`);
-    console.log(`\x1b[37m`);
-    process.exit();
+    client.user.setPresence({activity: {name: `Restarting Bot`, type: 'PLAYING'}, status: 'dnd'}).then(() => {
+        console.log(`\x1b[31m`, `\nStopped. Bot Offline.`);
+        console.log(`\x1b[37m`);
+        process.exit();
+    }).catch(console.error)
 });
