@@ -1,18 +1,12 @@
-/* Node Modules and Config */
+/* Load Modules and Config */
 const Discord = require(`discord.js`);
 const fs = require(`fs`);
 const dotenv = require(`dotenv`).config();
-const GphApiClient = require('giphy-js-sdk-core');
-
 const config = require(`./config.json`);
 const pjson = require(`./package.json`);
-const token = process.env.BOT_TOKEN;
-const giphyToken = process.env.GIPHY_TOKEN;
-const giphy = GphApiClient(giphyToken);
-const client = new Discord.Client();
-const ytdl = require(`ytdl-core`);
-const yts = require(`yt-search`);
 
+const token = process.env.BOT_TOKEN;
+const client = new Discord.Client();
 client.queue = new Map();
 client.config = new Map(Object.entries(config));
 client.pjson = new Map(Object.entries(pjson));
