@@ -6,7 +6,7 @@ module.exports = (client, oldState, newState) => {
 	// Create Leave Embed
 	let leaveEmbed = new Discord.MessageEmbed()
 		.setColor(0xff4a4a)
-		.setTitle(`👋 Left due to no other users being present in the VC.`)
+		.setTitle(`👋 Left due to no other users being present in\nthe VC, or due to being manually disconnected.`)
 
 	// If a user leaves or changes channels
 	if(oldState.channelID != newState.channelID && oldState.channelID != null) {
