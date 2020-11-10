@@ -12,6 +12,29 @@ module.exports = {
 		// If the queue is empty reply with an error
 		if (!serverQueue) return message.channel.send(`There is nothing in the queue.`);
 
+		// If the user specifies a song
+		if(args.length) {
+			// Checks if an integer was provided
+			if(isNaN(parseInt(args[0]))) return message.reply(`please specify an Integer!`);
+			const songNumber = parseInt(args[0]);
+
+			// Checks if the queue has a song tagged with the number specified
+			const queueLength = (serverQueue.songs).length - 1;
+			if(songNumber > queueLength || songNumber < 1 ) return message.reply(`there isnt a song in the queue with that number!`);
+			
+			// Creates and sends the embed
+			let queueEmbed = new Discord.MessageEmbed()
+				.setColor(0x1e90ff)
+				.setAuthor(`Queued song number ${songNumber}:`)
+				.setTitle(`**${serverQueue.songs[songNumber].title}**`)
+				.setURL(serverQueue.songs[songNumber].url)
+				.setDescription(`Song Length: ${serverQueue.songs[songNumber].timestamp}`)
+				.setImage(serverQueue.songs[songNumber].thumbnail)
+				.setFooter(`Requested by: ${serverQueue.songs[songNumber].requestedBy.tag}`)
+
+			return message.channel.send(queueEmbed);
+		}
+
 		// Creates and sends the embed
 		let queueEmbed = new Discord.MessageEmbed()
 			.setAuthor(`Song Queue`)
