@@ -7,7 +7,7 @@ module.exports = {
     guildOnly: true,
     args: true,
     aliases: [`rm`],
-    usage: `[Queue Number of Song]`,
+    usage: `<Queue Number of Song>`,
 	async execute(client, message, args) {
 		const { channel } = message.member.voice;
 

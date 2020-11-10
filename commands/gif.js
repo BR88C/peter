@@ -9,7 +9,7 @@ module.exports = {
     args: true,
 	guildOnly: true,
 	cooldown: 3,
-	usage: `[search query]`,
+	usage: `<search query>`,
 	async execute(client, message, args) {
         // Logs that its starting the gif post process
         console.log(`\x1b[33m`, `\n    [STARTING GIF SEARCH]`);

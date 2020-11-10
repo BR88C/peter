@@ -6,7 +6,7 @@ module.exports = {
     category: `Moderation`,
 	args: true,
 	guildOnly: true,
-	usage: `[@user]`,
+	usage: `<@user>`,
 	async execute(client, message, args) {
         // Check if user can mute
         if(!message.guild.member(message.author).hasPermission('MANAGE_ROLES')) {

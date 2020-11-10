@@ -7,7 +7,7 @@ module.exports = {
 	category: `Music`,
 	guildOnly: true,
 	aliases: [`v`],
-	usage: `[volume %]`,
+	usage: `<volume %>`,
 	async execute(client, message, args) {
 		const { channel } = message.member.voice;
 		

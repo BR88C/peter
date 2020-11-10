@@ -6,7 +6,7 @@ module.exports = {
     category: `Moderation`,
 	args: true,
 	guildOnly: true,
-	usage: `[@user] [reason]`,
+	usage: `<@user> [reason]`,
 	async execute(client, message, args) {
         // Check if user can ban
         if(!message.guild.member(message.author).hasPermission('BAN_MEMBERS')) {

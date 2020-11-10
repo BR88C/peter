@@ -5,7 +5,7 @@ module.exports = {
 	description: `Says a custom message.`,
 	devOnly: true,
 	hide: true,
-	usage: `[message]`,
+	usage: `<message>`,
 	async execute(client, message, args) {
         const customMessage = args.slice(0).join(" ");
         await message.delete().catch(O_o=>{});
