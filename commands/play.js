@@ -14,13 +14,13 @@ module.exports = {
 	async execute(client, message, args) {
 		// Checks if user is in vc
 		const { channel } = message.member.voice;
-		if(!channel) return message.channel.send(`I'm sorry but you need to be in a voice channel to play music!`);
+		if(!channel) return message.reply(`you need to be in a voice channel to play music!`);
 
 		const permissions = channel.permissionsFor(message.client.user);
 
 		// If the bot does not have permissions
-		if(!permissions.has(`CONNECT`)) return message.channel.send(`I cannot connect to your voice channel, make sure I have the proper permissions!`);
-		if(!permissions.has(`SPEAK`)) return message.channel.send(`I cannot speak in this voice channel, make sure I have the proper permissions!`);
+		if(!permissions.has(`CONNECT`)) return message.reply(`I cannot connect to your voice channel, make sure I have the proper permissions!`);
+		if(!permissions.has(`SPEAK`)) return message.reply(`I cannot speak in this voice channel, make sure I have the proper permissions!`);
 
 		// Defines the server queue
 		const serverQueue = message.client.queue.get(message.guild.id);
@@ -131,7 +131,7 @@ module.exports = {
 			console.error(`I could not join the voice channel: ${error}`);
 			message.client.queue.delete(message.guild.id);
 			await channel.leave();
-			return message.channel.send(`I could not join the voice channel: ${error}`);
+			return message.reply(`I could not join the voice channel: ${error}`);
         }  
 	},
 }
