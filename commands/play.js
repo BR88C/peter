@@ -55,7 +55,8 @@ module.exports = {
 			title: songInfo.videoDetails.title.replace(/-|\*|_|\|/g, ` `),
 			url: songInfo.videoDetails.video_url,
 			thumbnail: songInfo.videoDetails.thumbnail.thumbnails[0].url,
-			timestamp: videoTime
+			timestamp: videoTime,
+			requestedBy: message.author
 		}
 		
 		// Adding songs to the queue
@@ -67,6 +68,7 @@ module.exports = {
 				.setAuthor(`✅ "${song.title}" has been added to the queue!`)
 				.setImage(song.thumbnail)
 				.setDescription(song.url)
+				.setFooter(`Requested by: ${song.requestedBy.tag}`)
 			return message.channel.send(queueAddEmbed);
 		}
 
@@ -114,6 +116,7 @@ module.exports = {
 				.setAuthor(`🎶 Started playing: ${song.title}`)
 				.setImage(song.thumbnail)
 				.setDescription(song.url)
+				.setFooter(`Requested by: ${song.requestedBy.tag}`)
 
 			queue.textChannel.send(playingEmbed);
 		};
