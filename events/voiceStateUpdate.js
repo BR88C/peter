@@ -3,6 +3,11 @@
 const Discord = require(`discord.js`);
 
 module.exports = (client, oldState, newState) => {
+	// Create Leave Embed
+	let leaveEmbed = new Discord.MessageEmbed()
+		.setColor(0xff4a4a)
+		.setTitle(`👋 Left due to no other users being present in the VC.`)
+
 	// If a user leaves or changes channels
 	if(oldState.channelID != newState.channelID && oldState.channelID != null) {
 		const channelInfo = oldState.guild.channels.cache.get(oldState.channelID);
@@ -10,6 +15,7 @@ module.exports = (client, oldState, newState) => {
 		if(channelInfo.members.has(client.user.id) && channelInfo.members.size == 1) {
 			const serverQueue = client.queue.get(oldState.guild.id);
 			if(serverQueue) {
+				serverQueue.textChannel.send(leaveEmbed);
 				serverQueue.connection.dispatcher.destroy();
 				client.queue.delete(oldState.guild.id);
 			}
@@ -18,6 +24,7 @@ module.exports = (client, oldState, newState) => {
 		} else if(!channelInfo.members.has(client.user.id)) {
 			const serverQueue = client.queue.get(oldState.guild.id);
 			if(serverQueue) {
+				serverQueue.textChannel.send(leaveEmbed);
 				client.queue.delete(oldState.guild.id);
 			}
 		}
