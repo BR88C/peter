@@ -3,7 +3,7 @@ const Discord = require(`discord.js`);
 module.exports = {
 	name: `cointoss`,
 	description: `Flips a coin, returns heads or tails.`,
-	aliases: [`coin`],
+	aliases: [`coin`, `coinflip`],
 	async execute(client, message, args) {
         const value = Math.round(Math.random());
 
