@@ -31,6 +31,7 @@ module.exports = {
 				.setDescription(`Song Length: ${serverQueue.songs[songNumber].timestamp}`)
 				.setImage(serverQueue.songs[songNumber].thumbnail)
 				.setFooter(`Requested by: ${serverQueue.songs[songNumber].requestedBy.tag}`)
+				.setTimestamp(new Date());
 
 			return message.channel.send(queueEmbed);
 		}

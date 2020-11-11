@@ -44,6 +44,7 @@ module.exports = {
                     .setAuthor(`Here ya go!`)
                     .setImage(imageURL)
                     .setFooter(`Images courtesy of giphy`)
+                    .setTimestamp(new Date());
                 
                 // Logs that the embed is created
                 console.log(`\x1b[33m`,`   Created Embed`);

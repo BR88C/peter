@@ -69,6 +69,8 @@ module.exports = {
 				.setImage(song.thumbnail)
 				.setDescription(song.url)
 				.setFooter(`Requested by: ${song.requestedBy.tag}`)
+				.setTimestamp(new Date());
+				
 			return message.channel.send(queueAddEmbed);
 		}
 
@@ -135,6 +137,7 @@ module.exports = {
 				.setImage(song.thumbnail)
 				.setDescription(song.url)
 				.setFooter(`Requested by: ${song.requestedBy.tag}`)
+				.setTimestamp(new Date());
 
 			queue.textChannel.send(playingEmbed);
 		};
