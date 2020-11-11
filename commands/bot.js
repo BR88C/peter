@@ -6,9 +6,11 @@ module.exports = {
     category: `Bot Info`,
 	aliases: [`about`],
 	async execute(client, message, args) {
-        const hours = Math.floor(client.uptime / 60 / 60);
-		const minutes = Math.floor(client.uptime / 60) - (hours * 60);
-		const seconds = client.uptime % 60;
+        const uptimeSeconds = Math.round(client.uptime / 1000);
+
+        const hours = Math.floor(uptimeSeconds / 60 / 60);
+		const minutes = Math.floor(uptimeSeconds / 60) - (hours * 60);
+		const seconds = uptimeSeconds % 60;
 		var uptime;
 		if(hours > 0) {
 			uptime = hours.toString() + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
