@@ -106,9 +106,27 @@ module.exports = {
 						play(queue.songs[0]);
 					}
 				})
-				.on(`error`, error => console.error(error));
+				// If there is an error leave the vc and report to the user
+				.on(`error`, error => {
+					console.error(error);
+
+					let errorEmbed = new Discord.MessageEmbed()
+					.setColor(0xff4a4a)
+					.setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`)
+	
+					if(serverQueue) queue.textChannel.send(errorEmbed);
+
+					if(message.guild.voice.connection) {
+						if(serverQueue) serverQueue.connection.dispatcher.destroy();
+						message.client.queue.delete(message.guild.id);
+						message.member.voice.channel.leave();
+					} else {
+						if(serverQueue.songs) serverQueue.songs = [];
+						message.client.queue.delete(message.guild.id);
+					}
+				});
 			// Setting volume
-			dispatcher.setVolumeLogarithmic(queue.volume / 250);
+			dispatcher.setVolumeLogarithmic(queue.volume / 150);
 
 			// Now playing embed
 			let playingEmbed = new Discord.MessageEmbed()
