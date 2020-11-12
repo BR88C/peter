@@ -1,6 +1,8 @@
 const Discord = require(`discord.js`);
 const ytdl = require(`ytdl-core`);
 const yts = require(`yt-search`);
+const log = require(`../utils/log.js`);
+const time = require(`../utils/time.js`);
 
 module.exports = {
 	name: `play`,
@@ -38,24 +40,13 @@ module.exports = {
 			}
 			songInfo = await ytdl.getInfo(ytsVideo[0].url);
 		}
-		
-		// Get time
-		const hours = Math.floor(songInfo.videoDetails.lengthSeconds / 60 / 60);
-		const minutes = Math.floor(songInfo.videoDetails.lengthSeconds / 60) - (hours * 60);
-		const seconds = songInfo.videoDetails.lengthSeconds % 60;
-		var videoTime;
-		if(hours > 0) {
-			videoTime = hours.toString() + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
-		} else {
-			videoTime = minutes.toString()+ ':' + seconds.toString().padStart(2, '0');
-		}
 
 		// Defines song info
 		const song = {
 			title: songInfo.videoDetails.title.replace(/-|\*|_|\|/g, ` `),
 			url: songInfo.videoDetails.video_url,
 			thumbnail: songInfo.videoDetails.thumbnail.thumbnails[0].url,
-			timestamp: videoTime,
+			timestamp: time(songInfo.videoDetails.lengthSeconds),
 			requestedBy: message.author
 		}
 		
@@ -99,7 +90,7 @@ module.exports = {
 			const dispatcher = queue.connection.play(ytdl(song.url, { type: `opus` }, {filter: `audioonly`}, { highWaterMark: 1<<25 }), { bitrate: 64 /* 64kbps */ })
 				// When the song ends
 				.on(`finish`, reason => {
-					if (reason === `Stream is not generating quickly enough.`) console.log(`Song ended due to stream is not generating quickly enough.`);
+					if (reason === `Stream is not generating quickly enough.`) log(`Song ended due to stream is not generating quickly enough.`, `red`);
 					// Checks if song needs to be looped
 					if(queue.loop === false) {
 						queue.songs.shift();
