@@ -10,8 +10,9 @@
     <img src="https://img.shields.io/github/v/release/BR88C/peter?include_prereleases">
     <img src="https://img.shields.io/github/license/BR88C/peter">
     <img src="https://img.shields.io/github/forks/BR88C/peter?style=social">
-    <span>-</span>
 </p>
+
+---
 
 ## Contribute
 Make sure you have NodeJS and npm installed before continuing.
