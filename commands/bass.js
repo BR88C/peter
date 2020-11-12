@@ -3,12 +3,12 @@ const ytdl = require(`discord-ytdl-core`);
 const log = require(`../utils/log.js`);
 
 module.exports = {
-	name: `bassboost`,
+	name: `bass`,
 	description: `Bassboost the current song`,
 	category: `Music`,
-	args: false,
+	args: true,
 	guildOnly: true,
-	aliases: [`bass`],
+	aliases: [`bassboost`],
 	usage: `<bass value>`,
 	async execute(client, message, args) {
         const serverQueue = message.client.queue.get(message.guild.id);
