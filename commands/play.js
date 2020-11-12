@@ -1,8 +1,9 @@
 const Discord = require(`discord.js`);
-const ytdl = require(`ytdl-core`);
+const ytdl = require(`discord-ytdl-core`);
 const yts = require(`yt-search`);
 const log = require(`../utils/log.js`);
 const time = require(`../utils/time.js`);
+const songhandler = require(`../utils/songhandler.js`);
 
 module.exports = {
 	name: `play`,
@@ -47,7 +48,9 @@ module.exports = {
 			url: songInfo.videoDetails.video_url,
 			thumbnail: songInfo.videoDetails.thumbnail.thumbnails[0].url,
 			timestamp: time(songInfo.videoDetails.lengthSeconds),
-			requestedBy: message.author
+			requestedBy: message.author,
+			hidden: false,
+			startTime: 0
 		}
 		
 		// Adding songs to the queue
@@ -73,72 +76,21 @@ module.exports = {
 			songs: [],
 			volume: 100,
 			playing: true,
-			loop: false
+			bass: 0,
+			vibrato: 0
 		}
 
 		// Pushing and playing songs
 		message.client.queue.set(message.guild.id, queueConstruct);
 		queueConstruct.songs.push(song);
-		const play = async song => {
-			const queue = message.client.queue.get(message.guild.id);
-
-			if(!song) {
-				message.client.queue.delete(message.guild.id);
-				return;
-			}
-
-			const dispatcher = queue.connection.play(ytdl(song.url, { type: `opus` }, {filter: `audioonly`}, { highWaterMark: 1<<25 }), { bitrate: 64 /* 64kbps */ })
-				// When the song ends
-				.on(`finish`, reason => {
-					if (reason === `Stream is not generating quickly enough.`) log(`Song ended due to stream is not generating quickly enough.`, `red`);
-					// Checks if song needs to be looped
-					if(queue.loop === false) {
-						queue.songs.shift();
-						play(queue.songs[0]);
-					} else if(queue.loop === true) {
-						play(queue.songs[0]);
-					}
-				})
-				// If there is an error leave the vc and report to the user
-				.on(`error`, error => {
-					console.error(error);
-
-					let errorEmbed = new Discord.MessageEmbed()
-					.setColor(0xff4a4a)
-					.setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`)
-	
-					if(serverQueue) queue.textChannel.send(errorEmbed);
-
-					if(message.guild.voice.connection) {
-						if(serverQueue) serverQueue.connection.dispatcher.destroy();
-						message.client.queue.delete(message.guild.id);
-						message.member.voice.channel.leave();
-					} else {
-						if(serverQueue.songs) serverQueue.songs = [];
-						message.client.queue.delete(message.guild.id);
-					}
-				});
-			// Setting volume
-			dispatcher.setVolumeLogarithmic(queue.volume / 150);
-
-			// Now playing embed
-			let playingEmbed = new Discord.MessageEmbed()
-				.setColor(0x5ce6c8)
-				.setAuthor(`🎶 Started playing: ${song.title}`)
-				.setImage(song.thumbnail)
-				.setDescription(song.url)
-				.setFooter(`Requested by: ${song.requestedBy.tag}`)
-				.setTimestamp(new Date());
-
-			queue.textChannel.send(playingEmbed);
-		};
 
 		// Join vc and play music
 		try {
 			const connection = await channel.join();
+			const queue = message.client.queue.get(message.guild.id);
 			queueConstruct.connection = connection;
 			connection.voice.setSelfDeaf(true);
-			play(queueConstruct.songs[0]);
+			songhandler(queueConstruct.songs[0], message);
 		} catch (error) {
 			console.error(`I could not join the voice channel: ${error}`);
 			message.client.queue.delete(message.guild.id);
