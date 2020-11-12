@@ -18,9 +18,9 @@ module.exports = {
 		// Replies with the current speed if no arguments are specified
 		if(!args[0]) return message.channel.send(`The current speed is: **${serverQueue.speed}%**`);
 		
-		// Checks to make sure the speed specified is greater or equal to 0 and less or equal to 100
-		if(isNaN(parseInt(args[0]))) return message.reply(`please specify an Integer!`);
+		// Checks to make sure the speed specified is greater or equal to 50 and less or equal to 500
 		const specifiedSpeed = parseInt(args[0]);
+		if(isNaN(specifiedSpeed)) return message.reply(`please specify an Integer!`);
 		if(specifiedSpeed > 500 || specifiedSpeed < 50) {
 			return message.reply(`speed must be between 50 and 500%!`);
 		}
@@ -29,7 +29,7 @@ module.exports = {
 		serverQueue.speed = args[0]
 
 		// Push the song at current time
-		serverQueue.songs.unshift(serverQueue.songs[0])
+		serverQueue.songs.unshift(serverQueue.songs[0]);
 		serverQueue.songs[1].startTime = serverQueue.connection.dispatcher.streamTime/1000;
 		serverQueue.songs[1].hidden = true;
 		serverQueue.connection.dispatcher.end();
