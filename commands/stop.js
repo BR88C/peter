@@ -18,12 +18,9 @@ module.exports = {
 
 		// If the bot is in a vc, clear the queue as normal
 		if(message.guild.voice.connection) {
-			serverQueue.connection.dispatcher.destroy();
+			if(serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.destroy();
 			if(serverQueue.songs) serverQueue.songs = [];
-			message.client.queue.delete(message.guild.id).catch(error => {
-				console.log(error)
-				message.channel.send(`An unknown error occured.`)
-			});;
+			if(message.client.queue) message.client.queue.delete(message.guild.id);
 
 			let stopEmbed = new Discord.MessageEmbed()
 				.setColor(0xff0000)
@@ -33,10 +30,7 @@ module.exports = {
 		// If the bot is not in a vc, make sure the queue is cleared and report an error
 		} else {
 			if(serverQueue.songs) serverQueue.songs = [];
-			message.client.queue.delete(message.guild.id).catch(error => {
-				console.log(error)
-				message.channel.send(`An unknown error occured.`)
-			});;
+			if(message.client.queue) message.client.queue.delete(message.guild.id);
 			message.reply(`I'm not in a VC, so there is no music to stop!`);
 		}
 	},

@@ -16,10 +16,7 @@ module.exports = {
 		// If the bot is in a vc, clear the queue and leave
 		if(message.guild.voice.connection) {
 			if(serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.destroy();
-			message.client.queue.delete(message.guild.id).catch(error => {
-				console.log(error)
-				message.channel.send(`An unknown error occured.`)
-			});
+			if(message.client.queue) message.client.queue.delete(message.guild.id);
 			message.member.voice.channel.leave();
 
 			let leaveEmbed = new Discord.MessageEmbed()
@@ -31,10 +28,7 @@ module.exports = {
 		// If the bot is not in a vc, make sure the queue is cleared and report an error
 		} else {
 			if(serverQueue.songs) serverQueue.songs = [];
-			message.client.queue.delete(message.guild.id).catch(error => {
-				console.log(error)
-				message.channel.send(`An unknown error occured.`)
-			});
+			if(message.client.queue) message.client.queue.delete(message.guild.id);
 			message.reply(`I can't leave if I'm not in a VC!`);
 		}
 	}
