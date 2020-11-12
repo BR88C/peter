@@ -1,5 +1,4 @@
 const Discord = require(`discord.js`);
-const ytdl = require(`discord-ytdl-core`);
 const log = require(`../utils/log.js`);
 
 module.exports = {
