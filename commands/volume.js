@@ -21,11 +21,11 @@ module.exports = {
 		// Replies with the current volume if no arguments are specified
 		if(!args[0]) return message.channel.send(`The current volume is: **${serverQueue.volume}**`);
 		
-		// Checks to make sure the volume specified is greater or equal to 0 and less or equal to 10,000
+		// Checks to make sure the volume specified is greater or equal to 0 and less or equal to 1,000,000
 		const specifiedVolume = parseInt(args[0]);
-		if(isNaN(parseInt(args[0]))) return message.reply(`please specify an Integer!`);
-		if(specifiedVolume > 1000000 || specifiedVolume <= 0) {
-			return message.reply(`volume must be between 1 and 1,000,000%!`);
+		if(isNaN(specifiedVolume)) return message.reply(`please specify an Integer!`);
+		if(specifiedVolume > 1000000 || specifiedVolume < 0) {
+			return message.reply(`volume must be between 0 and 1,000,000%!`);
 		}
 
 		// Sets the volume
