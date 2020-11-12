@@ -1,5 +1,6 @@
 const Discord = require(`discord.js`);
 const config = require("../config.json");
+const log = require(`../utils/log.js`);
 
 module.exports = {
 	name: `volume`,

@@ -1,4 +1,5 @@
 const Discord = require(`discord.js`);
+const log = require(`../utils/log.js`);
 
 module.exports = {
 	name: `ban`,
@@ -47,7 +48,7 @@ module.exports = {
             .setDescription(`Reason: ${banReason}`)
 
         // Send the embeds and ban the user
-        console.log(`\x1b[31m`, `${user.tag} banned for ${banReason} in ${message.guild.name}`);
+        log(`${user.tag} banned for ${banReason} in ${message.guild.name}`, `red`);
         await user.send(bannedEmbed).catch(error=>{});
         await message.guild.member(user).ban({ reason: banReason });
         message.channel.send(logBannedEmbed);

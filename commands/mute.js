@@ -1,4 +1,5 @@
 const Discord = require(`discord.js`);
+const log = require(`../utils/log.js`);
 
 module.exports = {
 	name: `mute`,
@@ -58,7 +59,7 @@ module.exports = {
             .setDescription(`Reason: ${muteReason}`)
 
         // Send the embeds and mute the user
-        console.log(`\x1b[33m`, `${user.tag} muted for ${muteReason} in ${message.guild.name}`);
+        log(`${user.tag} muted for ${muteReason} in ${message.guild.name}`, `yellow`);
         await user.send(mutedEmbed).catch(error=>{});
         await message.guild.member(user).roles.add(mutedRole);
         message.channel.send(logMutedEmbed);

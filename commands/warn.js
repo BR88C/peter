@@ -1,4 +1,5 @@
 const Discord = require(`discord.js`);
+const log = require(`../utils/log.js`);
 
 module.exports = {
 	name: `warn`,
@@ -37,7 +38,7 @@ module.exports = {
             .setDescription(`Reason: ${warnReason}`)
 
         // Send the embeds and warn the user
-        console.log(`\x1b[33m`, `${user.tag} warned for ${warnReason} in ${message.guild.name}`);
+        log(`${user.tag} warned for ${warnReason} in ${message.guild.name}`, `yellow`);
         await user.send(warnEmbed).catch(error=>{});
         message.channel.send(logWarnEmbed);
 	},
