@@ -38,7 +38,7 @@ module.exports = {
             .setDescription(`Reason: ${warnReason}`)
 
         // Send the embeds and warn the user
-        log(`${user.tag} warned for ${warnReason} in ${message.guild.name}`, `yellow`);
+        log(`${user.tag} warned for ${warnReason}`, `yellow`, message, {server: true});
         await user.send(warnEmbed).catch(error=>{});
         message.channel.send(logWarnEmbed);
 	},
