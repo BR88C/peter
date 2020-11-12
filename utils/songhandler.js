@@ -8,14 +8,14 @@ module.exports = (song, message) => {
         const serverQueue = message.client.queue.get(message.guild.id);
 
         if(!song) {
-            return;
+            return message.client.queue.delete(message.guild.id);
         }
 
         const stream = ytdl(song.url, {
             seek: song.startTime,
             filter: "audioonly",
             opusEncoded: true,
-            encoderArgs: [`-af`, `bass=g=${queue.bass / 3}, vibrato=d=${queue.vibrato / 100}, atempo=${queue.speed / 100}`]
+            encoderArgs: [`-af`, `bass=g=${queue.bass / 3}, vibrato=d=${queue.vibrato / 100}, atempo=${queue.speed / 100}, rubberband=pitch=${queue.pitch / 100}`]
         })
 
         const dispatcher = queue.connection.play(stream, { type: `opus`, bitrate: 64 /* 64kbps */ })

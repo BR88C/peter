@@ -25,12 +25,19 @@ module.exports = {
 		if(!permissions.has(`CONNECT`)) return message.reply(`I cannot connect to your voice channel, make sure I have the proper permissions!`);
 		if(!permissions.has(`SPEAK`)) return message.reply(`I cannot speak in this voice channel, make sure I have the proper permissions!`);
 
+		let errorEmbed = new Discord.MessageEmbed()
+                .setColor(0xff4a4a)
+                .setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`)
+
 		// Defines the server queue
 		const serverQueue = message.client.queue.get(message.guild.id);
 		let songInfo;
 		// Checks if the arguments provided is a url
 		if(await ytdl.validateURL(args.slice(0).join(` `))) { 
-			songInfo = await ytdl.getInfo(args[0]);
+			songInfo = await ytdl.getInfo(args[0]).catch(error => {
+				console.log(error);
+				message.channel.send(errorEmbed);
+			});
 		// If the arguments provided are not a url, search youutbe for a video
 		} else {
 			const ytsResult = await yts(args.slice(0).join(` `));
@@ -39,7 +46,10 @@ module.exports = {
 			if(!ytsVideo[0]) {
 				return message.reply(`I couldn't find anything based on your query!`);
 			}
-			songInfo = await ytdl.getInfo(ytsVideo[0].url);
+			songInfo = await ytdl.getInfo(ytsVideo[0].url).catch(error => {
+				console.log(error);
+				message.channel.send(errorEmbed);
+			});
 		}
 
 		// Defines song info
@@ -77,8 +87,9 @@ module.exports = {
 			volume: 100,
 			playing: true,
 			bass: 0,
-			vibrato: 0,
+			pitch: 100,
 			speed: 100,
+			vibrato: 0
 		}
 
 		// Pushing and playing songs
