@@ -15,7 +15,7 @@ module.exports = {
 		// If the queue is empty reply with an error
 		if (!serverQueue) return message.channel.send(`There is nothing in the queue.`);
 
-		// Replies with the current volume if no arguments are specified
+		// Replies with the current bass value if no arguments are specified
 		if(!args[0]) return message.channel.send(`The current bass level is: **${serverQueue.bass}%**`);
 		
 		// Checks to make sure the bass value specified is greater or equal to 0 and less or equal to 100
