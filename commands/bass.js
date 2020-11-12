@@ -6,7 +6,6 @@ module.exports = {
 	name: `bass`,
 	description: `Bassboost the current song`,
 	category: `Music`,
-	args: true,
 	guildOnly: true,
 	aliases: [`bassboost`],
 	usage: `<bass value>`,
