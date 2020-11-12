@@ -15,7 +15,7 @@ module.exports = {
 		if (!serverQueue) return message.channel.send(`There is nothing in the queue.`);
 
 		// Replies with the current bass value if no arguments are specified
-		if(!args[0]) return message.channel.send(`The current bass level is: **${serverQueue.bass}%**`);
+		if(!args[0]) return message.channel.send(`The current bass level is: **+${serverQueue.bass}%**`);
 		
 		// Checks to make sure the bass value specified is greater or equal to 0 and less or equal to 100
 		const specifiedBass = parseInt(args[0]);
@@ -35,7 +35,7 @@ module.exports = {
 
 		let bassEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
-			.setTitle(`🥁 Set the bass to **${specifiedBass}%**`) 
+			.setTitle(`🥁 Set the bass to **+${specifiedBass}%**`) 
 
 		return message.channel.send(bassEmbed);
 	},
