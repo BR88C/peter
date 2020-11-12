@@ -15,7 +15,7 @@ module.exports = {
 
 		// If the bot is in a vc, clear the queue and leave
 		if(message.guild.voice.connection) {
-			if(serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.destroy();
+			if(serverQueue && serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.destroy();
 			if(message.client.queue) message.client.queue.delete(message.guild.id);
 			message.member.voice.channel.leave();
 
