@@ -2,76 +2,44 @@
 it's a command, look for arguments, check for flags on the commands, then run it */
 
 const Discord = require(`discord.js`);
+const log = require(`../utils/log.js`);
 
 module.exports = (client, message) => {
-	// If the message is in a Server
-	if(message.guild !== null) {
-		if(message.author.bot) {
-			// If the Message is by Peter!
-			if(message.author.id === client.user.id) {
-				// If the message has an embed it logs it as an embed
-				if(message.embeds.length > 0){
-					return console.log(`\x1b[35m`,(`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] `).replace(/[^ -~]+/g, ``),`\x1b[36m`,`{Embed}`);
-				// If the message does not have am embed it logs the message normally
-				} else {
-					return console.log(`\x1b[35m`,(`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] ${message.content}`).replace(/[^ -~]+/g, ``));
-				}
-			// If the message is by any other bot
-			} else {
-				return;
-			}
-		// If the message is by a user
-		} else {
-			// If the message does not contain the prefix
-			if(message.content.toLowerCase().indexOf(client.config.get('prefix').toLowerCase()) !== 0 ) {
-				return;
-			}
-		}
-	// If the message is in a DM
-	} else {
-		if(message.author.bot) {
-			// If the Message is by Peter!
-			if(message.author.id === client.user.id) {
-				// If the message has an embed it logs it as an embed
-				if(message.embeds.length > 0){
-					return console.log(`\x1b[35m`,(`Server: DM | [${message.author.tag}] `).replace(/[^ -~]+/g, ``), `\x1b[36m`,`{Embed}`);
-				// If the message does not have am embed it logs the message normally
-				} else {
-					return console.log(`\x1b[35m`,(`Server: DM | [${message.author.tag}] ${message.content}`).replace(/[^ -~]+/g, ``));
-				}
-			// If the message is by any other bot
-			} else {
-				return;
-			}
-		// If the message is by a user
-		} else {
-			// If the message does not contain the prefix
-			if(message.content.toLowerCase().indexOf(client.config.get('prefix').toLowerCase()) !== 0 ) {
-				return;
-			}
-		}
+	// If the Message is by Peter!
+	if(message.author.bot && message.author.id === client.user.id) {
+		log(message.content, `magenta`, message, {server: true, channel: true, user: true, regex: true});
+		return;
+
+	// If the message is by another bot
+	} else if(message.author.bot) {
+		return;
+	
+	// If the message is by a user and it does not contain the prefix
+	} else if(!message.author.bot && message.content.toLowerCase().indexOf(client.config.get('prefix').toLowerCase()) !== 0 ) {
+		return;
+
 	}
+
+
 
 	// Sets up args, command names, and checks for aliases
 	const args = message.content.slice(client.config.get('prefix').length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
 	const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 	
+
+
+	// If command does not exist it logs it in red
 	if(!command) {
-		// If command does not exist it logs it in red
-		if(message.guild !==null) {
-			return console.log(`\x1b[31m`,(`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] ${message.content}`).replace(/[^ -~]+/g, ""));
-		} else {
-			return console.log(`\x1b[31m`,(`Server: DM | [${message.author.tag}] ${message.content}`).replace(/[^ -~]+/g, ``));
-		}
+		log(message.content, `red`, message, {server: true, channel: true, user: true, regex: true});
+		return;
+	
+	// If the command exists it logs it in green
 	} else {
-		// If the command exists it logs it in green
-		if(message.guild !==null) {
-			console.log(`\x1b[32m`,(`Server: ${message.guild.name} | Channel: #${message.channel.name} | [${message.author.tag}] ${message.content}`).replace(/[^ -~]+/g, ""));
-		} else {
-			console.log(`\x1b[32m`,(`Server: DM | [${message.author.tag}] ${message.content}`).replace(/[^ -~]+/g, ``));
-		}
+		log(message.content, `green`, message, {server: true, channel: true, user: true, regex: true});
 	}
+
+
 
 	// Checks if command is Guild Only
 	if(command.guildOnly && message.channel.type === `dm`) {
@@ -92,6 +60,8 @@ module.exports = (client, message) => {
 		return message.channel.send(reply);
 	}
 
+
+
     // Cooldown
     const cooldowns = new Discord.Collection();
 	if(!cooldowns.has(command.name)) {
@@ -109,6 +79,8 @@ module.exports = (client, message) => {
 	}
 	timestamps.set(message.author.id, now);
 	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+
+
 
 	// Executes the command
 	try {
