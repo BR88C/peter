@@ -1,5 +1,4 @@
 const Discord = require(`discord.js`);
-const config = require("../config.json");
 const log = require(`../utils/log.js`);
 
 module.exports = {
@@ -24,8 +23,9 @@ module.exports = {
 		
 		// Checks to make sure the volume specified is greater or equal to 0 and less or equal to 10,000
 		const specifiedVolume = parseInt(args[0]);
-		if((config.dev.id !== message.author.id) && specifiedVolume > 10000 || specifiedVolume <= 0) {
-			return message.reply(`volume must be between 1 and 10,000%!`);
+		if(isNaN(parseInt(args[0]))) return message.reply(`please specify an Integer!`);
+		if(specifiedVolume > 1000000 || specifiedVolume <= 0) {
+			return message.reply(`volume must be between 1 and 1,000,000%!`);
 		}
 
 		// Sets the volume
