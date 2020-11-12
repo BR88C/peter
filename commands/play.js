@@ -77,7 +77,8 @@ module.exports = {
 			volume: 100,
 			playing: true,
 			bass: 0,
-			vibrato: 0
+			vibrato: 0,
+			speed: 100,
 		}
 
 		// Pushing and playing songs

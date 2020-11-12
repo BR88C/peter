@@ -5,9 +5,9 @@ const log = require(`../utils/log.js`);
 module.exports = (song, message) => {
     const play = async (song) => {
         const queue = message.client.queue.get(message.guild.id);
+        const serverQueue = message.client.queue.get(message.guild.id);
 
         if(!song) {
-            message.client.queue.delete(message.guild.id);
             return;
         }
 
@@ -15,7 +15,7 @@ module.exports = (song, message) => {
             seek: song.startTime,
             filter: "audioonly",
             opusEncoded: true,
-            encoderArgs: [`-af`, `bass=g=${queue.bass / 3}`]
+            encoderArgs: [`-af`, `bass=g=${queue.bass / 3}, vibrato=d=${queue.vibrato / 100}, atempo=${queue.speed / 100}`]
         })
 
         const dispatcher = queue.connection.play(stream, { type: `opus`, bitrate: 64 /* 64kbps */ })
