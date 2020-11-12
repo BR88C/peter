@@ -15,10 +15,7 @@ module.exports = {
 
 		// If the bot is in a vc, clear the queue and leave
 		if(message.guild.voice.connection) {
-			if(serverQueue) serverQueue.connection.dispatcher.destroy().catch(error => {
-				console.log(error)
-				message.channel.send(`An unknown error occured.`)
-			});
+			if(serverQueue) serverQueue.connection.dispatcher.destroy();
 			message.client.queue.delete(message.guild.id).catch(error => {
 				console.log(error)
 				message.channel.send(`An unknown error occured.`)

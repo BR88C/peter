@@ -16,7 +16,7 @@ module.exports = (client, oldState, newState) => {
 			const serverQueue = client.queue.get(oldState.guild.id);
 			if(serverQueue) {
 				serverQueue.textChannel.send(leaveEmbed);
-				serverQueue.connection.dispatcher.destroy().catch(error => console.log(error));
+				serverQueue.connection.dispatcher.destroy();
 				client.queue.delete(oldState.guild.id).catch(error => console.log(error));
 			}
 			channelInfo.leave();

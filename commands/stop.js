@@ -18,10 +18,7 @@ module.exports = {
 
 		// If the bot is in a vc, clear the queue as normal
 		if(message.guild.voice.connection) {
-			serverQueue.connection.dispatcher.destroy().catch(error => {
-				console.log(error)
-				message.channel.send(`An unknown error occured.`)
-			});
+			serverQueue.connection.dispatcher.destroy();
 			if(serverQueue.songs) serverQueue.songs = [];
 			message.client.queue.delete(message.guild.id).catch(error => {
 				console.log(error)
