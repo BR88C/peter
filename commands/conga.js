@@ -6,7 +6,7 @@ module.exports = {
 	guildOnly: true,
 	hide: true,
 	async execute(client, message, args) {
-        await message.channel.send(`It's conga time!`, { files: ["./images/conga.gif"] });
+        await message.channel.send(`It's conga time!`, { files: ["./assets/images/conga.gif"] });
         
         const playCommand = client.commands.get(`play`);
         args = [`https://www.youtube.com/watch?v=5SXX-pWzOY8`];
