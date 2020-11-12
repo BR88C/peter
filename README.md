@@ -3,7 +3,8 @@
     <br><br>
 </h1>
 
-<h2 align="center">Peter!<br>A work in progress Discord bot that can play music, do moderation, and more</h2>
+<h2 align="center">Peter!</h2>
+<h4 align="center">A work in progress Discord bot that can play music, do moderation, and more</h4>
 
 <p align="center">
     <img src="https://img.shields.io/github/v/release/BR88C/peter?include_prereleases">
