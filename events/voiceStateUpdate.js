@@ -16,8 +16,8 @@ module.exports = (client, oldState, newState) => {
 			const serverQueue = client.queue.get(oldState.guild.id);
 			if(serverQueue) {
 				serverQueue.textChannel.send(leaveEmbed);
-				serverQueue.connection.dispatcher.destroy();
-				client.queue.delete(oldState.guild.id);
+				serverQueue.connection.dispatcher.destroy().catch(error => console.log(error));
+				client.queue.delete(oldState.guild.id).catch(error => console.log(error));
 			}
 			channelInfo.leave();
 		// If the bot is manually disconnected clear the queue
@@ -25,7 +25,7 @@ module.exports = (client, oldState, newState) => {
 			const serverQueue = client.queue.get(oldState.guild.id);
 			if(serverQueue) {
 				serverQueue.textChannel.send(leaveEmbed);
-				client.queue.delete(oldState.guild.id);
+				client.queue.delete(oldState.guild.id).catch(error => console.log(error));
 			}
 		}
 	}
