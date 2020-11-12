@@ -3,6 +3,7 @@ const GphApiClient = require('giphy-js-sdk-core');
 const giphyToken = process.env.GIPHY_TOKEN;
 const giphy = GphApiClient(giphyToken);
 const log = require(`../utils/log.js`);
+const randomhex = require(`../utils/randomhex.js`);
 
 module.exports = {
 	name: `gif`,
@@ -12,13 +13,6 @@ module.exports = {
 	cooldown: 3,
 	usage: `<search query>`,
 	async execute(client, message, args) {
-        // Sets up the random integer function
-        function getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
         // Gets the search query based off of arguments
         giphysearch = args.slice(0).join(` `);
         
@@ -34,7 +28,7 @@ module.exports = {
 
                 // Creates Embed with Gif, "Here ya go!" heading and a random color
                 let gifEmbed = new Discord.MessageEmbed()
-                    .setColor(getRandomInt(1,16777215))
+                    .setColor(randomhex())
                     .setAuthor(`Here ya go!`)
                     .setImage(imageURL)
                     .setFooter(`Images courtesy of giphy`)
