@@ -1,6 +1,6 @@
 module.exports = (content, color, discordMessage, options) => {
-    var logColor;
-    var logContent = content;
+    let logColor;
+    let logContent = content;
     
     switch(color) {
         case `black`:

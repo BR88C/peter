@@ -15,7 +15,7 @@ module.exports = {
         }
 
         // Set up reason and user
-        var warnReason;
+        let warnReason;
         if(args.slice(1).join(' ')) {
             warnReason = args.slice(1).join(' ');
         } else {
