@@ -16,8 +16,8 @@ module.exports = {
 		// If the user specifies a song
 		if(args.length) {
 			// Checks if an integer was provided
-			if(isNaN(parseInt(args[0]))) return message.reply(`please specify an Integer!`);
 			const songNumber = parseInt(args[0]);
+			if(isNaN(songNumber)) return message.reply(`please specify an Integer!`);
 
 			// Checks if the queue has a song tagged with the number specified
 			const queueLength = (serverQueue.songs).length - 1;
