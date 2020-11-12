@@ -1,5 +1,3 @@
-const message = require("../events/message");
-
 module.exports = (content, color, discordMessage, options) => {
     var logColor;
     var logContent = content;
@@ -12,27 +10,27 @@ module.exports = (content, color, discordMessage, options) => {
             logColor = `\x1b[31m`;
             break;
         case `green`:
-            logColor = `\x1b[32m`
+            logColor = `\x1b[32m`;
             break;
         case `yellow`:
-            logColor = `\x1b[33m`
+            logColor = `\x1b[33m`;
             break;
         case `blue`:
-            logColor = `\x1b[34m`
+            logColor = `\x1b[34m`;
             break;
         case `magenta`:
-            logColor = `\x1b[35m`
+            logColor = `\x1b[35m`;
             break;
         case `cyan`:
-            logColor = `\x1b[36m`
+            logColor = `\x1b[36m`;
             break;
         case `white`:
-            logColor = `\x1b[37m`
+            logColor = `\x1b[37m`;
             break;
     }
 
     if(!logColor) {
-        throw `Did not specify a valid color`
+        throw `Did not specify a valid color`;
     }
 
     if(discordMessage) {
