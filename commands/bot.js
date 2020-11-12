@@ -1,5 +1,6 @@
 const Discord = require(`discord.js`);
 const log = require(`../utils/log.js`);
+const time = require(`../utils/time.js`);
 
 module.exports = {
 	name: `bot`,
@@ -7,18 +8,7 @@ module.exports = {
     category: `Bot Info`,
 	aliases: [`about`],
 	async execute(client, message, args) {
-        const uptimeSeconds = Math.round(client.uptime / 1000);
-
-        const hours = Math.floor(uptimeSeconds / 60 / 60);
-		const minutes = Math.floor(uptimeSeconds / 60) - (hours * 60);
-		const seconds = uptimeSeconds % 60;
-		var uptime;
-		if(hours > 0) {
-			uptime = hours.toString() + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
-		} else {
-			uptime = minutes.toString()+ ':' + seconds.toString().padStart(2, '0');
-		}
-
+        const uptime = time(Math.round(client.uptime / 1000));
 
         let botInfoEmbed = new Discord.MessageEmbed()
             .setColor(0xffd87d)
