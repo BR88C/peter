@@ -15,6 +15,7 @@ module.exports = (song, message) => {
             seek: song.startTime,
             filter: "audioonly",
             opusEncoded: true,
+            //highWaterMark: 1<<25,
             encoderArgs: [`-af`, `bass=g=${queue.bass / 3}, vibrato=d=${queue.vibrato / 100}, atempo=${queue.speed / 100}, rubberband=pitch=${queue.pitch / 100}`]
         })
 
@@ -30,18 +31,18 @@ module.exports = (song, message) => {
                 console.error(error);
 
                 let errorEmbed = new Discord.MessageEmbed()
-                .setColor(0xff4a4a)
-                .setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`)
+                    .setColor(0xff4a4a)
+                    .setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`)
 
                 if(serverQueue) queue.textChannel.send(errorEmbed);
 
                 if(message.guild.voice.connection) {
-                    if(serverQueue) serverQueue.connection.dispatcher.destroy();
-                    message.client.queue.delete(message.guild.id);
+                    if(serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.destroy();
+                    if(message.client.queue) message.client.queue.delete(message.guild.id);
                     message.member.voice.channel.leave();
                 } else {
                     if(serverQueue.songs) serverQueue.songs = [];
-                    message.client.queue.delete(message.guild.id);
+                    if(message.client.queue) message.client.queue.delete(message.guild.id);
                 }
             });
         // Setting volume
