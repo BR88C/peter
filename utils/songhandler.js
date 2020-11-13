@@ -15,7 +15,7 @@ module.exports = (song, message) => {
             seek: song.startTime,
             filter: "audioonly",
             opusEncoded: true,
-            //highWaterMark: 1<<25,
+            highWaterMark: 1<<25,
             encoderArgs: [`-af`, `bass=g=${queue.bass / 3}, vibrato=d=${queue.vibrato / 100}, atempo=${queue.speed / 100}, rubberband=pitch=${queue.pitch / 100}`]
         })
 
