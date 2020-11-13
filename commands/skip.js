@@ -21,7 +21,7 @@ module.exports = {
 
 		let skipEmbed = new Discord.MessageEmbed()
 			.setColor(0x9cd6ff)
-			.setTitle(`⏩ The current song has been skipped.`)
+			.setTitle(`⏭️ The current song has been skipped.`)
 
 		message.channel.send(skipEmbed);
 		},
