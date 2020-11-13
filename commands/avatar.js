@@ -11,7 +11,8 @@ module.exports = {
     aliases: [`pfp`],
     usage: `[@user]`,
 	async execute(client, message, args) {
-        const user = message.mentions.users.first() || message.author;
+        let user = message.mentions.users.first() || client.users.get(args[0]);
+        if(!user) user = message.author;
 
         let avatarEmbed = new Discord.MessageEmbed()
             .setColor(randomhex(user.id))
