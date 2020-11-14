@@ -41,14 +41,14 @@ module.exports = {
 		// If the arguments provided are not a url, search youutbe for a video
 		} else {
 			const ytsResult = await yts(args.slice(0).join(` `));
-			const ytsVideo = await ytsResult.videos.slice( 0, 1 );
+			const ytsVideo = await ytsResult.videos.slice(0, 1);
 			// Checks to see if video was found
 			if(!ytsVideo[0]) {
 				return message.reply(`I couldn't find anything based on your query!`);
 			}
 			songInfo = await ytdl.getInfo(ytsVideo[0].url).catch(error => {
 				console.log(error);
-				message.channel.send(errorEmbed);
+				return message.channel.send(errorEmbed);
 			});
 		}
 
