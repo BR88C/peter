@@ -14,10 +14,18 @@ module.exports = {
 	usage: `<search query>`,
 	async execute(client, message, args) {
         // Gets the search query based off of arguments
-        giphysearch = args.slice(0).join(` `);
+        let giphysearch = args.slice(0).join(` `);
         
+        // Determines rating filter based on channel's nsfw setting
+        let rating;
+        if(!message.channel.nsfw) {
+            rating = `pg`
+        } else {
+            rating = `r`
+        }
+
         // Searchs giphy for [search query]
-        giphy.search('gifs', {"q": `${giphysearch}`})
+        giphy.search('gifs', {'q': giphysearch, 'rating': rating})
             .then((response) => {
                     
                 // Gets One Random Image from search results
