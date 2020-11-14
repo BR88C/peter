@@ -22,7 +22,6 @@
     "ffmpeg": "0.0.4",
     "fluent-ffmpeg": "^2.1.2",
     "giphy-js-sdk-core": "^1.0.6",
-    "yt-search": "^2.5.0",
-    "ytdl-core": "^4.0.4"
+    "yt-search": "^2.5.0"
   }
 }
