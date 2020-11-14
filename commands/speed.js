@@ -20,12 +20,10 @@ module.exports = {
 		// Checks to make sure the speed specified is greater or equal to 50 and less or equal to 500
 		const specifiedSpeed = parseInt(args[0]);
 		if(isNaN(specifiedSpeed)) return message.reply(`please specify an Integer!`);
-		if(specifiedSpeed > 500 || specifiedSpeed < 50) {
-			return message.reply(`speed must be between 50 and 500%!`);
-		}
+		if(specifiedSpeed > 500 || specifiedSpeed < 50) return message.reply(`speed must be between 50 and 500%!`);
 
 		// Set speed
-		serverQueue.speed = args[0]
+		serverQueue.speed = args[0];
 
 		// Push the song at current time
 		serverQueue.songs.unshift(serverQueue.songs[0]);
@@ -35,7 +33,7 @@ module.exports = {
 
 		let speedEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
-			.setTitle(`🏃 Set the speed to **${specifiedSpeed}%**`) 
+			.setTitle(`🏃 Set the speed to **${specifiedSpeed}%**`);
 
 		return message.channel.send(speedEmbed);
 	},

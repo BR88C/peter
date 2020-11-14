@@ -20,7 +20,7 @@ module.exports = {
 		if(isNaN(specifiedTime)) return message.reply(`please specify an Integer!`);
 
         // If time specified is longer than the video, seek to the last 2 seconds of the video
-        if(specifiedTime >= serverQueue.songs[0].rawTime) specifiedTime = serverQueue.songs[0].rawTime - 2
+        if(specifiedTime >= serverQueue.songs[0].rawTime) specifiedTime = serverQueue.songs[0].rawTime - 2;
 
 		// Push the song at current time
 		serverQueue.songs.unshift(serverQueue.songs[0]);
@@ -30,7 +30,7 @@ module.exports = {
 
 		let seekEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
-			.setTitle(`⏩ Seeked to **${time(specifiedTime)}**`) 
+			.setTitle(`⏩ Seeked to **${time(specifiedTime)}**`);
 
 		return message.channel.send(seekEmbed);
 	},

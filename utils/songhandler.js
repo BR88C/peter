@@ -9,9 +9,7 @@ module.exports = (song, message) => {
         const queue = message.client.queue.get(message.guild.id);
         const serverQueue = message.client.queue.get(message.guild.id);
 
-        if(!song) {
-            return message.client.queue.delete(message.guild.id);
-        }
+        if(!song) return message.client.queue.delete(message.guild.id);
 
         const stream = ytdl(song.url, {
             seek: song.startTime,
@@ -24,7 +22,6 @@ module.exports = (song, message) => {
         const dispatcher = queue.connection.play(stream, { type: `opus`, bitrate: 64 /* 64kbps */ })
             // When the song ends
             .on(`finish`, reason => {
-                if (reason === `Stream is not generating quickly enough.`) log(`Song ended due to stream is not generating quickly enough.`, `red`);
                 queue.songs.shift();
                 play(queue.songs[0]);
             })
@@ -34,7 +31,7 @@ module.exports = (song, message) => {
 
                 let errorEmbed = new Discord.MessageEmbed()
                     .setColor(0xff4a4a)
-                    .setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`)
+                    .setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`);
 
                 if(serverQueue) queue.textChannel.send(errorEmbed);
 
@@ -58,9 +55,8 @@ module.exports = (song, message) => {
             .setFooter(`Requested by: ${song.requestedBy.tag}`)
             .setTimestamp(new Date());
 
-        if(!queue.songs[0].hidden) {
-            queue.textChannel.send(playingEmbed);
-        }
-    };
+        if(!queue.songs[0].hidden) queue.textChannel.send(playingEmbed);
+    }
+
     play(song);
 }

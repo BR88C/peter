@@ -9,7 +9,7 @@ module.exports = {
 	usage: `<message>`,
 	async execute(client, message, args) {
         const customMessage = args.slice(0).join(" ");
-        await message.delete().catch(O_o=>{});
+        await message.delete().catch(error => {});
         message.channel.send(customMessage);
 	},
 }

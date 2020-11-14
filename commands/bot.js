@@ -24,7 +24,7 @@ module.exports = {
                 { name: `**Support Server**`, value: client.config.get('supportServer'), inline: true },
                 { name: `**Repository**`, value: client.pjson.get('repository').url.replace(`git+`, ``), inline: true },
                 { name: `**Version**`, value: client.pjson.get('version'), inline: true }
-            )
+            );
 
         message.channel.send(botInfoEmbed);
 	},

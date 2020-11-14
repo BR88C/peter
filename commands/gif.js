@@ -19,14 +19,14 @@ module.exports = {
         // Determines rating filter based on channel's nsfw setting
         let rating;
         if(!message.channel.nsfw) {
-            rating = `pg`
+            rating = `pg`;
         } else {
-            rating = `r`
+            rating = `r`;
         }
 
         // Searchs giphy for [search query]
         giphy.search('gifs', {'q': giphysearch, 'rating': rating})
-            .then((response) => {
+            .then(response => {
                     
                 // Gets One Random Image from search results
                 const totalResponses = response.data.length;
@@ -45,8 +45,8 @@ module.exports = {
                 message.channel.send(gifEmbed);
 
                 // If there is an error with the code, Giphy, or if it couldnt find the image based on the query it sends an error message
-                }).catch(() => {
-                    message.reply(`Looks like I couldn't get a gif based on your search query... sorry :tired_face:`);
-                })
+            }).catch(error => {
+                message.reply(`Looks like I couldn't get a gif based on your search query... sorry :tired_face:`);
+            })
 	},
 }

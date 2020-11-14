@@ -24,7 +24,7 @@ module.exports = {
 
 			let stopEmbed = new Discord.MessageEmbed()
 				.setColor(0xff0000)
-				.setTitle(`🛑 Queue cleared and Music stopped.`)
+				.setTitle(`🛑 Queue cleared and Music stopped.`);
 
 			message.channel.send(stopEmbed);
 		// If the bot is not in a vc, make sure the queue is cleared and report an error

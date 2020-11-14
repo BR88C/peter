@@ -7,8 +7,7 @@ const log = require(`../utils/log.js`);
 module.exports = (client, message) => {
 	// If the Message is by Peter!
 	if(message.author.bot && message.author.id === client.user.id) {
-		log(message.content, `magenta`, message, {server: true, channel: true, user: true, regex: true});
-		return;
+		return log(message.content, `magenta`, message, {server: true, channel: true, user: true, regex: true});
 
 	// If the message is by another bot
 	} else if(message.author.bot) {
@@ -31,8 +30,7 @@ module.exports = (client, message) => {
 
 	// If command does not exist it logs it in red
 	if(!command) {
-		log(message.content, `red`, message, {server: true, channel: true, user: true, regex: true});
-		return;
+		return log(message.content, `red`, message, {server: true, channel: true, user: true, regex: true});
 	
 	// If the command exists it logs it in green
 	} else {
@@ -64,9 +62,7 @@ module.exports = (client, message) => {
 
     // Cooldown
     const cooldowns = new Discord.Collection();
-	if(!cooldowns.has(command.name)) {
-		cooldowns.set(command.name, new Discord.Collection());
-	}
+	if(!cooldowns.has(command.name)) cooldowns.set(command.name, new Discord.Collection());
 	const now = Date.now();
 	const timestamps = cooldowns.get(command.name);
 	const cooldownAmount = (command.cooldown || 0) * 1000;

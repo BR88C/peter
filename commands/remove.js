@@ -27,11 +27,11 @@ module.exports = {
         if(args[0] > queueLength || args[0] < 1 ) return message.reply(`there isnt a song in the queue with that number!`);
 
         // Removes the specified song from the queue
-        const song = serverQueue.songs.splice(args[0], 1)
+        const song = serverQueue.songs.splice(args[0], 1);
 
         let removeEmbed = new Discord.MessageEmbed()
             .setColor(0xff668a)
-            .setTitle(`❌ Removed **${song[0].title}** from the queue!`)
+            .setTitle(`❌ Removed **${song[0].title}** from the queue!`);
 
         message.channel.send(removeEmbed);
 

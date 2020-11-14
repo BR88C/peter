@@ -15,7 +15,7 @@ module.exports = {
 			
 			let pauseEmbed = new Discord.MessageEmbed()
 				.setColor(0xfff066)
-				.setTitle(`⏸ Current song was paused!`)
+				.setTitle(`⏸ Current song was paused!`);
 
 			return message.channel.send(pauseEmbed);
 		}

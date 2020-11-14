@@ -22,7 +22,7 @@ module.exports = {
 		// Create embed
 		let clearEmbed = new Discord.MessageEmbed()
 		 	.setColor(0xff642b)
-			.setTitle(`Cleared the Queue!`)
+			.setTitle(`Cleared the Queue!`);
 
 		// Send embed
         message.channel.send(clearEmbed);

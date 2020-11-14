@@ -11,7 +11,7 @@ module.exports = {
 		let memberEmbed = new Discord.MessageEmbed()
 			.setColor(0xacecb6)
 			.setTitle(`**Total Guild Members:**`)
-			.setDescription(await message.guild.memberCount)
+			.setDescription(await message.guild.memberCount);
 
 		message.channel.send(memberEmbed);
 	},

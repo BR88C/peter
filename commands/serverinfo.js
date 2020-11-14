@@ -37,7 +37,7 @@ module.exports = {
         if(client.guilds.cache.get(message.guild.id).owner) {
             serverOwner = client.guilds.cache.get(message.guild.id).owner.user.username;
         } else {
-            serverOwner = `Owner Offline`
+            serverOwner = `Owner Offline`;
         }
 
 
@@ -53,7 +53,7 @@ module.exports = {
                 { name: `**Channels**`, value: `Categories: ${message.guild.channels.cache.filter(channel => channel.type == 'category').size}\nText Channels: ${message.guild.channels.cache.filter(channel => channel.type == 'text').size}\nVoice Channels: ${message.guild.channels.cache.filter(channel => channel.type == 'voice').size}`, inline: true },
                 { name: `**Server Features**`, value: `${newsChannel}\n${inviteSplash}\n${serverBanner}`, inline: true },
                 { name: `**General Info**`, value: `Region: ${message.guild.region}\nVerification Level: ${message.guild.verificationLevel}\nCustom Emojis: ${message.guild.emojis.cache.size}`, inline: true }
-            )
+            );
 
         // Send Embed
         message.channel.send(serverInfoEmbed);

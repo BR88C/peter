@@ -27,27 +27,33 @@ module.exports = {
 
 		let errorEmbed = new Discord.MessageEmbed()
                 .setColor(0xff4a4a)
-                .setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`)
+                .setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`);
 
 		// Defines the server queue
 		const serverQueue = message.client.queue.get(message.guild.id);
+
+		// Define songInfo
 		let songInfo;
+
 		// Checks if the arguments provided is a url
 		if(await ytdl.validateURL(args.slice(0).join(` `))) { 
+			// Set songIngo
 			songInfo = await ytdl.getInfo(args[0]).catch(error => {
-				console.log(error);
-				message.channel.send(errorEmbed);
+				console.error(error);
+				return message.channel.send(errorEmbed);
 			});
-		// If the arguments provided are not a url, search youutbe for a video
+		
+		// If the arguments provided are not a url, search youtube for a video
 		} else {
 			const ytsResult = await yts(args.slice(0).join(` `));
 			const ytsVideo = await ytsResult.videos.slice(0, 1);
+
 			// Checks to see if video was found
-			if(!ytsVideo[0]) {
-				return message.reply(`I couldn't find anything based on your query!`);
-			}
+			if(!ytsVideo[0]) return message.reply(`I couldn't find anything based on your query!`);
+
+			// Set songInfo
 			songInfo = await ytdl.getInfo(ytsVideo[0].url).catch(error => {
-				console.log(error);
+				console.error(error);
 				return message.channel.send(errorEmbed);
 			});
 		}

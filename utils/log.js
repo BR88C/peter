@@ -41,21 +41,13 @@ module.exports = (content, color, discordMessage, options) => {
     // If discordMessage is defined
     if(discordMessage) {
         // If the message contains an embed, log it as an embed
-        if(discordMessage.embeds.length > 0) {
-            logContent = `{Embed}`;
-        }
+        if(discordMessage.embeds.length > 0) logContent = `{Embed}`;
 
         // If the user option is defined, append their tag to the start of logContent
-        if(options.user) {
-            logContent = `[${discordMessage.author.tag}] ` + logContent;
-        }
+        if(options.user) logContent = `[${discordMessage.author.tag}] ` + logContent;
 
         // If the channel option is defined, append the channel name to the start of logContent
-        if(options.channel) {
-            if(discordMessage.channel.name) {
-                logContent = `Channel: ${discordMessage.channel.name} | ` + logContent;
-            }
-        }
+        if(options.channel && discordMessage.channel.name) logContent = `Channel: ${discordMessage.channel.name} | ` + logContent;
 
         // If the server option is defined, append the server name to the start of logContent
         if(options.server) {
@@ -69,9 +61,7 @@ module.exports = (content, color, discordMessage, options) => {
         }
 
         // If the regex option is defined, apply the regex to logContent
-        if(options.regex) {
-            logContent = logContent.replace(/[^ -~]+/g, ``);
-        }
+        if(options.regex) logContent = logContent.replace(/[^ -~]+/g, ``);
     }
     
     // Log logContent with the color specified to console

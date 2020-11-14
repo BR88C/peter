@@ -38,8 +38,8 @@ commandFiles.forEach(file => {
 
 
 /* Authenticate the bot with client */
-client.login(token).catch(err => {
-    console.log(`\x1b[31m`, `\nFailed to authenticate client with application.`)
+client.login(token).catch(error => {
+    console.error(`\x1b[31m`, `\nFailed to authenticate client with application.`)
     console.log(`\x1b[37m`);
     process.exit();
 });

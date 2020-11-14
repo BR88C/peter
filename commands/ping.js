@@ -7,7 +7,6 @@ module.exports = {
 	category: `Bot Info`,
 	cooldown: 3,
 	async execute(client, message, args) {
-
 		// Get ping
 		ping = Math.round(100*client.ws.ping)/100;
 
@@ -15,7 +14,7 @@ module.exports = {
 		let pingEmbed = new Discord.MessageEmbed()
 			.setColor(0x2100db)
 			.setAuthor(`Pong!`)
-			.setDescription(`\`\`` + ping + `ms\`\``)
+			.setDescription(`\`\`` + ping + `ms\`\``);
 			
 		message.channel.send(pingEmbed);
 	},

@@ -31,10 +31,10 @@ module.exports = {
 				.setColor(0xdbbe00)
 				.setTitle(`**Command Categories:**`)
 				.setDescription(data, { split: true })
-				.setFooter(`Hosted by ${config.dev.tag} | Made by ${config.dev.tag}`)
+				.setFooter(`Hosted by ${config.dev.tag} | Made by ${config.dev.tag}`);
 
 			// Send embed
-			return message.channel.send(helpEmbed)
+			return message.channel.send(helpEmbed);
 		}
 
 
@@ -65,10 +65,10 @@ module.exports = {
 				.setColor(0xdbbe00)
 				.setTitle(`**Commands in the ${categoryName} category:**`)
 				.setDescription(data, { split: true })
-				.setFooter(`Hosted by ${config.dev.tag} | Made by ${config.dev.tag}`)
+				.setFooter(`Hosted by ${config.dev.tag} | Made by ${config.dev.tag}`);
 
 			// Send embed
-			return message.channel.send(helpEmbed)
+			return message.channel.send(helpEmbed);
 		}
 
 
@@ -77,18 +77,16 @@ module.exports = {
 		const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
 		// If the command does not exist
-		if(!command) {
-			return message.reply(`that's not a valid command!`);
-		}
+		if(!command) return message.reply(`that's not a valid command!`);
 
 		// Gets info on the command
 		data.push(`**Name:** ${command.name}`);
 		if(command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
 		if(command.description) data.push(`**Description:** ${command.description}`);
 		if(command.category) {
-			data.push(`**Category:** ${command.category}`)
+			data.push(`**Category:** ${command.category}`);
 		} else {
-			data.push(`**Category:** Misc`)
+			data.push(`**Category:** Misc`);
 		}
 		if(command.args) data.push(`**Arguments Required:** ${command.args}`);
 		if(command.usage) data.push(`**Usage:** ${config.prefix}${command.name} ${command.usage}`);
@@ -100,7 +98,7 @@ module.exports = {
 			.setColor(0xdbbe00)
 			.setTitle(`**${config.prefix}${command.name} command information:**`)
 			.setDescription(data, { split: true })
-			.setFooter(`Hosted by ${config.dev.tag} | Made by ${config.dev.tag}`)
+			.setFooter(`Hosted by ${config.dev.tag} | Made by ${config.dev.tag}`);
 
 		// Send the Embed
 		message.channel.send(helpEmbed);

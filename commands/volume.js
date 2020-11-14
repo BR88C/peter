@@ -24,9 +24,7 @@ module.exports = {
 		// Checks to make sure the volume specified is greater or equal to 0 and less or equal to 1,000,000
 		const specifiedVolume = parseInt(args[0]);
 		if(isNaN(specifiedVolume)) return message.reply(`please specify an Integer!`);
-		if(specifiedVolume > 1000000 || specifiedVolume < 0) {
-			return message.reply(`volume must be between 0 and 1,000,000%!`);
-		}
+		if(specifiedVolume > 1000000 || specifiedVolume < 0) return message.reply(`volume must be between 0 and 1,000,000%!`);
 
 		// Sets the volume
 		serverQueue.volume = args[0];
@@ -34,7 +32,7 @@ module.exports = {
 
 		let volumeEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
-			.setTitle(`🔊 Set the volume to **${specifiedVolume}%**`) 
+			.setTitle(`🔊 Set the volume to **${specifiedVolume}%**`);
 
 		return message.channel.send(volumeEmbed);
 	},
