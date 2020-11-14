@@ -1,3 +1,5 @@
+/* Generates a random integer between min and max */
+
 module.exports = (min, max) => {
     min = Math.ceil(min);
     max = Math.floor(max);

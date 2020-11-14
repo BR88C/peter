@@ -1,3 +1,5 @@
+/* Peter by BR88C */
+
 /* Load Modules and Config */
 const Discord = require(`discord.js`);
 const fs = require(`fs`);

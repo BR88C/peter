@@ -1,4 +1,4 @@
-/* Once Ready */
+/* Once Ready, set status and show ready info */
 
 const Discord = require(`discord.js`);
 const log = require(`../utils/log.js`);

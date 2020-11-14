@@ -1,3 +1,5 @@
+/* Generates a timestamp based on the time specified in seconds */
+
 module.exports = (time) => {
     const hours = Math.floor(time / 60 / 60);
 	const minutes = Math.floor(time / 60) - (hours * 60);

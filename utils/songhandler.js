@@ -1,3 +1,5 @@
+/* Handles creating and running a stream for a specified song, as well as pushing the queue and handling errors */
+
 const Discord = require(`discord.js`);
 const ytdl = require(`discord-ytdl-core`);
 const log = require(`../utils/log.js`);
