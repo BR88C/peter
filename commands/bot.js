@@ -21,7 +21,7 @@ module.exports = {
                 { name: `**Author**`, value: client.config.get('dev').tag, inline: true },
                 { name: `**Ping**`, value: `${Math.round(100*client.ws.ping)/100}ms`, inline: true },
                 { name: `**Uptime**`, value: uptime, inline: true },
-                { name: `**Support Server**`, value: client.config.get('supportServer'), inline: true },
+                { name: `**Support Server**`, value: client.config.get('links').supportServer, inline: true },
                 { name: `**Repository**`, value: client.pjson.get('repository').url.replace(`git+`, ``), inline: true },
                 { name: `**Version**`, value: client.pjson.get('version'), inline: true }
             );
