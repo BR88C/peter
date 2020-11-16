@@ -28,7 +28,7 @@ module.exports = {
 
 		// Sets the volume
 		serverQueue.volume = args[0];
-		serverQueue.connection.dispatcher.setVolume(specifiedVolume / 150);
+		serverQueue.connection.dispatcher.setVolume(specifiedVolume / 250);
 
 		let volumeEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)

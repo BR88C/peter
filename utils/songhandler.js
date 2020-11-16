@@ -44,8 +44,9 @@ module.exports = (song, message) => {
                     if(message.client.queue) message.client.queue.delete(message.guild.id);
                 }
             });
+            
         // Setting volume
-        dispatcher.setVolumeLogarithmic(queue.volume / 150);
+        dispatcher.setVolumeLogarithmic(queue.volume / 250);
 
         let playingEmbed = new Discord.MessageEmbed()
             .setColor(0x5ce6c8)
