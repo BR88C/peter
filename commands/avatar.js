@@ -1,5 +1,5 @@
 const Discord = require(`discord.js`);
-const log = require(`../utils/log.js`);
+const log = require(`../modules/log.js`);
 const randomhex = require(`../utils/randomhex.js`);
 
 module.exports = {

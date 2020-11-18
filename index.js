@@ -7,7 +7,7 @@ const dotenv = require(`dotenv`).config();
 const config = require(`./config.json`);
 const pjson = require(`./package.json`);
 const DBL = require("dblapi.js");
-const log = require(`./utils/log.js`);
+const log = require(`./modules/log.js`);
 
 const client = new Discord.Client();
 const dbl = new DBL(process.env.DBL_TOKEN, client);

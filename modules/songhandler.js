@@ -2,7 +2,7 @@
 
 const Discord = require(`discord.js`);
 const ytdl = require(`discord-ytdl-core`);
-const log = require(`../utils/log.js`);
+const log = require(`../modules/log.js`);
 
 module.exports = (song, message) => {
     const play = async (song) => {

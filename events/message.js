@@ -2,7 +2,7 @@
 it's a command, look for arguments, check for flags on the commands, then run it */
 
 const Discord = require(`discord.js`);
-const log = require(`../utils/log.js`);
+const log = require(`../modules/log.js`);
 
 module.exports = (client, message) => {
 	// If the Message is by Peter!

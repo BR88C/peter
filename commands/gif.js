@@ -2,7 +2,7 @@ const Discord = require(`discord.js`);
 const GphApiClient = require('giphy-js-sdk-core');
 const giphyToken = process.env.GIPHY_TOKEN;
 const giphy = GphApiClient(giphyToken);
-const log = require(`../utils/log.js`);
+const log = require(`../modules/log.js`);
 const randomhex = require(`../utils/randomhex.js`);
 
 module.exports = {

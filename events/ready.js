@@ -1,7 +1,7 @@
 /* Once Ready, set status and show ready info */
 
 const Discord = require(`discord.js`);
-const log = require(`../utils/log.js`);
+const log = require(`../modules/log.js`);
 
 module.exports = (client) => {
     client.user.setPresence({activity: { name: `a kid's guide to the Internet`, type: 'WATCHING' }, status: 'online'});

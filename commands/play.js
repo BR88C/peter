@@ -1,9 +1,9 @@
 const Discord = require(`discord.js`);
 const ytdl = require(`discord-ytdl-core`);
 const yts = require(`yt-search`);
-const log = require(`../utils/log.js`);
+const log = require(`../modules/log.js`);
+const songhandler = require(`../modules/songhandler.js`);
 const time = require(`../utils/time.js`);
-const songhandler = require(`../utils/songhandler.js`);
 
 module.exports = {
 	name: `play`,
