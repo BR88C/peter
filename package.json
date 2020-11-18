@@ -1,7 +1,7 @@
 {
   "name": "peter",
   "version": "0.2.12",
-  "description": "The replacement to Bonzi Buddy Bot.",
+  "description": "A work in progress discord bot written in JS that can play music, do moderation, and more.",
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
