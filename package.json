@@ -16,6 +16,7 @@
   "homepage": "https://github.com/BR88C/peter#readme",
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
+    "dblapi.js": "^2.4.1",
     "discord-ytdl-core": "^4.1.5",
     "discord.js": "^12.4.1",
     "dotenv": "^8.2.0",
