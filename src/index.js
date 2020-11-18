@@ -5,7 +5,7 @@ const Discord = require(`discord.js`);
 const fs = require(`fs`);
 const dotenv = require(`dotenv`).config();
 const config = require(`./config.json`);
-const pjson = require(`./package.json`);
+const pjson = require(`../package.json`);
 const DBL = require("dblapi.js");
 const log = require(`./modules/log.js`);
 
@@ -18,7 +18,7 @@ client.pjson = new Map(Object.entries(pjson));
 
 
 /* Load events */
-const eventFiles = fs.readdirSync(`./events`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
+const eventFiles = fs.readdirSync(`./src/events`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
 eventFiles.forEach(file => {
    	const event = require(`./events/${file}`);
     let eventName = file.split(".")[0];
@@ -30,7 +30,7 @@ eventFiles.forEach(file => {
 
 /* Load commands */
 client.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync(`./commands`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
+const commandFiles = fs.readdirSync(`./src/commands`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
 commandFiles.forEach(file => {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.name, command);
