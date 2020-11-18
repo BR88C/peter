@@ -40,8 +40,21 @@ module.exports = (content, color, discordMessage, options) => {
 
     // If discordMessage is defined
     if(discordMessage) {
-        // If the message contains an embed, log it as an embed
-        if(discordMessage.embeds.length > 0) logContent = `{Embed}`;
+        // If the message contains an embed, log it as an embed with it's title, author, or description if applicable
+        if(discordMessage.embeds.length > 0) {
+            if(discordMessage.embeds[0].title) {
+                logContent = `{Embed (Title): ${discordMessage.embeds[0].title}}`.replace(/[^ -~]+/g, ``);
+
+            } else if(discordMessage.embeds[0].author && discordMessage.embeds[0].author.name) {
+                logContent = `{Embed (Author): ${discordMessage.embeds[0].author.name}}`.replace(/[^ -~]+/g, ``);
+
+            } else if(discordMessage.embeds[0].description) {
+                logContent = `{Embed (Description): ${discordMessage.embeds[0].description}}`.replace(/[^ -~]+/g, ``);
+
+            } else {
+                logContent = `{Embed}`
+            }
+        }
 
         // If the user option is defined, append their tag to the start of logContent
         if(options.user) logContent = `[${discordMessage.author.tag}] ` + logContent;
