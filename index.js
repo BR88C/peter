@@ -50,7 +50,7 @@ client.login(process.env.BOT_TOKEN).catch(error => {
 /* Post server count on top.gg */
 dbl.on('posted', () => {})
 dbl.on('error', error => {
-    console.log(`Error with posting info to top.gg: ${error}`);
+    console.log(`Error with DBL API: ${error}`);
 })
 
 
