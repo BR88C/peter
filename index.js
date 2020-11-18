@@ -7,6 +7,7 @@ const dotenv = require(`dotenv`).config();
 const config = require(`./config.json`);
 const pjson = require(`./package.json`);
 const DBL = require("dblapi.js");
+const log = require(`./utils/log.js`);
 
 const client = new Discord.Client();
 const dbl = new DBL(process.env.DBL_TOKEN, client);
@@ -21,7 +22,7 @@ const eventFiles = fs.readdirSync(`./events`).filter(file => file.endsWith(`.js`
 eventFiles.forEach(file => {
    	const event = require(`./events/${file}`);
     let eventName = file.split(".")[0];
-    console.log(`\x1b[33m`, `Loaded event ${eventName}`)   
+    log(`Loaded event ${eventName}`, `yellow`);
    	client.on(eventName, event.bind(null, client));
 });
 
@@ -33,15 +34,15 @@ const commandFiles = fs.readdirSync(`./commands`).filter(file => file.endsWith(`
 commandFiles.forEach(file => {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.name, command);
-	console.log(`\x1b[33m`, `Loaded command ${command.name}`);
+	log(`Loaded command ${command.name}`, `yellow`);
 })
 
 
 
 /* Authenticate the bot with client */
 client.login(process.env.BOT_TOKEN).catch(error => {
-    console.error(`\x1b[31m`, `\nFailed to authenticate client with application.`)
-    console.log(`\x1b[37m`);
+    log(`\nFailed to authenticate client with application.`, `red`)
+    log(``, `white`);
     process.exit();
 });
 
@@ -50,7 +51,7 @@ client.login(process.env.BOT_TOKEN).catch(error => {
 /* Post server count on top.gg */
 dbl.on('posted', () => {})
 dbl.on('error', error => {
-    console.log(`Error with DBL API: ${error}`);
+    log(`Error with DBL API: ${error}`, `red`);
 })
 
 
@@ -58,8 +59,8 @@ dbl.on('error', error => {
 /* If the Bot is Stopped with Ctrl+C */
 process.on(`SIGINT`, () => {
     client.user.setPresence({activity: {name: `Restarting Bot`, type: 'PLAYING'}, status: 'dnd'}).then(() => {
-        console.log(`\x1b[31m`, `\nStopped. Bot Offline.`);
-        console.log(`\x1b[37m`);
+        log(`\nStopped. Bot Offline.`, `red`);
+        log(``, `white`);
         process.exit();
     }).catch(console.error)
 });
