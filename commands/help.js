@@ -31,7 +31,7 @@ module.exports = {
 				.setColor(0xdbbe00)
 				.setTitle(`**Command Categories:**`)
 				.setDescription(data, { split: true })
-				.setFooter(`Hosted by ${config.dev.tag} | Made by ${config.dev.tag}`);
+				.setFooter(`Made by ${config.devs.tags.join(`, `)}`);
 
 			// Send embed
 			return message.channel.send(helpEmbed);
@@ -66,7 +66,7 @@ module.exports = {
 				.setColor(0xdbbe00)
 				.setTitle(`**Commands in the ${categoryName} category:**`)
 				.setDescription(data, { split: true })
-				.setFooter(`Hosted by ${config.dev.tag} | Made by ${config.dev.tag}`);
+				.setFooter(`Made by ${config.devs.tags.join(`, `)}`);
 
 			// Send embed
 			return message.channel.send(helpEmbed);
@@ -99,7 +99,7 @@ module.exports = {
 			.setColor(0xdbbe00)
 			.setTitle(`**${config.prefix}${command.name} command information:**`)
 			.setDescription(data, { split: true })
-			.setFooter(`Hosted by ${config.dev.tag} | Made by ${config.dev.tag}`);
+			.setFooter(`Made by ${config.devs.tags.join(`, `)}`);
 
 		// Send the Embed
 		message.channel.send(helpEmbed);

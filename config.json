@@ -1,9 +1,9 @@
 {
     "prefix": "sudo ",
     "logFile": "../../logs/peter/peter.log",
-    "dev": {
-        "id": "342275771546599425",
-        "tag": "BR88C#1296"
+    "devs": {
+        "ids": ["342275771546599425"],
+        "tags": ["BR88C#1296"]
     },
     "links": {
         "supportServer": "https://discord.com/invite/AuWudDAvc7",
