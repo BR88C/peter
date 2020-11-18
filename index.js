@@ -6,9 +6,10 @@ const fs = require(`fs`);
 const dotenv = require(`dotenv`).config();
 const config = require(`./config.json`);
 const pjson = require(`./package.json`);
+const DBL = require("dblapi.js");
 
-const token = process.env.BOT_TOKEN;
 const client = new Discord.Client();
+const dbl = new DBL(process.env.DBL_TOKEN, client);
 client.queue = new Map();
 client.config = new Map(Object.entries(config));
 client.pjson = new Map(Object.entries(pjson));
@@ -38,11 +39,19 @@ commandFiles.forEach(file => {
 
 
 /* Authenticate the bot with client */
-client.login(token).catch(error => {
+client.login(process.env.BOT_TOKEN).catch(error => {
     console.error(`\x1b[31m`, `\nFailed to authenticate client with application.`)
     console.log(`\x1b[37m`);
     process.exit();
 });
+
+
+
+/* Post server count on top.gg */
+dbl.on('posted', () => {})
+dbl.on('error', error => {
+    console.log(`Error with posting info to top.gg: ${error}`);
+})
 
 
 
