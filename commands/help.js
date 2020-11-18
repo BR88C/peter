@@ -24,7 +24,7 @@ module.exports = {
 		if(!args.length) {
 			// Create embed content
 			data.push(categories.join('\n'));
-			data.push(`\nDo \`\`${config.prefix}help category [category name]\`\`\nto list all commands in a category\n\nDo \`\`${config.prefix}help [command name]\`\`\nto get more info on a command`);
+			data.push(`\nDo \`\`${config.prefix}help category <category name>\`\`\nto list all commands in a category\n\nDo \`\`${config.prefix}help <command name>\`\`\nto get more info on a command`);
 
 			// Create embed
 			let helpEmbed = new Discord.MessageEmbed()
@@ -59,6 +59,7 @@ module.exports = {
 				}
 			})
 			data.push(categoryCommands.join(`\n`));
+			data.push(`\nDo \`\`${config.prefix}help <command name>\`\`\nto get more info on a command`)
 
 			// Create embed
 			let helpEmbed = new Discord.MessageEmbed()
