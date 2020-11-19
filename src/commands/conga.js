@@ -7,7 +7,7 @@ module.exports = {
 	guildOnly: true,
 	hide: true,
 	async execute(client, message, args) {
-        await message.channel.send(`It's conga time! <a:conga:778811866151518289>`);
+        await message.channel.send(`It's conga time! <a:conga:${client.config.get('emojis').conga}>`);
         
         const playCommand = client.commands.get(`play`);
         args = [`https://www.youtube.com/watch?v=5SXX-pWzOY8`];
