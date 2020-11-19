@@ -1,6 +1,5 @@
 <h1 align="center">
-    <img src="https://raw.githubusercontent.com/BR88C/peter/master/src/assets/images/peter%20cropped.png" align="center" />
-    <br><br>
+    <img src="https://raw.githubusercontent.com/BR88C/peter/master/src/assets/images/peter%20cropped.png" align="center" width="256" height="256" />
 </h1>
 
 <h3 align="center">A work in progress Discord bot that can play music, do moderation, and more</h3>
