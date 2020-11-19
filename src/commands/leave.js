@@ -14,6 +14,13 @@ module.exports = {
 		if (!channel) return message.reply(`I'm sorry but you need to be in a voice channel to disconnect me!`);
 		const serverQueue = message.client.queue.get(message.guild.id);
 
+		let emoji;
+		if(message.content.slice(client.config.get('prefix').length).trim().split(/ +/).shift().toLowerCase() === `die`) {
+			emoji = `💀`;
+		} else {
+			emoji = `👋`;
+		}
+
 		// If the bot is in a vc, clear the queue and leave
 		if(message.guild.voice.connection) {
 			if(serverQueue && serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.destroy();
@@ -22,7 +29,7 @@ module.exports = {
 
 			let leaveEmbed = new Discord.MessageEmbed()
 				.setColor(0xff4a4a)
-				.setTitle(`👋 Left the VC.`);
+				.setTitle(`${emoji} Left the VC.`);
 
 			message.channel.send(leaveEmbed);
 
