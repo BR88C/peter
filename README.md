@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img src="https://raw.githubusercontent.com/BR88C/peter/eaaf876f86693a19b6a96282d3258c3c1c6df8b6/assets/images/peter.png" align="center" />
+    <img src="https://raw.githubusercontent.com/BR88C/peter/master/src/assets/images/peter%20cropped.png" align="center" />
     <br><br>
 </h1>
 
