@@ -6,7 +6,7 @@ module.exports = {
 	name: `help`,
 	description: `Get info on Peter's commands`,
 	aliases: [`commands`],
-	usage: `category [category name] **or** ${config.prefix} [command name]`,
+	usage: `<category name> **or** ${config.prefix} help command <command name>`,
 	async execute(client, message, args) {
 		const data = [];
 		const { commands } = message.client;
@@ -24,7 +24,7 @@ module.exports = {
 		if(!args.length) {
 			// Create embed content
 			data.push(categories.join('\n'));
-			data.push(`\nDo \`\`${config.prefix}help category <category name>\`\`\nto list all commands in a category\n\nDo \`\`${config.prefix}help <command name>\`\`\nto get more info on a command`);
+			data.push(`\nDo \`\`${config.prefix}help <category name>\`\`\nto list all commands in a category\n\nDo \`\`${config.prefix}help command <command name>\`\`\nto get more info on a command`);
 
 			// Create embed
 			let helpEmbed = new Discord.MessageEmbed()
@@ -39,8 +39,8 @@ module.exports = {
 
 
 		// If the user specifies a category, list commands in category
-		if(args[0].toLowerCase() === `category`) {
-			const categoryName = args.slice(1).join(` `).toLowerCase();
+		if(args[0].toLowerCase() !== `command`) {
+			const categoryName = args.slice(0).join(` `).toLowerCase();
 
 			// Checks if category exists
 			if(!categories.map(category => category.toLowerCase()).includes(categoryName)) {
@@ -59,7 +59,7 @@ module.exports = {
 				}
 			})
 			data.push(categoryCommands.join(`\n`));
-			data.push(`\nDo \`\`${config.prefix}help <command name>\`\`\nto get more info on a command`)
+			data.push(`\nDo \`\`${config.prefix}help command <command name>\`\`\nto get more info on a command`);
 
 			// Create embed
 			let helpEmbed = new Discord.MessageEmbed()
@@ -74,7 +74,7 @@ module.exports = {
 
 
 		// If the user specifies a command, list information on that command
-		const name = args[0].toLowerCase();
+		const name = args[1].toLowerCase();
 		const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
 		// If the command does not exist
