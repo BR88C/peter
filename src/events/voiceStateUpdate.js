@@ -25,12 +25,10 @@ module.exports = (client, oldState, newState) => {
 			}
 			channelInfo.leave();
 
-		// If the bot is manually disconnected clear the queue
-		} else if(botChannelID == null) {
-			if(serverQueue) {
-				serverQueue.textChannel.send(leaveEmbed);
-				if(client.queue) client.queue.delete(oldState.guild.id);
-			}
+		// If the bot is not in a VC and there is a queue, clear the queue 
+		} else if(botChannelID == null && serverQueue) {
+			serverQueue.textChannel.send(leaveEmbed);
+			if(client.queue) client.queue.delete(oldState.guild.id);
 		}
 	}
 }
