@@ -6,7 +6,7 @@ module.exports = {
 	name: `bot`,
     description: `Displays information about the bot`,
     category: `Bot Info`,
-	aliases: [`about`],
+	aliases: [`about`, `peter`],
 	async execute(client, message, args) {
         const uptime = time(Math.round(client.uptime / 1000));
 
