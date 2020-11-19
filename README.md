@@ -1,3 +1,5 @@
+<h1 align="center">Peter!</h1>
+
 <h1 align="center">
     <img src="https://raw.githubusercontent.com/BR88C/peter/master/src/assets/images/peter%20cropped.png" align="center" width="256" height="256" />
 </h1>
@@ -5,9 +7,9 @@
 <h3 align="center">A work in progress Discord bot that can play music, do moderation, and more</h3>
 
 <p align="center">
-    <img src="https://img.shields.io/github/v/release/BR88C/peter?include_prereleases">
-    <img src="https://img.shields.io/github/license/BR88C/peter">
-    <img src="https://img.shields.io/github/forks/BR88C/peter?style=social">
+    <img src="https://img.shields.io/github/v/release/BR88C/peter?include_prereleases&style=for-the-badge">
+    <img src="https://img.shields.io/github/license/BR88C/peter?style=for-the-badge">
+    <img src="https://img.shields.io/github/forks/BR88C/peter?style=for-the-badge">
 </p>
 
 ---
@@ -24,6 +26,7 @@ The bot also requires a Discord Bot token and a Giphy Api token. In the same dir
 ```
 BOT_TOKEN=your_bot_token
 GIPHY_TOKEN=your_giphy_token
+DBL_TOKEN=your_dbl_token (This can be removed by commenting out the DBL code in index.js)
 ```
 and save the file as ".env"
 You can then run then bot with:
