@@ -6,6 +6,7 @@ module.exports = {
 	description: `Leaves the voice channel.`,
 	category: `Music`,
 	guildOnly: true,
+	aliases: [`l`, `die`],
 	async execute(client, message, args) {
 		const { channel } = message.member.voice;
 
