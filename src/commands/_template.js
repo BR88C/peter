@@ -9,7 +9,6 @@ module.exports = {
 	guildOnly: false,
 	devOnly: false,
 	hide: false,
-	cooldown: 0,
 	aliases: [],
 	usage: ``,
 	async execute(client, message, args) {

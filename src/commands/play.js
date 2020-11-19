@@ -11,7 +11,6 @@ module.exports = {
 	category: `Music`,
 	args: true,
 	guildOnly: true,
-	cooldown: 5,
 	aliases: [`p`],
 	usage: `[search query] or [url]`,
 	async execute(client, message, args) {

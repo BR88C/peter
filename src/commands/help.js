@@ -92,7 +92,6 @@ module.exports = {
 		if(command.args) data.push(`**Arguments Required:** ${command.args}`);
 		if(command.usage) data.push(`**Usage:** ${config.prefix}${command.name} ${command.usage}`);
 		if(command.devOnly) data.push(`**Dev Only:** ${command.devOnly}`);
-		if(command.cooldown) data.push(`**Cooldown:** ${command.cooldown} second(s)`);
 		
 		// Create the Embed
 		let helpEmbed = new Discord.MessageEmbed()

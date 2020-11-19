@@ -7,7 +7,6 @@ module.exports = {
     description: `Displays the profile picture of you or a user`,
     category: `Utility`,
 	guildOnly: false,
-	cooldown: 5,
     aliases: [`pfp`],
     usage: `[@user]`,
 	async execute(client, message, args) {

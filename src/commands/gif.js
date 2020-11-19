@@ -10,7 +10,6 @@ module.exports = {
     description: `Searches giphy for a gif based on your search query.`,
     args: true,
 	guildOnly: true,
-	cooldown: 3,
 	usage: `<search query>`,
 	async execute(client, message, args) {
         // Gets the search query based off of arguments
