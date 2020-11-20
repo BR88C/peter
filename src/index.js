@@ -14,18 +14,12 @@ const dbl = new DBL(process.env.DBL_TOKEN, client);
 
 /* Load all commands, events, and variables, then authenticate with Discord */
 loader.loadAll(client);
-client.login(process.env.BOT_TOKEN).catch(error => {
-    end(client, `Failed to authenticate client with application.`);
-});
+client.login(process.env.BOT_TOKEN).catch(error => end(client, `Failed to authenticate client with application.`));
 
 
 /* Report if there is an error with DBL */
-dbl.on('error', error => {
-    log(`Error with DBL API: ${error}`, `red`);
-})
+dbl.on('error', error => log(`Error with DBL API: ${error}`, `red`));
 
 
 /* If the Bot is Stopped with Ctrl+C */
-process.on(`SIGINT`, () => {
-    end(client);
-});
+process.on(`SIGINT`, () => end(client));
