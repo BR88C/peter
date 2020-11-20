@@ -4,7 +4,7 @@ const Discord = require(`discord.js`);
 const fs = require(`fs`);
 const log = require(`./log.js`);
 
-module.exports =  {
+module.exports = {
     /* Load variables and save on client */
     async loadVariables(client) {
         client.queue = new Map();
