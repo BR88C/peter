@@ -6,8 +6,8 @@ const log = require(`../modules/log.js`);
 module.exports = (client) => {
     client.user.setPresence({activity: { name: `a kid's guide to the Internet`, type: 'WATCHING' }, status: 'online'});
     log(`\n--------------------------------------------------------------------------\n`, `white`);
-    log(`Using prefix ${client.config.get('prefix')}`, `green`);
-    log(`Running version ${client.pjson.get('version')}`, `green`);
+    log(`Using prefix ${client.config.prefix}`, `green`);
+    log(`Running version ${client.pjson.version}`, `green`);
 
     async function readyStats () {
         const guilds = await client.guilds.cache.size;

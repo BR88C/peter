@@ -14,7 +14,7 @@ module.exports = (client, message) => {
 		return;
 	
 	// If the message is by a user and it does not contain the prefix
-	} else if(!message.author.bot && message.content.toLowerCase().indexOf(client.config.get('prefix').toLowerCase()) !== 0 ) {
+	} else if(!message.author.bot && message.content.toLowerCase().indexOf(client.config.prefix.toLowerCase()) !== 0 ) {
 		return;
 
 	}
@@ -22,7 +22,7 @@ module.exports = (client, message) => {
 
 
 	// Sets up args, command names, and checks for aliases
-	const args = message.content.slice(client.config.get('prefix').length).trim().split(/ +/);
+	const args = message.content.slice(client.config.prefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
 	const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 	
@@ -45,11 +45,11 @@ module.exports = (client, message) => {
 	}
 
 	// Checks if command is Dev Only
-	if(command.devOnly && !client.config.get('devs').ids.includes(message.author.id.toString())) {
-		if(client.config.get('devs').tags.length > 1) {
-			return message.reply(`that command is only for this bot's devs, ${client.config.get('devs').tags.join(`, `)}!`);
+	if(command.devOnly && !client.config.devs.ids.includes(message.author.id.toString())) {
+		if(client.config.devs.tags.length > 1) {
+			return message.reply(`that command is only for this bot's devs, ${client.config.devs.tags.join(`, `)}!`);
 		} else {
-			return message.reply(`that command is only for this bot's dev, ${client.config.get('devs').tags[0]}!`);
+			return message.reply(`that command is only for this bot's dev, ${client.config.devs.tags[0]}!`);
 		}
 	}
 	
@@ -57,7 +57,7 @@ module.exports = (client, message) => {
 	if(command.args && !args.length) {
 		let reply = `You didn't provide any arguments, ${message.author}!`;
 		if(command.usage) {
-			reply += `\nThe proper usage would be: \`${client.config.get('prefix')}${command.name} ${command.usage}\``;
+			reply += `\nThe proper usage would be: \`${client.config.prefix}${command.name} ${command.usage}\``;
 		}
 		return message.channel.send(reply);
 	}

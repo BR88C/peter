@@ -15,7 +15,7 @@ module.exports = {
 		const serverQueue = message.client.queue.get(message.guild.id);
 
 		let emoji;
-		if(message.content.slice(client.config.get('prefix').length).trim().split(/ +/).shift().toLowerCase() === `die`) {
+		if(message.content.slice(client.config.prefix.length).trim().split(/ +/).shift().toLowerCase() === `die`) {
 			emoji = `💀`;
 		} else {
 			emoji = `👋`;
