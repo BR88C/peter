@@ -26,12 +26,12 @@ module.exports = {
 				.setColor(0xff0000)
 				.setTitle(`🛑 Queue cleared and Music stopped.`);
 
-			message.channel.send(stopEmbed);
+			return message.channel.send(stopEmbed);
 		// If the bot is not in a vc, make sure the queue is cleared and report an error
 		} else {
 			if(serverQueue.songs) serverQueue.songs = [];
 			if(message.client.queue) message.client.queue.delete(message.guild.id);
-			message.reply(`I'm not in a VC, so there is no music to stop!`);
+			return message.reply(`I'm not in a VC, so there is no music to stop!`);
 		}
 	},
 }

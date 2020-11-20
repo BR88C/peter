@@ -39,6 +39,6 @@ module.exports = {
         log(`${user.tag} unmuted`, `green`, message, {server: true});
         await user.send(unmutedEmbed).catch(error => {});
         await message.guild.member(user).roles.remove(mutedRole);
-        message.channel.send(logUnmutedEmbed);
+        return message.channel.send(logUnmutedEmbed);
 	},
 }

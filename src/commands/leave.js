@@ -31,13 +31,13 @@ module.exports = {
 				.setColor(0xff4a4a)
 				.setTitle(`${emoji} Left the VC.`);
 
-			message.channel.send(leaveEmbed);
+			return message.channel.send(leaveEmbed);
 
 		// If the bot is not in a vc, make sure the queue is cleared and report an error
 		} else {
 			if(serverQueue && serverQueue.songs) serverQueue.songs = [];
 			if(message.client.queue) message.client.queue.delete(message.guild.id);
-			message.reply(`I can't leave if I'm not in a VC!`);
+			return message.reply(`I can't leave if I'm not in a VC!`);
 		}
 	}
 }

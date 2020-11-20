@@ -23,6 +23,6 @@ module.exports = {
 			.setColor(0x9cd6ff)
 			.setTitle(`⏭️ The current song has been skipped.`);
 
-		message.channel.send(skipEmbed);
+		return message.channel.send(skipEmbed);
 	},
 }

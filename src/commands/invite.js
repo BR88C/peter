@@ -5,6 +5,6 @@ module.exports = {
 	name: `invite`,
 	description: `Returns Peter's invite link`,
 	async execute(client, message, args) {
-        message.channel.send(`**Peter's Invite link:**\n${client.config.links.invite}`)
+        return message.channel.send(`**Peter's Invite link:**\n${client.config.links.invite}`)
 	},
 }

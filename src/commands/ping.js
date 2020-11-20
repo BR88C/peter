@@ -15,6 +15,6 @@ module.exports = {
 			.setAuthor(`Pong!`)
 			.setDescription(`\`\`` + ping + `ms\`\``);
 			
-		message.channel.send(pingEmbed);
+		return message.channel.send(pingEmbed);
 	},
 }

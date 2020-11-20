@@ -37,6 +37,6 @@ module.exports = {
         // Send the embeds and warn the user
         log(`${user.tag} warned for ${warnReason}`, `yellow`, message, {server: true});
         await user.send(warnEmbed).catch(error => {});
-        message.channel.send(logWarnEmbed);
+        return message.channel.send(logWarnEmbed);
 	},
 }

@@ -101,6 +101,6 @@ module.exports = {
 			.setFooter(`Made by ${config.devs.tags.join(`, `)}`);
 
 		// Send the Embed
-		message.channel.send(helpEmbed);
+		return message.channel.send(helpEmbed);
 	},
 }

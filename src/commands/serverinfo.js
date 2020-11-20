@@ -56,6 +56,6 @@ module.exports = {
             );
 
         // Send Embed
-        message.channel.send(serverInfoEmbed);
+        return message.channel.send(serverInfoEmbed);
 	},
 }

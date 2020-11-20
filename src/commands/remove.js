@@ -33,7 +33,6 @@ module.exports = {
             .setColor(0xff668a)
             .setTitle(`❌ Removed **${song[0].title}** from the queue!`);
 
-        message.channel.send(removeEmbed);
-
+        return message.channel.send(removeEmbed);
 	},
 }

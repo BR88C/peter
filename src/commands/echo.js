@@ -10,6 +10,6 @@ module.exports = {
 	async execute(client, message, args) {
         const customMessage = args.slice(0).join(" ");
         await message.delete().catch(error => {});
-        message.channel.send(customMessage);
+        return message.channel.send(customMessage);
 	},
 }

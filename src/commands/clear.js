@@ -25,6 +25,6 @@ module.exports = {
 			.setTitle(`Cleared the Queue!`);
 
 		// Send embed
-        message.channel.send(clearEmbed);
+        return message.channel.send(clearEmbed);
 	},
 }

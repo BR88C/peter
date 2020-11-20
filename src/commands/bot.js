@@ -26,6 +26,6 @@ module.exports = {
                 { name: `**Version**`, value: client.pjson.version, inline: true }
             );
 
-        message.channel.send(botInfoEmbed);
+        return message.channel.send(botInfoEmbed);
 	},
 }

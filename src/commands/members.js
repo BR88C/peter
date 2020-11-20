@@ -13,6 +13,6 @@ module.exports = {
 			.setTitle(`**Total Guild Members:**`)
 			.setDescription(await message.guild.memberCount);
 
-		message.channel.send(memberEmbed);
+		return message.channel.send(memberEmbed);
 	},
 }
