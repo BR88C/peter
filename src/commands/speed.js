@@ -22,12 +22,15 @@ module.exports = {
 		if(isNaN(specifiedSpeed)) return message.reply(`please specify an Integer!`);
 		if(specifiedSpeed > 500 || specifiedSpeed < 50) return message.reply(`speed must be between 50 and 500%!`);
 
+		// Get old speed
+		const oldSpeed = serverQueue.speed;
+
 		// Set speed
 		serverQueue.speed = args[0];
 
 		// Push the song at current time
 		serverQueue.songs.unshift(serverQueue.songs[0]);
-		serverQueue.songs[1].startTime = serverQueue.connection.dispatcher.streamTime/1000;
+		serverQueue.songs[1].startTime = (serverQueue.connection.dispatcher.streamTime / 1000) * (oldSpeed / 100) + serverQueue.songs[0].startTime;
 		serverQueue.songs[1].hidden = true;
 		serverQueue.connection.dispatcher.end();
 
