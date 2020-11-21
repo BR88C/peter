@@ -10,10 +10,9 @@ module.exports = {
 	guildOnly: true,
 	aliases: [`np`],
 	async execute(client, message, args) {
+		// If the queue is empty reply with an error
 		const serverQueue = message.client.queue.get(message.guild.id);
-		
-		// If the queue is empty
-		if (!serverQueue) return message.channel.send(`There is nothing playing.`);
+		if(!serverQueue) return message.channel.send(`There is noting playing.`);
 
 		const completed = (serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[0].startTime;
 		const percentComplete = completed / serverQueue.songs[0].rawTime;

@@ -8,9 +8,8 @@ module.exports = {
 	guildOnly: true,
 	aliases: [`q`],
 	async execute(client, message, args) {
-		const serverQueue = message.client.queue.get(message.guild.id);
-		
 		// If the queue is empty reply with an error
+		const serverQueue = message.client.queue.get(message.guild.id);
 		if (!serverQueue) return message.channel.send(`There is nothing in the queue.`);
 
 		// If the user specifies a song

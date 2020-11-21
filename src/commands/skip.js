@@ -7,14 +7,12 @@ module.exports = {
 	category: `Music`,
 	guildOnly: true,
 	async execute(client, message, args) {
-		const { channel } = message.member.voice;
-
-		// Checks if user is in a vc
-		if(!channel) return message.channel.send(`I'm sorry but you need to be in a voice channel to play music!`);
-		const serverQueue = message.client.queue.get(message.guild.id);
-
 		// If the queue is empty reply with an error
-		if(!serverQueue) return message.channel.send(`There is nothing playing that I could skip for you.`);
+		const serverQueue = message.client.queue.get(message.guild.id);
+		if(!serverQueue) return message.reply(`I can't skip if there is no music playing!`);
+
+		// Checks if the user is in the VC
+        if(message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to skip music!`);
 		
 		// Skips to the next song
 		serverQueue.connection.dispatcher.end();

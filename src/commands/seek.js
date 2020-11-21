@@ -10,10 +10,12 @@ module.exports = {
 	guildOnly: true,
 	usage: `<time (seconds)>`,
 	async execute(client, message, args) {
-        const serverQueue = message.client.queue.get(message.guild.id);
-		
-		// If the queue is empty reply with an error
-		if (!serverQueue) return message.channel.send(`There is nothing in the queue.`);
+        // If the queue is empty reply with an error
+		const serverQueue = message.client.queue.get(message.guild.id);
+		if(!serverQueue) return message.reply(`I can't seek if there is no music playing!`);
+
+		// Checks if the user is in the VC
+        if(message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to seek!`);
 
 		// Checks to make sure the bass value is an integer
 		let specifiedTime = parseInt(args[0]);

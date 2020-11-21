@@ -9,10 +9,12 @@ module.exports = {
 	aliases: [`bassboost`],
 	usage: `<bass value>`,
 	async execute(client, message, args) {
-        const serverQueue = message.client.queue.get(message.guild.id);
-		
 		// If the queue is empty reply with an error
-		if (!serverQueue) return message.channel.send(`There is nothing in the queue.`);
+		const serverQueue = message.client.queue.get(message.guild.id);
+		if(!serverQueue) return message.reply(`I can't bassboost if there is no music playing!`);
+
+		// Checks if the user is in the VC
+        if(message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to bassboost music!`);
 
 		// Replies with the current bass value if no arguments are specified
 		if(!args[0]) return message.channel.send(`The current bass level is: **+${serverQueue.bass}%**`);

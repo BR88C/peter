@@ -10,14 +10,12 @@ module.exports = {
     aliases: [`rm`],
     usage: `<Queue Number of Song>`,
 	async execute(client, message, args) {
-		const { channel } = message.member.voice;
-
-        // If the bot is in a vc, clear the queue and leave
-		if (!channel) return message.reply(`I'm sorry but you need to be in a voice channel to modify the queue!`);
+		// If the queue is empty reply with an error
 		const serverQueue = message.client.queue.get(message.guild.id);
+		if(!serverQueue) return message.reply(`I can't remove queued music if the queue is empty!`);
 
-        // If the queue is empty reply with an error
-		if (!serverQueue) return message.reply(`I can't modify the queue if there is nothing in the queue!`);
+		// Checks if the user is in the VC
+        if(message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to remove music from the queue!`);
         
         // Checks if the argument provided is an integer
         if(isNaN(parseInt(args[0]))) return message.reply(`please specify an Integer!`);
