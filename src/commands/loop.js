@@ -3,6 +3,7 @@ const Discord = require(`discord.js`);
 module.exports = {
 	name: `loop`,
 	description: `Specify if the current song should be looped`,
+	category: `Music`,
 	guildOnly: true,
 	usage: `[on/off]`,
 	async execute(client, message, args) {
