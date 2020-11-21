@@ -22,4 +22,4 @@ dbl.on('error', error => log(`DBL API Warning: ${error}`, `yellow`));
 
 
 /* If the Bot is Stopped with Ctrl+C */
-process.on(`SIGINT`, () => end(client, true));
+process.on('SIGINT', () => end(client, true));
