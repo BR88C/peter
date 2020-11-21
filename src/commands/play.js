@@ -22,7 +22,7 @@ module.exports = {
 
 		// If the bot does not have permissions
 		if(!permissions.has(`CONNECT`)) return message.reply(`I cannot connect to your voice channel, make sure I have the proper permissions!`);
-		if(!permissions.has(`SPEAK`)) return message.reply(`I cannot speak in this voice channel, make sure I have the proper permissions!`);
+		if(!permissions.has(`SPEAK`)) return message.reply(`I cannot speak in your voice channel, make sure I have the proper permissions!`);
 
 		let errorEmbed = new Discord.MessageEmbed()
                 .setColor(0xff4a4a)
@@ -115,6 +115,6 @@ module.exports = {
 			message.client.queue.delete(message.guild.id);
 			await channel.leave();
 			return message.reply(`I could not join the voice channel: ${error}`);
-        }  
+        };
 	},
 }
