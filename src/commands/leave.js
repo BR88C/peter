@@ -32,9 +32,9 @@ module.exports = {
 
 		// If the bot is not in a vc, make sure the queue is cleared
 		} else {
-			if(serverQueue && message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to make me leave!`);
 			if(serverQueue && serverQueue.songs) serverQueue.songs = [];
 			if(message.client.queue) message.client.queue.delete(message.guild.id);
+			return message.reply(`I can't leave if I'm not in a VC!`);
 		}
 	}
 }
