@@ -26,7 +26,7 @@ The bot also requires a Discord Bot token and a Giphy Api token. In the same dir
 ```
 BOT_TOKEN=your_bot_token
 GIPHY_TOKEN=your_giphy_token
-DBL_TOKEN=your_dbl_token (This can be removed by commenting out the DBL code in index.js)
+DBL_TOKEN=your_dbl_token (This is optional, not defining it will just give you a warning)
 ```
 and save the file as ".env"
 You can then run then bot with:
