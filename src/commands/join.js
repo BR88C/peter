@@ -30,7 +30,7 @@ module.exports = {
 				.setColor(0xc2ffb0)
 				.setTitle(`✅ Joined ${connection.channel.name}`);
 
-			message.channel.send(joinEmbed)
+			message.channel.send(joinEmbed);
 		} catch (error) {
 			console.error(`I could not join the voice channel: ${error}`);
 			await channel.leave();
