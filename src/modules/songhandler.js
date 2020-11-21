@@ -22,8 +22,14 @@ module.exports = (song, message) => {
         const dispatcher = queue.connection.play(stream, { type: `opus`, bitrate: 64 /* 64kbps */ })
             // When the song ends
             .on(`finish`, reason => {
-                queue.songs.shift();
-                play(queue.songs[0]);
+                if(serverQueue.loop) {
+                    queue.songs[0].startTime = 0;
+                    queue.songs[0].hidden = false;
+                    play(queue.songs[0]);
+                } else {
+                    queue.songs.shift();
+                    play(queue.songs[0]);
+                }
             })
             // If there is an error leave the vc and report to the user
             .on(`error`, error => {

@@ -92,6 +92,7 @@ module.exports = {
 			songs: [],
 			volume: 100,
 			playing: true,
+			loop: false,
 			bass: 0,
 			pitch: 100,
 			speed: 100,
