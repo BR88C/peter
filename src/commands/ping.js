@@ -7,7 +7,7 @@ module.exports = {
 	category: `Bot Info`,
 	async execute(client, message, args) {
 		// Get ping
-		ping = Math.round(100*client.ws.ping)/100;
+		const ping = Math.round(client.ws.ping * 100) / 100;
 
 		// Creates and sends the embed
 		let pingEmbed = new Discord.MessageEmbed()
