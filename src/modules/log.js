@@ -82,7 +82,7 @@ module.exports = (content, color, discordMessage, options) => {
         // If the server option is defined, append the server name to the start of logContent
         if(options.server) {
             // If the message is in a guild
-            if(message.channel.type !== `dm`) {
+            if(discordMessage.channel.type !== `dm`) {
                 logContent = `Server: ${discordMessage.guild.name} | ` + logContent;
             // If the message is in a DM
             } else {
