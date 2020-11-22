@@ -9,14 +9,9 @@ module.exports = (client, message) => {
 	if(message.author.bot && message.author.id === client.user.id) {
 		return log(message.content, `magenta`, message, {server: true, channel: true, user: true, regex: true});
 
-	// If the message is by another bot
-	} else if(message.author.bot) {
+	// If the message is by another bot or it does not contain the prefix
+	} else if(message.author.bot || message.content.toLowerCase().indexOf(client.config.prefix.toLowerCase()) !== 0) {
 		return;
-	
-	// If the message is by a user and it does not contain the prefix
-	} else if(!message.author.bot && message.content.toLowerCase().indexOf(client.config.prefix.toLowerCase()) !== 0 ) {
-		return;
-
 	}
 
 
