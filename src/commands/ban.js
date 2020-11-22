@@ -41,7 +41,7 @@ module.exports = {
             .setDescription(`Reason: ${banReason}`);
 
         // Send the embeds and ban the user
-        log(`${user.tag} banned for ${banReason}`, `red`, message, {server: true});
+        log(`${user.tag} banned for ${banReason}`, `red`, message, {server: true, regex: true});
         await user.send(bannedEmbed).catch(error => {});
         await message.guild.member(user).ban({ reason: banReason });
         return message.channel.send(logBannedEmbed);

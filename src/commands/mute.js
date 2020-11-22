@@ -48,7 +48,7 @@ module.exports = {
             .setDescription(`Reason: ${muteReason}`);
 
         // Send the embeds and mute the user
-        log(`${user.tag} muted for ${muteReason}`, `yellow`, message, {server: true});
+        log(`${user.tag} muted for ${muteReason}`, `yellow`, message, {server: true, regex: true});
         await user.send(mutedEmbed).catch(error => {});
         await message.guild.member(user).roles.add(mutedRole);
         return message.channel.send(logMutedEmbed);

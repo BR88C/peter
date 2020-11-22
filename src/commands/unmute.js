@@ -36,7 +36,7 @@ module.exports = {
 		    .setTitle(`**${user.tag} has been unmuted**`);
 
         // Send the embeds and mute the user
-        log(`${user.tag} unmuted`, `green`, message, {server: true});
+        log(`${user.tag} unmuted`, `green`, message, {server: true, regex: true});
         await user.send(unmutedEmbed).catch(error => {});
         await message.guild.member(user).roles.remove(mutedRole);
         return message.channel.send(logUnmutedEmbed);
