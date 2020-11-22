@@ -32,7 +32,7 @@ module.exports = {
 
 			message.channel.send(joinEmbed);
 		} catch (error) {
-			console.error(`I could not join the voice channel: ${error}`);
+			log(`I could not join the voice channel: ${error}`, `red`);
 			await channel.leave();
 			return message.reply(`I could not join the voice channel: ${error}`);
         };

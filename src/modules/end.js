@@ -11,7 +11,7 @@ module.exports = (client, setDND, message) => {
     }
 
     if(setDND) {
-        client.user.setPresence({activity: {name: `Restarting Bot`, type: 'PLAYING'}, status: 'dnd'}).then(() => exit()).catch(console.error);
+        client.user.setPresence({activity: {name: `Restarting Bot`, type: 'PLAYING'}, status: 'dnd'}).then(() => exit()).catch(error => log(error, `red`));
     } else {
         exit();
     }

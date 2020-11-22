@@ -33,7 +33,7 @@ module.exports = (song, message) => {
             })
             // If there is an error leave the vc and report to the user
             .on(`error`, error => {
-                console.error(error);
+                log(error, `red`);
 
                 let errorEmbed = new Discord.MessageEmbed()
                     .setColor(0xff4a4a)

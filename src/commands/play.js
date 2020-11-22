@@ -38,7 +38,7 @@ module.exports = {
 		if(await ytdl.validateURL(args.slice(0).join(` `))) { 
 			// Set songIngo
 			songInfo = await ytdl.getInfo(args[0]).catch(error => {
-				console.error(error);
+				log(error, `red`);
 				return message.channel.send(errorEmbed);
 			});
 		
@@ -52,7 +52,7 @@ module.exports = {
 
 			// Set songInfo
 			songInfo = await ytdl.getInfo(ytsVideo[0].url).catch(error => {
-				console.error(error);
+				log(error, `red`);
 				return message.channel.send(errorEmbed);
 			});
 		}
@@ -111,7 +111,7 @@ module.exports = {
 			connection.voice.setSelfDeaf(true);
 			songhandler(queueConstruct.songs[0], message);
 		} catch (error) {
-			console.error(`I could not join the voice channel: ${error}`);
+			log(`I could not join the voice channel: ${error}`, `red`);
 			message.client.queue.delete(message.guild.id);
 			await channel.leave();
 			return message.reply(`I could not join the voice channel: ${error}`);
