@@ -42,7 +42,7 @@ module.exports = {
             
             return message.channel.send(gifEmbed);
 
-            // If there is an error with the code, Giphy, or if it couldnt find the image based on the query it sends an error message
+        // If there is an error with Giphy, or if it couldnt find the image based on the query it sends an error message
         }).catch(error => {
             return message.reply(`Looks like I couldn't get a gif based on your search query... sorry :tired_face:`);
         })
