@@ -9,7 +9,7 @@ module.exports = (songToPlay, message) => {
         const queue = message.client.queue.get(message.guild.id);
         const serverQueue = message.client.queue.get(message.guild.id);
 
-        if(!song) return message.client.queue.delete(message.guild.id);
+        if(!song) return queue.songs = [];
 
         const stream = ytdl(song.url, {
             seek: song.startTime,

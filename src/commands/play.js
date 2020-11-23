@@ -69,8 +69,8 @@ module.exports = {
 			startTime: 0
 		}
 		
-		// Adding songs to the queue
-		if (serverQueue) {
+		// Adds a song to the queue if there is already a song playing
+		if (serverQueue && serverQueue.songs[0]) {
 			serverQueue.songs.push(song);
 
 			let queueAddEmbed = new Discord.MessageEmbed()
