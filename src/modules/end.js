@@ -3,7 +3,7 @@
 const log = require(`./log.js`);
 
 module.exports = (client, setDND, message) => {
-    async function exit() {
+    async function exit () {
         if(message) log(`\n${message}`, `red`);
         log(`\nStopped. Bot Offline.`, `red`);
         log(``, `white`);

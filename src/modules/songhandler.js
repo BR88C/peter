@@ -4,8 +4,8 @@ const Discord = require(`discord.js`);
 const ytdl = require(`discord-ytdl-core`);
 const log = require(`../modules/log.js`);
 
-module.exports = (song, message) => {
-    const play = async (song) => {
+module.exports = (songToPlay, message) => {
+    async function play (song) {
         const queue = message.client.queue.get(message.guild.id);
         const serverQueue = message.client.queue.get(message.guild.id);
 
@@ -65,5 +65,5 @@ module.exports = (song, message) => {
         if(!queue.songs[0].hidden) queue.textChannel.send(playingEmbed);
     }
 
-    play(song);
+    play(songToPlay);
 }

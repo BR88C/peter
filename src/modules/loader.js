@@ -6,14 +6,14 @@ const log = require(`./log.js`);
 
 module.exports = {
     /* Load variables and save on client */
-    async loadVariables(client) {
+    async loadVariables (client) {
         client.queue = new Map();
         client.config = require(`../config.json`);
         client.pjson = require(`../../package.json`);
     },
 
     /* Load events */
-    async loadEvents(client) {
+    async loadEvents (client) {
         const eventFiles = fs.readdirSync(`./src/events`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
         eventFiles.forEach(file => {
             const event = require(`../events/${file}`);
@@ -24,7 +24,7 @@ module.exports = {
     },
 
     /* Load commands */
-    async loadCommands(client) {
+    async loadCommands (client) {
         client.commands = new Discord.Collection();
         const commandFiles = fs.readdirSync(`./src/commands`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
         commandFiles.forEach(file => {
@@ -35,7 +35,7 @@ module.exports = {
     },
 
     /* Run all methods */
-    async loadAll(client) {
+    async loadAll (client) {
         await this.loadVariables(client);
         await this.loadEvents(client);
         await this.loadCommands(client);

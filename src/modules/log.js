@@ -10,7 +10,7 @@ module.exports = (content, color, discordMessage, options) => {
     let logContent = content;
     
     // Report an error if there is an issue with logging
-    logFile.on('error', function() {console.log(`\x1b[33m`, `Warning: Error writing log to ${config.logFile}`)})
+    logFile.on('error', function() { console.log(`\x1b[33m`, `Warning: Error writing log to ${config.logFile}`) })
 
     // Get time
     const time = new Date();
