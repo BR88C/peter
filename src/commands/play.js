@@ -12,7 +12,7 @@ module.exports = {
 	args: true,
 	guildOnly: true,
 	aliases: [`p`],
-	usage: `[search query] or [url]`,
+	usage: `<search query> or <url>`,
 	async execute(client, message, args) {
 		// Checks if user is in vc
 		const { channel } = message.member.voice;
