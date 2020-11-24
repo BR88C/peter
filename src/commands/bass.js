@@ -20,12 +20,14 @@ module.exports = {
 		if(!args[0]) return message.channel.send(`The current bass level is: **+${serverQueue.bass}%**`);
 		
 		// Checks to make sure the bass value specified is greater or equal to 0 and less or equal to 100
-		const specifiedBass = parseInt(args[0]);
-		if(isNaN(specifiedBass)) return message.reply(`please specify an Integer!`);
-		if(specifiedBass > 100 || specifiedBass < 0) return message.reply(`bass value must be between 0 and 100%!`);
+		let specifiedValue = args[0];
+		if(specifiedValue.toLowercase() === `off`) specifiedValue = 0;
+		specifiedValue = parseInt(specifiedValue);
+		if(isNaN(specifiedValue)) return message.reply(`please specify an Integer!`);
+		if(specifiedValue > 100 || specifiedValue < 0) return message.reply(`bass value must be between 0 and 100%!`);
 
-		// Set bass value
-		serverQueue.bass = args[0];
+		// Sets value
+		serverQueue.bass = specifiedValue;
 
 		// Push the song at current time
 		serverQueue.songs.unshift(serverQueue.songs[0]);

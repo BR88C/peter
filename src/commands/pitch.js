@@ -19,12 +19,14 @@ module.exports = {
 		if(!args[0]) return message.channel.send(`The current pitch is: **${serverQueue.pitch}%**`);
 		
         // Checks to make sure the pitch value specified is greater or equal to 10 and less or equal to 250
-        const specifiedPitch = parseInt(args[0]);
-		if(isNaN(specifiedPitch)) return message.reply(`please specify an Integer!`);
-		if(specifiedPitch > 250 || specifiedPitch < 25) return message.reply(`pitch value must be between 25 and 250%!`);
+		let specifiedValue = args[0];
+    	if(specifiedValue.toLowercase() === `off`) specifiedValue = 100;
+    	specifiedValue = parseInt(specifiedValue);
+		if(isNaN(specifiedValue)) return message.reply(`please specify an Integer!`);
+		if(specifiedValue > 250 || specifiedValue < 25) return message.reply(`pitch value must be between 25 and 250%!`);
 
-		// Set bass value
-		serverQueue.pitch = args[0];
+		// Sets value
+		serverQueue.pitch = specifiedValue;
 
 		// Push the song at current time
 		serverQueue.songs.unshift(serverQueue.songs[0]);
