@@ -3,7 +3,7 @@ const log = require(`../modules/log.js`);
 
 module.exports = {
 	name: `skip`,
-	description: `Skips the current song.`,
+	description: `Skips the current song`,
 	category: `Music`,
 	guildOnly: true,
 	async execute(client, message, args) {

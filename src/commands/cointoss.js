@@ -3,7 +3,7 @@ const log = require(`../modules/log.js`);
 
 module.exports = {
 	name: `cointoss`,
-	description: `Flips a coin, returns heads or tails.`,
+	description: `Flips a coin, returns heads or tails`,
 	aliases: [`coin`, `coinflip`],
 	async execute(client, message, args) {
         const value = Math.round(Math.random());

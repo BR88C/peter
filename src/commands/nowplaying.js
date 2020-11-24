@@ -5,7 +5,7 @@ const progressbar = require(`../utils/progressbar.js`);
 
 module.exports = {
 	name: `nowplaying`,
-	description: `Replies with the song currently playing.`,
+	description: `Replies with the song currently playing`,
 	category: `Music`,
 	guildOnly: true,
 	aliases: [`np`],

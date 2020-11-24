@@ -3,7 +3,7 @@ const log = require(`../modules/log.js`);
 
 module.exports = {
 	name: `clear`,
-	description: `Clears the queue without removing the song currently playing.`,
+	description: `Clears the queue without removing the song currently playing`,
 	category: `Music`,
 	guildOnly: true,
 	async execute(client, message, args) {

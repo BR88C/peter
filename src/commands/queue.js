@@ -3,7 +3,7 @@ const log = require(`../modules/log.js`);
 
 module.exports = {
 	name: `queue`,
-	description: `Lists the queue.`,
+	description: `Lists the queue`,
 	category: `Music`,
 	guildOnly: true,
 	aliases: [`q`],

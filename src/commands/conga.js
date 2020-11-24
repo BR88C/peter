@@ -3,7 +3,7 @@ const log = require(`../modules/log.js`);
 
 module.exports = {
 	name: `conga`,
-	description: `Hidden command that plays Conga by Gloria Estefan and sends a gif`,
+	description: `Hidden command that plays Conga by Gloria Estefan and sends an emoji`,
 	guildOnly: true,
 	hide: true,
 	async execute(client, message, args) {

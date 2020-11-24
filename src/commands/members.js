@@ -3,7 +3,7 @@ const log = require(`../modules/log.js`);
 
 module.exports = {
 	name: `members`,
-	description: `Lists the number of members in your server.`,
+	description: `Lists the number of members in your server`,
 	category: `Utility`,
 	guildOnly: true,
 	aliases: [`users`],

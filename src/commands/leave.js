@@ -3,7 +3,7 @@ const log = require(`../modules/log.js`);
 
 module.exports = {
 	name: `leave`,
-	description: `Leaves the voice channel.`,
+	description: `Make the bot leave VC`,
 	category: `Music`,
 	guildOnly: true,
 	aliases: [`l`, `die`],

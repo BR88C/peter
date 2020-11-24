@@ -6,7 +6,7 @@ module.exports = {
 	description: `Add vibrato to music`,
 	category: `Music`,
 	guildOnly: true,
-	usage: `<vibrato value>`,
+	usage: `[vibrato value]`,
 	async execute(client, message, args) {
         // If the queue is empty reply with an error
 		const serverQueue = message.client.queue.get(message.guild.id);

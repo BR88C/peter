@@ -7,7 +7,7 @@ const randomhex = require(`../utils/randomhex.js`);
 
 module.exports = {
 	name: `gif`,
-    description: `Searches giphy for a gif based on your search query.`,
+    description: `Searches giphy for a gif based on your search query`,
     args: true,
 	guildOnly: true,
 	usage: `<search query>`,

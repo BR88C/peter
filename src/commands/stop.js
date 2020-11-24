@@ -3,7 +3,7 @@ const log = require(`../modules/log.js`);
 
 module.exports = {
 	name: `stop`,
-	description: `Stops all music and clears the queue.`,
+	description: `Stops all music and clears the queue`,
 	category: `Music`,
 	guildOnly: true,
 	async execute(client, message, args) {

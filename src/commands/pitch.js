@@ -6,7 +6,7 @@ module.exports = {
 	description: `Change the pitch of the current song`,
 	category: `Music`,
 	guildOnly: true,
-	usage: `<pitch value>`,
+	usage: `[pitch value]`,
 	async execute(client, message, args) {
         // If the queue is empty reply with an error
 		const serverQueue = message.client.queue.get(message.guild.id);

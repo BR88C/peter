@@ -3,7 +3,8 @@ const log = require(`../modules/log.js`);
 
 module.exports = {
 	name: `echo`,
-	description: `Says a custom message.`,
+	description: `Says a custom message`,
+	args: true,
 	devOnly: true,
 	hide: true,
 	usage: `<message>`,

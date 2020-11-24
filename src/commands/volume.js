@@ -7,7 +7,7 @@ module.exports = {
 	category: `Music`,
 	guildOnly: true,
 	aliases: [`v`],
-	usage: `<volume %>`,
+	usage: `[volume %]`,
 	async execute(client, message, args) {
 		// If the queue is empty reply with an error
 		const serverQueue = message.client.queue.get(message.guild.id);

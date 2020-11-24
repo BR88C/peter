@@ -2,8 +2,8 @@ const Discord = require(`discord.js`);
 const log = require(`../modules/log.js`);
 
 module.exports = {
-	name: 'ping',
-	description: 'Shows ping in Milliseconds.',
+	name: `ping`,
+	description: `Shows ping in milliseconds`,
 	category: `Bot Info`,
 	async execute(client, message, args) {
 		// Get ping
