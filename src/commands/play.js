@@ -1,18 +1,19 @@
 const Discord = require(`discord.js`);
 const ytdl = require(`discord-ytdl-core`);
 const yts = require(`yt-search`);
+const config = require(`../config.json`);
 const log = require(`../modules/log.js`);
 const songhandler = require(`../modules/songhandler.js`);
 const time = require(`../utils/time.js`);
 
 module.exports = {
 	name: `play`,
-	description: `Plays a song in a vc.`,
+	description: `Plays a song in a VC`,
 	category: `Music`,
 	args: true,
 	guildOnly: true,
 	aliases: [`p`],
-	usage: `<search query> or <url>`,
+	usage: `<search query> **or** ${config.prefix} play <url>`,
 	async execute(client, message, args) {
 		// Checks if user is in vc
 		const { channel } = message.member.voice;
@@ -94,8 +95,10 @@ module.exports = {
 			playing: true,
 			loop: false,
 			bass: 0,
+			highpass: 0,
 			pitch: 100,
 			speed: 100,
+			treble: 0,
 			vibrato: 0
 		}
 
