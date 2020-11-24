@@ -16,7 +16,7 @@ module.exports = (songToPlay, message) => {
             filter: "audioonly",
             opusEncoded: true,
             highWaterMark: 1<<25,
-            encoderArgs: [`-af`, `bass=g=${queue.bass / 3}, vibrato=d=${queue.vibrato / 100}, atempo=${queue.speed / 100}, rubberband=pitch=${queue.pitch / 100}`]
+            encoderArgs: [`-af`, `bass=g=${queue.bass / 2}, vibrato=d=${queue.vibrato / 100}, atempo=${queue.speed / 100}, rubberband=pitch=${queue.pitch / 100}`]
         })
 
         const dispatcher = queue.connection.play(stream, { type: `opus`, bitrate: 64 /* 64kbps */ })
