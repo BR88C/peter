@@ -76,7 +76,7 @@ module.exports = {
 
 			let queueAddEmbed = new Discord.MessageEmbed()
 				.setColor(0x0cdf24)
-				.setAuthor(`✅ "${song.title}" has been added to the queue!`)
+				.setTitle(`✅ "${song.title}" has been added to the queue!`)
 				.setImage(song.thumbnail)
 				.setDescription(song.url)
 				.setFooter(`Requested by: ${song.requestedBy.tag}`)
