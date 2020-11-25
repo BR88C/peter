@@ -18,7 +18,7 @@ module.exports = {
 		// Sets the description field based on if the song is a livestream or not
 		let description;
 		if(serverQueue.songs[0].livestream) {
-			description = `🔴  LIVE`
+			description = `🔴  **LIVE**`
 		} else {
 			const completed = (serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[0].startTime;
 			const percentComplete = completed / serverQueue.songs[0].rawTime;
