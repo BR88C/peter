@@ -3,7 +3,7 @@ const ytdl = require(`discord-ytdl-core`);
 const yts = require(`yt-search`);
 const config = require(`../config.json`);
 const log = require(`../modules/log.js`);
-const songhandler = require(`../modules/songhandler.js`);
+const streamhandler = require(`../modules/streamhandler.js`);
 const time = require(`../utils/time.js`);
 
 module.exports = {
@@ -112,7 +112,7 @@ module.exports = {
 			const queue = message.client.queue.get(message.guild.id);
 			queueConstruct.connection = connection;
 			connection.voice.setSelfDeaf(true);
-			songhandler(queueConstruct.songs[0], message);
+			streamhandler(queueConstruct.songs[0], message);
 		} catch (error) {
 			log(`I could not join the voice channel: ${error}`, `red`);
 			message.client.queue.delete(message.guild.id);
