@@ -9,16 +9,41 @@ module.exports = (songToPlay, message) => {
         const queue = message.client.queue.get(message.guild.id);
         const serverQueue = message.client.queue.get(message.guild.id);
 
+        // Return if song isn't defined
         if(!song) return queue.songs = [];
 
-        const stream = ytdl(song.url, {
-            seek: song.startTime,
-            filter: "audioonly",
-            opusEncoded: true,
-            highWaterMark: 1<<25,
-            encoderArgs: [`-af`, `bass=g=${queue.bass / 2}, vibrato=d=${queue.vibrato / 100}, atempo=${queue.speed / 100}, rubberband=pitch=${queue.pitch / 100}`]
-        })
+        // Create ffmpeg encoder arguments
+        let sfxArgs = [];
+        if(queue.bass !== 0) sfxArgs.push(`bass=g=${queue.bass / 2}`);
+        if(queue.highpass !== 0) sfxArgs.push(`highpass=f=${queue.highpass * 25}, volume=${queue.highpass / 15}`);
+        if(queue.pitch !== 100) sfxArgs.push(`rubberband=pitch=${queue.pitch / 100}`);
+        if(queue.speed !== 100) sfxArgs.push(`atempo=${queue.speed / 100}`);
+        if(queue.treble !== 0) sfxArgs.push(`treble=g=${queue.treble / 3}`);
+        if(queue.vibrato !== 0) sfxArgs.push(`vibrato=d=${queue.vibrato / 100}`);
+        console.log(sfxArgs);
 
+        // Create stream
+        let stream;
+        if(sfxArgs[0]) {
+            console.log(`yes`)
+            stream = ytdl(song.url, {
+                seek: song.startTime,
+                filter: "audioonly",
+                opusEncoded: true,
+                highWaterMark: 1<<25,
+                encoderArgs: [`-af`, sfxArgs.join(`, `)]
+            });
+        } else {
+            console.log(`no`)
+            stream = ytdl(song.url, {
+                seek: song.startTime,
+                filter: "audioonly",
+                opusEncoded: true,
+                highWaterMark: 1<<25,
+            });
+        }
+
+        // Play the stream
         const dispatcher = queue.connection.play(stream, { type: `opus`, bitrate: 64 /* 64kbps */ })
             // When the song ends
             .on(`finish`, reason => {
@@ -56,7 +81,7 @@ module.exports = (songToPlay, message) => {
 
         let playingEmbed = new Discord.MessageEmbed()
             .setColor(0x5ce6c8)
-            .setAuthor(`🎶 Started playing: ${song.title}`)
+            .setTitle(`🎶 Started playing: ${song.title}`)
             .setImage(song.thumbnail)
             .setDescription(song.url)
             .setFooter(`Requested by: ${song.requestedBy.tag}`)
