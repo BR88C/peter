@@ -16,6 +16,9 @@ module.exports = {
 		// Checks if the user is in the VC
         if(message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to change the music's speed!`);
 
+		// Checks if the current song is a livestream
+		if(serverQueue.songs[0].livestrean) return message.reply(`this command does not support livestreams!`);
+
 		// Replies with the current speed if no arguments are specified
 		if(!args[0]) return message.channel.send(`The current speed is: **${serverQueue.speed}%**`);
 		
