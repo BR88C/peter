@@ -24,7 +24,7 @@ module.exports = (songToPlay, message) => {
 
         // Create stream
         let stream;
-        if(sfxArgs[0] && !song.livestream) {
+        if(sfxArgs[0]) {
             stream = ytdl(song.url, {
                 seek: song.startTime,
                 opusEncoded: true,
