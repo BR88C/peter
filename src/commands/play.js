@@ -26,15 +26,18 @@ module.exports = {
 		if(!permissions.has(`CONNECT`)) return message.reply(`I cannot connect to your voice channel, make sure I have the proper permissions!`);
 		if(!permissions.has(`SPEAK`)) return message.reply(`I cannot speak in your voice channel, make sure I have the proper permissions!`);
 
-
-
-
 		let errorEmbed = new Discord.MessageEmbed()
-                .setColor(0xff4a4a)
-                .setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`);
+            .setColor(0xff4a4a)
+            .setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`);
 
 		// Defines the server queue
 		const serverQueue = message.client.queue.get(message.guild.id);
+
+
+
+		// Define variables for playlist
+		const playlistRegex = /^.*(youtu.be\/|list=)([^#\&\?]*).*/;
+		let playlist;
 
 		// Define songInfo
 		let songInfo;
@@ -47,6 +50,18 @@ module.exports = {
 				return message.channel.send(errorEmbed);
 			});
 		
+		// If the arguments are a playlist
+		} else if(args.slice(0).join(` `).match(playlistRegex) && args.slice(0).join(` `).match(playlistRegex)[2]) {
+			playlist = await yts({ listId: args.slice(0).join(` `).match(playlistRegex)[2] })
+
+			songInfo = await ytdl.getInfo(`${playlist.videos[0].videoId}`).catch(error => {
+				log(error, `red`);
+				return message.channel.send(errorEmbed);
+			});
+
+			// Removes the already queued playlist song
+			playlist.videos.shift();
+
 		// If the arguments provided are not a url, search youtube for a video
 		} else {
 			const ytsResult = await yts(args.slice(0).join(` `));
@@ -73,11 +88,14 @@ module.exports = {
 		// Define queue construct
 		const queueConstruct = await songhandler.createQueue(song, message);
 
+
+
 		// Join vc and play music
 		try {
 			const connection = await channel.join();
 			queueConstruct.connection = connection;
 			connection.voice.setSelfDeaf(true);
+			if(playlist) await songhandler.queuePlaylist(playlist, message);
 			streamhandler.play(queueConstruct.songs[0], message);
 		} catch (error) {
 			log(`I could not join the voice channel: ${error}`, `red`);

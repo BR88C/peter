@@ -81,5 +81,28 @@ module.exports = {
 
 		// Return queue construct
 		return queueConstruct;
+	},
+
+
+	/* Adds a playlist to the queue */
+	async queuePlaylist (playlist, message) {
+		const serverQueue = message.client.queue.get(message.guild.id);
+		
+		message.channel.send(`Attempting to queue ${playlist.videos.length + 1} songs...`)
+
+		let songsAdded = 0;
+		for(const video of playlist.videos) {
+			const songInfo = await ytdl.getInfo(`${video.videoId}`).catch(error => {
+				log(error, `red`);
+				return message.channel.send(`Error adding ${video.title} to the queue`);
+			});
+
+			const song = await this.getSongInfo(songInfo, message);
+			await serverQueue.songs.push(song);
+
+			songsAdded++
+		}
+
+		message.channel.send(`Successfully queued ${songsAdded + 1} songs!`)
 	}
 }
