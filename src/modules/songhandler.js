@@ -6,9 +6,20 @@ const time = require(`../utils/time.js`);
 
 module.exports = {
     async getSongInfo (songInfo, message) {
+		// Sets format based on if video is a livestream
+		let format;
+        if(songInfo.videoDetails.isLive) {
+			format = ytdl.chooseFormat(songInfo.formats, { isHLS: true }).itag.toString();
+			console.log(format)
+        } else {
+			const audioFormats = ytdl.filterFormats(songInfo.formats, `audioonly`);
+            format = ytdl.chooseFormat(audioFormats, { quality: `highest` });
+        }
+
         return {
 			title: songInfo.videoDetails.title.replace(/-|\*|_|\|/g, ` `),
-			livestream: songInfo.livestream,
+			livestream: songInfo.videoDetails.isLive,
+			format,
 			url: songInfo.videoDetails.video_url,
 			thumbnail: songInfo.videoDetails.thumbnail.thumbnails[0].url,
 			timestamp: time(songInfo.videoDetails.lengthSeconds),
@@ -33,7 +44,7 @@ module.exports = {
 		return message.channel.send(queueAddEmbed);
 	},
 
-	async createQueue (message) {
+	async createQueue (message, channel, song) {
 		// Create queue construct
 		const queueConstruct = {
 			textChannel: message.channel,
