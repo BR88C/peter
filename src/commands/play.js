@@ -68,9 +68,7 @@ module.exports = {
 		const song = await songhandler.getSongInfo(songInfo, message);
 		
 		// Adds a song to the queue if there is already a song playing
-		if (serverQueue && serverQueue.songs[0]) {
-			await songhandler.queueSong(song, message, serverQueue);
-		}
+		if (serverQueue && serverQueue.songs[0]) return await songhandler.queueSong(song, message, serverQueue);
 
 		// Define queue construct
 		const queueConstruct = await songhandler.createQueue(message, channel, song);
