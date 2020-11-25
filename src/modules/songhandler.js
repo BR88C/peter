@@ -20,12 +20,10 @@ module.exports = (songToPlay, message) => {
         if(queue.speed !== 100) sfxArgs.push(`atempo=${queue.speed / 100}`);
         if(queue.treble !== 0) sfxArgs.push(`treble=g=${queue.treble / 3}`);
         if(queue.vibrato !== 0) sfxArgs.push(`vibrato=d=${queue.vibrato / 100}`);
-        console.log(sfxArgs);
 
         // Create stream
         let stream;
         if(sfxArgs[0]) {
-            console.log(`yes`)
             stream = ytdl(song.url, {
                 seek: song.startTime,
                 filter: "audioonly",
@@ -34,7 +32,6 @@ module.exports = (songToPlay, message) => {
                 encoderArgs: [`-af`, sfxArgs.join(`, `)]
             });
         } else {
-            console.log(`no`)
             stream = ytdl(song.url, {
                 seek: song.startTime,
                 filter: "audioonly",
