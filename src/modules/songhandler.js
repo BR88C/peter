@@ -6,14 +6,17 @@ const time = require(`../utils/time.js`);
 
 module.exports = {
     async getSongInfo (songInfo, message) {
-		// Sets format based on if video is a livestream
+		// Sets format and timestamp based on if video is a livestream
 		let format;
+		let timestamp;
         if(songInfo.videoDetails.isLive) {
 			format = ytdl.chooseFormat(songInfo.formats, { isHLS: true }).itag.toString();
 			console.log(format)
+			timestamp = `LIVE`
         } else {
 			const audioFormats = ytdl.filterFormats(songInfo.formats, `audioonly`);
-            format = ytdl.chooseFormat(audioFormats, { quality: `highest` });
+			format = ytdl.chooseFormat(audioFormats, { quality: `highest` });
+			timestamp = time(songInfo.videoDetails.lengthSeconds);
         }
 
         return {
@@ -22,7 +25,7 @@ module.exports = {
 			format,
 			url: songInfo.videoDetails.video_url,
 			thumbnail: songInfo.videoDetails.thumbnail.thumbnails[0].url,
-			timestamp: time(songInfo.videoDetails.lengthSeconds),
+			timestamp,
 			rawTime: songInfo.videoDetails.lengthSeconds,
 			requestedBy: message.author,
 			hidden: false,

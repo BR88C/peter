@@ -14,8 +14,17 @@ module.exports = {
 		const serverQueue = message.client.queue.get(message.guild.id);
 		if(!serverQueue) return message.channel.send(`There is noting playing.`);
 
-		const completed = (serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[0].startTime;
-		const percentComplete = completed / serverQueue.songs[0].rawTime;
+
+		// Sets the description field based on if the song is a livestream or not
+		let description;
+		if(serverQueue.songs[0].livestream) {
+			description = `🔴  LIVE`
+		} else {
+			const completed = (serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[0].startTime;
+			const percentComplete = completed / serverQueue.songs[0].rawTime;
+			description = time(Math.round(completed)) + ` ` + progressbar(percentComplete, 35) + ` ` + serverQueue.songs[0].timestamp;
+		}
+		
 
 		// Create embed
 		let nowPlayingEmbed = new Discord.MessageEmbed()
@@ -23,7 +32,7 @@ module.exports = {
 			.setAuthor(`🎶 Currently playing:`)
 			.setTitle(`**${serverQueue.songs[0].title}**`)
 			.setURL(serverQueue.songs[0].url)
-			.setDescription(time(Math.round(completed)) + ` ` + progressbar(percentComplete, 35) + ` ` + serverQueue.songs[0].timestamp)
+			.setDescription(description)
 			.setThumbnail(serverQueue.songs[0].thumbnail)
 			.setFooter(`Requested by: ${serverQueue.songs[0].requestedBy.tag}`)
 			.setTimestamp(new Date());
