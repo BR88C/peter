@@ -21,7 +21,7 @@ module.exports = {
 
 			let resumeEmbed = new Discord.MessageEmbed()
 				.setColor(0xb8ff9c)
-				.setTitle(`▶ Current song was resumed!`);
+				.setTitle(`▶  Current song was resumed!`);
 
 			return message.channel.send(resumeEmbed);
 

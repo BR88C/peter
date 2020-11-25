@@ -32,7 +32,7 @@ module.exports = {
 
 		let volumeEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
-			.setTitle(`🔊 Set the volume to **${specifiedValue}%**`);
+			.setTitle(`🔊  Set the volume to **${specifiedValue}%**`);
 
 		return message.channel.send(volumeEmbed);
 	},

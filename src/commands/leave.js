@@ -26,7 +26,7 @@ module.exports = {
 
 			let leaveEmbed = new Discord.MessageEmbed()
 				.setColor(0xff4a4a)
-				.setTitle(`${emoji} Left the VC.`);
+				.setTitle(`${emoji}  Left the VC.`);
 
 			return message.channel.send(leaveEmbed);
 

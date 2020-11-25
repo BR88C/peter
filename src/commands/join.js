@@ -28,7 +28,7 @@ module.exports = {
 			
 			let joinEmbed = new Discord.MessageEmbed()
 				.setColor(0xc2ffb0)
-				.setTitle(`✅ Joined ${connection.channel.name}`);
+				.setTitle(`✅  Joined ${connection.channel.name}`);
 
 			message.channel.send(joinEmbed);
 		} catch (error) {

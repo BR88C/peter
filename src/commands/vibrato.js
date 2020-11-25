@@ -36,7 +36,7 @@ module.exports = {
 
 		let vibratoEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
-			.setTitle(`🎵 Set the vibrato to **${specifiedValue}%**`);
+			.setTitle(`🎵  Set the vibrato to **${specifiedValue}%**`);
 
 		return message.channel.send(vibratoEmbed);
 	},

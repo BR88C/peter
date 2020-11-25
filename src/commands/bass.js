@@ -37,7 +37,7 @@ module.exports = {
 
 		let bassEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
-			.setTitle(`🥁 Set the bass to **+${specifiedValue}%**`);
+			.setTitle(`🥁  Set the bass to **+${specifiedValue}%**`);
 
 		return message.channel.send(bassEmbed);
 	},

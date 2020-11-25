@@ -19,6 +19,12 @@ module.exports = {
 		// Plays the song from the beginning
 		serverQueue.songs[0].startTime = 0;
     	serverQueue.songs[0].hidden = false;
-        songhandler(serverQueue.songs[0], message);
+		songhandler(serverQueue.songs[0], message);
+		
+		let replayEmbed = new Discord.MessageEmbed()
+			.setColor(0xbccbd1)
+			.setTitle(`🔁  Restarted the song`);
+
+		return message.channel.send(replayEmbed);
 	},
 }

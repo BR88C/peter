@@ -36,7 +36,7 @@ module.exports = {
 
 		let trebleEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
-			.setTitle(`🎼 Set the treble to **+${specifiedValue}%**`);
+			.setTitle(`🎼  Set the treble to **+${specifiedValue}%**`);
 
 		return message.channel.send(trebleEmbed);
 	},

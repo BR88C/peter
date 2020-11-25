@@ -29,7 +29,7 @@ module.exports = {
 
         let removeEmbed = new Discord.MessageEmbed()
             .setColor(0xff668a)
-            .setTitle(`❌ Removed **${song[0].title}** from the queue!`);
+            .setTitle(`❌  Removed **${song[0].title}** from the queue!`);
 
         return message.channel.send(removeEmbed);
 	},

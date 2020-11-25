@@ -40,7 +40,7 @@ module.exports = {
 
 		let speedEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
-			.setTitle(`🏃 Set the speed to **${specifiedValue}%**`);
+			.setTitle(`🏃  Set the speed to **${specifiedValue}%**`);
 
 		return message.channel.send(speedEmbed);
 	},

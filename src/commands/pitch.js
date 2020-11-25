@@ -36,7 +36,7 @@ module.exports = {
 
 		let pitchEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
-			.setTitle(`👂 Set the pitch to **${specifiedValue}%**`);
+			.setTitle(`👂  Set the pitch to **${specifiedValue}%**`);
 
 		return message.channel.send(pitchEmbed);
 	},

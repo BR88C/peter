@@ -19,7 +19,7 @@ module.exports = {
 
 			let loopEmbed = new Discord.MessageEmbed()
 			.setColor(0x9cd6ff)
-			.setTitle(`🔂 Now looping the current song.`);
+			.setTitle(`🔂  Now looping the current song.`);
 
 			return message.channel.send(loopEmbed);
 

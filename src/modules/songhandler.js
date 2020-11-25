@@ -81,7 +81,7 @@ module.exports = (songToPlay, message) => {
 
         let playingEmbed = new Discord.MessageEmbed()
             .setColor(0x5ce6c8)
-            .setTitle(`🎶 Started playing: ${song.title}`)
+            .setTitle(`🎶  Started playing: ${song.title}`)
             .setImage(song.thumbnail)
             .setDescription(song.url)
             .setFooter(`Requested by: ${song.requestedBy.tag}`)

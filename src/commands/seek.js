@@ -32,7 +32,7 @@ module.exports = {
 
 		let seekEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
-			.setTitle(`⏩ Seeked to **${time(specifiedTime)}**`);
+			.setTitle(`⏩  Seeked to **${time(specifiedTime)}**`);
 
 		return message.channel.send(seekEmbed);
 	},

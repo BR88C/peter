@@ -36,7 +36,7 @@ module.exports = {
 
 		let highpassEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
-			.setTitle(`⬆️ Set the highpass level to **+${specifiedValue}%**`);
+			.setTitle(`⬆️  Set the highpass level to **+${specifiedValue}%**`);
 
 		return message.channel.send(highpassEmbed);
 	},
