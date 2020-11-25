@@ -42,7 +42,7 @@ module.exports = (songToPlay, message) => {
         }
 
         // Play the stream
-        const dispatcher = queue.connection.play(stream, { type: `opus`, bitrate: 64 /* 64kbps */ })
+        const dispatcher = queue.connection.play(stream, { type: `opus`, bitrate: 96 /* 96kbps */ })
             // When the song ends
             .on(`finish`, reason => {
                 if(serverQueue.loop && !serverQueue.songs[0].livestream) {
