@@ -15,7 +15,7 @@ module.exports = {
         if(message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to loop the current song!`);
 
 		// Checks if the current song is a livestream
-		if(serverQueue.songs[0].livestrean) return message.reply(`this command does not support livestreams!`);
+		if(serverQueue.songs[0].livestream) return message.reply(`this command does not support livestreams!`);
 
 		if(!args[0] || args[0].toLowerCase() === `on`) {
 			serverQueue.loop = true;
