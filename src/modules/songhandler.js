@@ -14,7 +14,7 @@ module.exports = {
 			timestamp = `LIVE`
         } else {
 			const audioFormats = ytdl.filterFormats(songInfo.formats, `audioonly`);
-			format = ytdl.chooseFormat(audioFormats, { quality: `highest` });
+			format = ytdl.chooseFormat(audioFormats, { quality: `highestaudio` }).itag.toString();
 			timestamp = time(songInfo.videoDetails.lengthSeconds);
         }
 
