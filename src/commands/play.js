@@ -3,8 +3,9 @@ const ytdl = require(`discord-ytdl-core`);
 const yts = require(`yt-search`);
 const config = require(`../config.json`);
 const log = require(`../modules/log.js`);
+const songhandler = require(`../modules/songhandler.js`);
 const streamhandler = require(`../modules/streamhandler.js`);
-const time = require(`../utils/time.js`);
+
 
 module.exports = {
 	name: `play`,
@@ -25,6 +26,9 @@ module.exports = {
 		if(!permissions.has(`CONNECT`)) return message.reply(`I cannot connect to your voice channel, make sure I have the proper permissions!`);
 		if(!permissions.has(`SPEAK`)) return message.reply(`I cannot speak in your voice channel, make sure I have the proper permissions!`);
 
+
+
+		
 		let errorEmbed = new Discord.MessageEmbed()
                 .setColor(0xff4a4a)
                 .setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`);
@@ -58,58 +62,22 @@ module.exports = {
 			});
 		}
 
+
+
 		// Defines song info
-		const song = {
-			title: songInfo.videoDetails.title.replace(/-|\*|_|\|/g, ` `),
-			url: songInfo.videoDetails.video_url,
-			thumbnail: songInfo.videoDetails.thumbnail.thumbnails[0].url,
-			timestamp: time(songInfo.videoDetails.lengthSeconds),
-			rawTime: songInfo.videoDetails.lengthSeconds,
-			requestedBy: message.author,
-			hidden: false,
-			startTime: 0
-		}
+		const song = await songhandler.getSongInfo(songInfo, message);
 		
 		// Adds a song to the queue if there is already a song playing
 		if (serverQueue && serverQueue.songs[0]) {
-			serverQueue.songs.push(song);
-
-			let queueAddEmbed = new Discord.MessageEmbed()
-				.setColor(0x0cdf24)
-				.setTitle(`✅  "${song.title}" has been added to the queue!`)
-				.setImage(song.thumbnail)
-				.setDescription(song.url)
-				.setFooter(`Requested by: ${song.requestedBy.tag}`)
-				.setTimestamp(new Date());
-				
-			return message.channel.send(queueAddEmbed);
+			await songhandler.queueSong(song, message, serverQueue);
 		}
 
 		// Define queue construct
-		const queueConstruct = {
-			textChannel: message.channel,
-			channel,
-			connection: null,
-			songs: [],
-			volume: 100,
-			playing: true,
-			loop: false,
-			bass: 0,
-			highpass: 0,
-			pitch: 100,
-			speed: 100,
-			treble: 0,
-			vibrato: 0
-		}
-
-		// Pushing and playing songs
-		message.client.queue.set(message.guild.id, queueConstruct);
-		queueConstruct.songs.push(song);
+		const queueConstruct = await songhandler.createQueue(message);
 
 		// Join vc and play music
 		try {
 			const connection = await channel.join();
-			const queue = message.client.queue.get(message.guild.id);
 			queueConstruct.connection = connection;
 			connection.voice.setSelfDeaf(true);
 			streamhandler(queueConstruct.songs[0], message);
