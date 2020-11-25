@@ -21,7 +21,7 @@ module.exports = {
 		
 		// Checks to make sure the speed specified is greater or equal to 50 and less or equal to 500
 		let specifiedValue = args[0];
-    	if(specifiedValue.toLowercase() === `off`) specifiedValue = 100;
+    	if(specifiedValue.toLowerCase() === `off`) specifiedValue = 100;
     	specifiedValue = parseInt(specifiedValue);
 		if(isNaN(specifiedValue)) return message.reply(`please specify an Integer!`);
 		if(specifiedValue > 500 || specifiedValue < 50) return message.reply(`speed must be between 50 and 500%!`);
@@ -40,7 +40,7 @@ module.exports = {
 
 		let speedEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
-			.setTitle(`🏃 Set the speed to **${specifiedSpeed}%**`);
+			.setTitle(`🏃 Set the speed to **${specifiedValue}%**`);
 
 		return message.channel.send(speedEmbed);
 	},

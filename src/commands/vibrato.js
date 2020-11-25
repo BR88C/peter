@@ -20,7 +20,7 @@ module.exports = {
 		
 		// Checks to make sure the vibrato value specified is greater or equal to 0 and less or equal to 100
 		let specifiedValue = args[0];
-    	if(specifiedValue.toLowercase() === `off`) specifiedValue = 0;
+    	if(specifiedValue.toLowerCase() === `off`) specifiedValue = 0;
     	specifiedValue = parseInt(specifiedValue);
 		if(isNaN(specifiedValue)) return message.reply(`please specify an Integer!`);
 		if(specifiedValue > 100 || specifiedValue < 0) return message.reply(`vibrato value must be between 0 and 100%!`);
@@ -36,7 +36,7 @@ module.exports = {
 
 		let vibratoEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
-			.setTitle(`🎵 Set the vibrato to **${specifiedVibrato}%**`);
+			.setTitle(`🎵 Set the vibrato to **${specifiedValue}%**`);
 
 		return message.channel.send(vibratoEmbed);
 	},

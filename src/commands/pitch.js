@@ -20,7 +20,7 @@ module.exports = {
 		
         // Checks to make sure the pitch value specified is greater or equal to 10 and less or equal to 250
 		let specifiedValue = args[0];
-    	if(specifiedValue.toLowercase() === `off`) specifiedValue = 100;
+    	if(specifiedValue.toLowerCase() === `off`) specifiedValue = 100;
     	specifiedValue = parseInt(specifiedValue);
 		if(isNaN(specifiedValue)) return message.reply(`please specify an Integer!`);
 		if(specifiedValue > 250 || specifiedValue < 25) return message.reply(`pitch value must be between 25 and 250%!`);
@@ -36,7 +36,7 @@ module.exports = {
 
 		let pitchEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
-			.setTitle(`👂 Set the pitch to **${specifiedPitch}%**`);
+			.setTitle(`👂 Set the pitch to **${specifiedValue}%**`);
 
 		return message.channel.send(pitchEmbed);
 	},
