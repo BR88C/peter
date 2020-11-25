@@ -5,6 +5,7 @@ const ytdl = require(`discord-ytdl-core`);
 const time = require(`../utils/time.js`);
 
 module.exports = {
+	/* Gets info for a song to be added to the queue */
     async getSongInfo (songInfo, message) {
 		// Sets format and timestamp based on if video is a livestream
 		let format;
@@ -32,7 +33,12 @@ module.exports = {
         };
     },
 
-	async queueSong (song, message, serverQueue) {
+
+
+	/* Adds a song to the queue */
+	async queueSong (song, message) {
+		const serverQueue = message.client.queue.get(message.guild.id);
+
 		serverQueue.songs.push(song);
 
 		let queueAddEmbed = new Discord.MessageEmbed()
@@ -46,7 +52,12 @@ module.exports = {
 		return message.channel.send(queueAddEmbed);
 	},
 
-	async createQueue (message, channel, song) {
+
+
+	/* Creates the queue */
+	async createQueue (song, message) {
+		const { channel } = message.member.voice;
+
 		// Create queue construct
 		const queueConstruct = {
 			textChannel: message.channel,

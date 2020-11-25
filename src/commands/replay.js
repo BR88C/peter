@@ -22,7 +22,7 @@ module.exports = {
 		// Plays the song from the beginning
 		serverQueue.songs[0].startTime = 0;
     	serverQueue.songs[0].hidden = false;
-		streamhandler(serverQueue.songs[0], message);
+		streamhandler.play(serverQueue.songs[0], message);
 		
 		let replayEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)

@@ -68,17 +68,17 @@ module.exports = {
 		const song = await songhandler.getSongInfo(songInfo, message);
 		
 		// Adds a song to the queue if there is already a song playing
-		if (serverQueue && serverQueue.songs[0]) return await songhandler.queueSong(song, message, serverQueue);
+		if (serverQueue && serverQueue.songs[0]) return await songhandler.queueSong(song, message);
 
 		// Define queue construct
-		const queueConstruct = await songhandler.createQueue(message, channel, song);
+		const queueConstruct = await songhandler.createQueue(song, message);
 
 		// Join vc and play music
 		try {
 			const connection = await channel.join();
 			queueConstruct.connection = connection;
 			connection.voice.setSelfDeaf(true);
-			streamhandler(queueConstruct.songs[0], message);
+			streamhandler.play(queueConstruct.songs[0], message);
 		} catch (error) {
 			log(`I could not join the voice channel: ${error}`, `red`);
 			message.client.queue.delete(message.guild.id);

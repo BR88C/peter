@@ -4,8 +4,8 @@ const Discord = require(`discord.js`);
 const ytdl = require(`discord-ytdl-core`);
 const log = require(`./log.js`);
 
-module.exports = (songToPlay, message) => {
-    async function play (song) {
+module.exports = {
+    async play (song, message) {
         const queue = message.client.queue.get(message.guild.id);
         const serverQueue = message.client.queue.get(message.guild.id);
 
@@ -48,10 +48,10 @@ module.exports = (songToPlay, message) => {
                 if(serverQueue.loop && !serverQueue.songs[0].livestream) {
                     queue.songs[0].startTime = 0;
                     queue.songs[0].hidden = false;
-                    play(queue.songs[0]);
+                    this.play(queue.songs[0], message);
                 } else {
                     queue.songs.shift();
-                    play(queue.songs[0]);
+                    this.play(queue.songs[0], message);
                 }
             })
             // If there is an error leave the vc and report to the user
@@ -87,6 +87,4 @@ module.exports = (songToPlay, message) => {
 
         if(!queue.songs[0].hidden) queue.textChannel.send(playingEmbed);
     }
-
-    play(songToPlay);
 }
