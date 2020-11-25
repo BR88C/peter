@@ -21,7 +21,7 @@ module.exports = (songToPlay, message) => {
         if(queue.treble !== 0) sfxArgs.push(`treble=g=${queue.treble / 3}`);
         if(queue.vibrato !== 0) sfxArgs.push(`vibrato=d=${queue.vibrato / 100}`);
 
-             
+
         // Create stream
         let stream;
         if(sfxArgs[0] && !song.livestream) {
