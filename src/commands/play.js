@@ -28,7 +28,7 @@ module.exports = {
 
 
 
-		
+
 		let errorEmbed = new Discord.MessageEmbed()
                 .setColor(0xff4a4a)
                 .setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`);
@@ -73,7 +73,7 @@ module.exports = {
 		}
 
 		// Define queue construct
-		const queueConstruct = await songhandler.createQueue(message);
+		const queueConstruct = await songhandler.createQueue(message, channel, song);
 
 		// Join vc and play music
 		try {
