@@ -17,7 +17,7 @@ module.exports = (songToPlay, message) => {
         if(queue.bass !== 0) sfxArgs.push(`bass=g=${queue.bass / 2}`);
         if(queue.highpass !== 0) sfxArgs.push(`highpass=f=${queue.highpass * 25}, volume=${queue.highpass / 15}`);
         if(queue.pitch !== 100) sfxArgs.push(`rubberband=pitch=${queue.pitch / 100}`);
-        if(queue.speed !== 100) sfxArgs.push(`atempo=${queue.speed / 100}`);
+        if(queue.speed !== 100 && !song.livestream) sfxArgs.push(`atempo=${queue.speed / 100}`);
         if(queue.treble !== 0) sfxArgs.push(`treble=g=${queue.treble / 3}`);
         if(queue.vibrato !== 0) sfxArgs.push(`vibrato=d=${queue.vibrato / 100}`);
 
