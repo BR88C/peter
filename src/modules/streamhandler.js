@@ -45,7 +45,7 @@ module.exports = (songToPlay, message) => {
         const dispatcher = queue.connection.play(stream, { type: `opus`, bitrate: 64 /* 64kbps */ })
             // When the song ends
             .on(`finish`, reason => {
-                if(serverQueue.loop) {
+                if(serverQueue.loop && !serverQueue.songs[0].livestream) {
                     queue.songs[0].startTime = 0;
                     queue.songs[0].hidden = false;
                     play(queue.songs[0]);
