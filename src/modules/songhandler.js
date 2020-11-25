@@ -11,7 +11,6 @@ module.exports = {
 		let timestamp;
         if(songInfo.videoDetails.isLive) {
 			format = ytdl.chooseFormat(songInfo.formats, { isHLS: true }).itag.toString();
-			console.log(format)
 			timestamp = `LIVE`
         } else {
 			const audioFormats = ytdl.filterFormats(songInfo.formats, `audioonly`);
