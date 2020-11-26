@@ -12,7 +12,7 @@ module.exports = {
 	async execute(client, message, args) {
 		// If the queue is empty reply with an error
 		const serverQueue = message.client.queue.get(message.guild.id);
-		if(!serverQueue && !serverQueue.songs) return message.channel.send(`There is noting playing.`);
+		if(!serverQueue || !serverQueue.songs) return message.channel.send(`There is noting playing.`);
 
 
 		// Sets the description field based on if the song is a livestream or not
