@@ -10,7 +10,7 @@ module.exports = {
 	async execute(client, message, args) {
 		// If the queue is empty reply with an error
 		const serverQueue = message.client.queue.get(message.guild.id);
-		if (!serverQueue || !serverQueue.songs) return message.channel.send(`There is nothing in the queue.`);
+		if (!serverQueue || !serverQueue.songs[0]) return message.channel.send(`There is nothing in the queue.`);
 
 		// If the user specifies a song
 		if(args.length) {
