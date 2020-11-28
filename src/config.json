@@ -7,7 +7,8 @@
     },
     "links": {
         "supportServer": "https://discord.com/invite/AuWudDAvc7",
-        "invite": "https://discord.com/oauth2/authorize?client_id=744694015630245949&scope=bot&permissions=305523782"
+        "invite": "https://discord.com/oauth2/authorize?client_id=744694015630245949&scope=bot&permissions=305523782",
+        "voteLink": "https://top.gg/bot/744694015630245949/vote"
     },
     "emojis": {
         "conga": "778811866151518289"
