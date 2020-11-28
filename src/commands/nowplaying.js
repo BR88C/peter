@@ -22,7 +22,15 @@ module.exports = {
 		} else {
 			const completed = (serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[0].startTime;
 			const percentComplete = completed / serverQueue.songs[0].rawTime;
-			description = time(Math.round(completed)) + ` ` + progressbar(percentComplete, 35) + ` ` + serverQueue.songs[0].timestamp;
+
+			let playingEmoji;
+			if(serverQueue.playing) {
+				playingEmoji = `▶`;
+			} else {
+				playingEmoji = `⏸`;
+			}
+
+			description = `\`\`\`${playingEmoji} ${time(Math.round(completed))} ${progressbar(percentComplete, 25)} ${serverQueue.songs[0].timestamp}\`\`\``;
 		}
 		
 
