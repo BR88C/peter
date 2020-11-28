@@ -15,6 +15,8 @@ module.exports = {
         let sfxArgs = [];
         if(serverQueue.bass !== 0) sfxArgs.push(`bass=g=${serverQueue.bass / 2}`);
         if(serverQueue.highpass !== 0) sfxArgs.push(`highpass=f=${serverQueue.highpass * 25}, volume=${serverQueue.highpass / 15}`);
+        if(serverQueue.flanger !== 0) sfxArgs.push(`flanger=depth=${serverQueue.flanger / 10}`);
+        if(serverQueue.phaser !== 0) sfxArgs.push(`aphaser=decay=${serverQueue.phaser / 200}`);
         if(serverQueue.pitch !== 100) sfxArgs.push(`rubberband=pitch=${serverQueue.pitch / 100}`);
         if(serverQueue.speed !== 100 && !song.livestream) sfxArgs.push(`atempo=${serverQueue.speed / 100}`);
         if(serverQueue.treble !== 0) sfxArgs.push(`treble=g=${serverQueue.treble / 3}`);
