@@ -18,7 +18,7 @@ module.exports = {
 		// Replies with the current flanger value if no arguments are specified
 		if(!args[0]) return message.channel.send(`The current flanger level is: **${serverQueue.flanger}%**`);
 		
-		// Checks to make sure the bass value specified is greater or equal to 0 and less or equal to 100
+		// Checks to make sure the flanger value specified is greater or equal to 0 and less or equal to 100
 		let specifiedValue = args[0];
 		if(specifiedValue.toLowerCase() === `off`) specifiedValue = 0;
 		specifiedValue = parseInt(specifiedValue);
