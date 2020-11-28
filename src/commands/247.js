@@ -20,7 +20,7 @@ module.exports = {
         let voteEmbed = new Discord.MessageEmbed()
             .setColor(0xff0000)
             .setTitle(`You must vote to use this command!`)
-            .setDescription(`To vote for Peter, go to his top.gg page [here](https://top.gg/bot/744694015630245949/vote) and click the vote button.\nReminder that your vote status is reset every 12 hours.`)
+            .setDescription(`To vote for Peter, go to his top.gg page [here](${client.config.links.voteLink}) and click the vote button.\nReminder that your vote status is reset every 12 hours.`)
 
 		const voted = await client.dbl.hasVoted(message.author.id)
 		if(!voted) return message.channel.send(voteEmbed);
