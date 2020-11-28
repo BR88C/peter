@@ -47,7 +47,7 @@ module.exports = {
 		const completed = Math.round((serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[0].startTime);
 		let timeUntilPlayed = 0;
 		songsBefore.forEach(song => {
-			timeUntilPlayed = song.rawTime + timeUntilPlayed
+			timeUntilPlayed = song.rawTime + timeUntilPlayed;
 		})
 		timeUntilPlayed = Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed);
 
