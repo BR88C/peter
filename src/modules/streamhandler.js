@@ -82,7 +82,7 @@ module.exports = {
             .setColor(0x5ce6c8)
             .setTitle(`🎶  Started playing: ${song.title}`)
             .setImage(song.thumbnail)
-            .setDescription(song.url)
+            .setDescription(`**Link:** ${song.url}`)
             .setFooter(`Requested by: ${song.requestedBy.tag}`)
             .setTimestamp(new Date());
 
