@@ -6,7 +6,7 @@ module.exports = {
 	description: `Make the bot leave VC`,
 	category: `Music`,
 	guildOnly: true,
-	aliases: [`l`, `die`],
+	aliases: [`l`, `disconnect`, `die`],
 	async execute(client, message, args) {
 		const serverQueue = message.client.queue.get(message.guild.id);
 
