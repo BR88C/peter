@@ -8,14 +8,12 @@ module.exports = (percent, length) => {
     let lengthCompleted = Math.round(percent * (length - 1));
 
     // Set complete to lengthSpecified Dashes
-    let complete = `-`.repeat(lengthCompleted);
-    // If there is at least one dash, make it bold
-    if(complete) complete = `**` + complete + `**`;
+    let complete = `─`.repeat(lengthCompleted);
 
     // Set incomplete to the remainging length left dashes
-    let incomplete = `-`.repeat((length - 1) - lengthCompleted);
+    let incomplete = `─`.repeat((length - 1) - lengthCompleted);
 
     // Return complete, a marker for the current position, and incomplete
-    return complete + `●` + incomplete;
+    return complete + `🔘` + incomplete;
 
 }
