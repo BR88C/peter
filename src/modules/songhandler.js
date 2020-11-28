@@ -85,6 +85,7 @@ module.exports = {
 			bass: 0,
 			flanger: 0,
 			highpass: 0,
+			lowpass: 0,
 			phaser: 0,
 			pitch: 100,
 			speed: 100,

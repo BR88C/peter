@@ -17,6 +17,7 @@ module.exports = {
 		let activeEffects = [];
         if(serverQueue.bass !== 0) activeEffects.push(`Bass = +${serverQueue.bass}%`);
 		if(serverQueue.flanger !== 0) activeEffects.push(`Flanger = ${serverQueue.flanger}%`);
+		if(serverQueue.lowpass !== 0) activeEffects.push(`Lowpass = +${serverQueue.lowpass}%`);
 		if(serverQueue.highpass !== 0) activeEffects.push(`Highpass = +${serverQueue.highpass}%`);
         if(serverQueue.phaser !== 0) activeEffects.push(`Phaser = ${serverQueue.phaser}%`);
         if(serverQueue.pitch !== 100) activeEffects.push(`Pitch = ${serverQueue.pitch}%`);
