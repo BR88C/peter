@@ -1,6 +1,6 @@
 {
   "name": "peter",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "A work in progress discord bot written in JS that can play music, do moderation, and more.",
   "main": "index.js",
   "scripts": {
