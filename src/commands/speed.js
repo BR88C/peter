@@ -37,7 +37,7 @@ module.exports = {
 
 		// Push the song at current time
 		serverQueue.songs.unshift(serverQueue.songs[0]);
-		serverQueue.songs[1].startTime = (serverQueue.connection.dispatcher.streamTime / 1000) * (oldSpeed / 100) + serverQueue.songs[0].startTime;
+		serverQueue.songs[1].startTime = (serverQueue.connection.dispatcher.streamTime / 1000) / (oldSpeed / 100) + serverQueue.songs[0].startTime;
 		serverQueue.songs[1].hidden = true;
 		serverQueue.connection.dispatcher.end();
 
