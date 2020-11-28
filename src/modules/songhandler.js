@@ -26,7 +26,7 @@ module.exports = {
 			url: songInfo.videoDetails.video_url,
 			thumbnail: songInfo.videoDetails.thumbnail.thumbnails[0].url,
 			timestamp,
-			rawTime: songInfo.videoDetails.lengthSeconds,
+			rawTime: parseInt(songInfo.videoDetails.lengthSeconds),
 			requestedBy: message.author,
 			hidden: false,
 			startTime: 0
