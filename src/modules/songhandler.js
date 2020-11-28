@@ -67,6 +67,7 @@ module.exports = {
 			volume: 100,
 			playing: true,
 			loop: false,
+			twentyFourSeven: false,
 			bass: 0,
 			highpass: 0,
 			pitch: 100,

@@ -4,9 +4,7 @@ const Discord = require(`discord.js`);
 
 module.exports = (client, oldState, newState) => {
 	// Create Leave Embed
-	let leaveEmbed = new Discord.MessageEmbed()
-		.setColor(0xff4a4a)
-		.setTitle(`👋 Left due to no other users being present in\nthe VC, or due to being manually disconnected.`);
+	
 
 	const serverQueue = client.queue.get(oldState.guild.id);
 
@@ -19,6 +17,12 @@ module.exports = (client, oldState, newState) => {
 		// If the bot is the only user in the VC clear the queue and leave
 		if(channelInfo.members.has(client.user.id) && usersInVC < 1) {
 			if(serverQueue) {
+				if(serverQueue.twentyFourSeven) return;
+
+				let leaveEmbed = new Discord.MessageEmbed()
+					.setColor(0xff4a4a)
+					.setTitle(`👋 Left due to no other users being present in the VC.`);
+
 				serverQueue.textChannel.send(leaveEmbed);
 				if(serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.destroy();
 				if(client.queue) client.queue.delete(oldState.guild.id);
@@ -27,6 +31,10 @@ module.exports = (client, oldState, newState) => {
 
 		// If the bot is not in a VC and there is a queue, clear the queue 
 		} else if(botChannelID == null && serverQueue) {
+			let leaveEmbed = new Discord.MessageEmbed()
+				.setColor(0xff4a4a)
+				.setTitle(`👋 Left due to being manually disconnected.`);
+
 			serverQueue.textChannel.send(leaveEmbed);
 			if(client.queue) client.queue.delete(oldState.guild.id);
 		}
