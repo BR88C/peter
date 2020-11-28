@@ -2,11 +2,13 @@
 
 const Discord = require(`discord.js`);
 const fs = require(`fs`);
+const DBL = require("dblapi.js");
 const log = require(`./log.js`);
 
 module.exports = {
     /* Load variables and save on client */
     async loadVariables (client) {
+        client.dbl = new DBL(process.env.DBL_TOKEN, client);
         client.queue = new Map();
         client.config = require(`../config.json`);
         client.pjson = require(`../../package.json`);
