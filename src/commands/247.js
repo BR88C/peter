@@ -23,7 +23,7 @@ module.exports = {
             .setDescription(`To vote for Peter, go to his top.gg page [here](https://top.gg/bot/744694015630245949) and click the vote button.\nReminder that your vote status is reset every 12 hours.`)
 
         const voted = client.dbl.hasVoted(message.author.id)
-        if(voted) return message.channel.send(voteEmbed);
+        if(!voted) return message.channel.send(voteEmbed);
 
 		if(!args[0] || args[0].toLowerCase() === `on`) {
 			serverQueue.twentyFourSeven = true;
