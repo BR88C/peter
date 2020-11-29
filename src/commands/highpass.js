@@ -1,5 +1,7 @@
 const Discord = require(`discord.js`);
 const log = require(`../modules/log.js`);
+const currentTime = require(`../utils/currentTime.js`);
+const streamhandler = require(`../modules/streamhandler.js`);
 
 module.exports = {
 	name: `highpass`,
@@ -28,11 +30,8 @@ module.exports = {
 		// Sets value
 		serverQueue.highpass = specifiedValue;
 
-		// Push the song at current time
-		if(!serverQueue.songs[serverQueue.currentSong].livestream) serverQueue.songs[serverQueue.currentSong].startTime = (serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[serverQueue.currentSong].startTime;
-		serverQueue.songs[serverQueue.currentSong].hidden = true;
-		if(serverQueue.loop !== `single`) serverQueue.currentSong--;
-		serverQueue.connection.dispatcher.end();
+		// Restart the stream at the current time
+		streamhandler.restartStream(serverQueue, currentTime(serverQueue));
 
 		let highpassEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
