@@ -1,6 +1,7 @@
 const Discord = require(`discord.js`);
 const log = require(`../modules/log.js`);
-const time = require(`../utils/time.js`)
+const time = require(`../utils/time.js`);
+const currentTime = require(`../utils/currentTime.js`);
 
 module.exports = {
 	name: `queue`,
@@ -32,7 +33,7 @@ module.exports = {
 		}
 
 		// Gets current song's time completed
-		const completed = Math.round((serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[serverQueue.currentSong].startTime);
+		const completed = currentTime(serverQueue);
 
 		// If the user specifies a song
 		if(args.length) {

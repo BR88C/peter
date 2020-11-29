@@ -2,6 +2,7 @@ const Discord = require(`discord.js`);
 const log = require(`../modules/log.js`);
 const time = require(`../utils/time.js`)
 const progressbar = require(`../utils/progressbar.js`);
+const currentTime = require(`../utils/currentTime.js`);
 
 module.exports = {
 	name: `nowplaying`,
@@ -20,7 +21,7 @@ module.exports = {
 		if(serverQueue.songs[serverQueue.currentSong].livestream) {
 			description = `🔴  **LIVE**`
 		} else {
-			const completed = (serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[serverQueue.currentSong].startTime;
+			const completed = currentTime(serverQueue);
 			const percentComplete = completed / serverQueue.songs[serverQueue.currentSong].rawTime;
 
 			let playingEmoji;
@@ -30,7 +31,7 @@ module.exports = {
 				playingEmoji = `⏸`;
 			}
 
-			description = `\`\`\`${playingEmoji} ${time(Math.round(completed))} ${progressbar(percentComplete, 25)} ${serverQueue.songs[serverQueue.currentSong].timestamp}\`\`\``;
+			description = `\`\`\`${playingEmoji} ${time(completed)} ${progressbar(percentComplete, 25)} ${serverQueue.songs[serverQueue.currentSong].timestamp}\`\`\``;
 		}
 		
 
