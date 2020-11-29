@@ -32,7 +32,10 @@ module.exports = {
 
 		// If the bot is not in a vc, make sure the queue is cleared
 		} else {
-			if(serverQueue && serverQueue.songs) serverQueue.songs = [];
+			if(serverQueue) {
+				if(serverQueue.songs) serverQueue.songs = [];
+				serverQueue.currentSong = 0;
+			}
 			if(message.client.queue) message.client.queue.delete(message.guild.id);
 			return message.reply(`I can't leave if I'm not in a VC!`);
 		}

@@ -17,6 +17,7 @@ module.exports = {
 		// If the bot is in a vc, clear the queue as normal
 		if(message.guild.voice.connection) {
 			if(serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.destroy();
+			serverQueue.currentSong = 0;
 			if(serverQueue.songs) serverQueue.songs = [];
 			if(message.client.queue) message.client.queue.delete(message.guild.id);
 

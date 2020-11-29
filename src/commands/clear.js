@@ -9,7 +9,8 @@ module.exports = {
 	async execute(client, message, args) {
 		// If the queue is empty reply with an error
 		const serverQueue = message.client.queue.get(message.guild.id);
-		if(!serverQueue) return message.reply(`I can't clear the queue if the queue is empty!`);
+		if(!serverQueue || serverQueue.songs[0]) return message.reply(`I can't clear the queue if the queue is empty!`);
+		if(!serverQueue.songs[serverQueue.currentSong]) return message.reply(`I can't clear the queue if no music is playing!`)
 
 		// Checks if the user is in the VC
         if(message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to clear the queue!`);
