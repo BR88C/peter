@@ -1,5 +1,6 @@
 const Discord = require(`discord.js`);
 const log = require(`../modules/log.js`);
+const checkValueSpecified = require(`../utils/checkValueSpecified.js`);
 
 module.exports = {
 	name: `volume`,
@@ -19,12 +20,9 @@ module.exports = {
 		// Replies with the current volume if no arguments are specified
 		if(!args[0]) return message.channel.send(`The current volume is: **${serverQueue.volume}**`);
 		
-		// Checks to make sure the volume specified is greater or equal to 0 and less or equal to 1,000,000
-		let specifiedValue = args[0];
-    	if(specifiedValue.toLowerCase() === `mute`) specifiedValue = 0;
-    	specifiedValue = parseInt(specifiedValue);
-		if(isNaN(specifiedValue)) return message.reply(`please specify an Integer!`);
-		if(specifiedValue > 100000 || specifiedValue < 0) return message.reply(`volume must be between 0 and 100,000%!`);
+		// Checks to make sure the value specified is valid
+		const specifiedValue = checkValueSpecified(args[0], 0, 100000, message, `mute`);
+		if(specifiedValue === `invalid`) return;
 
 		// Sets the volume
 		serverQueue.volume = specifiedValue;

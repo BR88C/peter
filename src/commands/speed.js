@@ -1,5 +1,6 @@
 const Discord = require(`discord.js`);
 const log = require(`../modules/log.js`);
+const checkValueSpecified = require(`../utils/checkValueSpecified.js`);
 const currentTime = require(`../utils/currentTime.js`);
 const streamhandler = require(`../modules/streamhandler.js`);
 
@@ -24,12 +25,9 @@ module.exports = {
 		// Replies with the current speed if no arguments are specified
 		if(!args[0]) return message.channel.send(`The current speed is: **${serverQueue.speed}%**`);
 		
-		// Checks to make sure the speed specified is greater or equal to 50 and less or equal to 500
-		let specifiedValue = args[0];
-    	if(specifiedValue.toLowerCase() === `off`) specifiedValue = 100;
-    	specifiedValue = parseInt(specifiedValue);
-		if(isNaN(specifiedValue)) return message.reply(`please specify an Integer!`);
-		if(specifiedValue > 500 || specifiedValue < 50) return message.reply(`speed must be between 50 and 500%!`);
+		// Checks to make sure the value specified is valid
+		const specifiedValue = checkValueSpecified(args[0], 50, 500, message, `off`);
+		if(specifiedValue === `invalid`) return;
 
 		// Get old speed
 		const oldSpeed = serverQueue.speed;

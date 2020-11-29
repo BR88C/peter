@@ -1,5 +1,6 @@
 const Discord = require(`discord.js`);
 const log = require(`../modules/log.js`);
+const checkValueSpecified = require(`../utils/checkValueSpecified.js`);
 const currentTime = require(`../utils/currentTime.js`);
 const streamhandler = require(`../modules/streamhandler.js`);
 
@@ -20,12 +21,9 @@ module.exports = {
 		// Replies with the current phaser value if no arguments are specified
 		if(!args[0]) return message.channel.send(`The current phaser level is: **${serverQueue.phaser}%**`);
 		
-		// Checks to make sure the phaser value specified is greater or equal to 0 and less or equal to 100
-		let specifiedValue = args[0];
-		if(specifiedValue.toLowerCase() === `off`) specifiedValue = 0;
-		specifiedValue = parseInt(specifiedValue);
-		if(isNaN(specifiedValue)) return message.reply(`please specify an Integer!`);
-		if(specifiedValue > 100 || specifiedValue < 0) return message.reply(`phaser value must be between 0 and 100%!`);
+		// Checks to make sure the value specified is valid
+		const specifiedValue = checkValueSpecified(args[0], 0, 100, message, `off`);
+		if(specifiedValue === `invalid`) return;
 
 		// Sets value
 		serverQueue.phaser = specifiedValue;

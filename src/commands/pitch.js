@@ -1,5 +1,6 @@
 const Discord = require(`discord.js`);
 const log = require(`../modules/log.js`);
+const checkValueSpecified = require(`../utils/checkValueSpecified.js`);
 const currentTime = require(`../utils/currentTime.js`);
 const streamhandler = require(`../modules/streamhandler.js`);
 
@@ -20,12 +21,9 @@ module.exports = {
 		// Replies with the current pitch value if no arguments are specified
 		if(!args[0]) return message.channel.send(`The current pitch is: **${serverQueue.pitch}%**`);
 		
-        // Checks to make sure the pitch value specified is greater or equal to 10 and less or equal to 250
-		let specifiedValue = args[0];
-    	if(specifiedValue.toLowerCase() === `off`) specifiedValue = 100;
-    	specifiedValue = parseInt(specifiedValue);
-		if(isNaN(specifiedValue)) return message.reply(`please specify an Integer!`);
-		if(specifiedValue > 250 || specifiedValue < 25) return message.reply(`pitch value must be between 25 and 250%!`);
+        // Checks to make sure the value specified is valid
+		const specifiedValue = checkValueSpecified(args[0], 25, 250, message, `off`);
+		if(specifiedValue === `invalid`) return;
 
 		// Sets value
 		serverQueue.pitch = specifiedValue;
