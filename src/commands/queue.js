@@ -23,7 +23,8 @@ module.exports = {
         if(serverQueue.pitch !== 100) activeEffects.push(`Pitch = ${serverQueue.pitch}%`);
         if(serverQueue.speed !== 100) activeEffects.push(`Speed = ${serverQueue.speed}%`);
         if(serverQueue.treble !== 0) activeEffects.push(`Treble = +${serverQueue.treble}%`);
-        if(serverQueue.vibrato !== 0) activeEffects.push(`Vibrato = ${serverQueue.vibrato}%`);
+		if(serverQueue.vibrato !== 0) activeEffects.push(`Vibrato = ${serverQueue.vibrato}%`);
+		if(serverQueue.volume !== 100) activeEffects.push(`Volume = ${serverQueue.volume}%`)
 		if(activeEffects[0]) {
 			activeEffects = `\`\`\`${activeEffects.join(`, `)}\`\`\``;
 		} else {
@@ -48,12 +49,12 @@ module.exports = {
 			// Sets time until played based on song's position in queue relative to song currently playing
 			let timeUntilPlayed;
 			if(specifiedIndex - 1 < serverQueue.currentSong) {
-				if(serverQueue.loop = `queue`) {
+				if(serverQueue.loop === `queue`) {
 					timeUntilPlayed = 0;
 					serverQueue.songs.forEach(song => {
 						timeUntilPlayed = song.rawTime + timeUntilPlayed;
 					});
-					timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed));
+					timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed - serverQueue.songs[specifiedIndex - 1].rawTime));
 
 				} else {
 					timeUntilPlayed = `N/A`;
@@ -120,7 +121,7 @@ module.exports = {
 			.addFields(
 				{ name: `\u200B`, value: `\u200B` },
 				{ name: `**Approximate Time left**`, value: time(totalTime), inline: true },
-				{ name: `**Queue Volume**`, value: `${serverQueue.volume}%`, inline:true },
+				{ name: `**Loop**`, value: `${serverQueue.loop}`, inline:true },
 				{ name: `**Channel**`, value: serverQueue.channel.name, inline: true },
 				{ name: `**Active Effects**`, value: activeEffects }
 			)
