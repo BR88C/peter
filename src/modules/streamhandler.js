@@ -95,5 +95,12 @@ module.exports = {
             .setTimestamp(new Date());
 
         if(!serverQueue.songs[serverQueue.currentSong].hidden) serverQueue.textChannel.send(playingEmbed);
+    },
+
+    async restartStream (serverQueue, startTime) {
+        if(!serverQueue.songs[serverQueue.currentSong].livestream) serverQueue.songs[serverQueue.currentSong].startTime = startTime;
+		serverQueue.songs[serverQueue.currentSong].hidden = true;
+		if(serverQueue.loop !== `single`) serverQueue.currentSong--;
+		serverQueue.connection.dispatcher.end();
     }
 }
