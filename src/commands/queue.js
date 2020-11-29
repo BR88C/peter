@@ -37,6 +37,9 @@ module.exports = {
 
 		// If the user specifies a song
 		if(args.length) {
+			// Gets queue length
+			const queueLength = (serverQueue.songs).length;
+
 			// Set specified index
 			const specifiedIndex = parseInt(args[0]);
 
@@ -44,7 +47,6 @@ module.exports = {
 			if(isNaN(specifiedIndex)) return message.reply(`please specify an Integer!`);
 
 			// Checks if the queue has a song tagged with the number specified
-			const queueLength = (serverQueue.songs).length;
 			if(specifiedIndex > queueLength || specifiedIndex < 1 ) return message.reply(`there isnt a song in the queue with that number!`);
 
 			// Sets time until played based on song's position in queue relative to song currently playing
