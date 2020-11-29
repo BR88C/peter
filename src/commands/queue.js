@@ -25,64 +25,98 @@ module.exports = {
         if(serverQueue.treble !== 0) activeEffects.push(`Treble = +${serverQueue.treble}%`);
         if(serverQueue.vibrato !== 0) activeEffects.push(`Vibrato = ${serverQueue.vibrato}%`);
 		if(activeEffects[0]) {
-			activeEffects = `\`\`\`${activeEffects.join(`, `)}\`\`\``
+			activeEffects = `\`\`\`${activeEffects.join(`, `)}\`\`\``;
 		} else {
-			activeEffects = `\`\`\`No Active effects\`\`\``
+			activeEffects = `\`\`\`No Active effects\`\`\``;
 		}
 
 		// Gets current song's time completed
-		const completed = Math.round((serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[0].startTime);
+		const completed = Math.round((serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[serverQueue.currentSong].startTime);
 
 		// If the user specifies a song
 		if(args.length) {
-			// Checks if an integer was provided
-			const songNumber = parseInt(args[0]);
-			if(isNaN(songNumber)) return message.reply(`please specify an Integer!`);
+			// Set specified index
+			const specifiedIndex = parseInt(args[0]);
+
+			// Checks if the argument provided is an integer
+			if(isNaN(specifiedIndex)) return message.reply(`please specify an Integer!`);
 
 			// Checks if the queue has a song tagged with the number specified
-			const queueLength = (serverQueue.songs).length - 1;
-			if(songNumber > queueLength || songNumber < 1 ) return message.reply(`there isnt a song in the queue with that number!`);
-			
-			const songsBefore = serverQueue.songs.slice(0, songNumber);
+			const queueLength = (serverQueue.songs).length;
+			if(specifiedIndex > queueLength || specifiedIndex < 1 ) return message.reply(`there isnt a song in the queue with that number!`);
 
-			let timeUntilPlayed = 0;
-			songsBefore.forEach(song => {
-				timeUntilPlayed = song.rawTime + timeUntilPlayed;
-			})
-			timeUntilPlayed = Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed);
+			// Sets time until played based on song's position in queue relative to song currently playing
+			let timeUntilPlayed;
+			if(specifiedIndex - 1 < serverQueue.currentSong) {
+				if(serverQueue.loop = `queue`) {
+					timeUntilPlayed = 0;
+					serverQueue.songs.forEach(song => {
+						timeUntilPlayed = song.rawTime + timeUntilPlayed;
+					});
+					timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed));
+
+				} else {
+					timeUntilPlayed = `N/A`;
+				}
+
+			} else if(specifiedIndex - 1 > serverQueue.currentSong) {
+				const songsBefore = serverQueue.songs.slice(serverQueue.currentSong, specifiedIndex - 1);
+
+				timeUntilPlayed = 0;
+				songsBefore.forEach(song => {
+					timeUntilPlayed = song.rawTime + timeUntilPlayed;
+				});
+				timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed));
+
+			} else {
+				timeUntilPlayed = `Currently Playing`;
+			}
 
 			// Creates and sends the embed
 			let queueEmbed = new Discord.MessageEmbed()
 				.setColor(0x1e90ff)
-				.setAuthor(`Queued song number ${songNumber}:`)
-				.setTitle(`**${serverQueue.songs[songNumber].title}**`)
+				.setAuthor(`Queued song number ${specifiedIndex}:`)
+				.setTitle(`**${serverQueue.songs[specifiedIndex - 1].title}**`)
 				.addFields(
-					{ name: `**Song Length**`, value: serverQueue.songs[songNumber].timestamp, inline: true },
-					{ name: `**Time until Played**`, value: time(timeUntilPlayed), inline: true },
-					{ name: `**URL**`, value: `[Link](${serverQueue.songs[songNumber].url})`, inline: true },
+					{ name: `**Song Length**`, value: serverQueue.songs[specifiedIndex - 1].timestamp, inline: true },
+					{ name: `**Time until Played**`, value: timeUntilPlayed, inline: true },
+					{ name: `**URL**`, value: `[Link](${serverQueue.songs[specifiedIndex - 1].url})`, inline: true },
 				)
-				.setImage(serverQueue.songs[songNumber].thumbnail)
-				.setFooter(`Requested by: ${serverQueue.songs[songNumber].requestedBy.tag}`)
+				.setImage(serverQueue.songs[specifiedIndex - 1].thumbnail)
+				.setFooter(`Requested by: ${serverQueue.songs[specifiedIndex - 1].requestedBy.tag}`)
 				.setTimestamp(new Date());
 
 			return message.channel.send(queueEmbed);
 		}
 
 		// Generates info for time
-		const songTimeLeft = Math.round(serverQueue.songs[0].rawTime - completed);
+		const songTimeLeft = Math.round(serverQueue.songs[serverQueue.currentSong].rawTime - completed);
+		const songsLeft = serverQueue.songs.slice(serverQueue.currentSong);
 		let totalTime = 0;
-		serverQueue.songs.forEach(song => {
+		songsLeft.forEach(song => {
 			totalTime = totalTime + song.rawTime;
 		});
 		totalTime = Math.round((totalTime / (serverQueue.speed / 100)) - completed);
+
+		// Creates list of songs in queue
+		let queueList = [];
+		serverQueue.songs.forEach((song, i) => {
+			if(i === serverQueue.currentSong) {
+				current = `↳ `;
+			} else {
+				current = ``;
+			}
+			queueList.push(`${current}**${i + 1}.** ${song.title} [${song.timestamp}]`);
+		});
+		queueList = queueList.join(`\n`);
 
 		// Creates and sends the embed
 		let queueEmbed = new Discord.MessageEmbed()
 			.setColor(0x1e90ff)
 			.setAuthor(`Song Queue`)
-			.setTitle(`**Now Playing**: ${serverQueue.songs[0].title} [${time(songTimeLeft)} remaining]`)
-			.setThumbnail(serverQueue.songs[0].thumbnail)
-			.setDescription(`${serverQueue.songs.map((song, i) => i == 0 ? null: `**${i}.** ${song.title} [${song.timestamp}]`).join(`\n`)}`)
+			.setTitle(`**Now Playing**: ${serverQueue.songs[serverQueue.currentSong].title} [${time(songTimeLeft)} remaining]`)
+			.setThumbnail(serverQueue.songs[serverQueue.currentSong].thumbnail)
+			.setDescription(queueList)
 			.addFields(
 				{ name: `\u200B`, value: `\u200B` },
 				{ name: `**Approximate Time left**`, value: time(totalTime), inline: true },
@@ -91,7 +125,7 @@ module.exports = {
 				{ name: `**Active Effects**`, value: activeEffects }
 			)
 			.setTimestamp(new Date());
-			
+
 		return message.channel.send(queueEmbed);
 	},
 }

@@ -15,7 +15,8 @@ module.exports = {
         if(message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to clear the queue!`);
 
 		// Clears the queue without removing the song currently playing
-		serverQueue.songs = [serverQueue.songs[0]];
+		serverQueue.songs = [serverQueue.songs[serverQueue.currentSong]];
+		serverQueue.currentSong = 0;
 		
 		// Create embed
 		let clearEmbed = new Discord.MessageEmbed()

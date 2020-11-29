@@ -12,16 +12,16 @@ module.exports = {
 	async execute(client, message, args) {
 		// If the queue is empty reply with an error
 		const serverQueue = message.client.queue.get(message.guild.id);
-		if(!serverQueue || !serverQueue.songs[0]) return message.channel.send(`There is noting playing.`);
+		if(!serverQueue || !serverQueue.songs[serverQueue.currentSong]) return message.channel.send(`There is noting playing.`);
 
 
 		// Sets the description field based on if the song is a livestream or not
 		let description;
-		if(serverQueue.songs[0].livestream) {
+		if(serverQueue.songs[serverQueue.currentSong].livestream) {
 			description = `🔴  **LIVE**`
 		} else {
-			const completed = (serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[0].startTime;
-			const percentComplete = completed / serverQueue.songs[0].rawTime;
+			const completed = (serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[serverQueue.currentSong].startTime;
+			const percentComplete = completed / serverQueue.songs[serverQueue.currentSong].rawTime;
 
 			let playingEmoji;
 			if(serverQueue.playing) {
@@ -30,7 +30,7 @@ module.exports = {
 				playingEmoji = `⏸`;
 			}
 
-			description = `\`\`\`${playingEmoji} ${time(Math.round(completed))} ${progressbar(percentComplete, 25)} ${serverQueue.songs[0].timestamp}\`\`\``;
+			description = `\`\`\`${playingEmoji} ${time(Math.round(completed))} ${progressbar(percentComplete, 25)} ${serverQueue.songs[serverQueue.currentSong].timestamp}\`\`\``;
 		}
 		
 
@@ -38,11 +38,11 @@ module.exports = {
 		let nowPlayingEmbed = new Discord.MessageEmbed()
 			.setColor(0xb0ffe2)
 			.setAuthor(`🎶 Currently playing:`)
-			.setTitle(`**${serverQueue.songs[0].title}**`)
-			.setURL(serverQueue.songs[0].url)
+			.setTitle(`**${serverQueue.songs[serverQueue.currentSong].title}**`)
+			.setURL(serverQueue.songs[serverQueue.currentSong].url)
 			.setDescription(description)
-			.setThumbnail(serverQueue.songs[0].thumbnail)
-			.setFooter(`Requested by: ${serverQueue.songs[0].requestedBy.tag}`)
+			.setThumbnail(serverQueue.songs[serverQueue.currentSong].thumbnail)
+			.setFooter(`Requested by: ${serverQueue.songs[serverQueue.currentSong].requestedBy.tag}`)
 			.setTimestamp(new Date());
 
 		// Send Embed

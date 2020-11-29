@@ -13,7 +13,7 @@ module.exports = {
 	category: `Music`,
 	args: true,
 	guildOnly: true,
-	aliases: [`p`],
+	aliases: [`p`, `playyoutube`, `youtube`, `yt`],
 	usage: `<search query> **or** ${config.prefix} play <url>`,
 	async execute(client, message, args) {
 		// Checks if user is in vc
@@ -83,7 +83,7 @@ module.exports = {
 		const song = await songhandler.getSongInfo(songInfo, message);
 		
 		// Adds a song to the queue if there is already a song playing
-		if (serverQueue && serverQueue.songs[0]) return await songhandler.queueSong(song, message);
+		if (serverQueue && serverQueue.songs[serverQueue.currentSong]) return await songhandler.queueSong(song, message);
 
 		// Define queue construct
 		const queueConstruct = await songhandler.createQueue(song, message);
@@ -96,7 +96,7 @@ module.exports = {
 			queueConstruct.connection = connection;
 			connection.voice.setSelfDeaf(true);
 			if(playlist) await songhandler.queuePlaylist(playlist, message);
-			streamhandler.play(queueConstruct.songs[0], message);
+			streamhandler.play(queueConstruct.songs[queueConstruct.currentSong], message);
 		} catch (error) {
 			log(`I could not join the voice channel: ${error}`, `red`);
 			message.client.queue.delete(message.guild.id);

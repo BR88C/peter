@@ -11,13 +11,13 @@ module.exports = {
 	async execute(client, message, args) {
         // If the queue is empty reply with an error
 		const serverQueue = message.client.queue.get(message.guild.id);
-		if(!serverQueue || !serverQueue.songs[0]) return message.reply(`I can't change the speed if there is no music playing!`);
+		if(!serverQueue || !serverQueue.songs[serverQueue.currentSong]) return message.reply(`I can't change the speed if there is no music playing!`);
 
 		// Checks if the user is in the VC
         if(message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to change the music's speed!`);
 
 		// Checks if the current song is a livestream
-		if(serverQueue.songs[0].livestream) return message.reply(`this command does not support livestreams!`);
+		if(serverQueue.songs[serverQueue.currentSong].livestream) return message.reply(`this command does not support livestreams!`);
 
 		// Replies with the current speed if no arguments are specified
 		if(!args[0]) return message.channel.send(`The current speed is: **${serverQueue.speed}%**`);
@@ -36,9 +36,9 @@ module.exports = {
 		serverQueue.speed = specifiedValue;
 
 		// Push the song at current time
-		serverQueue.songs.unshift(serverQueue.songs[0]);
-		serverQueue.songs[1].startTime = (serverQueue.connection.dispatcher.streamTime / 1000) * (oldSpeed / 100) + serverQueue.songs[0].startTime;
-		serverQueue.songs[1].hidden = true;
+		if(!serverQueue.songs[serverQueue.currentSong].livestream) serverQueue.songs[serverQueue.currentSong].startTime = (serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[serverQueue.currentSong].startTime;
+		serverQueue.songs[serverQueue.currentSong].hidden = true;
+		if(serverQueue.loop !== `single`) serverQueue.currentSong--;
 		serverQueue.connection.dispatcher.end();
 
 		let speedEmbed = new Discord.MessageEmbed()

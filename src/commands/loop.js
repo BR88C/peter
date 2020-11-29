@@ -5,29 +5,24 @@ module.exports = {
 	description: `Specify if the current song should be looped`,
 	category: `Music`,
 	guildOnly: true,
-	usage: `[on/off]`,
+	usage: `<off, single, or queue>`,
 	async execute(client, message, args) {
         // If the queue is empty reply with an error
 		const serverQueue = message.client.queue.get(message.guild.id);
-		if(!serverQueue || !serverQueue.songs[0]) return message.reply(`I can't loop the current song if the queue is empty!`);
+		if(!serverQueue || !serverQueue.songs[serverQueue.currentSong]) return message.reply(`I can't loop the current song if the queue is empty!`);
 
 		// Checks if the user is in the VC
         if(message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to loop the current song!`);
 
 		// Checks if the current song is a livestream
-		if(serverQueue.songs[0].livestream) return message.reply(`this command does not support livestreams!`);
+		if(serverQueue.songs[serverQueue.currentSong].livestream) return message.reply(`this command does not support livestreams!`);
 
-		if(!args[0] || args[0].toLowerCase() === `on`) {
-			serverQueue.loop = true;
-
-			let loopEmbed = new Discord.MessageEmbed()
-			.setColor(0x9cd6ff)
-			.setTitle(`🔂  Now looping the current song.`);
-
-			return message.channel.send(loopEmbed);
+		// Sets the type of loop based on arguments provided
+		if(!args[0]) {
+			return message.reply(`that isn't a valid argument! You must specify "off", "single", or "queue".`);
 
 		} else if(args[0].toLowerCase() === `off`) {
-			serverQueue.loop = false;
+			serverQueue.loop = `off`;
 
 			let loopEmbed = new Discord.MessageEmbed()
 			.setColor(0x9cd6ff)
@@ -35,8 +30,29 @@ module.exports = {
 
 			return message.channel.send(loopEmbed);
 
+
+		} else if(args[0].toLowerCase() === `single`) {
+			serverQueue.loop = `single`;
+
+			let loopEmbed = new Discord.MessageEmbed()
+			.setColor(0x9cd6ff)
+			.setTitle(`🔂  Now looping the current song.`);
+
+			return message.channel.send(loopEmbed);
+
+
+		} else if(args[0].toLowerCase() === `queue`) {
+			serverQueue.loop = `queue`;
+
+			let loopEmbed = new Discord.MessageEmbed()
+			.setColor(0x9cd6ff)
+			.setTitle(`🔁  Now looping the queue.`);
+
+			return message.channel.send(loopEmbed);
+		
+		
 		} else {
-			return message.reply(`that isn't a valid argument! You must specify "on" or "off".`);
+			return message.reply(`that isn't a valid argument! You must specify "off", "single", or "queue".`);
 		}
 	},
 } 

@@ -41,10 +41,10 @@ module.exports = {
 
 		serverQueue.songs.push(song);
 
-		const position = serverQueue.songs.indexOf(song);
-		const songsBefore = serverQueue.songs.slice(0, position);
+		const songIndex = serverQueue.songs.indexOf(song);
+		const songsBefore = serverQueue.songs.slice(serverQueue.currentSong, songIndex);
 
-		const completed = Math.round((serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[0].startTime);
+		const completed = Math.round((serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[serverQueue.currentSong].startTime);
 		let timeUntilPlayed = 0;
 		songsBefore.forEach(song => {
 			timeUntilPlayed = song.rawTime + timeUntilPlayed;
@@ -56,7 +56,7 @@ module.exports = {
 			.setTitle(`✅  "${song.title}" has been added to the queue!`)
 			.setImage(song.thumbnail)
 			.addFields(
-				{ name: `**Position in Queue**`, value: position, inline: true },
+				{ name: `**Position in Queue**`, value: songsBefore.length, inline: true },
 				{ name: `**Time until Played**`, value: time(timeUntilPlayed), inline: true },
 				{ name: `**URL**`, value: `[Link](${song.url})`, inline: true },
 			)
@@ -78,9 +78,10 @@ module.exports = {
 			channel,
 			connection: null,
 			songs: [],
+			currentSong: 0,
 			volume: 100,
 			playing: true,
-			loop: false,
+			loop: `off`,
 			twentyFourSeven: false,
 			bass: 0,
 			flanger: 0,

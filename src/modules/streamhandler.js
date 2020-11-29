@@ -8,8 +8,15 @@ module.exports = {
     async play (song, message) {
         const serverQueue = message.client.queue.get(message.guild.id);
 
-        // Return if song isn't defined
-        if(!song) return serverQueue.songs = [];
+        // Return if song isn't defined, unless the queue is being looped
+        if(!song) {
+            if(serverQueue.loop === `queue`) {
+                serverQueue.currentSong = 0;
+                song = serverQueue.songs[0];
+            } else {
+                return serverQueue.songs = [];
+            }
+        }
 
         // Create ffmpeg encoder arguments
         let sfxArgs = [];
@@ -47,13 +54,13 @@ module.exports = {
         const dispatcher = serverQueue.connection.play(stream, { type: `opus`, bitrate: 64 /* 64kbps */ })
             // When the song ends
             .on(`finish`, reason => {
-                if(serverQueue.loop && !serverQueue.songs[0].livestream) {
-                    serverQueue.songs[0].startTime = 0;
-                    serverQueue.songs[0].hidden = false;
-                    this.play(serverQueue.songs[0], message);
+                if(serverQueue.loop === `single` && !serverQueue.songs[serverQueue.currentSong].livestream) {
+                    serverQueue.songs[serverQueue.currentSong].startTime = 0;
+                    serverQueue.songs[serverQueue.currentSong].hidden = false;
+                    this.play(serverQueue.songs[serverQueue.currentSong], message);
                 } else {
-                    serverQueue.songs.shift();
-                    this.play(serverQueue.songs[0], message);
+                    serverQueue.currentSong++;
+                    this.play(serverQueue.songs[serverQueue.currentSong], message);
                 }
             })
             // If there is an error leave the vc and report to the user
@@ -87,6 +94,6 @@ module.exports = {
             .setFooter(`Requested by: ${song.requestedBy.tag}`)
             .setTimestamp(new Date());
 
-        if(!serverQueue.songs[0].hidden) serverQueue.textChannel.send(playingEmbed);
+        if(!serverQueue.songs[serverQueue.currentSong].hidden) serverQueue.textChannel.send(playingEmbed);
     }
 }
