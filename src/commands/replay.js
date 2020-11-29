@@ -1,5 +1,6 @@
 const Discord = require(`discord.js`);
 const log = require(`../modules/log.js`);
+const streamhandler = require(`../modules/streamhandler.js`);
 
 module.exports = {
 	name: `replay`,
@@ -18,11 +19,8 @@ module.exports = {
 		// Checks if the current song is a livestream
 		if(serverQueue.songs[serverQueue.currentSong].livestream) return message.reply(`this command does not support livestreams!`);
 		
-		// Plays the song from the beginning
-		serverQueue.songs[serverQueue.currentSong].startTime = 0;
-		serverQueue.songs[serverQueue.currentSong].hidden = true;
-		if(serverQueue.loop !== `single`) serverQueue.currentSong--;
-		serverQueue.connection.dispatcher.end();
+		// Restart the stream at the start of the song
+		streamhandler.restartStream(serverQueue, 0);
 		
 		let replayEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)

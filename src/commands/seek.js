@@ -1,6 +1,7 @@
 const Discord = require(`discord.js`);
 const log = require(`../modules/log.js`);
 const time = require(`../utils/time.js`);
+const streamhandler = require(`../modules/streamhandler.js`);
 
 module.exports = {
 	name: `seek`,
@@ -27,11 +28,8 @@ module.exports = {
         // If time specified is longer than the video, seek to the last 2 seconds of the video
         if(specifiedTime >= serverQueue.songs[serverQueue.currentSong].rawTime) specifiedTime = serverQueue.songs[serverQueue.currentSong].rawTime - 2;
 
-		// Push the song at current time
-		serverQueue.songs[serverQueue.currentSong].startTime = specifiedTime;
-		serverQueue.songs[serverQueue.currentSong].hidden = true;
-		if(serverQueue.loop !== `single`) serverQueue.currentSong--;
-		serverQueue.connection.dispatcher.end();
+		// Restart the stream at the specified time
+		streamhandler.restartStream(serverQueue, specifiedTime);
 
 		let seekEmbed = new Discord.MessageEmbed()
 			.setColor(0xbccbd1)
