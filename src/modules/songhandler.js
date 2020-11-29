@@ -2,6 +2,7 @@
 
 const Discord = require(`discord.js`);
 const ytdl = require(`discord-ytdl-core`);
+const currentTime = require(`../utils/currentTime.js`);
 const time = require(`../utils/time.js`);
 
 module.exports = {
@@ -44,7 +45,7 @@ module.exports = {
 		const songIndex = serverQueue.songs.indexOf(song);
 		const songsBefore = serverQueue.songs.slice(serverQueue.currentSong, songIndex);
 
-		const completed = Math.round((serverQueue.connection.dispatcher.streamTime / 1000) * (serverQueue.speed / 100) + serverQueue.songs[serverQueue.currentSong].startTime);
+		const completed = currentTime(serverQueue);
 		let timeUntilPlayed = 0;
 		songsBefore.forEach(song => {
 			timeUntilPlayed = song.rawTime + timeUntilPlayed;
