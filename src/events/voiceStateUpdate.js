@@ -3,9 +3,6 @@
 const Discord = require(`discord.js`);
 
 module.exports = (client, oldState, newState) => {
-	// Create Leave Embed
-	
-
 	const serverQueue = client.queue.get(oldState.guild.id);
 
 	// If a user leaves or changes channels
