@@ -5,12 +5,16 @@ const config = require(`../config.json`);
 
 module.exports = (content, color, discordMessage, options) => {
     // Create Variables
-    const logFile = fs.createWriteStream(config.logFile, { flags: 'a' });
+    const logFile = fs.createWriteStream(config.logFile, {
+        flags: 'a'
+    });
     let logColor;
     let logContent = content;
-    
+
     // Report an error if there is an issue with logging
-    logFile.on('error', function() { console.log(`\x1b[33m`, `Warning: Error writing log to ${config.logFile}`) })
+    logFile.on('error', function () {
+        console.log(`\x1b[33m`, `Warning: Error writing log to ${config.logFile}`)
+    })
 
     // Get time
     const time = new Date();
@@ -23,7 +27,7 @@ module.exports = (content, color, discordMessage, options) => {
     const formattedTime = `${month}-${day}-${year} ${hour}:${minute}:${second}`
 
     // Get color specified and set logColor variable to correct color
-    switch(color) {
+    switch (color) {
         case `black`:
             logColor = `\x1b[30m`;
             break;
@@ -51,21 +55,21 @@ module.exports = (content, color, discordMessage, options) => {
     }
 
     // If no log volor is specified or if the color specified is invalid, throw an error
-    if(!logColor) {
+    if (!logColor) {
         throw `Did not specify a valid color`;
     }
 
     // If discordMessage is defined
-    if(discordMessage) {
+    if (discordMessage) {
         // If the message contains an embed, log it as an embed with it's title, author, or description if applicable
-        if(discordMessage.embeds.length > 0) {
-            if(discordMessage.embeds[0].title) {
+        if (discordMessage.embeds.length > 0) {
+            if (discordMessage.embeds[0].title) {
                 logContent = `{Embed: Title = ${discordMessage.embeds[0].title}}`.replace(/[^ -~]+/g, ``);
 
-            } else if(discordMessage.embeds[0].author && discordMessage.embeds[0].author.name) {
+            } else if (discordMessage.embeds[0].author && discordMessage.embeds[0].author.name) {
                 logContent = `{Embed: Author = ${discordMessage.embeds[0].author.name}}`.replace(/[^ -~]+/g, ``);
 
-            } else if(discordMessage.embeds[0].description) {
+            } else if (discordMessage.embeds[0].description) {
                 logContent = `{Embed: Description = ${discordMessage.embeds[0].description}}`.replace(/[^ -~]+/g, ``);
 
             } else {
@@ -74,27 +78,27 @@ module.exports = (content, color, discordMessage, options) => {
         }
 
         // If the user option is defined, append their tag to the start of logContent
-        if(options.user) logContent = `[${discordMessage.author.tag}] ` + logContent;
+        if (options.user) logContent = `[${discordMessage.author.tag}] ` + logContent;
 
         // If the channel option is defined, append the channel name to the start of logContent
-        if(options.channel && discordMessage.channel.type !== `dm`) logContent = `Channel: ${discordMessage.channel.name} | ` + logContent;
+        if (options.channel && discordMessage.channel.type !== `dm`) logContent = `Channel: ${discordMessage.channel.name} | ` + logContent;
 
         // If the server option is defined, append the server name to the start of logContent
-        if(options.server) {
+        if (options.server) {
             // If the message is in a guild
-            if(discordMessage.channel.type !== `dm`) {
+            if (discordMessage.channel.type !== `dm`) {
                 logContent = `Server: ${discordMessage.guild.name} | ` + logContent;
-            // If the message is in a DM
+                // If the message is in a DM
             } else {
                 logContent = `Server: DM | ` + logContent;
             }
         }
 
         // If the regex option is defined, apply the regex to logContent
-        if(options.regex) logContent = logContent.replace(/[^ -~]+/g, ``);
+        if (options.regex) logContent = logContent.replace(/[^ -~]+/g, ``);
     }
-    
-    
+
+
     // Log logContent with the color specified to console
     logFile.write(`[${formattedTime}] >> ${logContent}`.replace(/\r?\n|\r/g, ``) + `\n`);
     return console.log(logColor, logContent);

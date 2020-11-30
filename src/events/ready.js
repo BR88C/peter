@@ -4,7 +4,14 @@ const Discord = require(`discord.js`);
 const log = require(`../modules/log.js`);
 
 module.exports = (client) => {
-    client.user.setPresence({activity: { name: `a kid's guide to the Internet`, type: 'WATCHING' }, status: 'online'});
+    client.user.setPresence({
+        activity: {
+            name: `a kid's guide to the Internet`,
+            type: 'WATCHING'
+        },
+        status: 'online'
+    });
+
     log(`\n--------------------------------------------------------------------------\n`, `white`);
     log(`Using prefix ${client.config.prefix}`, `green`);
     log(`Running version ${client.pjson.version}`, `green`);
@@ -16,5 +23,5 @@ module.exports = (client) => {
         log(`Ready! Serving ${guilds} servers, ${channels} channels and ${users} users!`, `green`);
         log(`\n--------------------------------------------------------------------------\n`, `white`);
     }
-    readyStats();    
+    readyStats();
 }

@@ -6,7 +6,7 @@ module.exports = {
     description: `Hidden command that plays Conga by Gloria Estefan and sends an emoji`,
     guildOnly: true,
     hide: true,
-    async execute(client, message, args) {
+    async execute (client, message, args) {
         await message.channel.send(`It's conga time! <a:conga:${client.config.emojis.conga}>`);
 
         const playCommand = client.commands.get(`play`);

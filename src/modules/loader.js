@@ -30,9 +30,9 @@ module.exports = {
         client.commands = new Discord.Collection();
         const commandFiles = fs.readdirSync(`./src/commands`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
         commandFiles.forEach(file => {
-	        const command = require(`../commands/${file}`);
-	        client.commands.set(command.name, command);
-	        log(`Loaded command ${command.name}`, `yellow`);
+            const command = require(`../commands/${file}`);
+            client.commands.set(command.name, command);
+            log(`Loaded command ${command.name}`, `yellow`);
         });
     },
 
