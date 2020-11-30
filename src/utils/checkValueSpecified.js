@@ -5,11 +5,11 @@ module.exports = (input, min, max, message, offString) => {
 	if(offString && specifiedValue.toLowerCase() === offString) specifiedValue = 0;
 	specifiedValue = parseInt(specifiedValue);
 	if(isNaN(specifiedValue)) {
-        message.reply(`please specify an Integer!`);
+        message.channel.send(`Error: Invalid value! Please specify an Integer.`);
         return `invalid`;
     }
     if(specifiedValue > max || specifiedValue < min) {
-        message.reply(`please specify a value between ${min} and ${max}!`);
+        message.channel.send(`Error: Invalid value! Please specify a value between ${min} and ${max}.`);
         return `invalid`;
     }
     return specifiedValue;
