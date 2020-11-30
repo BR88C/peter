@@ -9,9 +9,17 @@ module.exports = {
         const value = Math.round(Math.random());
 
         if(value === 1) {
-            return message.channel.send("The coin landed on Heads!");
+            let headsEmbed = new Discord.MessageEmbed()
+                .setColor()
+                .setTitle(`The coin landed on Heads!`);
+
+            return message.channel.send(headsEmbed);
         } else {
-            return message.channel.send("The coin landed on Tails!");
+            let tailsEmbed = new Discord.MessageEmbed()
+                .setColor()
+                .setTitle(`The coin landed on Tails!`);
+
+            return message.channel.send(tailsEmbed);
         }
 	},
 }

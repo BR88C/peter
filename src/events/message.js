@@ -25,6 +25,11 @@ module.exports = (client, message) => {
 
 	// If command does not exist it logs it in red
 	if(!command) {
+		let invalidCommandEmbed = new Discord.MessageEmbed()
+			.setColor(0xff0000)
+			.setTitle(`Error: ${commandName} is not a valid command!`);
+
+		message.channel.send(invalidCommandEmbed);
 		return log(message.content, `red`, message, {server: true, channel: true, user: true, regex: true});
 	
 	// If the command exists it logs it in green
@@ -36,25 +41,41 @@ module.exports = (client, message) => {
 
 	// Checks if command is Guild Only
 	if(command.guildOnly && message.channel.type === `dm`) {
-		return message.reply(`I can't execute that command inside DMs!`);
+		let guildOnlyEmbed = new Discord.MessageEmbed()
+			.setColor(0xff0000)
+			.setTitle(`Error: That command cannot be executed inside DMs!`);
+
+		return message.channel.send(guildOnlyEmbed);
 	}
 
 	// Checks if command is Dev Only
 	if(command.devOnly && !client.config.devs.ids.includes(message.author.id.toString())) {
+		let devOnlyError;
 		if(client.config.devs.tags.length > 1) {
-			return message.reply(`that command is only for this bot's devs, ${client.config.devs.tags.join(`, `)}!`);
+			devOnlyError = (`That command can only be executed by this bot's devs, ${client.config.devs.tags.join(`, `)}!`);
 		} else {
-			return message.reply(`that command is only for this bot's dev, ${client.config.devs.tags[0]}!`);
+			devOnlyError = (`That command can only be executed by this bot's dev, ${client.config.devs.tags[0]}!`);
 		}
+
+		let devOnlyEmbed = new Discord.MessageEmbed()
+			.setColor(0xff0000)
+			.setTitle(`Error: ${devOnlyError}`);
+
+		return message.channel.send(devOnlyEmbed);
 	}
 	
 	// Check if command needs args
 	if(command.args && !args.length) {
-		let reply = `You didn't provide any arguments, ${message.author}!`;
+		let noArgsError = `Error: That command requires Arguments!`;
 		if(command.usage) {
-			reply += `\nThe proper usage would be: \`${client.config.prefix}${command.name} ${command.usage}\``;
+			noArgsError += `\nThe proper usage would be:\n\`\`\`${client.config.prefix}${command.name} ${command.usage}\`\`\``;
 		}
-		return message.channel.send(reply);
+
+		let noArgsEmbed = new Discord.MessageEmbed()
+			.setColor(0xff0000)
+			.setTitle(noArgsError);
+
+		return message.channel.send(noArgsEmbed);
 	}
 
 
@@ -64,6 +85,10 @@ module.exports = (client, message) => {
 		command.execute(client, message, args);
 	} catch (error) {
 		log(error, `red`);
-		return message.reply('there was an error trying to execute that command!');
+		let errorEmbed = new Discord.MessageEmbed()
+			.setColor(0xff0000)
+			.setTitle(`An unknown error occured trying to execute that command.`);
+
+		return message.channel.send(errorEmbed);
 	}
 }

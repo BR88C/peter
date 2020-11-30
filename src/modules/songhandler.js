@@ -48,7 +48,7 @@ module.exports = {
 		const completed = currentTime(serverQueue);
 		let timeUntilPlayed = 0;
 		songsBefore.forEach(song => {
-			timeUntilPlayed = song.rawTime + timeUntilPlayed;
+			timeUntilPlayed += song.rawTime;
 		})
 		timeUntilPlayed = Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed);
 
@@ -108,7 +108,11 @@ module.exports = {
 	async queuePlaylist (playlist, message) {
 		const serverQueue = message.client.queue.get(message.guild.id);
 		
-		message.channel.send(`Attempting to queue ${playlist.videos.length + 1} songs...`)
+		let attemptingToQueueEmbed = new Discord.MessageEmbed()
+			.setColor(0xdbbe00)
+			.setTitle(`Attempting to queue ${playlist.videos.length + 1} songs...`);
+
+		message.channel.send(attemptingToQueueEmbed);
 
 		let songsAdded = 0;
 		for(const video of playlist.videos) {
@@ -123,6 +127,10 @@ module.exports = {
 			songsAdded++
 		}
 
-		message.channel.send(`Successfully queued ${songsAdded + 1} songs!`)
+		let successfullyQueuedEmbed = new Discord.MessageEmbed()
+			.setColor(0x57ff5c)
+			.setTitle(`Successfully queued ${songsAdded + 1} songs!`);
+
+		return message.channel.send(successfullyQueuedEmbed);
 	}
 }
