@@ -10,7 +10,11 @@ module.exports = {
 
         // Return if song isn't defined, unless the queue is being looped
         if(!song) {
-            if(serverQueue.loop === `queue`) {
+            if(serverQueue.loop === `queue` && serverQueue.songs[0]) {
+                serverQueue.songs.forEach(song => {
+                    song.startTime = 0;
+                    song.hidden = false
+                })
                 serverQueue.currentSong = 0;
                 song = serverQueue.songs[0];
             } else {
