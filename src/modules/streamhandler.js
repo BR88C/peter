@@ -14,7 +14,7 @@ module.exports = {
                 serverQueue.songs.forEach(song => {
                     song.startTime = 0;
                     song.hidden = false
-                })
+                });
                 serverQueue.currentSong = 0;
                 song = serverQueue.songs[0];
             } else {
