@@ -3,47 +3,47 @@ const log = require(`../modules/log.js`);
 
 module.exports = {
 	name: `ban`,
-    	description: `Ban a specified user`,
-    	category: `Moderation`,
+	description: `Ban a specified user`,
+	category: `Moderation`,
 	args: true,
 	guildOnly: true,
 	usage: `<@user> [reason]`,
 	async execute(client, message, args) {
-        	// Check if user can ban
-        	if(!message.guild.member(message.author).hasPermission('BAN_MEMBERS')) return message.reply(`you don't have permission to ban!`);
+		// Check if user can ban
+		if(!message.guild.member(message.author).hasPermission('BAN_MEMBERS')) return message.reply(`you don't have permission to ban!`);
 
-        	// Set up ban reason and user
-        	let banReason;
-        	if(args.slice(1).join(' ')) {
-        		banReason = args.slice(1).join(' ');
-        	} else {
-            		banReason = `No reason specified`;
-        	}
+		// Set up ban reason and user
+		let banReason;
+		if(args.slice(1).join(' ')) {
+			banReason = args.slice(1).join(' ');
+		} else {
+			banReason = `No reason specified`;
+		}
 
-        	const user = message.mentions.users.first();
-        	if(!user) return message.reply(`please specify a user to ban!`);
+		const user = message.mentions.users.first();
+		if(!user) return message.reply(`please specify a user to ban!`);
 
-        	// Checks to see if the message author is trying to be banned
-        	if(user === message.author) return message.reply(`you can't ban yourself!`);
+		// Checks to see if the message author is trying to be banned
+		if(user === message.author) return message.reply(`you can't ban yourself!`);
 
-       		// Makes sure the bot can ban the user
-        	if(!message.guild.member(user).bannable) return message.reply(`I do not have sufficient permissions to ban this user!`);
+		// Makes sure the bot can ban the user
+		if(!message.guild.member(user).bannable) return message.reply(`I do not have sufficient permissions to ban this user!`);
 
-        	// Create embeds
-        	let bannedEmbed = new Discord.MessageEmbed()
+		// Create embeds
+		let bannedEmbed = new Discord.MessageEmbed()
 			.setColor(0xdb1226)
 			.setTitle(`**You have been banned from ${message.guild.name}!**`)
 			.setDescription(`Reason: ${banReason}`);
         
-        	let logBannedEmbed = new Discord.MessageEmbed()
+		let logBannedEmbed = new Discord.MessageEmbed()
 			.setColor(0xdb1226)
 			.setTitle(`**${user.tag} has been banned**`)
-            		.setDescription(`Reason: ${banReason}`);
+			.setDescription(`Reason: ${banReason}`);
 
-        	// Send the embeds and ban the user
-        	log(`${user.tag} banned for ${banReason}`, `red`, message, {server: true, regex: true});
-        	await user.send(bannedEmbed).catch(error => {});
-        	await message.guild.member(user).ban({ reason: banReason });
-       		return message.channel.send(logBannedEmbed);
+		// Send the embeds and ban the user
+		log(`${user.tag} banned for ${banReason}`, `red`, message, {server: true, regex: true});
+		await user.send(bannedEmbed).catch(error => {});
+		await message.guild.member(user).ban({ reason: banReason });
+		return message.channel.send(logBannedEmbed);
 	},
 }
