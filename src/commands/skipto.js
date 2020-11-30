@@ -22,6 +22,12 @@ module.exports = {
 		const specifiedValue = checkValueSpecified(args[0], 1, serverQueue.songs.length, message);
         if(specifiedValue === `invalid`) return;
 
+        // Sets the starTime to 0 and hidden to false for all songs
+        serverQueue.songs.forEach(song => {
+            song.startTime = 0;
+            song.hidden = false
+        });
+
         // Skips to the specified song
         serverQueue.currentSong = specifiedValue - 1;
         if(serverQueue.loop !== `single`) serverQueue.currentSong--;
