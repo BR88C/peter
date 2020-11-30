@@ -14,13 +14,13 @@ module.exports = {
 		if(!serverQueue || !serverQueue.songs[serverQueue.currentSong]) return message.reply(`I can't make the music 24/7 if there is no music playing!`);
 
 		// Checks if the user is in the VC
-        if(message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to make the music 24/7!`);
+        	if(message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to make the music 24/7!`);
 
-        // Checks if the user has voted
-        let voteEmbed = new Discord.MessageEmbed()
-            .setColor(0xff0000)
-            .setTitle(`You must vote to use this command!`)
-            .setDescription(`To vote for Peter, go to his top.gg page [here](${client.config.links.voteLink}) and click the vote button.\nReminder that your vote status is reset every 12 hours.`)
+        	// Checks if the user has voted
+        	let voteEmbed = new Discord.MessageEmbed()
+            		.setColor(0xff0000)
+            		.setTitle(`You must vote to use this command!`)
+            		.setDescription(`To vote for Peter, go to his top.gg page [here](${client.config.links.voteLink}) and click the vote button.\nReminder that your vote status is reset every 12 hours.`)
 
 		const voted = await client.dbl.hasVoted(message.author.id)
 		if(!voted) return message.channel.send(voteEmbed);
