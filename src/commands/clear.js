@@ -13,7 +13,7 @@ module.exports = {
 		if(!serverQueue.songs[serverQueue.currentSong]) return message.reply(`I can't clear the queue if no music is playing!`)
 
 		// Checks if the user is in the VC
-        if(message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to clear the queue!`);
+        	if(message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to clear the queue!`);
 
 		// Clears the queue without removing the song currently playing
 		serverQueue.songs = [serverQueue.songs[serverQueue.currentSong]];
@@ -25,6 +25,6 @@ module.exports = {
 			.setTitle(`🧹  Cleared the Queue!`);
 
 		// Send embed
-        return message.channel.send(clearEmbed);
+        	return message.channel.send(clearEmbed);
 	},
 }
