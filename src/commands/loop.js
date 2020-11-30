@@ -18,7 +18,7 @@ module.exports = {
 		if(serverQueue.songs[serverQueue.currentSong].livestream) return message.reply(`this command does not support livestreams!`);
 
 		// Sets the type of loop based on arguments provided
-		if(!args[0]) {
+		if(!args.length) {
 			return message.reply(`that isn't a valid argument! You must specify "off", "single", or "queue".`);
 
 		} else if(args[0].toLowerCase() === `off`) {

@@ -35,6 +35,8 @@ module.exports = {
 		// Gets current song's time completed
 		const completed = currentTime(serverQueue);
 
+
+
 		// If the user specifies a song
 		if(args.length) {
 			// Gets queue length
@@ -55,7 +57,7 @@ module.exports = {
 				if(serverQueue.loop === `queue`) {
 					timeUntilPlayed = 0;
 					serverQueue.songs.forEach(song => {
-						timeUntilPlayed = song.rawTime + timeUntilPlayed;
+						timeUntilPlayed += song.rawTime;
 					});
 					timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed - serverQueue.songs[specifiedIndex - 1].rawTime));
 
@@ -68,7 +70,7 @@ module.exports = {
 
 				timeUntilPlayed = 0;
 				songsBefore.forEach(song => {
-					timeUntilPlayed = song.rawTime + timeUntilPlayed;
+					timeUntilPlayed += song.rawTime;
 				});
 				timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed));
 
@@ -93,12 +95,14 @@ module.exports = {
 			return message.channel.send(queueEmbed);
 		}
 
+
+		
 		// Generates info for time
 		const songTimeLeft = Math.round(serverQueue.songs[serverQueue.currentSong].rawTime - completed);
 		const songsLeft = serverQueue.songs.slice(serverQueue.currentSong);
 		let totalTime = 0;
 		songsLeft.forEach(song => {
-			totalTime = totalTime + song.rawTime;
+			totalTime += song.rawTime;
 		});
 		totalTime = Math.round((totalTime / (serverQueue.speed / 100)) - completed);
 
@@ -110,7 +114,7 @@ module.exports = {
 			} else {
 				current = ``;
 			}
-			queueList.push(`${current}**${i + 1}.** ${song.title} [${song.timestamp}]`);
+			queueList.push(`${current}**${i + 1}.** [${song.title}](${song.url}) [${song.timestamp}]`);
 		});
 		queueList = queueList.join(`\n`);
 

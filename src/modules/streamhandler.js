@@ -1,4 +1,4 @@
-/* Handles creating and running a stream for a specified song, as well as pushing the queue and handling errors */
+/* Handles creating and running a stream for a specified song, restarting streams, and pushing the queue when a song ends */
 
 const Discord = require(`discord.js`);
 const ytdl = require(`discord-ytdl-core`);
@@ -97,6 +97,7 @@ module.exports = {
         if(!serverQueue.songs[serverQueue.currentSong].hidden) serverQueue.textChannel.send(playingEmbed);
     },
 
+    /* Restarts a stream at a specified time */
     async restartStream (serverQueue, startTime) {
         if(!serverQueue.songs[serverQueue.currentSong].livestream) serverQueue.songs[serverQueue.currentSong].startTime = startTime;
 		serverQueue.songs[serverQueue.currentSong].hidden = true;

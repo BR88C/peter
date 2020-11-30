@@ -20,6 +20,8 @@ module.exports = {
 		categoriesData.sort();
 		const categories = Array.from(new Set(categoriesData));
 
+
+		
 		// If no arguments, list categories
 		if(!args.length) {
 			// Create embed content
@@ -75,7 +77,7 @@ module.exports = {
 
 		// If the user specifies a command, list information on that command
 		const name = args[1].toLowerCase();
-		const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
+		const command = commands.get(name) || commands.find(command => command.aliases && command.aliases.includes(name));
 
 		// If the command does not exist
 		if(!command) return message.reply(`that's not a valid command!`);
