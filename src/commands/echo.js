@@ -9,8 +9,8 @@ module.exports = {
 	hide: true,
 	usage: `<message>`,
 	async execute(client, message, args) {
-        const customMessage = args.slice(0).join(" ");
-        await message.delete().catch(error => {});
-        return message.channel.send(customMessage);
+		const customMessage = args.slice(0).join(" ");
+		await message.delete().catch(error => {});
+		return message.channel.send(customMessage);
 	},
 }

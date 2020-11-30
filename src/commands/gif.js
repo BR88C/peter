@@ -6,15 +6,15 @@ const log = require(`../modules/log.js`);
 const randomhex = require(`../utils/randomhex.js`);
 
 module.exports = {
-	name: `gif`,
+    name: `gif`,
     description: `Searches giphy for a gif based on your search query`,
     args: true,
-	guildOnly: true,
-	usage: `<search query>`,
-	async execute(client, message, args) {
+    guildOnly: true,
+    usage: `<search query>`,
+    async execute(client, message, args) {
         // Gets the search query based off of arguments
         let giphysearch = args.slice(0).join(` `);
-        
+
         // Determines rating filter based on channel's nsfw setting
         let rating;
         if(!message.channel.nsfw) {
