@@ -7,20 +7,20 @@ const time = require(`../utils/time.js`);
 
 module.exports = {
 	/* Gets info for a song to be added to the queue */
-    async getSongInfo (songInfo, message) {
+	async getSongInfo (songInfo, message) {
 		// Sets format and timestamp based on if video is a livestream
 		let format;
 		let timestamp;
-        if(songInfo.videoDetails.isLive) {
+        	if(songInfo.videoDetails.isLive) {
 			format = ytdl.chooseFormat(songInfo.formats, { isHLS: true }).itag.toString();
 			timestamp = `LIVE`
-        } else {
+        	} else {
 			const audioFormats = ytdl.filterFormats(songInfo.formats, `audioonly`);
 			format = ytdl.chooseFormat(audioFormats, { quality: `highestaudio` }).itag.toString();
 			timestamp = time(songInfo.videoDetails.lengthSeconds);
-        }
+        	}
 
-        return {
+        	return {
 			title: songInfo.videoDetails.title.replace(/-|\*|_|\|/g, ` `),
 			livestream: songInfo.videoDetails.isLive,
 			format,
@@ -31,8 +31,8 @@ module.exports = {
 			requestedBy: message.author,
 			hidden: false,
 			startTime: 0
-        };
-    },
+        	};
+   	},
 
 
 
