@@ -1,5 +1,6 @@
 const Discord = require(`discord.js`);
 const log = require(`../modules/log.js`);
+const checkValueSpecified = require(`../utils/checkValueSpecified.js`);
 
 module.exports = {
 	name: `skipto`,
@@ -17,24 +18,18 @@ module.exports = {
 		// Checks if the user is in the VC
         if(message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to remove music from the queue!`);
         
-        // Set specified index
-        const specifiedIndex = parseInt(args[0]);
-
-        // Checks if the argument provided is an integer
-        if(isNaN(specifiedIndex)) return message.reply(`please specify an Integer!`);
-
-        // Checks if the queue has a song tagged with the number specified
-        const queueLength = (serverQueue.songs).length;
-        if(specifiedIndex > queueLength || specifiedIndex < 1 ) return message.reply(`there isnt a song in the queue with that number!`);
+        // Checks to make sure the value specified is valid
+		const specifiedValue = checkValueSpecified(args[0], 1, serverQueue.songs.length, message);
+        if(specifiedValue === `invalid`) return;
 
         // Skips to the specified song
-        serverQueue.currentSong = specifiedIndex - 1;
+        serverQueue.currentSong = specifiedValue - 1;
         if(serverQueue.loop !== `single`) serverQueue.currentSong--;
 		serverQueue.connection.dispatcher.end();
 
         let skippedToEmbed = new Discord.MessageEmbed()
             .setColor(0x9cd6ff)
-            .setTitle(`⏭️  Skipped to **${serverQueue.songs[specifiedIndex - 1].title}**!`);
+            .setTitle(`⏭️  Skipped to **${serverQueue.songs[specifiedValue - 1].title}**!`);
 
         return message.channel.send(skippedToEmbed);
 	},
