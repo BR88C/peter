@@ -3,10 +3,10 @@ const log = require(`../modules/log.js`);
 const time = require(`../utils/time.js`);
 
 module.exports = {
-	name: `bot`,
+    name: `bot`,
     description: `Displays information about the bot`,
     category: `Bot Info`,
-	aliases: [`about`, `peter`],
+    aliases: [`about`, `peter`],
 	async execute(client, message, args) {
         const uptime = time(Math.round(client.uptime / 1000));
 
@@ -27,5 +27,5 @@ module.exports = {
             );
 
         return message.channel.send(botInfoEmbed);
-	},
+    },
 }
