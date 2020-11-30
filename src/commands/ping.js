@@ -12,8 +12,8 @@ module.exports = {
 		// Creates and sends the embed
 		let pingEmbed = new Discord.MessageEmbed()
 			.setColor(0x2100db)
-			.setAuthor(`Pong!`)
-			.setDescription(`\`\`` + ping + `ms\`\``);
+			.setTitle(`Pong!`)
+			.setDescription(`\`\`\`${ping}ms\`\`\``);
 			
 		return message.channel.send(pingEmbed);
 	},
