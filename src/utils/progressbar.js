@@ -2,7 +2,7 @@
 
 module.exports = (percent, length) => {
     // If the length is not odd, make it odd
-    if(length % 2 === 0) length = length + 1;
+    if (length % 2 === 0) length = length + 1;
 
     // Find the length completed based on the percent and length specified
     let lengthCompleted = Math.round(percent * (length - 1));
