@@ -30,13 +30,13 @@ module.exports = {
         if (specifiedValue === `invalid`) return;
 
         // Get old speed
-        const oldSpeed = serverQueue.speed;
+        const time = currentTime(serverQueue);
 
         // Sets value
         serverQueue.speed = specifiedValue;
 
         // Restart the stream at the current time
-        streamhandler.restartStream(serverQueue, currentTime(serverQueue));
+        streamhandler.restartStream(serverQueue, time);
 
         let speedEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)
