@@ -5,7 +5,7 @@ const log = require(`../modules/log.js`);
 module.exports = {
     name: `help`,
     description: `Get info on Peter's commands`,
-    aliases: [`commands`],
+    aliases: [`commands`, `command`, `cmd`, `cmds`, `commandlist`, `cmdlist`],
     usage: `<category name> **or** ${config.prefix} help command <command name>`,
     async execute (client, message, args) {
         const data = [];
