@@ -1,7 +1,7 @@
 /* Used to make complex logging easier and shorter */
 
 const fs = require(`fs`);
-const config = require(`../config.json`);
+const config = require(`../config/config.json`);
 
 module.exports = (content, color, discordMessage, options) => {
     // Create Variables

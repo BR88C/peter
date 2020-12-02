@@ -10,7 +10,7 @@ module.exports = {
     async loadVariables (client) {
         client.dbl = new DBL(process.env.DBL_TOKEN, client);
         client.queue = new Map();
-        client.config = require(`../config.json`);
+        client.config = require(`../config/config.json`);
         client.pjson = require(`../../package.json`);
     },
 
