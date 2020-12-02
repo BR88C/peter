@@ -163,7 +163,7 @@ module.exports = {
 
         // Sends the embed and adds reactions for navigating pages if needed
         if (queueList.length > 10) {
-            let page = 1;
+            let page = Math.ceil((serverQueue.currentSong + 1) / 10);
             let maxPage = Math.ceil(queueList.length / 10);
 
             const filter = (reaction, user) => [`⬅️`, `➡️`].includes(reaction.emoji.name) && user.id !== client.user.id;
