@@ -42,7 +42,7 @@ module.exports = {
 
 
     /* Adds a song to the queue */
-    async queueSong (song, message) {
+    async queueSong (song, message, hidden) {
         const serverQueue = message.client.queue.get(message.guild.id);
 
         serverQueue.songs.push(song);
@@ -57,36 +57,37 @@ module.exports = {
         })
         timeUntilPlayed = Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed);
 
-        let queueAddEmbed = new Discord.MessageEmbed()
-            .setColor(0x0cdf24)
-            .setTitle(`✅  "${song.title}" has been added to the queue!`)
-            .setImage(song.thumbnail)
-            .addFields({
-                name: `**Position in Queue**`,
-                value: songsBefore.length,
-                inline: true
-            }, {
-                name: `**Time until Played**`,
-                value: time(timeUntilPlayed),
-                inline: true
-            }, {
-                name: `**URL**`,
-                value: `[Link](${song.url})`,
-                inline: true
-            }, )
-            .setFooter(`Requested by: ${song.requestedBy.tag}`)
-            .setTimestamp(new Date());
+        if (!hidden) {
+            let queueAddEmbed = new Discord.MessageEmbed()
+                .setColor(0x0cdf24)
+                .setTitle(`✅  "${song.title}" has been added to the queue!`)
+                .setImage(song.thumbnail)
+                .addFields({
+                    name: `**Position in Queue**`,
+                    value: songsBefore.length,
+                    inline: true
+                }, {
+                    name: `**Time until Played**`,
+                    value: time(timeUntilPlayed),
+                    inline: true
+                }, {
+                    name: `**URL**`,
+                    value: `[Link](${song.url})`,
+                    inline: true
+                }, )
+                .setFooter(`Requested by: ${song.requestedBy.tag}`)
+                .setTimestamp(new Date());
 
-        return message.channel.send(queueAddEmbed);
+            return message.channel.send(queueAddEmbed);
+        }
+
     },
 
 
 
     /* Creates the queue */
     async createQueue (song, message) {
-        const {
-            channel
-        } = message.member.voice;
+        const { channel } = message.member.voice;
 
         // Create queue construct
         const queueConstruct = {
