@@ -78,26 +78,42 @@ module.exports = {
                 .setFooter(`Requested by: ${song.requestedBy.tag}`)
                 .setTimestamp(new Date());
 
+            // Send the message and add reation options
             return message.channel.send(queueAddEmbed).then(async msg => {
                 await msg.react(`⏭️`);
+                await msg.react(`❌`);
 
-                const filter = (reaction, user) => [`⏭️`].includes(reaction.emoji.name) && user.id !== msg.author.id;
+                const filter = (reaction, user) => [`⏭️`, `❌`].includes(reaction.emoji.name) && user.id !== msg.author.id;
 
                 msg.awaitReactions(filter, {
                     max: 1,
                     time: 30000,
                     errors: [`time`]
                 }).then(async collected => {
-                    serverQueue.currentSong = songIndex;
-                    if (serverQueue.loop !== `single`) serverQueue.currentSong--;
-                    serverQueue.connection.dispatcher.end();
+                    const reaction = collected.first();
 
-                    let skippedToEmbed = new Discord.MessageEmbed()
-                        .setColor(0x9cd6ff)
-                        .setTitle(`⏭️  Skipped to **${serverQueue.songs[songIndex].title}**!`);
+                    if (reaction.emoji.name === `⏭️`) {
+                        serverQueue.currentSong = songIndex;
+                        if (serverQueue.loop !== `single`) serverQueue.currentSong--;
+                        serverQueue.connection.dispatcher.end();
 
-                    msg.delete();
-                    return message.channel.send(skippedToEmbed);
+                        let skippedToEmbed = new Discord.MessageEmbed()
+                            .setColor(0x9cd6ff)
+                            .setTitle(`⏭️  Skipped to **${serverQueue.songs[songIndex].title}**!`);
+
+                        msg.delete();
+                        return message.channel.send(skippedToEmbed);
+
+                    } else if (reaction.emoji.name === `❌`) {
+                        const song = serverQueue.songs.splice(songIndex, 1);
+
+                        let removeEmbed = new Discord.MessageEmbed()
+                            .setColor(0xff668a)
+                            .setTitle(`❌  Removed **${song[0].title}** from the queue!`);
+
+                        msg.delete();
+                        return message.channel.send(removeEmbed);
+                    }
                 }).catch(error => {
                     msg.reactions.removeAll();
                 });
