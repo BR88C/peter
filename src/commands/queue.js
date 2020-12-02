@@ -186,17 +186,15 @@ module.exports = {
                         if (reaction.emoji.name === `⬅️`) {
                             page--;
                             if (page < 1) page = maxPage;
-
-                            msg.delete();
-                            return sendReactionQueueEmbed();
-
+                            
                         } else if (reaction.emoji.name === `➡️`) {
                             page++;
                             if (page > maxPage) page = 1;
-
-                            msg.delete();
-                            return sendReactionQueueEmbed();
                         }
+
+                        msg.delete();
+                        return sendReactionQueueEmbed();
+
                     }).catch(error => {
                         msg.reactions.removeAll();
                     });

@@ -101,7 +101,6 @@ module.exports = {
                             .setColor(0x9cd6ff)
                             .setTitle(`⏭️  Skipped to **${serverQueue.songs[songIndex].title}**!`);
 
-                        msg.delete();
                         return message.channel.send(skippedToEmbed);
 
                     } else if (reaction.emoji.name === `❌`) {
@@ -111,9 +110,11 @@ module.exports = {
                             .setColor(0xff668a)
                             .setTitle(`❌  Removed **${song[0].title}** from the queue!`);
 
-                        msg.delete();
                         return message.channel.send(removeEmbed);
                     }
+
+                    msg.delete();
+
                 }).catch(error => {
                     msg.reactions.removeAll();
                 });
