@@ -78,7 +78,30 @@ module.exports = {
                 .setFooter(`Requested by: ${song.requestedBy.tag}`)
                 .setTimestamp(new Date());
 
-            return message.channel.send(queueAddEmbed);
+            return message.channel.send(queueAddEmbed).then(async msg => {
+                await msg.react(`⏭️`);
+
+                const filter = (reaction, user) => [`⏭️`].includes(reaction.emoji.name) && user.id !== msg.author.id;
+
+                msg.awaitReactions(filter, {
+                    max: 1,
+                    time: 30000,
+                    errors: [`time`]
+                }).then(async collected => {
+                    serverQueue.currentSong = songIndex;
+                    if (serverQueue.loop !== `single`) serverQueue.currentSong--;
+                    serverQueue.connection.dispatcher.end();
+
+                    let skippedToEmbed = new Discord.MessageEmbed()
+                        .setColor(0x9cd6ff)
+                        .setTitle(`⏭️  Skipped to **${serverQueue.songs[songIndex].title}**!`);
+
+                    msg.delete();
+                    return message.channel.send(skippedToEmbed);
+                }).catch(error => {
+                    msg.reactions.removeAll();
+                });
+            });
         }
 
     },
