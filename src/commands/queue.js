@@ -1,7 +1,7 @@
 const Discord = require(`discord.js`);
 const log = require(`../modules/log.js`);
-const time = require(`../utils/time.js`);
 const currentTime = require(`../utils/currentTime.js`);
+const time = require(`../utils/time.js`);
 
 module.exports = {
     name: `queue`,
@@ -124,36 +124,90 @@ module.exports = {
             }
             queueList.push(`${current}**${i + 1}.** [${song.title}](${song.url}) [${song.timestamp}]`);
         });
-        queueList = queueList.join(`\n`);
 
-        // Creates and sends the embed
-        let queueEmbed = new Discord.MessageEmbed()
-            .setColor(0x1e90ff)
-            .setAuthor(`Song Queue`)
-            .setTitle(`**Now Playing**: ${serverQueue.songs[serverQueue.currentSong].title} [${time(songTimeLeft)} remaining]`)
-            .setThumbnail(serverQueue.songs[serverQueue.currentSong].thumbnail)
-            .setDescription(queueList)
-            .addFields({
-                name: `\u200B`,
-                value: `\u200B`
-            }, {
-                name: `**Approximate Time left**`,
-                value: time(totalTime),
-                inline: true
-            }, {
-                name: `**Loop**`,
-                value: `${serverQueue.loop}`,
-                inline: true
-            }, {
-                name: `**Channel**`,
-                value: serverQueue.channel.name,
-                inline: true
-            }, {
-                name: `**Active Effects**`,
-                value: activeEffects
-            })
-            .setTimestamp(new Date());
 
-        return message.channel.send(queueEmbed);
+
+        // Generate the embed
+        async function generateQueueEmbed (queueContent) {
+            let queueEmbed = new Discord.MessageEmbed()
+                .setColor(0x1e90ff)
+                .setAuthor(`Song Queue`)
+                .setTitle(`**Now Playing**: ${serverQueue.songs[serverQueue.currentSong].title} [${time(songTimeLeft)} remaining]`)
+                .setThumbnail(serverQueue.songs[serverQueue.currentSong].thumbnail)
+                .setDescription(queueContent)
+                .addFields({
+                    name: `\u200B`,
+                    value: `\u200B`
+                }, {
+                    name: `**Approximate Time left**`,
+                    value: time(totalTime),
+                    inline: true
+                }, {
+                    name: `**Loop**`,
+                    value: `${serverQueue.loop}`,
+                    inline: true
+                }, {
+                    name: `**Channel**`,
+                    value: serverQueue.channel.name,
+                    inline: true
+                }, {
+                    name: `**Active Effects**`,
+                    value: activeEffects
+                })
+                .setTimestamp(new Date());
+
+            return queueEmbed;
+        }
+
+
+
+        // Sends the embed and adds reactions for navigating pages if needed
+        if (queueList.length > 10) {
+            let page = 1;
+            let maxPage = Math.ceil(queueList.length / 10);
+
+            const filter = (reaction, user) => [`⬅️`, `➡️`].includes(reaction.emoji.name) && user.id !== client.user.id;
+
+            async function sendReactionQueueEmbed () {
+                let queuePage = queueList.slice((page * 10) - 10, page * 10);
+                queuePage.push(`\n*Page ${page}/${maxPage}*`);
+
+                message.channel.send(await generateQueueEmbed(queuePage.join(`\n`))).then(async msg => {
+                    await msg.react(`⬅️`);
+                    await msg.react(`➡️`);
+
+                    msg.awaitReactions(filter, {
+                        max: 1,
+                        time: 30000,
+                        errors: [`time`]
+                    }).then(async collected => {
+                        const reaction = collected.first();
+
+                        if (reaction.emoji.name === `⬅️`) {
+                            page--;
+                            if (page < 1) page = maxPage;
+
+                            msg.delete();
+                            return sendReactionQueueEmbed();
+
+                        } else if (reaction.emoji.name === `➡️`) {
+                            page++;
+                            if (page > maxPage) page = 1;
+
+                            msg.delete();
+                            return sendReactionQueueEmbed();
+                        }
+                    }).catch(error => {
+                        msg.reactions.removeAll();
+                    });
+                });
+            }
+
+            return sendReactionQueueEmbed();
+
+        // If there are less than 10 songs send the queue embed normally
+        } else {
+            return message.channel.send(await generateQueueEmbed(queueList.join(`\n`)));
+        }
     },
 }
