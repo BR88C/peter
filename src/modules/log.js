@@ -1,9 +1,30 @@
 /* Used to make complex logging easier and shorter */
 
+const fs = require(`fs`);
+const config = require(`../config/config.json`);
+
 module.exports = (content, color, discordMessage, options) => {
     // Create Variables
+    const logFile = fs.createWriteStream(config.logFile, {
+        flags: 'a'
+    });
     let logColor;
     let logContent = content;
+
+    // Report an error if there is an issue with logging
+    logFile.on('error', function () {
+        console.log(`\x1b[33m`, `Warning: Error writing log to ${config.logFile}`)
+    })
+
+    // Get time
+    const time = new Date();
+    const second = String(time.getSeconds());
+    const minute = String(time.getMinutes());
+    const hour = String(time.getHours());
+    const day = String(time.getDate()).padStart(2, '0');
+    const month = String(time.getMonth() + 1).padStart(2, '0');
+    const year = time.getFullYear();
+    const formattedTime = `${month}-${day}-${year} ${hour}:${minute}:${second}`
 
     // Get color specified and set logColor variable to correct color
     switch (color) {
@@ -79,5 +100,6 @@ module.exports = (content, color, discordMessage, options) => {
 
 
     // Log logContent with the color specified to console
+    logFile.write(`[${formattedTime}] >> ${logContent}`.replace(/\r?\n|\r/g, ``) + `\n`);
     return console.log(logColor, logContent);
 }
