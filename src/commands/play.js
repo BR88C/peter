@@ -30,6 +30,10 @@ module.exports = {
             .setColor(0xff4a4a)
             .setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`);
 
+        let videoUnavailableEmbed = new Discord.MessageEmbed()
+            .setColor(0xff4a4a)
+            .setTitle(`Error: Video Unavailable`);
+
         // Defines the server queue
         const serverQueue = message.client.queue.get(message.guild.id);
 
@@ -54,7 +58,11 @@ module.exports = {
         } else if (args.slice(0).join(` `).match(playlistRegex) && args.slice(0).join(` `).match(playlistRegex)[2]) {
             playlist = await yts({
                 listId: args.slice(0).join(` `).match(playlistRegex)[2]
+            }).catch(error => {
+                return log(error, `red`);
             })
+
+            if (!playlist) return message.channel.send(errorEmbed);
 
             songInfo = await ytdl.getInfo(`${playlist.videos[0].videoId}`).catch(error => {
                 log(error, `red`);
@@ -83,6 +91,7 @@ module.exports = {
 
         // Defines song info
         const song = await songhandler.getSongInfo(songInfo, message);
+        if (!song) return message.channel.send(videoUnavailableEmbed);
 
         // Adds a song to the queue if there is already a song playing
         if (serverQueue && serverQueue.songs[serverQueue.currentSong]) {

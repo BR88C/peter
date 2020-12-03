@@ -18,7 +18,9 @@ module.exports = {
 
             timestamp = `LIVE`
         } else {
-            const audioFormats = ytdl.filterFormats(songInfo.formats, `audioonly`);
+            let audioFormats = ytdl.filterFormats(songInfo.formats, `audioonly`);
+            if (!audioFormats[0]) audioFormats = songInfo.formats;
+            if (!audioFormats[0]) return;
             format = ytdl.chooseFormat(audioFormats, {
                 quality: `highestaudio`
             }).itag.toString();
@@ -174,10 +176,19 @@ module.exports = {
         for (const video of playlist.videos) {
             const songInfo = await ytdl.getInfo(`${video.videoId}`).catch(error => {
                 log(error, `red`);
-                return message.channel.send(`Error adding ${video.title} to the queue`);
             });
 
+            if (!songInfo) {
+                message.channel.send(`*Error adding ${video.title} to the queue!*`);
+                continue;
+            }
+
             const song = await this.getSongInfo(songInfo, message);
+            if (!song) {
+                message.channel.send(`*Error adding ${video.title} to the queue!*`);
+                continue;
+            }
+
             await serverQueue.songs.push(song);
 
             songsAdded++
