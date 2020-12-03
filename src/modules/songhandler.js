@@ -179,13 +179,13 @@ module.exports = {
             });
 
             if (!songInfo) {
-                message.channel.send(`*Error adding ${video.title} to the queue!*`);
+                message.channel.send(`*Error adding "${video.title}" to the queue!*`);
                 continue;
             }
 
             const song = await this.getSongInfo(songInfo, message);
             if (!song) {
-                message.channel.send(`*Error adding ${video.title} to the queue!*`);
+                message.channel.send(`*Error adding "${video.title}" to the queue!*`);
                 continue;
             }
 
