@@ -45,7 +45,7 @@ module.exports = {
                 quality: song.format,
                 encoderArgs: [`-af`, sfxArgs.join(`, `)],
                 requestOptions: {
-                    'Cookie': `YSC=c0xO1TBkA_M; VISITOR_INFO1_LIVE=pcszSPYKDSE`
+                    'Cookie': process.env.COOKIE
                 }
             });
         } else {
@@ -55,7 +55,7 @@ module.exports = {
                 highWaterMark: 1 << 25,
                 quality: song.format,
                 requestOptions: {
-                    'Cookie': `YSC=c0xO1TBkA_M; VISITOR_INFO1_LIVE=pcszSPYKDSE`
+                    'Cookie': process.env.COOKIE
                 }
             });
         }
