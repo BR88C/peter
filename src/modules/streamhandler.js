@@ -43,14 +43,20 @@ module.exports = {
                 opusEncoded: true,
                 highWaterMark: 1 << 25,
                 quality: song.format,
-                encoderArgs: [`-af`, sfxArgs.join(`, `)]
+                encoderArgs: [`-af`, sfxArgs.join(`, `)],
+                requestOptions: {
+                    'Cookie': `YSC=c0xO1TBkA_M; VISITOR_INFO1_LIVE=pcszSPYKDSE`
+                }
             });
         } else {
             stream = ytdl(song.url, {
                 seek: song.startTime,
                 opusEncoded: true,
                 highWaterMark: 1 << 25,
-                quality: song.format
+                quality: song.format,
+                requestOptions: {
+                    'Cookie': `YSC=c0xO1TBkA_M; VISITOR_INFO1_LIVE=pcszSPYKDSE`
+                }
             });
         }
 
