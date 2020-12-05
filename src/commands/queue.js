@@ -1,4 +1,4 @@
-const Discord = require(`discord.js`);
+const Discord = require(`discord.js-light`);
 const log = require(`../modules/log.js`);
 const currentTime = require(`../utils/currentTime.js`);
 const time = require(`../utils/time.js`);
@@ -147,8 +147,8 @@ module.exports = {
                     value: `${serverQueue.loop}`,
                     inline: true
                 }, {
-                    name: `**Channel**`,
-                    value: serverQueue.channel.name,
+                    name: `**24/7**`,
+                    value: serverQueue.twentyFourSeven,
                     inline: true
                 }, {
                     name: `**Active Effects**`,

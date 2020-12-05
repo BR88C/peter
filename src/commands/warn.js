@@ -1,4 +1,4 @@
-const Discord = require(`discord.js`);
+const Discord = require(`discord.js-light`);
 const log = require(`../modules/log.js`);
 
 module.exports = {
@@ -10,7 +10,8 @@ module.exports = {
     usage: `<@user> [reason]`,
     async execute (client, message, args) {
         // Check if user can warn
-        if (!message.guild.member(message.author).hasPermission('MANAGE_MESSAGES')) return message.reply(`you don't have permission to warn! (Manage messages permission required)`);
+        const author = await message.guild.members.fetch(message.author.id);
+        if (!author.hasPermission('MANAGE_MESSAGES')) return message.reply(`you don't have permission to warn! (Manage messages permission required)`);
 
         // Set up reason and user
         let warnReason;

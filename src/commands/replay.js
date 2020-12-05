@@ -1,4 +1,4 @@
-const Discord = require(`discord.js`);
+const Discord = require(`discord.js-light`);
 const log = require(`../modules/log.js`);
 const streamhandler = require(`../modules/streamhandler.js`);
 

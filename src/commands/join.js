@@ -1,4 +1,4 @@
-const Discord = require(`discord.js`);
+const Discord = require(`discord.js-light`);
 const log = require(`../modules/log.js`);
 
 module.exports = {
@@ -28,7 +28,7 @@ module.exports = {
 
             let joinEmbed = new Discord.MessageEmbed()
                 .setColor(0xc2ffb0)
-                .setTitle(`✅  Joined ${connection.channel.name}`);
+                .setTitle(`✅  Joined the VC`);
 
             message.channel.send(joinEmbed);
         } catch (error) {

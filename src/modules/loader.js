@@ -1,6 +1,6 @@
 /* Loads commands, events, and variables */
 
-const Discord = require(`discord.js`);
+const Discord = require(`discord.js-light`);
 const fs = require(`fs`);
 const DBL = require("dblapi.js");
 const log = require(`./log.js`);

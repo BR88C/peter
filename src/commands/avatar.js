@@ -1,4 +1,4 @@
-const Discord = require(`discord.js`);
+const Discord = require(`discord.js-light`);
 const log = require(`../modules/log.js`);
 const randomhex = require(`../utils/randomhex.js`);
 
@@ -10,7 +10,7 @@ module.exports = {
     aliases: [`pfp`],
     usage: `[@user]`,
     async execute (client, message, args) {
-        let user = message.mentions.users.first() || client.users.cache.get(args[0]);
+        let user = message.mentions.users.first();
         if (!user) user = message.author;
 
         let avatarEmbed = new Discord.MessageEmbed()

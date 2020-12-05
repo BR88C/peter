@@ -1,4 +1,4 @@
-const Discord = require(`discord.js`);
+const Discord = require(`discord.js-light`);
 const log = require(`../modules/log.js`);
 
 module.exports = {
@@ -10,7 +10,8 @@ module.exports = {
     usage: `<@user> [reason]`,
     async execute (client, message, args) {
         // Check if user can ban
-        if (!message.guild.member(message.author).hasPermission('BAN_MEMBERS')) return message.reply(`you don't have permission to ban!`);
+        const author = await message.guild.members.fetch(message.author.id);
+        if (!author.hasPermission('BAN_MEMBERS')) return message.reply(`you don't have permission to ban!`);
 
         // Set up ban reason and user
         let banReason;
@@ -23,11 +24,13 @@ module.exports = {
         const user = message.mentions.users.first();
         if (!user) return message.reply(`please specify a user to ban!`);
 
+        const userGuildMember = await message.guild.members.fetch(message.mentions.users.first().id);
+
         // Checks to see if the message author is trying to be banned
         if (user === message.author) return message.reply(`you can't ban yourself!`);
 
         // Makes sure the bot can ban the user
-        if (!message.guild.member(user).bannable) return message.reply(`I do not have sufficient permissions to ban this user!`);
+        if (!userGuildMember.bannable) return message.reply(`I do not have sufficient permissions to ban this user!`);
 
         // Create embeds
         let bannedEmbed = new Discord.MessageEmbed()
@@ -43,7 +46,7 @@ module.exports = {
         // Send the embeds and ban the user
         log(`${user.tag} banned for ${banReason}`, `red`, message, { server: true, regex: true });
         await user.send(bannedEmbed).catch(error => {});
-        await message.guild.member(user).ban({ reason: banReason });
+        await userGuildMember.ban({ reason: banReason });
         return message.channel.send(logBannedEmbed);
     },
 }

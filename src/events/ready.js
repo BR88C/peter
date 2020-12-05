@@ -1,6 +1,6 @@
 /* Once Ready, set status and show ready info */
 
-const Discord = require(`discord.js`);
+const Discord = require(`discord.js-light`);
 const log = require(`../modules/log.js`);
 
 module.exports = async (client) => {
@@ -17,10 +17,9 @@ module.exports = async (client) => {
     log(`Running version ${client.pjson.version}`, `green`);
 
     const guilds = await client.guilds.cache.size;
-    const channels = await client.channels.cache.size;
     const users = await client.guilds.cache.reduce((a, g) => a + g.memberCount, 0);
 
-    log(`Ready! Serving ${guilds} servers, ${channels} channels and ${users} users!`, `green`);
+    log(`Ready! Serving ${guilds} servers, and ${users} users!`, `green`);
     log(`\n--------------------------------------------------------------------------\n`, `white`);
 
 }

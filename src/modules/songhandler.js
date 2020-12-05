@@ -1,6 +1,6 @@
 /* Manages getting song info and pushing songs to the queue */
 
-const Discord = require(`discord.js`);
+const Discord = require(`discord.js-light`);
 const ytdl = require(`discord-ytdl-core`);
 const currentTime = require(`../utils/currentTime.js`);
 const time = require(`../utils/time.js`);

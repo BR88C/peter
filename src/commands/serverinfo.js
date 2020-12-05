@@ -1,4 +1,4 @@
-const Discord = require(`discord.js`);
+const Discord = require(`discord.js-light`);
 const log = require(`../modules/log.js`);
 
 module.exports = {
@@ -34,10 +34,11 @@ module.exports = {
 
         // Checks to make sure owner exists (applicable on large servers where the owner property will not be returned when the owner is offline)
         let serverOwner;
-        if (client.guilds.cache.get(message.guild.id).owner) {
-            serverOwner = client.guilds.cache.get(message.guild.id).owner.user.username;
+        if (message.guild.ownerID) {
+            const serverOwnerUser = await client.users.fetch(message.guild.ownerID);
+            serverOwner = `${serverOwnerUser.username}#${serverOwnerUser.discriminator}`;
         } else {
-            serverOwner = `Owner Offline`;
+            serverOwner = `Error getting owner`;
         }
 
 
@@ -52,15 +53,15 @@ module.exports = {
                 inline: true
             }, {
                 name: `**Members**`,
-                value: `Total Members: ${await message.guild.memberCount}\nRoles: ${await message.guild.roles.cache.size}`,
+                value: await message.guild.memberCount,
+                inline: true
+            }, {
+                name: `**Roles**`,
+                value: await message.guild.roles.cache.size,
                 inline: true
             }, {
                 name: `**Boosts**`,
                 value: `Server Level: ${message.guild.premiumTier}\nPeople Boosting: ${message.guild.premiumSubscriptionCount}`,
-                inline: true
-            }, {
-                name: `**Channels**`,
-                value: `Categories: ${message.guild.channels.cache.filter(channel => channel.type == 'category').size}\nText Channels: ${message.guild.channels.cache.filter(channel => channel.type == 'text').size}\nVoice Channels: ${message.guild.channels.cache.filter(channel => channel.type == 'voice').size}`,
                 inline: true
             }, {
                 name: `**Server Features**`,
@@ -68,7 +69,7 @@ module.exports = {
                 inline: true
             }, {
                 name: `**General Info**`,
-                value: `Region: ${message.guild.region}\nVerification Level: ${message.guild.verificationLevel}\nCustom Emojis: ${message.guild.emojis.cache.size}`,
+                value: `Region: ${message.guild.region}\nVerification Level: ${message.guild.verificationLevel}\n[Icon URL](${message.guild.iconURL({ dynamic: true, size: 256 })})`,
                 inline: true
             });
 

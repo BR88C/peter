@@ -1,13 +1,20 @@
 /* Peter by BR88C */
 
 /* Load Modules */
-const Discord = require(`discord.js`);
+const Discord = require(`discord.js-light`);
 const dotenv = require(`dotenv`).config();
 const loader = require(`./modules/loader.js`)
 const log = require(`./modules/log.js`);
 const end = require(`./modules/end.js`);
 
-const client = new Discord.Client();
+const client = new Discord.Client({
+    cacheGuilds: true,
+    cacheChannels: false,
+    cacheOverwrites: false,
+    cacheRoles: true,
+    cacheEmojis: false,
+    cachePresences: false
+});
 
 
 /* Load all commands, events, and variables, then authenticate with Discord */

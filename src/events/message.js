@@ -1,13 +1,13 @@
 /* When a message is recieved, log it with the appropriate formatting, check if
 it's a command, look for arguments, check for flags on the commands, then run it */
 
-const Discord = require(`discord.js`);
+const Discord = require(`discord.js-light`);
 const log = require(`../modules/log.js`);
 
 module.exports = (client, message) => {
     // If the Message is by Peter!
     if (message.author.bot && message.author.id === client.user.id) {
-        return log(message.content, `magenta`, message, { server: true, channel: true, user: true, regex: true });
+        return log(message.content, `magenta`, message, { server: true, user: true, regex: true });
 
         // If the message is by another bot or it does not contain the prefix
     } else if (message.author.bot || message.content.toLowerCase().indexOf(client.config.prefix.toLowerCase()) !== 0) {
@@ -30,11 +30,11 @@ module.exports = (client, message) => {
             .setTitle(`Error: ${commandName} is not a valid command!`);
 
         message.channel.send(invalidCommandEmbed);
-        return log(message.content, `red`, message, { server: true, channel: true, user: true, regex: true });
+        return log(message.content, `red`, message, { server: true, user: true, regex: true });
 
         // If the command exists it logs it in green
     } else {
-        log(message.content, `green`, message, { server: true, channel: true, user: true, regex: true });
+        log(message.content, `green`, message, { server: true, user: true, regex: true });
     }
 
 

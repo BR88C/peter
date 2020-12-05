@@ -1,4 +1,4 @@
-const Discord = require(`discord.js`);
+const Discord = require(`discord.js-light`);
 const ytdl = require(`discord-ytdl-core`);
 const yts = require(`yt-search`);
 const config = require(`../config/config.json`);

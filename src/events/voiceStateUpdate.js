@@ -1,14 +1,12 @@
 /* Leaves VCs if only the bot is present, or if bot is manually disconnected from vc */
 
-const Discord = require(`discord.js`);
+const Discord = require(`discord.js-light`);
 
-module.exports = (client, oldState, newState) => {
-    const serverQueue = client.queue.get(oldState.guild.id);
-
-    // If a user leaves or changes channels
-    if (oldState.channelID != newState.channelID && oldState.channelID != null) {
-        const channelInfo = oldState.guild.channels.cache.get(oldState.channelID);
-        const botChannelID = oldState.guild.members.cache.get(client.user.id).voice.channelID;
+module.exports = async (client, oldState, newState) => {
+    // If a user leaves
+    if (oldState && !newState) {
+        const serverQueue = client.queue.get(oldState.guild.id);
+        const channelInfo = await oldState.guild.channels.fetch(oldState.channelID);
         const usersInVC = channelInfo.members.filter(member => !member.user.bot).size;
 
         // If the bot is the only user in the VC clear the queue and leave
@@ -27,7 +25,7 @@ module.exports = (client, oldState, newState) => {
             channelInfo.leave();
 
             // If the bot is not in a VC and there is a queue, clear the queue 
-        } else if (botChannelID == null && serverQueue) {
+        } else if (oldState.guild.voiceStates.cache.filter(id => id == client.user.id) && serverQueue) {
             let leaveEmbed = new Discord.MessageEmbed()
                 .setColor(0xff4a4a)
                 .setTitle(`👋 Left due to being manually disconnected.`);

@@ -1,6 +1,6 @@
 /* Handles creating and running a stream for a specified song, restarting streams, and pushing the queue when a song ends */
 
-const Discord = require(`discord.js`);
+const Discord = require(`discord.js-light`);
 const ytdl = require(`discord-ytdl-core`);
 const log = require(`./log.js`);
 
