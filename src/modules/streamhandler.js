@@ -18,7 +18,8 @@ module.exports = {
                 serverQueue.currentSong = 0;
                 song = serverQueue.songs[0];
             } else {
-                return serverQueue.songs = [];
+                if (serverQueue) serverQueue.songs = [];
+                return;
             }
         }
 
