@@ -19,7 +19,7 @@ module.exports = async (client) => {
     const guilds = await client.guilds.cache.size;
     const users = await client.guilds.cache.reduce((a, g) => a + g.memberCount, 0);
 
-    log(`Ready! Serving ${guilds} servers, and ${users} users!`, `green`);
+    log(`Ready! Serving ${users} users in ${guilds} guilds!`, `green`);
     log(`\n--------------------------------------------------------------------------\n`, `white`);
 
 }
