@@ -43,8 +43,8 @@ module.exports = {
                 value: client.config.links.supportServer,
                 inline: true
             }, {
-                name: `**Repository**`,
-                value: client.pjson.repository.url.replace(`git+`, ``),
+                name: `**Website**`,
+                value: client.config.links.website,
                 inline: true
             }, {
                 name: `**Version**`,
