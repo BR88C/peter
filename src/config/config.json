@@ -6,9 +6,10 @@
         "tags": ["BR88C#1296"]
     },
     "links": {
-        "supportServer": "https://discord.com/invite/AuWudDAvc7",
         "invite": "https://discord.com/oauth2/authorize?client_id=744694015630245949&scope=bot&permissions=305523782",
-        "voteLink": "https://top.gg/bot/744694015630245949/vote"
+        "supportServer": "https://discord.com/invite/AuWudDAvc7",
+        "voteLink": "https://top.gg/bot/744694015630245949/vote",
+        "website": "https://peter.badfirmware.com"
     },
     "emojis": {
         "conga": "778811866151518289"
