@@ -1,6 +1,5 @@
 {
     "prefix": "sudo ",
-    "logFile": "../../logs/peter/peter.log",
     "devs": {
         "ids": ["342275771546599425"],
         "tags": ["BR88C#1296"]
