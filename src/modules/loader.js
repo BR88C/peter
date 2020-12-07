@@ -4,6 +4,7 @@ const Discord = require(`discord.js-light`);
 const fs = require(`fs`);
 const DBL = require("dblapi.js");
 const log = require(`./log.js`);
+const logheader = require(`../utils/logheader.js`);
 
 module.exports = {
     /* Load variables and save on client */
@@ -38,6 +39,7 @@ module.exports = {
 
     /* Run all methods */
     async loadAll (client) {
+        logheader();
         await this.loadVariables(client);
         await this.loadEvents(client);
         await this.loadCommands(client);
