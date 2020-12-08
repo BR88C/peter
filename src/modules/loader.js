@@ -38,7 +38,7 @@ module.exports = {
     },
 
     /* Run all methods */
-    async loadAll (client) {
+    async start (client) {
         logheader();
         await this.loadVariables(client);
         await this.loadEvents(client);

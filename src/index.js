@@ -20,7 +20,7 @@ const client = new Discord.Client({
 
 
 /* Load all commands, events, and variables, then authenticate with Discord */
-loader.loadAll(client);
+loader.start(client);
 client.login(process.env.BOT_TOKEN).catch(error => end(client, false, `Failed to authenticate client with application.`));
 
 
