@@ -9,7 +9,7 @@ module.exports = (client, message) => {
     if (message.author.bot && message.author.id === client.user.id) {
         return log(message.content, `magenta`, message, { server: true, user: true, regex: true });
 
-        // If the message is by another bot or it does not contain the prefix
+    // If the message is by another bot or it does not contain the prefix
     } else if (message.author.bot || message.content.toLowerCase().indexOf(client.config.prefix.toLowerCase()) !== 0) {
         return;
     }
@@ -32,7 +32,7 @@ module.exports = (client, message) => {
         message.channel.send(invalidCommandEmbed);
         return log(message.content, `red`, message, { server: true, user: true, regex: true });
 
-        // If the command exists it logs it in green
+    // If the command exists it logs it in green
     } else {
         log(message.content, `green`, message, { server: true, user: true, regex: true });
     }
