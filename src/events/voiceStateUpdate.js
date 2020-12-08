@@ -7,6 +7,7 @@ module.exports = async (client, oldState, newState) => {
     if (oldState && !newState) {
         const serverQueue = client.queue.get(oldState.guild.id);
         const channelInfo = await oldState.guild.channels.fetch(oldState.channelID);
+        if (!channelInfo) return;
         const usersInVC = channelInfo.members.filter(member => !member.user.bot).size;
 
         // If the bot is the only user in the VC clear the queue and leave

@@ -23,6 +23,8 @@ module.exports = {
             }
         }
 
+        if (!serverQueue) return;
+
         // Create ffmpeg encoder arguments
         let sfxArgs = [];
         if (serverQueue.bass !== 0) sfxArgs.push(`bass=g=${serverQueue.bass / 2}`);
