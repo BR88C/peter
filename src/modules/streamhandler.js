@@ -8,6 +8,11 @@ module.exports = {
     async play (song, message) {
         const serverQueue = message.client.queue.get(message.guild.id);
 
+        let errorEmbed = new Discord.MessageEmbed()
+            .setColor(0xff4a4a)
+            .setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`);
+
+
         // Return if song isn't defined, unless the queue is being looped
         if (!song) {
             if (serverQueue && serverQueue.loop === `queue` && serverQueue.songs[0]) {
@@ -50,6 +55,8 @@ module.exports = {
                 requestOptions: {
                     'Cookie': process.env.COOKIE
                 }
+            }).catch(error => {
+                return message.channel.send(errorEmbed);
             });
         } else {
             stream = ytdl(song.url, {
@@ -60,6 +67,8 @@ module.exports = {
                 requestOptions: {
                     'Cookie': process.env.COOKIE
                 }
+            }).catch(error => {
+                return message.channel.send(errorEmbed);
             });
         }
 
@@ -82,10 +91,6 @@ module.exports = {
             // If there is an error leave the vc and report to the user
             .on(`error`, error => {
                 log(error, `red`);
-
-                let errorEmbed = new Discord.MessageEmbed()
-                    .setColor(0xff4a4a)
-                    .setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`);
 
                 if (serverQueue) serverQueue.textChannel.send(errorEmbed);
 
