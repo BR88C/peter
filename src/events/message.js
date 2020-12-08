@@ -23,7 +23,7 @@ module.exports = (client, message) => {
 
 
 
-    // If command does not exist it logs it in red
+    // If command does not exist it logs it in red and replies with an error
     if (!command) {
         let invalidCommandEmbed = new Discord.MessageEmbed()
             .setColor(0xff0000)
