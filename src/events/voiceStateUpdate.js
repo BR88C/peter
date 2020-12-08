@@ -6,7 +6,9 @@ module.exports = async (client, oldState, newState) => {
     // If a user leaves
     if (oldState && !newState) {
         const serverQueue = client.queue.get(oldState.guild.id);
-        const channelInfo = await oldState.guild.channels.fetch(oldState.channelID);
+        const channelInfo = await oldState.guild.channels.fetch(oldState.channelID).catch(error => {
+            return;
+        });
         if (!channelInfo) return;
         const usersInVC = channelInfo.members.filter(member => !member.user.bot).size;
 
