@@ -55,7 +55,6 @@ module.exports = {
         } else {
             stream = ytdl(song.url, {
                 seek: song.startTime,
-                opusEncoded: true,
                 highWaterMark: 1 << 25,
                 quality: song.format,
                 requestOptions: {
