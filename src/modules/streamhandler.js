@@ -1,7 +1,8 @@
 /* Handles creating and running a stream for a specified song, restarting streams, and pushing the queue when a song ends */
 
 const Discord = require(`discord.js-light`);
-const ytdl = require(`discord-ytdl-core`);
+const ytdl = require(`ytdl-core`);
+const discordYtdl = require(`discord-ytdl-core`);
 const log = require(`./log.js`);
 
 module.exports = {
@@ -41,7 +42,7 @@ module.exports = {
         // Create stream
         let stream;
         if (sfxArgs[0]) {
-            stream = ytdl(song.url, {
+            stream = discordYtdl(song.url, {
                 seek: song.startTime,
                 opusEncoded: true,
                 highWaterMark: 1 << 25,
