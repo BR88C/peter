@@ -8,12 +8,14 @@ const log = require(`./modules/log.js`);
 const end = require(`./modules/end.js`);
 
 const client = new Discord.Client({
-    cacheGuilds: true,
     cacheChannels: false,
-    cacheOverwrites: false,
+    cacheGuilds: true,
+    cachePresences: false,
     cacheRoles: true,
+    cacheOverwrites: false,
     cacheEmojis: false,
-    cachePresences: false
+    disabledEvents: [],
+    messageEditHistoryMaxSize: 1
 });
 
 
