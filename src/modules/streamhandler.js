@@ -54,7 +54,7 @@ module.exports = {
             });
         } else {
             stream = ytdl(song.url, {
-                seek: song.startTime,
+                begin: song.startTime * 1000,
                 highWaterMark: 1 << 25,
                 quality: song.format,
                 requestOptions: {
