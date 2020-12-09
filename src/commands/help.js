@@ -76,6 +76,7 @@ module.exports = {
 
 
         // If the user specifies a command, list information on that command
+        if (!args[1]) return message.reply(`please specify a command!`);
         const name = args[1].toLowerCase();
         const command = commands.get(name) || commands.find(command => command.aliases && command.aliases.includes(name));
 
