@@ -90,9 +90,9 @@ module.exports = {
                 if (serverQueue) serverQueue.textChannel.send(errorEmbed);
 
                 if (message.guild.voice.connection) {
-                    if (serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.destroy();
+                    if (serverQueue && serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.destroy();
                     if (message.client.queue) message.client.queue.delete(message.guild.id);
-                    message.member.voice.channel.leave();
+                    if (message.guild.voice.connection.channel) message.guild.voice.connection.channel.leave();
                 } else {
                     if (serverQueue.songs) serverQueue.songs = [];
                     if (message.client.queue) message.client.queue.delete(message.guild.id);
