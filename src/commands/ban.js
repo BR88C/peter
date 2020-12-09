@@ -10,7 +10,7 @@ module.exports = {
     usage: `<@user> [reason]`,
     async execute (client, message, args) {
         // Check if user can ban
-        const author = await message.guild.members.fetch(message.author.id);
+        const author = await message.guild.members.fetch(message.author.id, false);
         if (!author.hasPermission('BAN_MEMBERS')) return message.reply(`you don't have permission to ban!`);
 
         // Set up ban reason and user
@@ -24,7 +24,7 @@ module.exports = {
         const user = message.mentions.users.first();
         if (!user) return message.reply(`please specify a user to ban!`);
 
-        const userGuildMember = await message.guild.members.fetch(message.mentions.users.first().id);
+        const userGuildMember = await message.guild.members.fetch(message.mentions.users.first().id, false);
 
         // Checks to see if the message author is trying to be banned
         if (user === message.author) return message.reply(`you can't ban yourself!`);

@@ -10,7 +10,7 @@ module.exports = {
     usage: `<@user>`,
     async execute (client, message, args) {
         // Check if user can mute
-        const author = await message.guild.members.fetch(message.author.id);
+        const author = await message.guild.members.fetch(message.author.id, false);
         if (!author.hasPermission('MANAGE_ROLES')) return message.reply(`you don't have permission to unmute! (Manage roles permission required)`);
 
         // Set up mute role and user
@@ -18,7 +18,7 @@ module.exports = {
         const user = message.mentions.users.first();
         if (!user) return message.reply(`please specify a user to unmute!`);
 
-        const userGuildMember = await message.guild.members.fetch(message.mentions.users.first().id);
+        const userGuildMember = await message.guild.members.fetch(message.mentions.users.first().id, false);
 
         // Checks if the muted role exists
         if (!mutedRole) return message.reply(`I can't unmute users if a muted role does not exist! Please make sure you have a role called "Muted" to use this command!`);

@@ -35,7 +35,7 @@ module.exports = {
         // Checks to make sure owner exists (applicable on large servers where the owner property will not be returned when the owner is offline)
         let serverOwner;
         if (message.guild.ownerID) {
-            const serverOwnerUser = await client.users.fetch(message.guild.ownerID);
+            const serverOwnerUser = await client.users.fetch(message.guild.ownerID, false);
             serverOwner = `${serverOwnerUser.username}#${serverOwnerUser.discriminator}`;
         } else {
             serverOwner = `Error getting owner`;

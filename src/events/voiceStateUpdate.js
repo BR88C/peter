@@ -6,7 +6,7 @@ module.exports = async (client, oldState, newState) => {
     // If a user leaves
     if (oldState && !newState) {
         const serverQueue = client.queue.get(oldState.guild.id);
-        const channelInfo = await oldState.guild.channels.fetch(oldState.channelID).catch(error => {
+        const channelInfo = await oldState.guild.channels.fetch(oldState.channelID, false).catch(error => {
             return;
         });
         if (!channelInfo) return;

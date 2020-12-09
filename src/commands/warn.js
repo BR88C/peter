@@ -10,7 +10,7 @@ module.exports = {
     usage: `<@user> [reason]`,
     async execute (client, message, args) {
         // Check if user can warn
-        const author = await message.guild.members.fetch(message.author.id);
+        const author = await message.guild.members.fetch(message.author.id, false);
         if (!author.hasPermission('MANAGE_MESSAGES')) return message.reply(`you don't have permission to warn! (Manage messages permission required)`);
 
         // Set up reason and user
