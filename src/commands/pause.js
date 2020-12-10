@@ -30,7 +30,7 @@ module.exports = {
 
             // If the music is already paused
         } else {
-            return message.channel.reply(`there is nothing to pause!`);
+            return message.reply(`there is nothing to pause!`);
         }
     },
 }

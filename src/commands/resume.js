@@ -30,7 +30,7 @@ module.exports = {
 
             // If the music is already resumed
         } else {
-            return message.channel.reply(`there is nothing to resume!`);
+            return message.reply(`there is nothing to resume!`);
         }
     },
 }
