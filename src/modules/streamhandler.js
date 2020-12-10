@@ -48,7 +48,9 @@ module.exports = {
                 quality: song.format,
                 encoderArgs: [`-af`, sfxArgs.join(`, `)],
                 requestOptions: {
-                    'Cookie': process.env.COOKIE
+                    headers: {
+                        cookie: process.env.COOKIE
+                    }
                 }
             });
         } else {
@@ -58,7 +60,9 @@ module.exports = {
                 highWaterMark: 1 << 25,
                 quality: song.format,
                 requestOptions: {
-                    'Cookie': process.env.COOKIE
+                    headers: {
+                        cookie: process.env.COOKIE
+                    }
                 }
             });
         }
