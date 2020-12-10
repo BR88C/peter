@@ -173,7 +173,13 @@ module.exports = {
 
         let songsAdded = 0;
         for (const video of playlist.videos) {
-            const songInfo = await ytdl.getInfo(`${video.videoId}`).catch(error => {
+            const songInfo = await ytdl.getInfo(video.videoId, {
+                requestOptions: {
+                    headers: {
+                        cookie: process.env.COOKIE
+                    }
+                }
+            }).catch(error => {
                 log(error, `red`);
             });
 

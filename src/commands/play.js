@@ -49,7 +49,13 @@ module.exports = {
         // Checks if the arguments provided is a url
         if (await ytdl.validateURL(args.slice(0).join(` `))) {
             // Set songIngo
-            songInfo = await ytdl.getInfo(args[0]).catch(error => {
+            songInfo = await ytdl.getInfo(args[0], {
+                requestOptions: {
+                    headers: {
+                        cookie: process.env.COOKIE
+                    }
+                }
+            }).catch(error => {
                 log(error, `red`);
                 return message.channel.send(errorEmbed);
             });
@@ -64,7 +70,13 @@ module.exports = {
 
             if (!playlist) return message.channel.send(errorEmbed);
 
-            songInfo = await ytdl.getInfo(`${playlist.videos[0].videoId}`).catch(error => {
+            songInfo = await ytdl.getInfo(playlist.videos[0].videoId, {
+                requestOptions: {
+                    headers: {
+                        cookie: process.env.COOKIE
+                    }
+                }
+            }).catch(error => {
                 log(error, `red`);
                 return message.channel.send(errorEmbed);
             });
@@ -81,7 +93,13 @@ module.exports = {
             if (!ytsVideo[0]) return message.reply(`I couldn't find anything based on your query!`);
 
             // Set songInfo
-            songInfo = await ytdl.getInfo(ytsVideo[0].url).catch(error => {
+            songInfo = await ytdl.getInfo(ytsVideo[0].url, {
+                requestOptions: {
+                    headers: {
+                        cookie: process.env.COOKIE
+                    }
+                }
+            }).catch(error => {
                 log(error, `red`);
                 return message.channel.send(errorEmbed);
             });
