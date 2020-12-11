@@ -44,7 +44,7 @@ module.exports = {
             stream = ytdl(song.url, {
                 seek: song.startTime,
                 opusEncoded: true,
-                highWaterMark: 1 << 25,
+                highWaterMark: 1 << 20,
                 quality: song.format,
                 encoderArgs: [`-af`, sfxArgs.join(`, `)],
                 requestOptions: {
@@ -57,7 +57,7 @@ module.exports = {
             stream = ytdl(song.url, {
                 seek: song.startTime,
                 opusEncoded: true,
-                highWaterMark: 1 << 25,
+                highWaterMark: 1 << 20,
                 quality: song.format,
                 requestOptions: {
                     headers: {
