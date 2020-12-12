@@ -25,7 +25,7 @@ module.exports = async (client, oldState, newState) => {
                 if (serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.destroy();
                 if (client.queue) client.queue.delete(oldState.guild.id);
             }
-            channelInfo.leave();
+            if (oldState.guild.voice.connection.channel) oldState.guild.voice.connection.channel.leave();
 
             // If the bot is not in a VC and there is a queue, clear the queue 
         } else if (oldState.guild.voiceStates.cache.filter(id => id == client.user.id) && serverQueue) {
