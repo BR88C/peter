@@ -91,16 +91,13 @@ module.exports = {
                     .setColor(0xff4a4a)
                     .setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`);
 
-                if (serverQueue) serverQueue.textChannel.send(errorEmbed);
-
-                if (message.guild.voice.connection) {
-                    if (serverQueue && serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.destroy();
-                    if (message.client.queue) message.client.queue.delete(message.guild.id);
-                    if (message.guild.voice.connection.channel) message.guild.voice.connection.channel.leave();
-                } else {
+                if (serverQueue) {
+                    serverQueue.textChannel.send(errorEmbed);
+                    if (serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.destroy();
                     if (serverQueue.songs) serverQueue.songs = [];
-                    if (message.client.queue) message.client.queue.delete(message.guild.id);
                 }
+                if (message.client.queue) message.client.queue.delete(message.guild.id);
+                if (message.guild.voice.connection.channel) message.guild.voice.connection.channel.leave();
             });
 
         // Setting volume
