@@ -134,12 +134,14 @@ module.exports = {
     /* Creates the queue */
     async createQueue (song, message) {
         const { channel } = message.member.voice;
+        const channelInfo = await message.guild.channels.fetch(channel.id, false);
 
         // Create queue construct
         const queueConstruct = {
             textChannel: message.channel,
-            channel: await message.guild.channels.fetch(channel.id, false),
+            channel: channelInfo,
             connection: null,
+            bitrate: channelInfo.bitrate / 1000 || 128,
             songs: [],
             currentSong: 0,
             volume: 100,

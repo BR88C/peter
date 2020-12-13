@@ -69,7 +69,7 @@ module.exports = {
         // Play the stream
         const dispatcher = serverQueue.connection.play(stream, {
                 type: `opus`,
-                bitrate: serverQueue.channel.bitrate / 1000 || 128
+                bitrate: serverQueue.bitrate
             })
             // When the song ends
             .on(`finish`, reason => {
