@@ -138,7 +138,7 @@ module.exports = {
         // Create queue construct
         const queueConstruct = {
             textChannel: message.channel,
-            channel,
+            channel: await message.guild.channels.fetch(channel.id, false),
             connection: null,
             songs: [],
             currentSong: 0,
