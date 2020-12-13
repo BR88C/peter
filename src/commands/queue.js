@@ -138,7 +138,7 @@ module.exports = {
         });
 
         let title;
-        if (currentSong.songTimeLeft > 0) {
+        if (currentSong.completed !== 0) {
             title = `**Now Playing**: ${currentSong.title}`;
         } else {
             title = `**Now Playing**: ${currentSong.title} [${time(songTimeLeft)} remaining]`;
