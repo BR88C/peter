@@ -9,14 +9,17 @@ module.exports = {
     async execute (client, message, args) {
         // If the queue is empty reply with an error
         const serverQueue = message.client.queue.get(message.guild.id);
-        if (!serverQueue || serverQueue.songs[0]) return message.reply(`I can't clear the queue if the queue is empty!`);
-        if (!serverQueue.songs[serverQueue.currentSong]) return message.reply(`I can't clear the queue if no music is playing!`)
+        if (!serverQueue || !serverQueue.songs[0]) return message.reply(`I can't clear the queue if the queue is empty!`);
 
         // Checks if the user is in the VC
         if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to clear the queue!`);
 
         // Clears the queue without removing the song currently playing
-        serverQueue.songs = [serverQueue.songs[serverQueue.currentSong]];
+        if (serverQueue.songs[serverQueue.currentSong]) {
+            serverQueue.songs = [serverQueue.songs[serverQueue.currentSong]];
+        } else {
+            serverQueue.songs = [];
+        }
         serverQueue.currentSong = 0;
 
         // Create embed
