@@ -14,6 +14,21 @@ module.exports = {
         const serverQueue = message.client.queue.get(message.guild.id);
         if (!serverQueue || !serverQueue.songs[0]) return message.channel.send(`There is nothing in the queue.`);
 
+        let currentSong;
+        let completed;
+        if (serverQueue.songs[serverQueue.currentSong]) {
+            currentSong = serverQueue.songs[serverQueue.currentSong]
+            completed = currentTime(serverQueue);
+        } else {
+            currentSong = {
+                title: `No song playing`,
+                timestamp: ``,
+                rawTime: 0,
+                startTime: 0
+            };
+            completed = 0;
+        }
+
         // Gets active effects
         let activeEffects = [];
         if (serverQueue.bass !== 0) activeEffects.push(`Bass = +${serverQueue.bass}%`);
@@ -31,9 +46,6 @@ module.exports = {
         } else {
             activeEffects = `\`\`\`No Active effects\`\`\``;
         }
-
-        // Gets current song's time completed
-        const completed = currentTime(serverQueue);
 
 
 
@@ -106,7 +118,7 @@ module.exports = {
 
 
         // Generates info for time
-        const songTimeLeft = Math.round(serverQueue.songs[serverQueue.currentSong].rawTime - completed);
+        const songTimeLeft = Math.round(currentSong.rawTime - completed);
         const songsLeft = serverQueue.songs.slice(serverQueue.currentSong);
         let totalTime = 0;
         songsLeft.forEach(song => {
@@ -125,15 +137,21 @@ module.exports = {
             queueList.push(`${current}**${i + 1}.** [${song.title}](${song.url}) [${song.timestamp}]`);
         });
 
-
+        let title;
+        if (currentSong.songTimeLeft > 0) {
+            title = `**Now Playing**: ${currentSong.title}`;
+        } else {
+            title = `**Now Playing**: ${currentSong.title} [${time(songTimeLeft)} remaining]`;
+        }
+        const thumbnail = currentSong.thumbnail;
 
         // Generate the embed
         async function generateQueueEmbed (queueContent) {
             let queueEmbed = new Discord.MessageEmbed()
                 .setColor(0x1e90ff)
                 .setAuthor(`Song Queue`)
-                .setTitle(`**Now Playing**: ${serverQueue.songs[serverQueue.currentSong].title} [${time(songTimeLeft)} remaining]`)
-                .setThumbnail(serverQueue.songs[serverQueue.currentSong].thumbnail)
+                .setTitle(title)
+                .setThumbnail(thumbnail)
                 .setDescription(queueContent)
                 .addFields({
                     name: `\u200B`,
@@ -186,7 +204,7 @@ module.exports = {
                         if (reaction.emoji.name === `⬅️`) {
                             page--;
                             if (page < 1) page = maxPage;
-                            
+
                         } else if (reaction.emoji.name === `➡️`) {
                             page++;
                             if (page > maxPage) page = 1;

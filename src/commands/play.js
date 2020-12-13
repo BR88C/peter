@@ -60,7 +60,7 @@ module.exports = {
                 return message.channel.send(errorEmbed);
             });
 
-        // If the arguments are a playlist
+            // If the arguments are a playlist
         } else if (args.slice(0).join(` `).match(playlistRegex) && args.slice(0).join(` `).match(playlistRegex)[2]) {
             playlist = await yts({
                 listId: args.slice(0).join(` `).match(playlistRegex)[2]
@@ -84,7 +84,7 @@ module.exports = {
             // Removes the already queued playlist song
             playlist.videos.shift();
 
-        // If the arguments provided are not a url, search youtube for a video
+            // If the arguments provided are not a url, search youtube for a video
         } else {
             const ytsResult = await yts(args.slice(0).join(` `));
             const ytsVideo = await ytsResult.videos.slice(0, 1);
@@ -111,17 +111,20 @@ module.exports = {
         const song = await songhandler.getSongInfo(songInfo, message);
         if (!song) return message.channel.send(videoUnavailableEmbed);
 
-        // Adds a song to the queue if there is already a song playing
-        if (serverQueue && serverQueue.songs[serverQueue.currentSong]) {
-            if (playlist) {
-                await songhandler.queuePlaylist(playlist, message);
+        // Queues the song if there is a song playing or play a song if the queue is defined but no song is playing
+        if (serverQueue) {
+            if (serverQueue.songs[serverQueue.currentSong]) {
+                if (playlist) await songhandler.queuePlaylist(playlist, message);
                 return await songhandler.queueSong(song, message, true);
             } else {
-                return await songhandler.queueSong(song, message);
+                if (playlist) await songhandler.queuePlaylist(playlist, message);
+                serverQueue.songs.push(song);
+                serverQueue.currentSong = serverQueue.songs.indexOf(song);
+                return streamhandler.play(serverQueue.songs[serverQueue.currentSong], message);
             }
         }
 
-        // Define queue construct
+        // Create queue
         const queueConstruct = await songhandler.createQueue(song, message);
 
 
@@ -132,7 +135,7 @@ module.exports = {
             queueConstruct.connection = connection;
             connection.voice.setSelfDeaf(true);
             if (playlist) await songhandler.queuePlaylist(playlist, message);
-            streamhandler.play(queueConstruct.songs[queueConstruct.currentSong], message);
+            return streamhandler.play(queueConstruct.songs[queueConstruct.currentSong], message);
         } catch (error) {
             log(`I could not join the voice channel: ${error}`, `red`);
             message.client.queue.delete(message.guild.id);
