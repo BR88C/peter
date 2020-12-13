@@ -103,6 +103,10 @@ module.exports = {
                 if (message.guild.voice.connection.channel) message.guild.voice.connection.channel.leave();
             });
 
+        serverQueue.connection.on(`disconnect`, () => {
+            if (stream) stream.emit(`close`);
+        });
+
         // Setting volume
         dispatcher.setVolumeLogarithmic(serverQueue.volume / 250);
 
