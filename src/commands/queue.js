@@ -138,10 +138,10 @@ module.exports = {
         });
 
         let title;
-        if (currentSong.completed !== 0) {
-            title = `**Now Playing**: ${currentSong.title}`;
-        } else {
+        if (serverQueue.songs[serverQueue.currentSong]) {
             title = `**Now Playing**: ${currentSong.title} [${time(songTimeLeft)} remaining]`;
+        } else {
+            title = `**No song playing**`;
         }
         const thumbnail = currentSong.thumbnail;
 
