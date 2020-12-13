@@ -117,14 +117,21 @@ module.exports = {
 
 
 
-        // Generates info for time
-        const songTimeLeft = Math.round(currentSong.rawTime - completed);
-        const songsLeft = serverQueue.songs.slice(serverQueue.currentSong);
+        // Gets total queue time
         let totalTime = 0;
-        songsLeft.forEach(song => {
+        serverQueue.songs.forEach(song => {
             totalTime += song.rawTime;
         });
-        totalTime = Math.round((totalTime / (serverQueue.speed / 100)) - completed);
+        totalTime = Math.round(totalTime / (serverQueue.speed / 100));
+
+        // Gets time left in queue
+        const songTimeLeft = Math.round(currentSong.rawTime - completed);
+        const songsLeft = serverQueue.songs.slice(serverQueue.currentSong);
+        let totalTimeLeft = 0;
+        songsLeft.forEach(song => {
+            totalTimeLeft += song.rawTime;
+        });
+        totalTimeLeft = Math.round((totalTimeLeft / (serverQueue.speed / 100)) - completed);
 
         // Creates list of songs in queue
         let queueList = [];
@@ -149,7 +156,7 @@ module.exports = {
         async function generateQueueEmbed (queueContent) {
             let queueEmbed = new Discord.MessageEmbed()
                 .setColor(0x1e90ff)
-                .setAuthor(`Song Queue`)
+                .setAuthor(`Song Queue (${queueList.length})`)
                 .setTitle(title)
                 .setThumbnail(thumbnail)
                 .setDescription(queueContent)
@@ -157,8 +164,8 @@ module.exports = {
                     name: `\u200B`,
                     value: `\u200B`
                 }, {
-                    name: `**Approximate Time left**`,
-                    value: time(totalTime),
+                    name: `**Channel**`,
+                    value: serverQueue.channel.name,
                     inline: true
                 }, {
                     name: `**Loop**`,
@@ -167,6 +174,18 @@ module.exports = {
                 }, {
                     name: `**24/7**`,
                     value: serverQueue.twentyFourSeven,
+                    inline: true
+                }, {
+                    name: `**Bitrate**`,
+                    value: serverQueue.bitrate,
+                    inline: true
+                }, {
+                    name: `**Queue length**`,
+                    value: time(totalTime),
+                    inline: true
+                }, {
+                    name: `**Time left**`,
+                    value: time(totalTimeLeft),
                     inline: true
                 }, {
                     name: `**Active Effects**`,
