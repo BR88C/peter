@@ -31,7 +31,7 @@ module.exports = {
         // Skips to the specified song
         serverQueue.currentSong = specifiedValue - 1;
         if (serverQueue.loop !== `single`) serverQueue.currentSong--;
-        serverQueue.connection.dispatcher.end();
+        if (serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.end();
 
         let skippedToEmbed = new Discord.MessageEmbed()
             .setColor(0x9cd6ff)
