@@ -22,12 +22,17 @@ module.exports = async (client, oldState, newState) => {
                     .setTitle(`👋 Left due to no other users being present in the VC.`);
 
                 serverQueue.textChannel.send(leaveEmbed);
-                if (serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.destroy();
-                if (client.queue) client.queue.delete(oldState.guild.id);
+
+                if (serverQueue.connection.dispatcher) {
+                    if (serverQueue.connection.dispatcher.streams && serverQueue.connection.dispatcher.streams.input) await serverQueue.connection.dispatcher.streams.input.emit(`close`);
+                    serverQueue.connection.dispatcher.destroy();
+                }
+                if (serverQueue.songs) serverQueue.songs = [];
             }
+            if (client.queue) client.queue.delete(oldState.guild.id);
             if (oldState.guild.voice.connection.channel) oldState.guild.voice.connection.channel.leave();
 
-            // If the bot is not in a VC and there is a queue, clear the queue 
+        // If the bot is not in a VC and there is a queue, clear the queue 
         } else if (oldState.guild.voiceStates.cache.filter(id => id == client.user.id) && serverQueue) {
             let leaveEmbed = new Discord.MessageEmbed()
                 .setColor(0xff4a4a)

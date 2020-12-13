@@ -16,8 +16,10 @@ module.exports = {
 
         // If the bot is in a vc, clear the queue as normal
         if (message.guild.voice.connection) {
-            if (serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.destroy();
-            serverQueue.currentSong = 0;
+            if (serverQueue.connection.dispatcher) {
+                if (serverQueue.connection.dispatcher.streams && serverQueue.connection.dispatcher.streams.input) await serverQueue.connection.dispatcher.streams.input.emit(`close`);
+                serverQueue.connection.dispatcher.destroy();
+            }
             if (serverQueue.songs) serverQueue.songs = [];
             if (message.client.queue) message.client.queue.delete(message.guild.id);
 
@@ -26,8 +28,12 @@ module.exports = {
                 .setTitle(`🛑  Queue cleared and Music stopped.`);
 
             return message.channel.send(stopEmbed);
-            // If the bot is not in a vc, make sure the queue is cleared and report an error
+        // If the bot is not in a vc, make sure the queue is cleared and report an error
         } else {
+            if (serverQueue.connection.dispatcher) {
+                if (serverQueue.connection.dispatcher.streams && serverQueue.connection.dispatcher.streams.input) await serverQueue.connection.dispatcher.streams.input.emit(`close`);
+                serverQueue.connection.dispatcher.destroy();
+            }
             if (serverQueue.songs) serverQueue.songs = [];
             if (message.client.queue) message.client.queue.delete(message.guild.id);
             return message.reply(`I'm not in a VC, so there is no music to stop!`);

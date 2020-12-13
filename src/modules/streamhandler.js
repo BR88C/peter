@@ -74,6 +74,7 @@ module.exports = {
             })
             // When the song ends
             .on(`finish`, reason => {
+                if (stream) stream.emit(`close`);
                 if (serverQueue.loop === `single` && !serverQueue.songs[serverQueue.currentSong].livestream) {
                     serverQueue.songs[serverQueue.currentSong].startTime = 0;
                     serverQueue.songs[serverQueue.currentSong].hidden = false;
@@ -84,7 +85,7 @@ module.exports = {
                 }
             })
             // If there is an error leave the vc and report to the user
-            .on(`error`, error => {
+            .on(`error`, async error => {
                 log(error, `red`);
 
                 let errorEmbed = new Discord.MessageEmbed()
@@ -93,7 +94,10 @@ module.exports = {
 
                 if (serverQueue) {
                     serverQueue.textChannel.send(errorEmbed);
-                    if (serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.destroy();
+                    if (serverQueue.connection.dispatcher) {
+                        if (serverQueue.connection.dispatcher.streams && serverQueue.connection.dispatcher.streams.input) await serverQueue.connection.dispatcher.streams.input.emit(`close`);
+                        serverQueue.connection.dispatcher.destroy();
+                    }
                     if (serverQueue.songs) serverQueue.songs = [];
                 }
                 if (message.client.queue) message.client.queue.delete(message.guild.id);
