@@ -1,5 +1,6 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../modules/log.js`);
+const streamhandler = require(`../modules/streamhandler.js`);
 const checkValueSpecified = require(`../utils/checkValueSpecified.js`);
 
 module.exports = {
@@ -30,8 +31,12 @@ module.exports = {
 
         // Skips to the specified song
         serverQueue.currentSong = specifiedValue - 1;
-        if (serverQueue.loop !== `single`) serverQueue.currentSong--;
-        if (serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.end();
+        if (serverQueue.connection.dispatcher) {
+            if (serverQueue.loop !== `single`) serverQueue.currentSong--;
+            serverQueue.connection.dispatcher.end();
+        } else {
+            streamhandler.play(serverQueue.songs[serverQueue.currentSong], message);
+        }
 
         let skippedToEmbed = new Discord.MessageEmbed()
             .setColor(0x9cd6ff)
