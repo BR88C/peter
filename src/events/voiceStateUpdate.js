@@ -6,14 +6,20 @@ module.exports = async (client, oldState, newState) => {
     // If a user leaves
     if (oldState && !newState) {
         const serverQueue = client.queue.get(oldState.guild.id);
-        const channelInfo = await oldState.guild.channels.fetch(oldState.channelID, false).catch(error => {
+
+        const oldChannelInfo = await oldState.guild.channels.fetch(oldState.channelID, false).catch(error => {
             return;
         });
-        if (!channelInfo) return;
-        const usersInVC = channelInfo.members.filter(member => !member.user.bot).size;
+        if (!oldChannelInfo) return;
+        const newChannelInfo = await client.channels.fetch(oldChannelInfo.id, false).catch(error => {
+            return;
+        });
+        if (!newChannelInfo) return;
+
+        const usersInVC = oldChannelInfo.members.filter(member => !member.user.bot).size;
 
         // If the bot is the only user in the VC clear the queue and leave
-        if (channelInfo.members.has(client.user.id) && usersInVC < 1) {
+        if (oldChannelInfo.members.has(client.user.id) && usersInVC < 1) {
             if (serverQueue) {
                 if (serverQueue.twentyFourSeven) return;
 
@@ -32,8 +38,8 @@ module.exports = async (client, oldState, newState) => {
             if (client.queue) client.queue.delete(oldState.guild.id);
             if (oldState.guild.voice.connection.channel) oldState.guild.voice.connection.channel.leave();
 
-        // If the bot is not in a VC and there is a queue, clear the queue 
-        } else if (oldState.guild.voiceStates.cache.filter(id => id == client.user.id) && serverQueue) {
+            // If the bot is not in a VC and there is a queue, clear the queue 
+        } else if (oldState.guild.voiceStates.cache.filter(id => id == client.user.id) && !newChannelInfo.members.has(client.user.id) && serverQueue) {
             let leaveEmbed = new Discord.MessageEmbed()
                 .setColor(0xff4a4a)
                 .setTitle(`👋 Left due to being manually disconnected.`);
