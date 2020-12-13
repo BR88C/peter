@@ -52,12 +52,17 @@ module.exports = {
         const songIndex = serverQueue.songs.indexOf(song);
         const songsBefore = serverQueue.songs.slice(serverQueue.currentSong, songIndex);
 
-        const completed = currentTime(serverQueue);
-        let timeUntilPlayed = 0;
-        songsBefore.forEach(song => {
-            timeUntilPlayed += song.rawTime;
-        })
-        timeUntilPlayed = Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed);
+        let timeUntilPlayed;
+        if (serverQueue.connection && serverQueue.connection.dispatcher) {
+            const completed = currentTime(serverQueue);
+            timeUntilPlayed = 0;
+            songsBefore.forEach(song => {
+                timeUntilPlayed += song.rawTime;
+            })
+            timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed));
+        } else {
+            timeUntilPlayed = `Unavailable`;
+        }
 
         if (!hidden) {
             let queueAddEmbed = new Discord.MessageEmbed()
@@ -70,7 +75,7 @@ module.exports = {
                     inline: true
                 }, {
                     name: `**Time until Played**`,
-                    value: time(timeUntilPlayed),
+                    value: timeUntilPlayed,
                     inline: true
                 }, {
                     name: `**URL**`,
