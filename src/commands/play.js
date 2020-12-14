@@ -114,8 +114,13 @@ module.exports = {
         // Queues the song if there is a song playing or play a song if the queue is defined but no song is playing
         if (serverQueue) {
             if (serverQueue.songs[serverQueue.currentSong]) {
-                if (playlist) await songhandler.queuePlaylist(playlist, message);
-                return await songhandler.queueSong(song, message, true);
+                if (playlist) {
+                    await songhandler.queuePlaylist(playlist, message);
+                    await songhandler.queueSong(song, message, true);
+                } else {
+                    await songhandler.queueSong(song, message);
+                }
+                return;
             } else {
                 if (playlist) await songhandler.queuePlaylist(playlist, message);
                 serverQueue.songs.push(song);
