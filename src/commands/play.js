@@ -60,7 +60,7 @@ module.exports = {
                 return message.channel.send(errorEmbed);
             });
 
-            // If the arguments are a playlist
+        // If the arguments are a playlist
         } else if (args.slice(0).join(` `).match(playlistRegex) && args.slice(0).join(` `).match(playlistRegex)[2]) {
             playlist = await yts({
                 listId: args.slice(0).join(` `).match(playlistRegex)[2]
@@ -84,7 +84,7 @@ module.exports = {
             // Removes the already queued playlist song
             playlist.videos.shift();
 
-            // If the arguments provided are not a url, search youtube for a video
+        // If the arguments provided are not a url, search youtube for a video
         } else {
             const ytsResult = await yts(args.slice(0).join(` `));
             const ytsVideo = await ytsResult.videos.slice(0, 1);
