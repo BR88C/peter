@@ -176,35 +176,43 @@ module.exports = {
             .setColor(0xdbbe00)
             .setTitle(`Attempting to queue ${playlist.videos.length + 1} songs...`);
 
-        message.channel.send(attemptingToQueueEmbed);
-
         let songsAdded = 0;
-        for (const video of playlist.videos) {
-            const songInfo = await ytdl.getInfo(video.videoId, {
-                requestOptions: {
-                    headers: {
-                        cookie: process.env.COOKIE
+        await message.channel.send(attemptingToQueueEmbed).then(async msg => {
+            for (const video of playlist.videos) {
+                const songInfo = await ytdl.getInfo(video.videoId, {
+                    requestOptions: {
+                        headers: {
+                            cookie: process.env.COOKIE
+                        }
                     }
+                }).catch(error => {
+                    log(error, `red`);
+                });
+
+                if (!songInfo) {
+                    message.channel.send(`*Error adding "${video.title}" to the queue!*`);
+                    continue;
                 }
-            }).catch(error => {
-                log(error, `red`);
-            });
 
-            if (!songInfo) {
-                message.channel.send(`*Error adding "${video.title}" to the queue!*`);
-                continue;
+                const song = await this.getSongInfo(songInfo, message);
+                if (!song) {
+                    message.channel.send(`*Error adding "${video.title}" to the queue!*`);
+                    continue;
+                }
+
+                await serverQueue.songs.push(song);
+
+                songsAdded++;
+
+                let attemptingToQueueEmbed = new Discord.MessageEmbed()
+                    .setColor(0xdbbe00)
+                    .setTitle(`Queued ${songsAdded}/${playlist.videos.length + 1} songs...`);
+
+                msg.edit(attemptingToQueueEmbed);
             }
 
-            const song = await this.getSongInfo(songInfo, message);
-            if (!song) {
-                message.channel.send(`*Error adding "${video.title}" to the queue!*`);
-                continue;
-            }
-
-            await serverQueue.songs.push(song);
-
-            songsAdded++
-        }
+            msg.delete();
+        });
 
         let successfullyQueuedEmbed = new Discord.MessageEmbed()
             .setColor(0x57ff5c)
