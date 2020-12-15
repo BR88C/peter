@@ -208,10 +208,10 @@ module.exports = {
                     .setColor(0xdbbe00)
                     .setTitle(`Queued ${songsAdded}/${playlist.videos.length + 1} songs...`);
 
-                msg.edit(attemptingToQueueEmbed);
+                await msg.edit(attemptingToQueueEmbed);
             }
 
-            msg.delete();
+            await msg.delete();
         });
 
         let successfullyQueuedEmbed = new Discord.MessageEmbed()
