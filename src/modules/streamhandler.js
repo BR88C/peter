@@ -5,7 +5,7 @@ const ytdl = require(`discord-ytdl-core`);
 const log = require(`./log.js`);
 
 module.exports = {
-    async play (song, message) {
+    async play (song, message, client) {
         const serverQueue = message.client.queue.get(message.guild.id);
 
         // Return if song isn't defined, unless the queue is being looped
@@ -110,9 +110,13 @@ module.exports = {
         // Setting volume
         dispatcher.setVolumeLogarithmic(serverQueue.volume / 250);
 
+        // Get emojis
+        const emojiGuild = await client.guilds.fetch(client.config.emojiGuild);
+        const nowPlaying = await emojiGuild.emojis.fetch(client.config.emojis.nowPlaying);
+
         let playingEmbed = new Discord.MessageEmbed()
             .setColor(0x5ce6c8)
-            .setTitle(`🎶  Started playing: ${song.title}`)
+            .setTitle(`${nowPlaying}  Started playing: ${song.title}`)
             .setImage(song.thumbnail)
             .setDescription(`**Link:** ${song.url}`)
             .setFooter(`Requested by: ${song.requestedBy.tag}`)

@@ -152,6 +152,10 @@ module.exports = {
         }
         const thumbnail = currentSong.thumbnail;
 
+        // Gets emojis
+        const emojiGuild = await client.guilds.fetch(client.config.emojiGuild);
+        const voiceChannel = await emojiGuild.emojis.fetch(client.config.emojis.voiceChannel);
+
         // Generate the embed
         async function generateQueueEmbed (queueContent) {
             let queueEmbed = new Discord.MessageEmbed()
@@ -162,7 +166,7 @@ module.exports = {
                 .setDescription(queueContent)
                 .addFields({
                     name: `**Channel**`,
-                    value: serverQueue.channel.name,
+                    value: `${voiceChannel}  ${serverQueue.channel.name}`,
                     inline: true
                 }, {
                     name: `**Loop**`,

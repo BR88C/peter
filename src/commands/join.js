@@ -21,6 +21,13 @@ module.exports = {
         if (!permissions.has(`CONNECT`)) return message.reply(`I cannot connect to your voice channel, make sure I have the proper permissions!`);
         if (!permissions.has(`SPEAK`)) return message.reply(`I cannot speak in your voice channel, make sure I have the proper permissions!`);
 
+        // Gets emojis
+        const emojiGuild = await client.guilds.fetch(client.config.emojiGuild);
+        const voiceChannel = await emojiGuild.emojis.fetch(client.config.emojis.voiceChannel);
+
+        // Gets channel info
+        const channelInfo = await message.guild.channels.fetch(channel.id, false);
+
         // Try to join
         try {
             const connection = await channel.join();
@@ -28,7 +35,7 @@ module.exports = {
 
             let joinEmbed = new Discord.MessageEmbed()
                 .setColor(0xc2ffb0)
-                .setTitle(`✅  Joined the VC`);
+                .setTitle(`${voiceChannel}  Joined ${channelInfo.name}`);
 
             message.channel.send(joinEmbed);
         } catch (error) {

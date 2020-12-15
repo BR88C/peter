@@ -10,7 +10,11 @@
         "voteLink": "https://top.gg/bot/744694015630245949/vote",
         "website": "https://peter.badfirmware.com"
     },
+    "emojiGuild": "738892660663910450",
     "emojis": {
-        "conga": "778811866151518289"
+        "textChannel": "788413778709708812",
+        "voiceChannel": "788412557446479923",
+        "nowPlaying": "788424688744923166",
+        "conga": "778810372177920000"
     }
 }
