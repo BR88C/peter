@@ -161,9 +161,6 @@ module.exports = {
                 .setThumbnail(thumbnail)
                 .setDescription(queueContent)
                 .addFields({
-                    name: `\u200B`,
-                    value: `\u200B`
-                }, {
                     name: `**Channel**`,
                     value: serverQueue.channel.name,
                     inline: true
@@ -242,7 +239,7 @@ module.exports = {
 
         // If there are less than 10 songs send the queue embed normally
         } else {
-            return message.channel.send(await generateQueueEmbed(queueList.join(`\n`)));
+            return message.channel.send(await generateQueueEmbed(`${queueList.join(`\n`)}\n\n*Page 1/1*`));
         }
     },
 }
