@@ -153,7 +153,7 @@ module.exports = {
         const thumbnail = currentSong.thumbnail;
 
         // Gets emojis
-        const emojiGuild = await client.guilds.fetch(client.config.emojiGuild);
+        const emojiGuild = client.guilds.forge(client.config.emojiGuild);
         const voiceChannel = await emojiGuild.emojis.fetch(client.config.emojis.voiceChannel);
 
         // Generate the embed

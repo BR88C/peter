@@ -8,7 +8,7 @@ module.exports = {
     hide: true,
     async execute (client, message, args) {
         // Gets emojis
-        const emojiGuild = await client.guilds.fetch(client.config.emojiGuild);
+        const emojiGuild = client.guilds.forge(client.config.emojiGuild);
         const conga = await emojiGuild.emojis.fetch(client.config.emojis.conga);
 
         await message.channel.send(`It's conga time! ${conga}`);

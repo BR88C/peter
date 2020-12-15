@@ -22,7 +22,7 @@ module.exports = {
         if (!permissions.has(`SPEAK`)) return message.reply(`I cannot speak in your voice channel, make sure I have the proper permissions!`);
 
         // Gets emojis
-        const emojiGuild = await client.guilds.fetch(client.config.emojiGuild);
+        const emojiGuild = client.guilds.forge(client.config.emojiGuild);
         const voiceChannel = await emojiGuild.emojis.fetch(client.config.emojis.voiceChannel);
 
         // Gets channel info

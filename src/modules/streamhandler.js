@@ -111,7 +111,7 @@ module.exports = {
         dispatcher.setVolumeLogarithmic(serverQueue.volume / 250);
 
         // Get emojis
-        const emojiGuild = await client.guilds.fetch(client.config.emojiGuild);
+        const emojiGuild = client.guilds.forge(client.config.emojiGuild);
         const nowPlaying = await emojiGuild.emojis.fetch(client.config.emojis.nowPlaying);
 
         let playingEmbed = new Discord.MessageEmbed()
