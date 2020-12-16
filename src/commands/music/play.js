@@ -150,7 +150,7 @@ module.exports = {
                 if (playlist) await songhandler.queuePlaylist(playlist, message);
                 serverQueue.songs.push(song);
                 serverQueue.currentSong = serverQueue.songs.indexOf(song);
-                return streamhandler.play(serverQueue.songs[serverQueue.currentSong], message, client);
+                return streamhandler.play(serverQueue.songs[serverQueue.currentSong], message);
             }
         }
 
@@ -165,7 +165,7 @@ module.exports = {
             queueConstruct.connection = connection;
             connection.voice.setSelfDeaf(true);
             if (playlist) await songhandler.queuePlaylist(playlist, message);
-            return streamhandler.play(queueConstruct.songs[queueConstruct.currentSong], message, client);
+            return streamhandler.play(queueConstruct.songs[queueConstruct.currentSong], message);
         } catch (error) {
             log(`I could not join the voice channel: ${error}`, `red`);
             message.client.queue.delete(message.guild.id);

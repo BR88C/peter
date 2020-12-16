@@ -34,7 +34,7 @@ module.exports = {
             if (serverQueue.loop !== `single`) serverQueue.currentSong--;
             serverQueue.connection.dispatcher.end();
         } else {
-            streamhandler.play(serverQueue.songs[serverQueue.currentSong], message, client);
+            streamhandler.play(serverQueue.songs[serverQueue.currentSong], message);
         }
 
         let skippedToEmbed = new Discord.MessageEmbed()
