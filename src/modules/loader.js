@@ -24,17 +24,28 @@ module.exports = {
             log(`Loaded event ${eventName}`, `yellow`);
             client.on(eventName, event.bind(null, client));
         });
+        log(`Finished loading events!`, `green`);
     },
 
-    /* Load commands */
+    /* Load directories and commands */
     async loadCommands (client) {
         client.commands = new Discord.Collection();
-        const commandFiles = fs.readdirSync(`./src/commands`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
-        commandFiles.forEach(file => {
-            const command = require(`../commands/${file}`);
-            client.commands.set(command.name, command);
-            log(`Loaded command ${command.name}`, `yellow`);
+        client.directories = new Discord.Collection();
+        const dirConfigs = fs.readdirSync(`./src/commands`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
+        dirConfigs.forEach(config => {
+            const directory = require(`../commands/${config}`);
+            if (directory.ignore) return;
+            client.directories.set(directory.name, directory);
+            log(`Loading directory "${directory.name}"...`, `cyan`);
+            const cmdFiles = fs.readdirSync(`./src/commands/${directory.name}`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
+            cmdFiles.forEach(file => {
+                const command = require(`../commands/${directory.name}/${file}`);
+                command.directory = directory;
+                client.commands.set(command.name, command);
+                log(`Loaded command ${command.name}`, `yellow`);
+            });
         });
+        log(`Finished loading commands!`, `green`);
     },
 
     /* Run all methods */
