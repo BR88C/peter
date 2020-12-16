@@ -5,6 +5,7 @@ module.exports = {
     name: `resume`,
     description: `Resumes the current song`,
     guildOnly: true,
+    aliases: [`unpause`],
     async execute (client, message, args) {
         // If the queue is empty reply with an error
         const serverQueue = message.client.queue.get(message.guild.id);
