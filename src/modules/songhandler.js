@@ -138,7 +138,7 @@ module.exports = {
 
         // Create queue construct
         const queueConstruct = {
-            textChannel: message.channel,
+            textChannel: await message.guild.channels.fetch(message.channel.id, false),
             channel: channelInfo,
             connection: null,
             bitrate: channelInfo.bitrate / 1000 || 128,
