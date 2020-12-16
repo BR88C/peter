@@ -31,9 +31,9 @@ module.exports = {
     async loadCommands (client) {
         client.commands = new Discord.Collection();
         client.directories = new Discord.Collection();
-        const dirConfigs = fs.readdirSync(`./src/commands`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
+        const dirConfigs = fs.readdirSync(`./src/config/directories`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
         dirConfigs.forEach(config => {
-            const directory = require(`../commands/${config}`);
+            const directory = require(`../config/directories/${config}`);
             if (directory.ignore) return;
             client.directories.set(directory.name, directory);
             log(`Loading directory "${directory.name}"...`, `cyan`);
