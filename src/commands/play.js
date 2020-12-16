@@ -92,6 +92,7 @@ module.exports = {
 
         // If the arguments provided are not a url, search youtube for a video
         } else {
+            // Gets filters
             const filters = await ytsr.getFilters(args.slice(0).join(` `), {
                 requestOptions: {
                     headers: {
@@ -100,6 +101,11 @@ module.exports = {
                 }
             });
             const filter = filters.get(`Type`).get(`Video`);
+
+            // Checks to see if no filter was found
+            if (!filter.url) return message.reply(`I couldn't find anything based on your query!`);
+
+            // Gets video based on search string and filter
             const ytsrResult = await ytsr(filter.url, {
                 limit: 1,
                 requestOptions: {
