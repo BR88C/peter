@@ -1,6 +1,7 @@
 const Discord = require(`discord.js-light`);
 const ytdl = require(`discord-ytdl-core`);
-const yts = require(`yt-search`);
+const ytsr = require(`ytsr`);
+const ytpl = require(`ytpl`);
 const config = require(`../config/config.js`);
 const log = require(`../modules/log.js`);
 const songhandler = require(`../modules/songhandler.js`);
@@ -60,17 +61,22 @@ module.exports = {
                 return message.channel.send(errorEmbed);
             });
 
-        // If the arguments are a playlist
+            // If the arguments are a playlist
         } else if (args.slice(0).join(` `).match(playlistRegex) && args.slice(0).join(` `).match(playlistRegex)[2]) {
-            playlist = await yts({
-                listId: args.slice(0).join(` `).match(playlistRegex)[2]
+            playlist = await ytpl(args.slice(0).join(` `).match(playlistRegex)[2], {
+                limit: Infinity,
+                requestOptions: {
+                    headers: {
+                        cookie: process.env.COOKIE
+                    }
+                }
             }).catch(error => {
                 return log(error, `red`);
             })
 
             if (!playlist) return message.channel.send(errorEmbed);
 
-            songInfo = await ytdl.getInfo(playlist.videos[0].videoId, {
+            songInfo = await ytdl.getInfo(playlist.items[0].id, {
                 requestOptions: {
                     headers: {
                         cookie: process.env.COOKIE
@@ -82,18 +88,32 @@ module.exports = {
             });
 
             // Removes the already queued playlist song
-            playlist.videos.shift();
+            playlist.items.shift();
 
         // If the arguments provided are not a url, search youtube for a video
         } else {
-            const ytsResult = await yts(args.slice(0).join(` `));
-            const ytsVideo = await ytsResult.videos.slice(0, 1);
+            const filters = await ytsr.getFilters(args.slice(0).join(` `), {
+                requestOptions: {
+                    headers: {
+                        cookie: process.env.COOKIE
+                    }
+                }
+            });
+            const filter = filters.get(`Type`).get(`Video`);
+            const ytsrResult = await ytsr(filter.url, {
+                limit: 1,
+                requestOptions: {
+                    headers: {
+                        cookie: process.env.COOKIE
+                    }
+                }
+            });
 
             // Checks to see if video was found
-            if (!ytsVideo[0]) return message.reply(`I couldn't find anything based on your query!`);
+            if (!ytsrResult.items[0]) return message.reply(`I couldn't find anything based on your query!`);
 
             // Set songInfo
-            songInfo = await ytdl.getInfo(ytsVideo[0].url, {
+            songInfo = await ytdl.getInfo(ytsrResult.items[0].url, {
                 requestOptions: {
                     headers: {
                         cookie: process.env.COOKIE

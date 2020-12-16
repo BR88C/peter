@@ -174,12 +174,12 @@ module.exports = {
 
         let attemptingToQueueEmbed = new Discord.MessageEmbed()
             .setColor(0xdbbe00)
-            .setTitle(`Attempting to queue ${playlist.videos.length + 1} songs...`);
+            .setTitle(`Attempting to queue ${playlist.items.length + 1} songs...`);
 
         let songsAdded = 0;
         await message.channel.send(attemptingToQueueEmbed).then(async msg => {
-            for (const video of playlist.videos) {
-                const songInfo = await ytdl.getInfo(video.videoId, {
+            for (const video of playlist.items) {
+                const songInfo = await ytdl.getInfo(video.id, {
                     requestOptions: {
                         headers: {
                             cookie: process.env.COOKIE
@@ -206,7 +206,7 @@ module.exports = {
 
                 let attemptingToQueueEmbed = new Discord.MessageEmbed()
                     .setColor(0xdbbe00)
-                    .setTitle(`Queued ${songsAdded}/${playlist.videos.length + 1} songs...`);
+                    .setTitle(`Queued ${songsAdded}/${playlist.items.length + 1} songs...`);
 
                 await msg.edit(attemptingToQueueEmbed);
             }
