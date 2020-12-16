@@ -154,6 +154,7 @@ module.exports = {
 
         // Gets emojis
         const emojiGuild = client.guilds.forge(client.config.emojiGuild);
+        const textChannel = await emojiGuild.emojis.fetch(client.config.emojis.textChannel);
         const voiceChannel = await emojiGuild.emojis.fetch(client.config.emojis.voiceChannel);
 
         // Generate the embed
@@ -165,8 +166,20 @@ module.exports = {
                 .setThumbnail(thumbnail)
                 .setDescription(queueContent)
                 .addFields({
-                    name: `**Channel**`,
-                    value: `${voiceChannel}  ${serverQueue.channel.name}`,
+                    name: `**Queue length**`,
+                    value: time(totalTime),
+                    inline: true
+                }, {
+                    name: `**Time left**`,
+                    value: time(totalTimeLeft),
+                    inline: true
+                }, {
+                    name: `**Bitrate**`,
+                    value: serverQueue.bitrate,
+                    inline: true
+                }, {
+                    name: `**Channels**`,
+                    value: `${voiceChannel}  ${serverQueue.channel.name}\n${textChannel}  ${serverQueue.textChannel.name}`,
                     inline: true
                 }, {
                     name: `**Loop**`,
@@ -175,18 +188,6 @@ module.exports = {
                 }, {
                     name: `**24/7**`,
                     value: serverQueue.twentyFourSeven,
-                    inline: true
-                }, {
-                    name: `**Bitrate**`,
-                    value: serverQueue.bitrate,
-                    inline: true
-                }, {
-                    name: `**Queue length**`,
-                    value: time(totalTime),
-                    inline: true
-                }, {
-                    name: `**Time left**`,
-                    value: time(totalTimeLeft),
                     inline: true
                 }, {
                     name: `**Active Effects**`,
