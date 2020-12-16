@@ -1,5 +1,5 @@
 const Discord = require(`discord.js-light`);
-const config = require(`../config/config.json`);
+const config = require(`../config/config.js`);
 const log = require(`../modules/log.js`);
 
 module.exports = {

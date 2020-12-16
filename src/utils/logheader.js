@@ -1,6 +1,6 @@
 /* Display a header for logging */
 
-const config = require(`../config/config.json`);
+const config = require(`../config/config.js`);
 
 module.exports = () => {
     console.log(`\x1b[34m`, `______    _            _ `);
