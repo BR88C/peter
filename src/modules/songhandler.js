@@ -71,7 +71,7 @@ module.exports = {
                 .setImage(song.thumbnail)
                 .addFields({
                     name: `**Position in Queue**`,
-                    value: songsBefore.length,
+                    value: songIndex,
                     inline: true
                 }, {
                     name: `**Time until Played**`,
