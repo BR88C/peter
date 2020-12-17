@@ -39,7 +39,7 @@ module.exports = async (client, oldState, newState) => {
             if (oldState.guild.voice.connection.channel) oldState.guild.voice.connection.channel.leave();
 
             // If the bot is not in a VC and there is a queue, clear the queue 
-        } else if (oldChannelInfo.members.has(client.user.id) && !newChannelInfo.members.has(client.user.id) && serverQueue) {
+        } else if (!newChannelInfo.members.has(client.user.id) && serverQueue && oldState.channelID === serverQueue.channel.id) {
             let leaveEmbed = new Discord.MessageEmbed()
                 .setColor(0xff4a4a)
                 .setTitle(`👋 Left due to being manually disconnected.`);
