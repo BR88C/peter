@@ -1,7 +1,7 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
 const time = require(`../../utils/time.js`)
-const progressbar = require(`../../utils/progressbar.js`);
+const progressBar = require(`../../utils/progressBar.js`);
 const currentTime = require(`../../utils/currentTime.js`);
 
 module.exports = {
@@ -30,7 +30,7 @@ module.exports = {
                 playingEmoji = `⏸`;
             }
 
-            description = `\`\`\`${playingEmoji} ${time(completed)} ${progressbar(percentComplete, 25)} ${serverQueue.songs[serverQueue.currentSong].timestamp}\`\`\``;
+            description = `\`\`\`${playingEmoji} ${time(completed)} ${progressBar(percentComplete, 25)} ${serverQueue.songs[serverQueue.currentSong].timestamp}\`\`\``;
         }
 
 

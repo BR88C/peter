@@ -3,7 +3,7 @@ const GphApiClient = require('giphy-js-sdk-core');
 const giphyToken = process.env.GIPHY_TOKEN;
 const giphy = GphApiClient(giphyToken);
 const log = require(`../../modules/log.js`);
-const randomhex = require(`../../utils/randomhex.js`);
+const randomHex = require(`../../utils/randomHex.js`);
 
 module.exports = {
     name: `gif`,
@@ -37,7 +37,7 @@ module.exports = {
 
             // Creates Embed with Gif, "Here ya go!" heading and a random color
             let gifEmbed = new Discord.MessageEmbed()
-                .setColor(randomhex())
+                .setColor(randomHex())
                 .setAuthor(`Here ya go!`)
                 .setImage(imageURL)
                 .setFooter(`Images courtesy of giphy`)
