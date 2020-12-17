@@ -40,7 +40,7 @@ module.exports = {
             return message.channel.send(loopEmbed);
 
 
-        } else if (args[0].toLowerCase() === `queue`) {
+        } else if (args[0].toLowerCase() === `queue` || args[0].toLowerCase() === `q`) {
             serverQueue.loop = `queue`;
 
             let loopEmbed = new Discord.MessageEmbed()
