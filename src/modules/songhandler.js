@@ -32,7 +32,7 @@ module.exports = {
             livestream: songInfo.videoDetails.isLive,
             format,
             url: songInfo.videoDetails.video_url,
-            thumbnail: songInfo.videoDetails.thumbnail.thumbnails[0].url,
+            thumbnail: songInfo.videoDetails.thumbnails.pop().url,
             timestamp,
             rawTime: parseInt(songInfo.videoDetails.lengthSeconds),
             requestedBy: message.author,
