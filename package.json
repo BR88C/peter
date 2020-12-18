@@ -23,7 +23,7 @@
     "dotenv": "^8.2.0",
     "ffmpeg-static": "^4.2.7",
     "prism-media": "^1.2.3",
-    "ytdl-core": "^4.1.7",
+    "ytdl-core": "^4.2.0",
     "ytpl": "^2.0.3",
     "ytsr": "^3.0.0"
   }
