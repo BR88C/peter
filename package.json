@@ -22,7 +22,6 @@
     "discord.js-light": "^3.4.2",
     "dotenv": "^8.2.0",
     "ffmpeg-static": "^4.2.7",
-    "giphy-js-sdk-core": "^1.0.6",
     "prism-media": "^1.2.3",
     "ytdl-core": "^4.1.7",
     "ytpl": "^2.0.3",
