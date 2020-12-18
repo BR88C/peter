@@ -21,10 +21,9 @@ Navigate to the directory with index.js and install your node modules:
 ```
 npm install
 ```
-The bot also requires a Discord Bot token, a Giphy Api token, and a cookie from youtube. In the same directory as index.js, create a file with the following text:
+The bot also requires a Discord Bot token and a cookie header from youtube. In the same directory as index.js, create a file with the following text:
 ```
 BOT_TOKEN="your_bot_token"
-GIPHY_TOKEN="your_giphy_token"
 DBL_TOKEN="your_dbl_token" (This is optional, not defining it will just give you a warning)
 COOKIE="SID=xxx; HSID=xxx; SSID=xxxx;" (Paste your cookie string from youtube)
 ```
