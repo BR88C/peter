@@ -24,6 +24,7 @@ module.exports = {
 
         if (!serverQueue) return;
 
+
         // Create ffmpeg encoder arguments
         let sfxArgs = [];
         if (serverQueue.bass !== 0) sfxArgs.push(`bass=g=${serverQueue.bass / 2}`);
@@ -50,6 +51,7 @@ module.exports = {
                 }
             }
         });
+
 
         // Play the stream
         const dispatcher = serverQueue.connection.play(stream, {
@@ -87,6 +89,7 @@ module.exports = {
                 if (message.client.queue) message.client.queue.delete(message.guild.id);
                 if (message.guild.voice.connection.channel) message.guild.voice.connection.channel.leave();
             });
+
 
         serverQueue.connection.on(`disconnect`, () => {
             if (stream) stream.emit(`close`);
