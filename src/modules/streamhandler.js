@@ -38,33 +38,18 @@ module.exports = {
 
 
         // Create stream
-        let stream;
-        if (sfxArgs[0]) {
-            stream = ytdl(song.url, {
-                seek: song.startTime,
-                opusEncoded: true,
-                highWaterMark: 1 << 20,
-                quality: song.format,
-                encoderArgs: [`-af`, sfxArgs.join(`, `)],
-                requestOptions: {
-                    headers: {
-                        cookie: process.env.COOKIE
-                    }
+        const stream = ytdl(song.url, {
+            seek: song.startTime,
+            opusEncoded: true,
+            highWaterMark: 1 << 20,
+            quality: song.format,
+            encoderArgs: sfxArgs[0] ? [`-af`, sfxArgs.join(`, `)] : undefined,
+            requestOptions: {
+                headers: {
+                    cookie: process.env.COOKIE
                 }
-            });
-        } else {
-            stream = ytdl(song.url, {
-                seek: song.startTime,
-                opusEncoded: true,
-                highWaterMark: 1 << 20,
-                quality: song.format,
-                requestOptions: {
-                    headers: {
-                        cookie: process.env.COOKIE
-                    }
-                }
-            });
-        }
+            }
+        });
 
         // Play the stream
         const dispatcher = serverQueue.connection.play(stream, {
