@@ -46,6 +46,11 @@ module.exports = {
             activeEffects = `\`\`\`No Active effects\`\`\``;
         }
 
+        // Gets total raw queue time
+        let totalRawTime = 0;
+        for (const song of serverQueue.songs) {
+            totalRawTime += song.rawTime;
+        }
 
 
         // If the user specifies a song
@@ -66,23 +71,19 @@ module.exports = {
             let timeUntilPlayed;
             if (specifiedIndex - 1 < serverQueue.currentSong) {
                 if (serverQueue.loop === `queue`) {
-                    timeUntilPlayed = 0;
-                    serverQueue.songs.forEach(song => {
-                        timeUntilPlayed += song.rawTime;
-                    });
-                    timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed - serverQueue.songs[specifiedIndex - 1].rawTime));
-
+                    timeUntilPlayed = time(Math.round((totalRawTime / (serverQueue.speed / 100)) - completed - serverQueue.songs[specifiedIndex - 1].rawTime));
                 } else {
                     timeUntilPlayed = `N/A`;
                 }
 
             } else if (specifiedIndex - 1 > serverQueue.currentSong) {
                 const songsBefore = serverQueue.songs.slice(serverQueue.currentSong, specifiedIndex - 1);
+                timeUntilPlayed = time(Math.round((totalRawTime / (serverQueue.speed / 100)) - completed));
 
                 timeUntilPlayed = 0;
-                songsBefore.forEach(song => {
+                for (const song of songsBefore) {
                     timeUntilPlayed += song.rawTime;
-                });
+                }
                 timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed));
 
             } else {
@@ -115,33 +116,27 @@ module.exports = {
         }
 
 
-
-        // Gets total queue time
-        let totalTime = 0;
-        serverQueue.songs.forEach(song => {
-            totalTime += song.rawTime;
-        });
-        totalTime = Math.round(totalTime / (serverQueue.speed / 100));
+        const totalTime = Math.round(totalRawTime / (serverQueue.speed / 100));
 
         // Gets time left in queue
         const songTimeLeft = Math.round(currentSong.rawTime - completed);
         const songsLeft = serverQueue.songs.slice(serverQueue.currentSong);
         let totalTimeLeft = 0;
-        songsLeft.forEach(song => {
+        for (const song of songsLeft) {
             totalTimeLeft += song.rawTime;
-        });
+        }
         totalTimeLeft = Math.round((totalTimeLeft / (serverQueue.speed / 100)) - completed);
 
         // Creates list of songs in queue
         let queueList = [];
-        serverQueue.songs.forEach((song, i) => {
+        for (const [i, song] of serverQueue.songs.entries()) {
             if (i === serverQueue.currentSong) {
                 current = `↳ `;
             } else {
                 current = ``;
             }
             queueList.push(`${current}**${i + 1}.** [${song.title}](${song.url}) [${song.timestamp}]`);
-        });
+        }
 
         let title;
         if (serverQueue.songs[serverQueue.currentSong]) {

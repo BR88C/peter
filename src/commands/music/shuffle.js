@@ -15,10 +15,10 @@ module.exports = {
         if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to shuffle the queue!`);
 
         // Sets the starTime to 0 and hidden to false for all songs
-        serverQueue.songs.forEach(song => {
+        for (const song of serverQueue.songs) {
             song.startTime = 0;
             song.hidden = false
-        });
+        }
 
         // Skips to the specified song
         serverQueue.currentSong = 0;

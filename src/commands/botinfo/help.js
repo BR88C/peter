@@ -16,9 +16,9 @@ module.exports = {
         // If no arguments, list categories
         if (!args.length) {
             // Create embed content
-            directories.forEach(directory => {
+            for (const directory of directories) {
                 data.push(directory.fullName)
-            })
+            }
             data.push(`\nDo \`\`${config.prefix}help <category name>\`\`\nto list all commands in a category\n\nDo \`\`${config.prefix}help command <command name>\`\`\nto get more info on a command`);
 
             // Create embed
@@ -46,9 +46,9 @@ module.exports = {
 
             // Get all commands in category
             const categoryCommands = [];
-            commands.forEach(command => {
+            for (const command of commands) {
                 if (!command.hide && command.directory === specifiedDirectory) categoryCommands.push(command.name);
-            });
+            }
             data.push(categoryCommands.join(`\n`));
             data.push(`\nDo \`\`${config.prefix}help command <command name>\`\`\nto get more info on a command`);
 

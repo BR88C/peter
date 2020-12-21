@@ -18,12 +18,12 @@ module.exports = {
     /* Load events */
     async loadEvents (client) {
         const eventFiles = fs.readdirSync(`./src/events`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
-        eventFiles.forEach(file => {
+        for (const file of eventFiles) {
             const event = require(`../events/${file}`);
             let eventName = file.split(".")[0];
             log(`Loaded event ${eventName}`, `yellow`);
             client.on(eventName, event.bind(null, client));
-        });
+        }
         log(`Finished loading events!`, `green`);
     },
 
@@ -32,19 +32,19 @@ module.exports = {
         client.commands = new Discord.Collection();
         client.directories = new Discord.Collection();
         const dirConfigs = fs.readdirSync(`./src/config/cmddirectories`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
-        dirConfigs.forEach(config => {
+        for (const config of dirConfigs) {
             const directory = require(`../config/cmddirectories/${config}`);
             if (directory.ignore) return;
             client.directories.set(directory.name, directory);
             log(`Loading directory "${directory.name}"...`, `cyan`);
             const cmdFiles = fs.readdirSync(`./src/commands/${directory.name}`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
-            cmdFiles.forEach(file => {
+            for (const file of cmdFiles) {
                 const command = require(`../commands/${directory.name}/${file}`);
                 command.directory = directory;
                 client.commands.set(command.name, command);
                 log(`Loaded command ${command.name}`, `yellow`);
-            });
-        });
+            }
+        }
         log(`Finished loading commands!`, `green`);
     },
 

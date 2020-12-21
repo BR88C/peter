@@ -56,9 +56,9 @@ module.exports = {
         if (serverQueue.connection && serverQueue.connection.dispatcher) {
             const completed = currentTime(serverQueue);
             timeUntilPlayed = 0;
-            songsBefore.forEach(song => {
+            for (const song of songsBefore) {
                 timeUntilPlayed += song.rawTime;
-            })
+            }
             timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed));
         } else {
             timeUntilPlayed = `Unavailable`;
