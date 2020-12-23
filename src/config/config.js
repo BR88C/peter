@@ -2,7 +2,7 @@ module.exports = {
     prefix: `sudo `,
     devs: {
         ids: [`342275771546599425`],
-        tags: [`BR88C#1296`]
+        tags: [`BR88C#0001`]
     },
     links: {
         invite: `https://discord.com/oauth2/authorize?client_id=744694015630245949&scope=bot&permissions=305523782`,
