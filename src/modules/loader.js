@@ -2,7 +2,7 @@
 
 const Discord = require(`discord.js-light`);
 const fs = require(`fs`);
-const DBL = require("dblapi.js");
+const DBL = require(`dblapi.js`);
 const log = require(`./log.js`);
 const logHeader = require(`../utils/logHeader.js`);
 
@@ -20,7 +20,7 @@ module.exports = {
         const eventFiles = fs.readdirSync(`./src/events`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
         for (const file of eventFiles) {
             const event = require(`../events/${file}`);
-            let eventName = file.split(".")[0];
+            let eventName = file.split(`.`)[0];
             log(`Loaded event ${eventName}`, `yellow`);
             client.on(eventName, event.bind(null, client));
         }
