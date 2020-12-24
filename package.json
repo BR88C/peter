@@ -24,7 +24,7 @@
     "ffmpeg-static": "^4.2.7",
     "prism-media": "^1.2.3",
     "ytdl-core": "^4.2.1",
-    "ytpl": "^2.0.3",
-    "ytsr": "^3.0.0"
+    "ytpl": "^2.0.4",
+    "ytsr": "^3.2.1"
   }
 }
