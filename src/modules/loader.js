@@ -34,7 +34,7 @@ module.exports = {
         const dirConfigs = fs.readdirSync(`./src/config/cmddirectories`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
         for (const config of dirConfigs) {
             const directory = require(`../config/cmddirectories/${config}`);
-            if (directory.ignore) return;
+            if (directory.ignore) continue;
             client.directories.set(directory.name, directory);
             log(`Loading directory "${directory.name}"...`, `cyan`);
             const cmdFiles = fs.readdirSync(`./src/commands/${directory.name}`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
