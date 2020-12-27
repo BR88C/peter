@@ -16,16 +16,18 @@ module.exports = {
         // If no arguments, list categories
         if (!args.length) {
             // Create embed content
-            for (const directory of directories) {
+            directories.forEach(directory => {
                 data.push(directory.fullName)
-            }
+            });
             data.push(`\nDo \`\`${config.prefix}help <category name>\`\`\nto list all commands in a category\n\nDo \`\`${config.prefix}help command <command name>\`\`\nto get more info on a command`);
 
             // Create embed
             let helpEmbed = new Discord.MessageEmbed()
                 .setColor(0xdbbe00)
                 .setTitle(`**Command Categories:**`)
-                .setDescription(data, { split: true })
+                .setDescription(data, {
+                    split: true
+                })
                 .setFooter(`Made by ${config.devs.tags.join(`, `)}`);
 
             // Send embed
@@ -46,9 +48,10 @@ module.exports = {
 
             // Get all commands in category
             const categoryCommands = [];
-            for (const command of commands) {
+            commands.forEach(command => {
                 if (!command.hide && command.directory === specifiedDirectory) categoryCommands.push(command.name);
-            }
+            });
+
             data.push(categoryCommands.join(`\n`));
             data.push(`\nDo \`\`${config.prefix}help command <command name>\`\`\nto get more info on a command`);
 
@@ -56,7 +59,9 @@ module.exports = {
             let helpEmbed = new Discord.MessageEmbed()
                 .setColor(0xdbbe00)
                 .setTitle(`**${specifiedDirectory.fullName} category**`)
-                .setDescription(data, { split: true })
+                .setDescription(data, {
+                    split: true
+                })
                 .setFooter(`Made by ${config.devs.tags.join(`, `)}`);
 
             // Send embed
