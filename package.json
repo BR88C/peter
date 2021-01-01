@@ -19,11 +19,11 @@
     "dblapi.js": "^2.4.1",
     "discord-ytdl-core": "^5.0.0",
     "discord.js": "^12.5.1",
-    "discord.js-light": "^3.4.2",
+    "discord.js-light": "^3.5.0",
     "dotenv": "^8.2.0",
     "ffmpeg-static": "^4.2.7",
     "prism-media": "^1.2.3",
-    "ytdl-core": "^4.2.1",
+    "ytdl-core": "^4.3.0",
     "ytpl": "^2.0.4",
     "ytsr": "^3.2.1"
   }
