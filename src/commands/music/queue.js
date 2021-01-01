@@ -152,7 +152,7 @@ module.exports = {
         const voiceChannel = await emojiGuild.emojis.fetch(client.config.emojis.voiceChannel);
 
         // Generate the embed
-        async function generateQueueEmbed (queueContent) {
+        const generateQueueEmbed = async (queueContent) => {
             let queueEmbed = new Discord.MessageEmbed()
                 .setColor(0x1e90ff)
                 .setAuthor(`Song Queue (${queueList.length})`)
@@ -201,7 +201,7 @@ module.exports = {
 
             const filter = (reaction, user) => [`⬅️`, `➡️`].includes(reaction.emoji.name) && user.id !== client.user.id;
 
-            async function sendReactionQueueEmbed () {
+            const sendReactionQueueEmbed = async () => {
                 let queuePage = queueList.slice((page * 10) - 10, page * 10);
                 queuePage.push(`\n*Page ${page}/${maxPage}*`);
 
