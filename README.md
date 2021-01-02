@@ -7,8 +7,9 @@
 <h3 align="center">A 24/7 music bot with free audio effects/filters (SFX)</h3>
 
 <p align="center">
-    <img src="https://img.shields.io/github/v/release/BR88C/peter?include_prereleases&style=for-the-badge">
-    <img src="https://img.shields.io/github/license/BR88C/peter?style=for-the-badge">
+    <img src="https://img.shields.io/github/v/release/BR88C/peter?include_prereleases&style=for-the-badge&color=d65cff">
+    <img src="https://img.shields.io/github/license/BR88C/peter?style=for-the-badge&color=fbedff">
+    <img src="https://img.shields.io/static/v1?label=&message=Top.gg%20Link&style=for-the-badge&color=7573ff&link=https://peter.badfirmware.com/">
 </p>
 
 ---
