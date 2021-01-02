@@ -28,7 +28,7 @@ DBL_TOKEN="your_dbl_token" (This is optional, not defining it will just give you
 COOKIE="SID=xxx; HSID=xxx; SSID=xxxx;" (Paste your cookie string from youtube)
 ```
 and save the file as ".env"
-You can then run then bot with:
+You can then run the bot with:
 ```
 npm start
 ```
