@@ -5,7 +5,7 @@ module.exports = {
         tags: [`BR88C#0001`]
     },
     links: {
-        invite: `https://discord.com/oauth2/authorize?client_id=744694015630245949&scope=bot&permissions=305523782`,
+        invite: `https://discord.com/oauth2/authorize?client_id=744694015630245949&scope=bot%20applications.commands&permissions=271969350`,
         supportServer: `https://discord.com/invite/E2JsYPPJYN`,
         voteLink: `https://top.gg/bot/744694015630245949/vote`,
         website: `https://peter.badfirmware.com`
