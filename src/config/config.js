@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
     prefix: `sudo `,
     devs: {
         ids: [`342275771546599425`],
@@ -17,4 +17,6 @@ module.exports = {
         nowPlaying: `788424688744923166`,
         conga: `778810372177920000`
     }
-}
+};
+
+module.exports = config;
