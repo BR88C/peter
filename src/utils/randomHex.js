@@ -2,7 +2,7 @@
 
 const randomInt = require(`./randomInt.js`);
 
-module.exports = (int) => {
+const randomHex = (int) => {
     // If an integer is defined, mod it by the number of possible hex colors
     if (int) {
         return int % 16777215;
@@ -11,4 +11,6 @@ module.exports = (int) => {
     } else {
         return randomInt(1, 16777215);
     }
-}
+};
+
+module.exports = randomHex;

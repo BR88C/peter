@@ -1,6 +1,6 @@
 /* Shuffles a provided array */
 
-module.exports = (array) => {
+const shuffleArray = (array) => {
     let currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
@@ -14,4 +14,6 @@ module.exports = (array) => {
     }
 
     return array;
-}
+};
+
+module.exports = shuffleArray;

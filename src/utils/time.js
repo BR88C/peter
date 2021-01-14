@@ -1,6 +1,6 @@
 /* Generates a timestamp based on the time specified in seconds */
 
-module.exports = (time) => {
+const time = (time) => {
     const hours = Math.floor(time / 60 / 60);
     const minutes = Math.floor(time / 60) - (hours * 60);
     const seconds = time % 60;
@@ -13,4 +13,6 @@ module.exports = (time) => {
     }
 
     return formattedTime;
-}
+};
+
+module.exports = time;
