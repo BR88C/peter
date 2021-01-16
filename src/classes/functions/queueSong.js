@@ -4,22 +4,22 @@ const Discord = require(`discord.js-light`);
 const currentTime = require(`../../utils/currentTime.js`);
 const time = require(`../../utils/time.js`);
 
-const queueSong = async (song, message) => {
-    this.songs.push(song);
+const queueSong = async (song, message, serverQueue) => {
+    serverQueue.songs.push(song);
 
-    const channel = message ? message.channel : this.textChannel;
+    const channel = message ? message.channel : serverQueue.textChannel;
 
-    const songIndex = this.songs.indexOf(song);
-    const songsBefore = this.songs.slice(this.currentSong, songIndex);
+    const songIndex = serverQueue.songs.indexOf(song);
+    const songsBefore = serverQueue.songs.slice(serverQueue.currentSong, songIndex);
 
     let timeUntilPlayed;
-    if (this.connection && this.connection.dispatcher) {
-        const completed = currentTime(this);
+    if (serverQueue.connection && serverQueue.connection.dispatcher) {
+        const completed = currentTime(serverQueue);
         timeUntilPlayed = 0;
         for (const song of songsBefore) {
             timeUntilPlayed += song.rawTime;
         }
-        timeUntilPlayed = time(Math.round((timeUntilPlayed / (this.speed / 100)) - completed));
+        timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed));
     } else {
         timeUntilPlayed = `Unavailable`;
     }
@@ -60,18 +60,18 @@ const queueSong = async (song, message) => {
                 const reaction = collected.first();
 
                 if (reaction.emoji.name === `⏭️`) {
-                    this.currentSong = songIndex;
-                    if (this.loop !== `single`) this.currentSong--;
-                    this.connection.dispatcher.end();
+                    serverQueue.currentSong = songIndex;
+                    if (serverQueue.loop !== `single`) serverQueue.currentSong--;
+                    serverQueue.connection.dispatcher.end();
 
                     let skippedToEmbed = new Discord.MessageEmbed()
                         .setColor(0x9cd6ff)
-                        .setTitle(`⏭️  Skipped to **${this.songs[songIndex].title}**!`);
+                        .setTitle(`⏭️  Skipped to **${serverQueue.songs[songIndex].title}**!`);
 
                     channel.send(skippedToEmbed);
 
                 } else if (reaction.emoji.name === `❌`) {
-                    const song = this.songs.splice(songIndex, 1);
+                    const song = serverQueue.songs.splice(songIndex, 1);
 
                     let removeEmbed = new Discord.MessageEmbed()
                         .setColor(0xff668a)

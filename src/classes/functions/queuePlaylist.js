@@ -4,7 +4,7 @@ const Discord = require(`discord.js-light`);
 const ytdl = require(`discord-ytdl-core`);
 const Song = require(`../Song.js`);
 
-const queuePlaylist = async (playlist, message) => {
+const queuePlaylist = async (playlist, message, serverQueue) => {
     let attemptingToQueueEmbed = new Discord.MessageEmbed()
         .setColor(0xdbbe00)
         .setTitle(`Attempting to queue ${playlist.items.length + 1} songs...`);
@@ -27,7 +27,7 @@ const queuePlaylist = async (playlist, message) => {
                 continue;
             }
 
-            await this.songs.push(song);
+            await serverQueue.songs.push(song);
 
             songsAdded++;
 

@@ -30,11 +30,11 @@ class Queue {
     }
 
     queueSong(song, message) {
-        queueSong(song, message);
+        queueSong(song, message, this);
     }
 
     queuePlaylist(playlist, message) {
-        queuePlaylist(playlist, message);
+        queuePlaylist(playlist, message, this);
     }
 
     effectsArray(type) {
