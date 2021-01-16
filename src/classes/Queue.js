@@ -157,6 +157,6 @@ class Queue {
 
         return message.channel.send(successfullyQueuedEmbed);
     }
-}
+};
 
 module.exports = Queue;
