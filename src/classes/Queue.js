@@ -2,7 +2,7 @@ const Discord = require(`discord.js-light`);
 const ytdl = require(`discord-ytdl-core`);
 const currentTime = require(`../utils/currentTime.js`);
 const time = require(`../utils/time.js`);
-const Song = require(`./Song.js.js`);
+const Song = require(`./Song.js`);
 
 class Queue {
     constructor(textChannel, voiceChannel) {
