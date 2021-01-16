@@ -34,7 +34,7 @@ module.exports = {
             opusEncoded: true,
             highWaterMark: 1 << 20,
             quality: song.format,
-            encoderArgs: sfxArgs === `` ? [`-af`, sfxArgs] : undefined,
+            encoderArgs: sfxArgs.length !== 0 ? [`-af`, sfxArgs] : undefined,
         });
 
 
