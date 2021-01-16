@@ -15,11 +15,11 @@ const getFormat = (songInfo) => {
             quality: `highestaudio`
         }).itag.toString();
     }
+    return format;
 };
 
 class Song {
     constructor(songInfo, messageAuthor) {
-        console.log(songInfo.videoDetails)
         this.title = songInfo.videoDetails.title.replace(/-|\*|_|\|/g, ` `);
         this.livestream = songInfo.videoDetails.isLiveContent;
         this.format = getFormat(songInfo);
