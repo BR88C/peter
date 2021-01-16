@@ -16,9 +16,7 @@ module.exports = {
         // If no arguments, list categories
         if (!args.length) {
             // Create embed content
-            directories.forEach(directory => {
-                data.push(directory.fullName)
-            });
+            for (const directory in directories) data.push(directory.fullName)
             data.push(`\nDo \`\`${config.prefix}help <category name>\`\`\nto list all commands in a category\n\nDo \`\`${config.prefix}help command <command name>\`\`\nto get more info on a command`);
 
             // Create embed
@@ -48,9 +46,9 @@ module.exports = {
 
             // Get all commands in category
             const categoryCommands = [];
-            commands.forEach(command => {
+            for (const command in commands) {
                 if (!command.hide && command.directory === specifiedDirectory) categoryCommands.push(command.name);
-            });
+            };
 
             data.push(categoryCommands.join(`\n`));
             data.push(`\nDo \`\`${config.prefix}help command <command name>\`\`\nto get more info on a command`);
@@ -81,11 +79,8 @@ module.exports = {
         data.push(`**Name:** ${command.name}`);
         if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
         if (command.description) data.push(`**Description:** ${command.description}`);
-        if (command.category) {
-            data.push(`**Category:** ${command.category}`);
-        } else {
-            data.push(`**Category:** Misc`);
-        }
+        if (command.category) data.push(`**Category:** ${command.category}`);
+        else data.push(`**Category:** Misc`);
         if (command.args) data.push(`**Arguments Required:** ${command.args}`);
         if (command.usage) data.push(`**Usage:** ${config.prefix}${command.name} ${command.usage}`);
         if (command.devOnly) data.push(`**Dev Only:** ${command.devOnly}`);

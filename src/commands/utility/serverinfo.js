@@ -9,27 +9,18 @@ module.exports = {
     async execute (client, message, args) {
         // Check if server has news channel
         let newsChannel;
-        if (message.guild.channels.cache.filter(channel => channel.type == 'news').size > 0) {
-            newsChannel = `✅ News Channel`;
-        } else {
-            newsChannel = `❌ News Channel`;
-        }
+        if (message.guild.channels.cache.filter(channel => channel.type == 'news').size > 0) newsChannel = `✅ News Channel`;
+        else newsChannel = `❌ News Channel`;
 
         // Check if server has invite splash
         let inviteSplash;
-        if (message.guild.splash) {
-            inviteSplash = `✅ Invite Splash`;
-        } else {
-            inviteSplash = `❌ Invite Splash`;
-        }
+        if (message.guild.splash) inviteSplash = `✅ Invite Splash`;
+        else inviteSplash = `❌ Invite Splash`;
 
         // Check if server has banner
         let serverBanner;
-        if (message.guild.banner) {
-            serverBanner = `✅ Server Banner`;
-        } else {
-            serverBanner = `❌ Server Banner`;
-        }
+        if (message.guild.banner) serverBanner = `✅ Server Banner`;
+        else serverBanner = `❌ Server Banner`;
 
         // Checks to make sure owner exists (applicable on large servers where the owner property will not be returned when the owner is offline)
         let serverOwner;
@@ -45,7 +36,10 @@ module.exports = {
         let serverInfoEmbed = new Discord.MessageEmbed()
             .setColor(0x949fff)
             .setTitle(`Information about ${message.guild.name}`)
-            .setThumbnail(message.guild.iconURL({ dynamic: true, size: 256 }))
+            .setThumbnail(message.guild.iconURL({
+                dynamic: true,
+                size: 256
+            }))
             .addFields({
                 name: `**Owner**`,
                 value: serverOwner,
