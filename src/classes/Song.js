@@ -1,6 +1,9 @@
+/* Song Class - Creates a song to be pushed to the queue based off of songInfo */
+
 const ytdl = require(`discord-ytdl-core`);
 const time = require(`../utils/time.js`);
 
+/* Function to get video format */
 const getFormat = (songInfo) => {
     let format;
     if (songInfo.videoDetails.isLiveContent) {
@@ -18,6 +21,7 @@ const getFormat = (songInfo) => {
     return format;
 };
 
+/* Song Class */
 class Song {
     constructor(songInfo, messageAuthorTag) {
         this.title = songInfo.videoDetails.title.replace(/-|\*|_|\|/g, ` `);
