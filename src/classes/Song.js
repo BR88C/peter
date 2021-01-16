@@ -19,7 +19,7 @@ const getFormat = (songInfo) => {
 };
 
 class Song {
-    constructor(songInfo, messageAuthor) {
+    constructor(songInfo, messageAuthorTag) {
         this.title = songInfo.videoDetails.title.replace(/-|\*|_|\|/g, ` `);
         this.livestream = songInfo.videoDetails.isLiveContent;
         this.format = getFormat(songInfo);
@@ -27,7 +27,7 @@ class Song {
         this.thumbnail = songInfo.videoDetails.thumbnails.pop().url;
         this.timestamp = songInfo.videoDetails.isLiveContent ? `LIVE` : time(songInfo.videoDetails.lengthSeconds);
         this.rawTime = parseInt(songInfo.videoDetails.lengthSeconds);
-        this.requestedBy = messageAuthor;
+        this.requestedBy = messageAuthorTag;
         this.hidden = false;
         this.startTime = 0;
     }

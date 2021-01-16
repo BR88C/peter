@@ -109,7 +109,7 @@ module.exports = {
                     inline: true
                 }, )
                 .setImage(serverQueue.songs[specifiedIndex - 1].thumbnail)
-                .setFooter(`Requested by: ${serverQueue.songs[specifiedIndex - 1].requestedBy.tag}`)
+                .setFooter(`Requested by: ${serverQueue.songs[specifiedIndex - 1].requestedBy}`)
                 .setTimestamp(new Date());
 
             return message.channel.send(queueEmbed);

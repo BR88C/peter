@@ -42,7 +42,7 @@ module.exports = {
             .setURL(serverQueue.songs[serverQueue.currentSong].url)
             .setDescription(description)
             .setThumbnail(serverQueue.songs[serverQueue.currentSong].thumbnail)
-            .setFooter(`Requested by: ${serverQueue.songs[serverQueue.currentSong].requestedBy.tag}`)
+            .setFooter(`Requested by: ${serverQueue.songs[serverQueue.currentSong].requestedBy}`)
             .setTimestamp(new Date());
 
         // Send Embed

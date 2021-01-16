@@ -102,7 +102,7 @@ module.exports = {
             .setTitle(`${nowPlaying}  Started playing: ${song.title}`)
             .setImage(song.thumbnail)
             .setDescription(`**Link:** ${song.url}`)
-            .setFooter(`Requested by: ${song.requestedBy.tag}`)
+            .setFooter(`Requested by: ${song.requestedBy}`)
             .setTimestamp(new Date());
 
         if (!serverQueue.songs[serverQueue.currentSong].hidden) serverQueue.textChannel.send(playingEmbed);

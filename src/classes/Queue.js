@@ -57,7 +57,7 @@ class Queue {
                     value: `[Link](${song.url})`,
                     inline: true
                 }, )
-                .setFooter(`Requested by: ${song.requestedBy.tag}`)
+                .setFooter(`Requested by: ${song.requestedBy}`)
                 .setTimestamp(new Date());
 
             // Send the message and add reation options
