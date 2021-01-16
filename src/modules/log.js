@@ -58,10 +58,10 @@ module.exports = (content, color, discordMessage, options) => {
             // If the message is in a DM
             else logContent = `Server: DM | ` + logContent;
         }
-
-        // If the regex option is defined, apply the regex to logContent
-        if (options.regex) logContent = logContent.replace(/[^ -~]+/g, ``);
     }
+
+    // If the regex option is defined, apply the regex to logContent
+    if (options && options.regex) logContent = logContent.replace(/[^ -~]+/g, ``);
 
     return console.log(logColor, logContent);
 }
