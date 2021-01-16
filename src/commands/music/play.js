@@ -116,7 +116,6 @@ module.exports = {
                 return;
             } else {
                 if (playlist) await serverQueue.queuePlaylist(playlist, message);
-                song.hidden = true;
                 await serverQueue.queueSong(song, message);
                 serverQueue.currentSong = serverQueue.songs.indexOf(song);
                 return streamhandler.play(serverQueue.songs[serverQueue.currentSong], message);
