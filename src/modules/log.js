@@ -61,7 +61,7 @@ module.exports = (content, color, discordMessage, options) => {
     }
 
     // If the regex option is defined, apply the regex to logContent
-    if (options.regex) logContent = logContent.replace(/[^ -~]+/g, ``);
+    if (options && options.regex) logContent = logContent.replace(/[^ -~]+/g, ``);
 
     return console.log(logColor, logContent);
 }
