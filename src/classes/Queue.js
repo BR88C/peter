@@ -16,7 +16,17 @@ class Queue {
         this.playing = true;
         this.loop = `off`;
         this.twentyFourSeven = false;
-        this.effects = {};
+        this.effects = {
+            bass: 0,
+            flanger: 0,
+            highpass: 0,
+            lowpass: 0,
+            phaser: 0,
+            pitch: 100,
+            speed: 100,
+            treble: 0,
+            vibrato: 0
+        };
     }
 
     async queueSong (song, message) {
