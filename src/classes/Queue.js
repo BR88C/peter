@@ -38,7 +38,7 @@ class Queue {
     }
 
     effectsArray(type) {
-        return effectsArray(type)
+        return effectsArray(type, this);
     }
 };
 
