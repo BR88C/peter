@@ -42,18 +42,10 @@ module.exports = (content, color, discordMessage, options) => {
     if (discordMessage) {
         // If the message contains an embed, log it as an embed with it's title, author, or description if applicable
         if (discordMessage.embeds.length > 0) {
-            if (discordMessage.embeds[0].title) {
-                logContent = `{Embed: Title = ${discordMessage.embeds[0].title}}`.replace(/[^ -~]+/g, ``);
-
-            } else if (discordMessage.embeds[0].author && discordMessage.embeds[0].author.name) {
-                logContent = `{Embed: Author = ${discordMessage.embeds[0].author.name}}`.replace(/[^ -~]+/g, ``);
-
-            } else if (discordMessage.embeds[0].description) {
-                logContent = `{Embed: Description = ${discordMessage.embeds[0].description}}`.replace(/[^ -~]+/g, ``);
-
-            } else {
-                logContent = `{Embed}`
-            }
+            if (discordMessage.embeds[0].title) logContent = `{Embed: Title = ${discordMessage.embeds[0].title}}`.replace(/[^ -~]+/g, ``);
+            else if (discordMessage.embeds[0].author && discordMessage.embeds[0].author.name) logContent = `{Embed: Author = ${discordMessage.embeds[0].author.name}}`.replace(/[^ -~]+/g, ``);
+            else if (discordMessage.embeds[0].description) logContent = `{Embed: Description = ${discordMessage.embeds[0].description}}`.replace(/[^ -~]+/g, ``);
+            else logContent = `{Embed}`
         }
 
         // If the user option is defined, append their tag to the start of logContent
@@ -62,17 +54,14 @@ module.exports = (content, color, discordMessage, options) => {
         // If the server option is defined, append the server name to the start of logContent
         if (options.server) {
             // If the message is in a guild
-            if (discordMessage.channel.type !== `dm`) {
-                logContent = `Server: ${discordMessage.guild.name} | ` + logContent;
-                // If the message is in a DM
-            } else {
-                logContent = `Server: DM | ` + logContent;
-            }
+            if (discordMessage.channel.type !== `dm`) logContent = `Server: ${discordMessage.guild.name} | ` + logContent;
+            // If the message is in a DM
+            else logContent = `Server: DM | ` + logContent;
         }
-
-        // If the regex option is defined, apply the regex to logContent
-        if (options.regex) logContent = logContent.replace(/[^ -~]+/g, ``);
     }
+
+    // If the regex option is defined, apply the regex to logContent
+    if (options.regex) logContent = logContent.replace(/[^ -~]+/g, ``);
 
     return console.log(logColor, logContent);
 }
