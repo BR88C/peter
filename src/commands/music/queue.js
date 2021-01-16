@@ -56,7 +56,7 @@ module.exports = {
         // If the user specifies a song
         if (args.length) {
             // Gets queue length
-            const queueLength = (serverQueue.songs).length;
+            const queueLength = serverQueue.songs.length;
 
             // Set specified index
             const specifiedIndex = parseInt(args[0]);
