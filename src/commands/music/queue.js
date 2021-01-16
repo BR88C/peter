@@ -130,11 +130,7 @@ module.exports = {
         // Creates list of songs in queue
         let queueList = [];
         for (const [i, song] of serverQueue.songs.entries()) {
-            if (i === serverQueue.currentSong) {
-                current = `↳ `;
-            } else {
-                current = ``;
-            }
+            const current = i === serverQueue.currentSong ? `↳ ` : ``;
             queueList.push(`${current}**${i + 1}.** [${song.title}](${song.url}) [${song.timestamp}]`);
         }
 
@@ -236,7 +232,7 @@ module.exports = {
 
             return sendReactionQueueEmbed();
 
-        // If there are less than 10 songs send the queue embed normally
+            // If there are less than 10 songs send the queue embed normally
         } else {
             return message.channel.send(await generateQueueEmbed(`${queueList.join(`\n`)}\n\n*Page 1/1*`));
         }

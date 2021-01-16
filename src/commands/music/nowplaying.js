@@ -23,14 +23,10 @@ module.exports = {
             const completed = currentTime(serverQueue);
             const percentComplete = completed / serverQueue.songs[serverQueue.currentSong].rawTime;
 
-            let playingEmoji;
-            if (serverQueue.playing) {
-                playingEmoji = `▶`;
-            } else {
-                playingEmoji = `⏸`;
-            }
+            const playingEmoji = serverQueue.playing ? `▶` : `⏸`;
+            const timestamp = serverQueue.songs[serverQueue.currentSong].livestream ? `LIVE` : time(serverQueue.songs[serverQueue.currentSong].rawTime);
 
-            description = `\`\`\`${playingEmoji} ${time(completed)} ${progressBar(percentComplete, 25)} ${serverQueue.songs[serverQueue.currentSong].timestamp}\`\`\``;
+            description = `\`\`\`${playingEmoji} ${time(completed)} ${progressBar(percentComplete, 25)} ${timestamp}\`\`\``;
         }
 
 
