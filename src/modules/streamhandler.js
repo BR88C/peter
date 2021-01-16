@@ -45,11 +45,6 @@ module.exports = {
             highWaterMark: 1 << 20,
             quality: song.format,
             encoderArgs: sfxArgs[0] ? [`-af`, sfxArgs.join(`, `)] : undefined,
-            requestOptions: {
-                headers: {
-                    cookie: process.env.COOKIE
-                }
-            }
         });
 
 

@@ -49,13 +49,7 @@ module.exports = {
         // Checks if the arguments provided is a url
         if (await ytdl.validateURL(args.slice(0).join(` `))) {
             // Set songIngo
-            songInfo = await ytdl.getInfo(args[0], {
-                requestOptions: {
-                    headers: {
-                        cookie: process.env.COOKIE
-                    }
-                }
-            }).catch(error => {
+            songInfo = await ytdl.getInfo(args[0]).catch(error => {
                 log(error, `red`);
                 return message.channel.send(errorEmbed);
             });
@@ -64,24 +58,13 @@ module.exports = {
         } else if (args.slice(0).join(` `).match(playlistRegex) && args.slice(0).join(` `).match(playlistRegex)[2]) {
             playlist = await ytpl(args.slice(0).join(` `).match(playlistRegex)[2], {
                 limit: Infinity,
-                requestOptions: {
-                    headers: {
-                        cookie: process.env.COOKIE
-                    }
-                }
             }).catch(error => {
                 return log(error, `red`);
             })
 
             if (!playlist) return message.channel.send(errorEmbed);
 
-            songInfo = await ytdl.getInfo(playlist.items[0].id, {
-                requestOptions: {
-                    headers: {
-                        cookie: process.env.COOKIE
-                    }
-                }
-            }).catch(error => {
+            songInfo = await ytdl.getInfo(playlist.items[0].id).catch(error => {
                 log(error, `red`);
                 return message.channel.send(errorEmbed);
             });
@@ -92,13 +75,7 @@ module.exports = {
         // If the arguments provided are not a url, search youtube for a video
         } else {
             // Gets filters
-            const filters = await ytsr.getFilters(args.slice(0).join(` `), {
-                requestOptions: {
-                    headers: {
-                        cookie: process.env.COOKIE
-                    }
-                }
-            });
+            const filters = await ytsr.getFilters(args.slice(0).join(` `));
             const filter = filters.get(`Type`).get(`Video`);
 
             // Checks to see if no filter was found
@@ -106,25 +83,14 @@ module.exports = {
 
             // Gets video based on search string and filter
             const ytsrResult = await ytsr(filter.url, {
-                limit: 1,
-                requestOptions: {
-                    headers: {
-                        cookie: process.env.COOKIE
-                    }
-                }
+                limit: 1
             });
 
             // Checks to see if video was found
             if (!ytsrResult.items[0]) return message.reply(`I couldn't find anything based on your query!`);
 
             // Set songInfo
-            songInfo = await ytdl.getInfo(ytsrResult.items[0].url, {
-                requestOptions: {
-                    headers: {
-                        cookie: process.env.COOKIE
-                    }
-                }
-            }).catch(error => {
+            songInfo = await ytdl.getInfo(ytsrResult.items[0].url).catch(error => {
                 log(error, `red`);
                 return message.channel.send(errorEmbed);
             });

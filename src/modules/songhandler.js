@@ -179,13 +179,7 @@ module.exports = {
         let songsAdded = 0;
         await message.channel.send(attemptingToQueueEmbed).then(async msg => {
             for (const video of playlist.items) {
-                const songInfo = await ytdl.getInfo(video.id, {
-                    requestOptions: {
-                        headers: {
-                            cookie: process.env.COOKIE
-                        }
-                    }
-                }).catch(error => {
+                const songInfo = await ytdl.getInfo(video.id).catch(error => {
                     log(error, `red`);
                 });
 
