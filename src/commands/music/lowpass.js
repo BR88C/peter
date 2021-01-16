@@ -18,14 +18,14 @@ module.exports = {
         if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to add a lowpass filter!`);
 
         // Replies with the current lowpass value if no arguments are specified
-        if (!args[0]) return message.channel.send(`The current lowpass level is: **+${serverQueue.lowpass}%**`);
+        if (!args[0]) return message.channel.send(`The current lowpass level is: **+${serverQueue.effects.lowpass}%**`);
 
         // Checks to make sure the value specified is valid
         const specifiedValue = checkValueSpecified(args[0], 0, 100, message, `off`);
         if (specifiedValue === `invalid`) return;
 
         // Sets value
-        serverQueue.lowpass = specifiedValue;
+        serverQueue.effects.lowpass = specifiedValue;
 
         // Restart the stream at the current time
         streamhandler.restartStream(serverQueue, currentTime(serverQueue));

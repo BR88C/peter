@@ -30,15 +30,15 @@ module.exports = {
 
         // Gets active effects
         let activeEffects = [];
-        if (serverQueue.bass !== 0) activeEffects.push(`Bass = +${serverQueue.bass}%`);
-        if (serverQueue.flanger !== 0) activeEffects.push(`Flanger = ${serverQueue.flanger}%`);
-        if (serverQueue.lowpass !== 0) activeEffects.push(`Lowpass = +${serverQueue.lowpass}%`);
-        if (serverQueue.highpass !== 0) activeEffects.push(`Highpass = +${serverQueue.highpass}%`);
-        if (serverQueue.phaser !== 0) activeEffects.push(`Phaser = ${serverQueue.phaser}%`);
-        if (serverQueue.pitch !== 100) activeEffects.push(`Pitch = ${serverQueue.pitch}%`);
-        if (serverQueue.speed !== 100) activeEffects.push(`Speed = ${serverQueue.speed}%`);
-        if (serverQueue.treble !== 0) activeEffects.push(`Treble = +${serverQueue.treble}%`);
-        if (serverQueue.vibrato !== 0) activeEffects.push(`Vibrato = ${serverQueue.vibrato}%`);
+        if (serverQueue.effects.bass !== 0) activeEffects.push(`Bass = +${serverQueue.effects.bass}%`);
+        if (serverQueue.effects.flanger !== 0) activeEffects.push(`Flanger = ${serverQueue.effects.flanger}%`);
+        if (serverQueue.effects.lowpass !== 0) activeEffects.push(`Lowpass = +${serverQueue.effects.lowpass}%`);
+        if (serverQueue.effects.highpass !== 0) activeEffects.push(`Highpass = +${serverQueue.effects.highpass}%`);
+        if (serverQueue.effects.phaser !== 0) activeEffects.push(`Phaser = ${serverQueue.effects.phaser}%`);
+        if (serverQueue.effects.pitch !== 100) activeEffects.push(`Pitch = ${serverQueue.effects.pitch}%`);
+        if (serverQueue.effects.speed !== 100) activeEffects.push(`Speed = ${serverQueue.effects.speed}%`);
+        if (serverQueue.effects.treble !== 0) activeEffects.push(`Treble = +${serverQueue.effects.treble}%`);
+        if (serverQueue.effects.vibrato !== 0) activeEffects.push(`Vibrato = ${serverQueue.effects.vibrato}%`);
         if (serverQueue.volume !== 100) activeEffects.push(`Volume = ${serverQueue.volume}%`)
         if (activeEffects[0]) {
             activeEffects = `\`\`\`${activeEffects.join(`, `)}\`\`\``;
@@ -71,20 +71,20 @@ module.exports = {
             let timeUntilPlayed;
             if (specifiedIndex - 1 < serverQueue.currentSong) {
                 if (serverQueue.loop === `queue`) {
-                    timeUntilPlayed = time(Math.round((totalRawTime / (serverQueue.speed / 100)) - completed - serverQueue.songs[specifiedIndex - 1].rawTime));
+                    timeUntilPlayed = time(Math.round((totalRawTime / (serverQueue.effects.speed / 100)) - completed - serverQueue.songs[specifiedIndex - 1].rawTime));
                 } else {
                     timeUntilPlayed = `N/A`;
                 }
 
             } else if (specifiedIndex - 1 > serverQueue.currentSong) {
                 const songsBefore = serverQueue.songs.slice(serverQueue.currentSong, specifiedIndex - 1);
-                timeUntilPlayed = time(Math.round((totalRawTime / (serverQueue.speed / 100)) - completed));
+                timeUntilPlayed = time(Math.round((totalRawTime / (serverQueue.effects.speed / 100)) - completed));
 
                 timeUntilPlayed = 0;
                 for (const song of songsBefore) {
                     timeUntilPlayed += song.rawTime;
                 }
-                timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed));
+                timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.effects.speed / 100)) - completed));
 
             } else {
                 timeUntilPlayed = `Currently Playing`;
@@ -116,7 +116,7 @@ module.exports = {
         }
 
 
-        const totalTime = Math.round(totalRawTime / (serverQueue.speed / 100));
+        const totalTime = Math.round(totalRawTime / (serverQueue.effects.speed / 100));
 
         // Gets time left in queue
         const songTimeLeft = Math.round(currentSong.rawTime - completed);
@@ -125,7 +125,7 @@ module.exports = {
         for (const song of songsLeft) {
             totalTimeLeft += song.rawTime;
         }
-        totalTimeLeft = Math.round((totalTimeLeft / (serverQueue.speed / 100)) - completed);
+        totalTimeLeft = Math.round((totalTimeLeft / (serverQueue.effects.speed / 100)) - completed);
 
         // Creates list of songs in queue
         let queueList = [];

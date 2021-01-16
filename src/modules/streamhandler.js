@@ -27,15 +27,15 @@ module.exports = {
 
         // Create ffmpeg encoder arguments
         let sfxArgs = [];
-        if (serverQueue.bass !== 0) sfxArgs.push(`bass=g=${serverQueue.bass / 2}`);
-        if (serverQueue.flanger !== 0) sfxArgs.push(`flanger=depth=${serverQueue.flanger / 10}`);
-        if (serverQueue.highpass !== 0) sfxArgs.push(`highpass=f=${serverQueue.highpass * 25}`);
-        if (serverQueue.lowpass !== 0) sfxArgs.push(`lowpass=f=${2000 - serverQueue.lowpass * 16}`);
-        if (serverQueue.phaser !== 0) sfxArgs.push(`aphaser=decay=${serverQueue.phaser / 200}`);
-        if (serverQueue.pitch !== 100) sfxArgs.push(`rubberband=pitch=${serverQueue.pitch / 100}`);
-        if (serverQueue.speed !== 100 && !song.livestream) sfxArgs.push(`atempo=${serverQueue.speed / 100}`);
-        if (serverQueue.treble !== 0) sfxArgs.push(`treble=g=${serverQueue.treble / 3}`);
-        if (serverQueue.vibrato !== 0) sfxArgs.push(`vibrato=d=${serverQueue.vibrato / 100}`);
+        if (serverQueue.effects.bass !== 0) sfxArgs.push(`bass=g=${serverQueue.effects.bass / 2}`);
+        if (serverQueue.effects.flanger !== 0) sfxArgs.push(`flanger=depth=${serverQueue.effects.flanger / 10}`);
+        if (serverQueue.effects.highpass !== 0) sfxArgs.push(`highpass=f=${serverQueue.effects.highpass * 25}`);
+        if (serverQueue.effects.lowpass !== 0) sfxArgs.push(`lowpass=f=${2000 - serverQueue.effects.lowpass * 16}`);
+        if (serverQueue.effects.phaser !== 0) sfxArgs.push(`aphaser=decay=${serverQueue.effects.phaser / 200}`);
+        if (serverQueue.effects.pitch !== 100) sfxArgs.push(`rubberband=pitch=${serverQueue.effects.pitch / 100}`);
+        if (serverQueue.effects.speed !== 100 && !song.livestream) sfxArgs.push(`atempo=${serverQueue.effects.speed / 100}`);
+        if (serverQueue.effects.treble !== 0) sfxArgs.push(`treble=g=${serverQueue.effects.treble / 3}`);
+        if (serverQueue.effects.vibrato !== 0) sfxArgs.push(`vibrato=d=${serverQueue.effects.vibrato / 100}`);
 
 
         // Create stream

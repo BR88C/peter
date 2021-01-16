@@ -18,14 +18,14 @@ module.exports = {
         if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to bassboost music!`);
 
         // Replies with the current pitch value if no arguments are specified
-        if (!args[0]) return message.channel.send(`The current pitch is: **${serverQueue.pitch}%**`);
+        if (!args[0]) return message.channel.send(`The current pitch is: **${serverQueue.effects.pitch}%**`);
 
         // Checks to make sure the value specified is valid
         const specifiedValue = checkValueSpecified(args[0], 25, 250, message, `off`);
         if (specifiedValue === `invalid`) return;
 
         // Sets value
-        serverQueue.pitch = specifiedValue;
+        serverQueue.effects.pitch = specifiedValue;
 
         // Restart the stream at the current time
         streamhandler.restartStream(serverQueue, currentTime(serverQueue));

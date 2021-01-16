@@ -4,7 +4,8 @@ const ytsr = require(`ytsr`);
 const ytpl = require(`ytpl`);
 const config = require(`../../config/config.js`);
 const log = require(`../../modules/log.js`);
-const songhandler = require(`../../modules/songhandler.js`);
+const Song = require(`../../classes/Song.js`);
+const Queue = require(`../../classes/Queue.js`);
 const streamhandler = require(`../../modules/streamhandler.js`);
 
 
@@ -17,7 +18,7 @@ module.exports = {
     usage: `<search query> **or** ${config.prefix} play <url>`,
     async execute (client, message, args) {
         // Checks if user is in vc
-        const { channel } = message.member.voice;
+        const channel = message.member.voice.channel;
         if (!channel) return message.reply(`you need to be in a voice channel to play music!`);
 
         const permissions = channel.permissionsFor(message.client.user);
@@ -72,7 +73,7 @@ module.exports = {
             // Removes the already queued playlist song
             playlist.items.shift();
 
-        // If the arguments provided are not a url, search youtube for a video
+            // If the arguments provided are not a url, search youtube for a video
         } else {
             // Gets filters
             const filters = await ytsr.getFilters(args.slice(0).join(` `));
@@ -99,38 +100,40 @@ module.exports = {
 
 
         // Defines song info
-        const song = await songhandler.getSongInfo(songInfo, message);
-        if (!song) return message.channel.send(videoUnavailableEmbed);
+        const song = await new Song(songInfo, message.author);
+        if (!song.format) return message.channel.send(videoUnavailableEmbed);
 
         // Queues the song if there is a song playing or play a song if the queue is defined but no song is playing
         if (serverQueue) {
             if (serverQueue.songs[serverQueue.currentSong]) {
                 if (playlist) {
-                    await songhandler.queuePlaylist(playlist, message);
-                    await songhandler.queueSong(song, message, true);
+                    song.hidden = true;
+                    await serverQueue.queuePlaylist(playlist, message);
+                    await serverQueue.queueSong(song, message);
                 } else {
-                    await songhandler.queueSong(song, message);
+                    await serverQueue.queueSong(song, message);
                 }
                 return;
             } else {
-                if (playlist) await songhandler.queuePlaylist(playlist, message);
-                serverQueue.songs.push(song);
+                if (playlist) await serverQueue.queuePlaylist(playlist, message);
+                song.hidden = true;
+                await serverQueue.queueSong(song, message);
                 serverQueue.currentSong = serverQueue.songs.indexOf(song);
                 return streamhandler.play(serverQueue.songs[serverQueue.currentSong], message);
             }
         }
 
-        // Create queue
-        const queueConstruct = await songhandler.createQueue(song, message);
-
-
+        // Create queue and push first song
+        const queueConstruct = new Queue(await message.guild.channels.fetch(message.channel.id, false), await message.guild.channels.fetch(channel.id, false))
+        message.client.queue.set(message.guild.id, queueConstruct);
+        queueConstruct.songs.push(song);
 
         // Join vc and play music
         try {
             const connection = await channel.join();
             queueConstruct.connection = connection;
             connection.voice.setSelfDeaf(true);
-            if (playlist) await songhandler.queuePlaylist(playlist, message);
+            if (playlist) await serverQueue.queuePlaylist(playlist, message);
             return streamhandler.play(queueConstruct.songs[queueConstruct.currentSong], message);
         } catch (error) {
             log(`I could not join the voice channel: ${error}`, `red`);

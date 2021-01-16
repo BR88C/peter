@@ -18,14 +18,14 @@ module.exports = {
         if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to add vibrato to the music!`);
 
         // Replies with the current volume if no arguments are specified
-        if (!args[0]) return message.channel.send(`The current vibrato level is: **${serverQueue.vibrato}%**`);
+        if (!args[0]) return message.channel.send(`The current vibrato level is: **${serverQueue.effects.vibrato}%**`);
 
         // Checks to make sure the value specified is valid
         const specifiedValue = checkValueSpecified(args[0], 0, 100, message, `off`);
         if (specifiedValue === `invalid`) return;
 
         // Sets value
-        serverQueue.vibrato = specifiedValue;
+        serverQueue.effects.vibrato = specifiedValue;
 
         // Restart the stream at the current time
         streamhandler.restartStream(serverQueue, currentTime(serverQueue));

@@ -22,7 +22,7 @@ module.exports = {
         if (serverQueue.songs[serverQueue.currentSong].livestream) return message.reply(`this command does not support livestreams!`);
 
         // Replies with the current speed if no arguments are specified
-        if (!args[0]) return message.channel.send(`The current speed is: **${serverQueue.speed}%**`);
+        if (!args[0]) return message.channel.send(`The current speed is: **${serverQueue.effects.speed}%**`);
 
         // Checks to make sure the value specified is valid
         const specifiedValue = checkValueSpecified(args[0], 50, 500, message, `off`);
@@ -32,7 +32,7 @@ module.exports = {
         const time = currentTime(serverQueue);
 
         // Sets value
-        serverQueue.speed = specifiedValue;
+        serverQueue.effects.speed = specifiedValue;
 
         // Restart the stream at the current time
         streamhandler.restartStream(serverQueue, time);
