@@ -13,7 +13,7 @@ const effectsArray = (type, serverQueue) => {
         if (serverQueue.effects.speed !== 100 && !song.livestream) activeEffects.push(`atempo=${serverQueue.effects.speed / 100}`);
         if (serverQueue.effects.treble !== 0) activeEffects.push(`treble=g=${serverQueue.effects.treble / 3}`);
         if (serverQueue.effects.vibrato !== 0) activeEffects.push(`vibrato=d=${serverQueue.effects.vibrato / 100}`);
-        activeEffects.join(`, `);
+        activeEffects = activeEffects.join(`, `);
 
     } else if (type = `formatted`) {
         if (serverQueue.effects.bass !== 0) activeEffects.push(`Bass = +${serverQueue.effects.bass}%`);
