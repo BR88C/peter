@@ -26,17 +26,7 @@ module.exports = {
 
 
         // Create ffmpeg encoder arguments
-        let sfxArgs = [];
-        if (serverQueue.effects.bass !== 0) sfxArgs.push(`bass=g=${serverQueue.effects.bass / 2}`);
-        if (serverQueue.effects.flanger !== 0) sfxArgs.push(`flanger=depth=${serverQueue.effects.flanger / 10}`);
-        if (serverQueue.effects.highpass !== 0) sfxArgs.push(`highpass=f=${serverQueue.effects.highpass * 25}`);
-        if (serverQueue.effects.lowpass !== 0) sfxArgs.push(`lowpass=f=${2000 - serverQueue.effects.lowpass * 16}`);
-        if (serverQueue.effects.phaser !== 0) sfxArgs.push(`aphaser=decay=${serverQueue.effects.phaser / 200}`);
-        if (serverQueue.effects.pitch !== 100) sfxArgs.push(`rubberband=pitch=${serverQueue.effects.pitch / 100}`);
-        if (serverQueue.effects.speed !== 100 && !song.livestream) sfxArgs.push(`atempo=${serverQueue.effects.speed / 100}`);
-        if (serverQueue.effects.treble !== 0) sfxArgs.push(`treble=g=${serverQueue.effects.treble / 3}`);
-        if (serverQueue.effects.vibrato !== 0) sfxArgs.push(`vibrato=d=${serverQueue.effects.vibrato / 100}`);
-
+        let sfxArgs = serverQueue.effectsArray(`ffmpeg`);
 
         // Create stream
         const stream = ytdl(song.url, {
@@ -44,7 +34,7 @@ module.exports = {
             opusEncoded: true,
             highWaterMark: 1 << 20,
             quality: song.format,
-            encoderArgs: sfxArgs[0] ? [`-af`, sfxArgs.join(`, `)] : undefined,
+            encoderArgs: sfxArgs ? [`-af`, sfxArgs] : undefined,
         });
 
 

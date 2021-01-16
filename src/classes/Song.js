@@ -1,25 +1,7 @@
 /* Song Class - Creates a song to be pushed to the queue based off of songInfo */
 
-const ytdl = require(`discord-ytdl-core`);
 const time = require(`../utils/time.js`);
-
-/* Function to get video format */
-const getFormat = (songInfo) => {
-    let format;
-    if (songInfo.videoDetails.isLiveContent) {
-        format = ytdl.chooseFormat(songInfo.formats, {
-            isHLS: true
-        }).itag.toString();
-    } else {
-        format = ytdl.filterFormats(songInfo.formats, `audioonly`);
-        if (!format[0]) format = songInfo.formats;
-        if (!format[0]) return;
-        format = ytdl.chooseFormat(format, {
-            quality: `highestaudio`
-        }).itag.toString();
-    }
-    return format;
-};
+const getFormat = require(`./functions/getFormat.js`);
 
 /* Song Class */
 class Song {
