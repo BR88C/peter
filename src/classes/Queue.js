@@ -22,7 +22,7 @@ class Queue {
     async queueSong (song, message) {
         this.songs.push(song);
 
-        const channel = textChannel ? message.channel : this.textChannel;
+        const channel = message ? message.channel : this.textChannel;
 
         const songIndex = this.songs.indexOf(song);
         const songsBefore = this.songs.slice(this.currentSong, songIndex);
