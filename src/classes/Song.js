@@ -3,7 +3,7 @@ const time = require(`../utils/time.js`);
 
 const getFormat = (songInfo) => {
     let format;
-    if (songInfo.videoDetails.isLive) {
+    if (songInfo.videoDetails.isLiveContent) {
         format = ytdl.chooseFormat(songInfo.formats, {
             isHLS: true
         }).itag.toString();
@@ -19,16 +19,17 @@ const getFormat = (songInfo) => {
 
 class Song {
     constructor(songInfo, messageAuthor) {
+        console.log(songInfo.videoDetails)
         this.title = songInfo.videoDetails.title.replace(/-|\*|_|\|/g, ` `);
-        this.livestream = songInfo.videoDetails.isLive;
+        this.livestream = songInfo.videoDetails.isLiveContent;
         this.format = getFormat(songInfo);
         this.url = songInfo.videoDetails.video_url;
         this.thumbnail = songInfo.videoDetails.thumbnails.pop().url;
-        this.timestamp = songInfo.videoDetails.isLive ? `LIVE` : time(songInfo.videoDetails.lengthSeconds);
+        this.timestamp = songInfo.videoDetails.isLiveContent ? `LIVE` : time(songInfo.videoDetails.lengthSeconds);
         this.rawTime = parseInt(songInfo.videoDetails.lengthSeconds);
         this.requestedBy = messageAuthor;
         this.hidden = false;
-        this.startTime = this.startTime;
+        this.startTime = 0;
     }
 };
 
