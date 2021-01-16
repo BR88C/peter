@@ -128,6 +128,8 @@ module.exports = {
         message.client.queue.set(message.guild.id, queueConstruct);
         queueConstruct.songs.push(song);
 
+
+
         // Join vc and play music
         try {
             const connection = await channel.join();
