@@ -1,6 +1,6 @@
 {
   "name": "peter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A 24/7 music bot with free audio effects/filters (SFX)",
   "main": "index.js",
   "scripts": {
