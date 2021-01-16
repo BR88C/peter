@@ -41,7 +41,7 @@ module.exports = {
             const cmdFiles = fs.readdirSync(`./src/commands/${directory.name}`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
             for (const file of cmdFiles) {
                 const command = require(`../commands/${directory.name}/${file}`);
-                command.directory = directory;
+                command.directory = directory.name;
                 client.commands.set(command.name, command);
                 log(`Loaded command ${command.name}`, `yellow`);
             }
