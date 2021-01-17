@@ -24,7 +24,7 @@ module.exports = {
             let eventName = file.split(`.`)[0];
             log(`Loaded event ${eventName}`, `yellow`);
             client.on(eventName, event.bind(null, client));
-        }
+        };
         log(`Finished loading events!`, `green`);
     },
 
@@ -44,8 +44,8 @@ module.exports = {
                 command.directory = directory.name;
                 client.commands.set(command.name, command);
                 log(`Loaded command ${command.name}`, `yellow`);
-            }
-        }
+            };
+        };
         log(`Finished loading commands!`, `green`);
     },
 
