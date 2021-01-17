@@ -3,19 +3,19 @@
 const effectsArray = (type, serverQueue) => {
     let activeEffects = [];
 
-    if (type = `ffmpeg`) {
+    if (type === `ffmpeg`) {
         if (serverQueue.effects.bass !== 0) activeEffects.push(`bass=g=${serverQueue.effects.bass / 2}`);
         if (serverQueue.effects.flanger !== 0) activeEffects.push(`flanger=depth=${serverQueue.effects.flanger / 10}`);
         if (serverQueue.effects.highpass !== 0) activeEffects.push(`highpass=f=${serverQueue.effects.highpass * 25}`);
         if (serverQueue.effects.lowpass !== 0) activeEffects.push(`lowpass=f=${2000 - serverQueue.effects.lowpass * 16}`);
         if (serverQueue.effects.phaser !== 0) activeEffects.push(`aphaser=decay=${serverQueue.effects.phaser / 200}`);
         if (serverQueue.effects.pitch !== 100) activeEffects.push(`rubberband=pitch=${serverQueue.effects.pitch / 100}`);
-        if (serverQueue.effects.speed !== 100 && !song.livestream) activeEffects.push(`atempo=${serverQueue.effects.speed / 100}`);
+        if (serverQueue.effects.speed !== 100 && !serverQueue.songs[serverQueue.currentSong].livestream) activeEffects.push(`atempo=${serverQueue.effects.speed / 100}`);
         if (serverQueue.effects.treble !== 0) activeEffects.push(`treble=g=${serverQueue.effects.treble / 3}`);
         if (serverQueue.effects.vibrato !== 0) activeEffects.push(`vibrato=d=${serverQueue.effects.vibrato / 100}`);
         activeEffects = activeEffects.join(`, `);
 
-    } else if (type = `formatted`) {
+    } else if (type === `formatted`) {
         if (serverQueue.effects.bass !== 0) activeEffects.push(`Bass = +${serverQueue.effects.bass}%`);
         if (serverQueue.effects.flanger !== 0) activeEffects.push(`Flanger = ${serverQueue.effects.flanger}%`);
         if (serverQueue.effects.lowpass !== 0) activeEffects.push(`Lowpass = +${serverQueue.effects.lowpass}%`);
@@ -26,7 +26,7 @@ const effectsArray = (type, serverQueue) => {
         if (serverQueue.effects.treble !== 0) activeEffects.push(`Treble = +${serverQueue.effects.treble}%`);
         if (serverQueue.effects.vibrato !== 0) activeEffects.push(`Vibrato = ${serverQueue.effects.vibrato}%`);
         if (serverQueue.volume !== 100) activeEffects.push(`Volume = ${serverQueue.volume}%`)
-        activeEffects = activeEffects[0] ? `\`\`\`${activeEffects.join(`, `)}\`\`\`` : activeEffects = `\`\`\`No Active effects\`\`\``;
+        activeEffects = activeEffects[0] ? `\`\`\`${activeEffects.join(`, `)}\`\`\`` : `\`\`\`No Active effects\`\`\``;
 
     } else {
         throw `Invalid effects array type`;
