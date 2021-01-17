@@ -5,7 +5,7 @@ const getFormat = require(`./functions/getFormat.js`);
 
 /* Song Class */
 class Song {
-    constructor(songInfo, messageAuthorTag) {
+    constructor (songInfo, messageAuthorTag) {
         this.title = songInfo.videoDetails.title.replace(/-|\*|_|\|/g, ` `);
         this.livestream = songInfo.videoDetails.isLiveContent;
         this.format = getFormat(songInfo);

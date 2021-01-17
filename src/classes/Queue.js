@@ -5,7 +5,7 @@ const queueSong = require(`./functions/queueSong.js`);
 const queuePlaylist = require(`./functions/queuePlaylist.js`);
 
 class Queue {
-    constructor(textChannel, voiceChannel) {
+    constructor (textChannel, voiceChannel) {
         this.textChannel = textChannel;
         this.channel = voiceChannel;
         this.connection = null;
@@ -29,15 +29,15 @@ class Queue {
         };
     }
 
-    queueSong(song, message) {
+    queueSong (song, message) {
         queueSong(song, message, this);
     }
 
-    queuePlaylist(playlist, message) {
+    queuePlaylist (playlist, message) {
         queuePlaylist(playlist, message, this);
     }
 
-    effectsArray(type) {
+    effectsArray (type) {
         return effectsArray(type, this);
     }
 };
