@@ -12,11 +12,11 @@ module.exports = async (client) => {
 
     setPresence();
 
-    log(`\n**************************************************************************\n`, `blue`);
+    log(`\n**************************************************************************\n`, `white`);
     log(`Using prefix ${client.config.prefix}`, `green`);
     log(`Running version ${client.pjson.version}`, `green`);
     log(`Ready! Serving ${guilds} guilds!`, `green`);
-    log(`\n**************************************************************************\n`, `blue`);
+    log(`\n**************************************************************************\n`, `white`);
 
     setTimeout(() => setPresence(), 6e5);
 }
