@@ -50,7 +50,14 @@ module.exports = {
         // Checks if the arguments provided is a url
         if (await ytdl.validateURL(args.slice(0).join(` `))) {
             // Set songIngo
-            songInfo = await ytdl.getInfo(args[0]).catch(error => {
+            songInfo = await ytdl.getInfo(args[0], {
+                requestOptions: !process.env.COOKIE || !process.env.YOUTUBE_IDENTITY_TOKEN ? undefined : {
+                    headers: {
+                        cookie: process.env.COOKIE,
+                        'x-youtube-identity-token': process.env.YOUTUBE_IDENTITY_TOKEN
+                    }
+                }
+            }).catch(error => {
                 log(error, `red`);
                 return message.channel.send(errorEmbed);
             });
@@ -65,7 +72,14 @@ module.exports = {
 
             if (!playlist) return message.channel.send(errorEmbed);
 
-            songInfo = await ytdl.getInfo(playlist.items[0].id).catch(error => {
+            songInfo = await ytdl.getInfo(playlist.items[0].id, {
+                requestOptions: !process.env.COOKIE || !process.env.YOUTUBE_IDENTITY_TOKEN ? undefined : {
+                    headers: {
+                        cookie: process.env.COOKIE,
+                        'x-youtube-identity-token': process.env.YOUTUBE_IDENTITY_TOKEN
+                    }
+                }
+            }).catch(error => {
                 log(error, `red`);
                 return message.channel.send(errorEmbed);
             });
@@ -91,7 +105,14 @@ module.exports = {
             if (!ytsrResult.items[0]) return message.reply(`I couldn't find anything based on your query!`);
 
             // Set songInfo
-            songInfo = await ytdl.getInfo(ytsrResult.items[0].url).catch(error => {
+            songInfo = await ytdl.getInfo(ytsrResult.items[0].url, {
+                requestOptions: !process.env.COOKIE || !process.env.YOUTUBE_IDENTITY_TOKEN ? undefined : {
+                    headers: {
+                        cookie: process.env.COOKIE,
+                        'x-youtube-identity-token': process.env.YOUTUBE_IDENTITY_TOKEN
+                    }
+                }
+            }).catch(error => {
                 log(error, `red`);
                 return message.channel.send(errorEmbed);
             });

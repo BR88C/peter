@@ -12,7 +12,14 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
     let songsAdded = 0;
     await message.channel.send(attemptingToQueueEmbed).then(async msg => {
         for (const video of playlist.items) {
-            const songInfo = await ytdl.getInfo(video.id).catch(error => {
+            const songInfo = await ytdl.getInfo(video.id, {
+                requestOptions: !process.env.COOKIE || !process.env.YOUTUBE_IDENTITY_TOKEN ? undefined : {
+                    headers: {
+                        cookie: process.env.COOKIE,
+                        'x-youtube-identity-token': process.env.YOUTUBE_IDENTITY_TOKEN
+                    }
+                }
+            }).catch(error => {
                 log(error, `red`);
             });
 
