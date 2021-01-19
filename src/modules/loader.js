@@ -4,13 +4,17 @@ const Discord = require(`discord.js-light`);
 const fs = require(`fs`);
 const DBL = require(`dblapi.js`);
 const log = require(`./log.js`);
-const headers =  require(`./headers.js`);
+const headers = require(`./headers.js`);
 const logHeader = require(`../utils/logHeader.js`);
 
 module.exports = {
     /* Load variables and save on client */
     async loadVariables (client) {
-        client.dbl = new DBL(process.env.DBL_TOKEN, client);
+        if (process.env.DBL_TOKEN) { 
+            client.dbl = new DBL(process.env.DBL_TOKEN, client);
+            log(`Initialized DBL API!`, `green`);
+        }
+        else log(`No DBL token specified, stopped DBL API initialization.`, `yellow`);
         client.queue = new Map();
         client.config = require(`../config/config.js`);
         client.pjson = require(`../../package.json`);

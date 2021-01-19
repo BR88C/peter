@@ -27,7 +27,7 @@ client.login(process.env.BOT_TOKEN).catch(error => end(client, false, `Failed to
 
 
 /* Report if there is an error with DBL */
-client.dbl.on('error', error => log(`DBL API Warning: ${error}`, `yellow`));
+if (client.dbl) client.dbl.on('error', error => log(`DBL API Warning: ${error}`, `yellow`));
 
 
 /* If the Bot is Stopped with Ctrl+C */
