@@ -66,6 +66,12 @@ module.exports = {
         } else if (args.slice(0).join(` `).match(playlistRegex) && args.slice(0).join(` `).match(playlistRegex)[2]) {
             playlist = await ytpl(args.slice(0).join(` `).match(playlistRegex)[2], {
                 limit: Infinity,
+                requestOptions: !process.env.COOKIE || !process.env.YOUTUBE_IDENTITY_TOKEN ? undefined : {
+                    headers: {
+                        cookie: process.env.COOKIE,
+                        'x-youtube-identity-token': process.env.YOUTUBE_IDENTITY_TOKEN
+                    }
+                }
             }).catch(error => {
                 return log(error, `red`);
             })
@@ -98,7 +104,13 @@ module.exports = {
 
             // Gets video based on search string and filter
             const ytsrResult = await ytsr(filter.url, {
-                limit: 1
+                limit: 1,
+                requestOptions: !process.env.COOKIE || !process.env.YOUTUBE_IDENTITY_TOKEN ? undefined : {
+                    headers: {
+                        cookie: process.env.COOKIE,
+                        'x-youtube-identity-token': process.env.YOUTUBE_IDENTITY_TOKEN
+                    }
+                }
             });
 
             // Checks to see if video was found
