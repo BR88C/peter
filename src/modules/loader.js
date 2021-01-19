@@ -7,14 +7,13 @@ const log = require(`./log.js`);
 const headers = require(`./headers.js`);
 const logHeader = require(`../utils/logHeader.js`);
 
-module.exports = {
+const loader = {
     /* Load variables and save on client */
     async loadVariables (client) {
-        if (process.env.DBL_TOKEN) { 
+        if (process.env.DBL_TOKEN) {
             client.dbl = new DBL(process.env.DBL_TOKEN, client);
             log(`Initialized DBL API!`, `green`);
-        }
-        else log(`No DBL token specified, stopped DBL API initialization.`, `yellow`);
+        } else log(`No DBL token specified, stopped DBL API initialization.`, `yellow`);
         client.queue = new Map();
         client.config = require(`../config/config.js`);
         client.pjson = require(`../../package.json`);
@@ -61,4 +60,6 @@ module.exports = {
         await this.loadCommands(client);
         headers();
     }
-}
+};
+
+module.exports = loader;
