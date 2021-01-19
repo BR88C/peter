@@ -145,6 +145,7 @@ module.exports = {
                     await serverQueue.queuePlaylist(playlist, message);
                     await serverQueue.queueSong(song, message);
                 } else {
+                    song.hidden = true;
                     await serverQueue.queueSong(song, message);
                 }
                 return;
