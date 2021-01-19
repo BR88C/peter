@@ -1,5 +1,5 @@
 const config = {
-    prefix: `-`,
+    prefix: `sudo `,
     devs: {
         ids: [`342275771546599425`],
         tags: [`BR88C#0001`]
