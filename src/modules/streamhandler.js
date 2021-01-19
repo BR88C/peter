@@ -67,7 +67,8 @@ module.exports = {
 
                 let errorEmbed = new Discord.MessageEmbed()
                     .setColor(0xff4a4a)
-                    .setTitle(`An unknown error occured. If the problem persists please\n report the issue on GitHub or on the support server.`);
+                    .setTitle(`An unknown error occured. If the problem persists please report the issue in the support server.`)
+                    .setDescription(`Link: ${message.client.config.links.supportServer}`);
 
                 if (serverQueue) {
                     serverQueue.textChannel.send(errorEmbed);
