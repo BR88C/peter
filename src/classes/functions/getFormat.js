@@ -1,6 +1,6 @@
 /* Function to get video format */
 
-const ytdl = require(`discord-ytdl-core`);
+const ytdl = require(`ytdl-core`);
 
 const getFormat = (songInfo) => {
     let format;

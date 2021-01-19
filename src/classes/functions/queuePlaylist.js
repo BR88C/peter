@@ -1,7 +1,7 @@
 /* Function to queue a provided playlist */
 
 const Discord = require(`discord.js-light`);
-const ytdl = require(`discord-ytdl-core`);
+const ytdl = require(`ytdl-core`);
 const Song = require(`../Song.js`);
 
 const queuePlaylist = async (playlist, message, serverQueue) => {

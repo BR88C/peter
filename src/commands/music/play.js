@@ -1,5 +1,5 @@
 const Discord = require(`discord.js-light`);
-const ytdl = require(`discord-ytdl-core`);
+const ytdl = require(`ytdl-core`);
 const ytsr = require(`ytsr`);
 const ytpl = require(`ytpl`);
 const config = require(`../../config/config.js`);
