@@ -19,7 +19,7 @@ const queueSong = async (song, message, hidden, serverQueue) => {
         for (const song of songsBefore) {
             timeUntilPlayed += song.rawTime;
         }
-        timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.speed / 100)) - completed));
+        timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.effects.speed / 100)) - completed));
     } else {
         timeUntilPlayed = `Unavailable`;
     }
