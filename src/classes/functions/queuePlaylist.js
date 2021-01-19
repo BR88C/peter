@@ -9,9 +9,20 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
         .setColor(0xdbbe00)
         .setTitle(`Attempting to queue ${playlist.items.length + 1} songs...`);
 
+    let queueDeletedEmbed = new Discord.MessageEmbed()
+        .setColor(0xff4a4a)
+        .setTitle(`Stopped queuing playlist due to server queue being deleted.`);
+
     let songsAdded = 0;
+    let success = true;
     await message.channel.send(attemptingToQueueEmbed).then(async msg => {
         for (const video of playlist.items) {
+            if (!message.client.queue.get(message.guild.id)) {
+                message.channel.send(queueDeletedEmbed);
+                await msg.delete();
+                return success = false;
+            }
+
             const songInfo = await ytdl.getInfo(video.id, {
                 requestOptions: !process.env.COOKIE || !process.env.YOUTUBE_IDENTITY_TOKEN ? undefined : {
                     headers: {
@@ -48,11 +59,15 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
         await msg.delete();
     });
 
-    let successfullyQueuedEmbed = new Discord.MessageEmbed()
-        .setColor(0x57ff5c)
-        .setTitle(`Successfully queued ${songsAdded + 1} songs!`);
+    if (success) {
+        let successfullyQueuedEmbed = new Discord.MessageEmbed()
+            .setColor(0x57ff5c)
+            .setTitle(`Successfully queued ${songsAdded + 1} songs!`);
 
-    return message.channel.send(successfullyQueuedEmbed);
+        message.channel.send(successfullyQueuedEmbed);
+    }
+
+    return;
 };
 
 module.exports = queuePlaylist;
