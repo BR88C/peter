@@ -23,8 +23,10 @@ npm install
 ```
 The bot also requires a Discord Bot token. In the same directory as index.js, create a file with the following text:
 ```
-BOT_TOKEN="your_bot_token"
-DBL_TOKEN="your_dbl_token" (This is optional, not defining it will just give you a warning)
+BOT_TOKEN="Your bot token"
+DBL_TOKEN="Your DBL token"  // Optional
+COOKIE="YouTube cookie String"  // Optional
+YOUTUBE_IDENTITY_TOKEN="YouTube identity token"  // Optional
 ```
 and save the file as ".env"
 You can then run the bot with:
