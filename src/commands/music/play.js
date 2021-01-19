@@ -134,24 +134,22 @@ module.exports = {
 
 
         // Defines song info
-        const song = new Song(songInfo, message.author.tag);
+        let song = new Song(songInfo, message.author.tag);
         if (!song.format) return message.channel.send(videoUnavailableEmbed);
 
         // Queues the song if there is a song playing or play a song if the queue is defined but no song is playing
         if (serverQueue) {
             if (serverQueue.songs[serverQueue.currentSong]) {
                 if (playlist) {
-                    song.hidden = true;
                     await serverQueue.queuePlaylist(playlist, message);
-                    await serverQueue.queueSong(song, message);
+                    await serverQueue.queueSong(song, message, true);
                 } else {
-                    song.hidden = true;
                     await serverQueue.queueSong(song, message);
                 }
                 return;
             } else {
                 if (playlist) await serverQueue.queuePlaylist(playlist, message);
-                await serverQueue.queueSong(song, message);
+                await serverQueue.queueSong(song, message, true);
                 serverQueue.currentSong = serverQueue.songs.indexOf(song);
                 return streamhandler.play(serverQueue.songs[serverQueue.currentSong], message);
             }
@@ -169,8 +167,9 @@ module.exports = {
             const connection = await channel.join();
             queueConstruct.connection = connection;
             connection.voice.setSelfDeaf(true);
-            if (playlist) await serverQueue.queuePlaylist(playlist, message);
-            return streamhandler.play(queueConstruct.songs[queueConstruct.currentSong], message);
+            streamhandler.play(queueConstruct.songs[queueConstruct.currentSong], message);
+            if (playlist) await queueConstruct.queuePlaylist(playlist, message);
+            return;
         } catch (error) {
             log(`I could not join the voice channel: ${error}`, `red`);
             message.client.queue.delete(message.guild.id);

@@ -4,7 +4,7 @@ const Discord = require(`discord.js-light`);
 const currentTime = require(`../../utils/currentTime.js`);
 const time = require(`../../utils/time.js`);
 
-const queueSong = async (song, message, serverQueue) => {
+const queueSong = async (song, message, hidden, serverQueue) => {
     serverQueue.songs.push(song);
 
     const channel = message ? message.channel : serverQueue.textChannel;
@@ -24,7 +24,7 @@ const queueSong = async (song, message, serverQueue) => {
         timeUntilPlayed = `Unavailable`;
     }
 
-    if (!song.hidden) {
+    if (!hidden && !song.hidden) {
         let queueAddEmbed = new Discord.MessageEmbed()
             .setColor(0x0cdf24)
             .setTitle(`✅  "${song.title}" has been added to the queue!`)

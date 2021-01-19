@@ -29,8 +29,8 @@ class Queue {
         };
     }
 
-    queueSong (song, message) {
-        queueSong(song, message, this);
+    queueSong (song, message, hidden) {
+        queueSong(song, message, hidden, this);
     }
 
     queuePlaylist (playlist, message) {
