@@ -17,11 +17,11 @@
 Make sure you have NodeJS and npm installed before continuing.
 
 Fork the repository and clone it.
-Navigate to the directory with index.js and install your node modules:
+Navigate to the directory with `package.json` and install your node modules:
 ```
 npm install
 ```
-The bot also requires a Discord Bot token. In the same directory as index.js, create a file with the following text:
+The bot also requires a Discord Bot token. In the same directory as `package.json`, create a file with the following text:
 ```
 BOT_TOKEN="Your bot token"
 DBL_TOKEN="Your DBL token"  // Optional
