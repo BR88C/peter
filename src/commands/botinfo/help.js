@@ -77,10 +77,9 @@ module.exports = {
 
         // Gets info on the command
         data.push(`**Name:** ${command.name}`);
+        data.push(`**Category:** ${directories.get(command.directory).fullName}`);
         if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
         if (command.description) data.push(`**Description:** ${command.description}`);
-        if (command.category) data.push(`**Category:** ${command.category}`);
-        else data.push(`**Category:** Misc`);
         if (command.args) data.push(`**Arguments Required:** ${command.args}`);
         if (command.usage) data.push(`**Usage:** ${config.prefix}${command.name} ${command.usage}`);
         if (command.devOnly) data.push(`**Dev Only:** ${command.devOnly}`);
