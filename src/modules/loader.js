@@ -58,7 +58,7 @@ const loader = {
         await this.loadVariables(client);
         await this.loadEvents(client);
         await this.loadCommands(client);
-        headers();
+        //headers();
     }
 };
 
