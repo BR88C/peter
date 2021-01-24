@@ -24,12 +24,12 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
             }
 
             const songInfo = await ytdl.getInfo(video.id, {
-                requestOptions: !process.env.COOKIE || !process.env.YOUTUBE_IDENTITY_TOKEN ? undefined : {
+                requestOptions: process.env.COOKIE && process.env.YOUTUBE_IDENTITY_TOKEN ? {
                     headers: {
                         cookie: process.env.COOKIE,
                         'x-youtube-identity-token': process.env.YOUTUBE_IDENTITY_TOKEN
                     }
-                }
+                } : undefined
             }).catch(error => {
                 log(error, `red`);
             });

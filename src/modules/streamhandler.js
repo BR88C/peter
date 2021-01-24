@@ -35,12 +35,12 @@ module.exports = {
             highWaterMark: 1 << 20,
             quality: song.format,
             encoderArgs: sfxArgs.length !== 0 ? [`-af`, sfxArgs] : undefined,
-            requestOptions: !process.env.COOKIE || !process.env.YOUTUBE_IDENTITY_TOKEN ? undefined : {
+            requestOptions: process.env.COOKIE && process.env.YOUTUBE_IDENTITY_TOKEN ? {
                 headers: {
                     cookie: process.env.COOKIE,
                     'x-youtube-identity-token': process.env.YOUTUBE_IDENTITY_TOKEN
                 }
-            }
+            } : undefined
         });
 
 
