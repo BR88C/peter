@@ -24,7 +24,7 @@
     "ffmpeg-static": "^4.2.7",
     "miniget": "^4.1.0",
     "prism-media": "^1.2.3",
-    "ytdl-core": "^4.4.4",
+    "ytdl-core": "^4.4.5",
     "ytpl": "^2.0.4",
     "ytsr": "^3.2.3"
   }
