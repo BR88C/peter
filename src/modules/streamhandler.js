@@ -3,6 +3,7 @@
 const Discord = require(`discord.js-light`);
 const ytdl = require(`discord-ytdl-core`);
 const log = require(`./log.js`);
+const requestHeaders = require(`./requestHeaders.js`);
 
 module.exports = {
     async play (song, message) {
@@ -35,12 +36,7 @@ module.exports = {
             highWaterMark: 1 << 20,
             quality: song.format,
             encoderArgs: sfxArgs.length !== 0 ? [`-af`, sfxArgs] : undefined,
-            requestOptions: process.env.COOKIE && process.env.YOUTUBE_IDENTITY_TOKEN ? {
-                headers: {
-                    cookie: process.env.COOKIE,
-                    'x-youtube-identity-token': process.env.YOUTUBE_IDENTITY_TOKEN
-                }
-            } : undefined
+            requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
         });
 
 

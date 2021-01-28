@@ -3,6 +3,7 @@
 const Discord = require(`discord.js-light`);
 const ytdl = require(`ytdl-core`);
 const Song = require(`../Song.js`);
+const requestHeaders = require(`../../modules/requestHeaders.js`);
 
 const queuePlaylist = async (playlist, message, serverQueue) => {
     let attemptingToQueueEmbed = new Discord.MessageEmbed()
@@ -23,13 +24,9 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
                 return success = false;
             }
 
+
             const songInfo = await ytdl.getInfo(video.id, {
-                requestOptions: process.env.COOKIE && process.env.YOUTUBE_IDENTITY_TOKEN ? {
-                    headers: {
-                        cookie: process.env.COOKIE,
-                        'x-youtube-identity-token': process.env.YOUTUBE_IDENTITY_TOKEN
-                    }
-                } : undefined
+                requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
             }).catch(error => {
                 log(error, `red`);
             });
