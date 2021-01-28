@@ -6,7 +6,7 @@ const randomInt = require(`../utils/randomInt.js`);
 
 const requestHeaders = {
     getHeaders: () => {
-        if (!this.checkCookies()) return;
+        if (!this.checkHeaders()) return;
 
         let cookies = JSON.parse(process.env.COOKIES);
         cookies = cookies[randomInt(0, cookies.length - 1)];
