@@ -4,7 +4,7 @@ const Discord = require(`discord.js-light`);
 const fs = require(`fs`);
 const DBL = require(`dblapi.js`);
 const log = require(`./log.js`);
-const headers = require(`./headers.js`);
+const requestHeaders = require(`./requestHeaders.js`);
 const logHeader = require(`../utils/logHeader.js`);
 
 const loader = {
@@ -58,7 +58,8 @@ const loader = {
         await this.loadVariables(client);
         await this.loadEvents(client);
         await this.loadCommands(client);
-        headers();
+        requestHeaders.setDefaultHeaders();
+        if (requestHeaders.checkHeaders()) log(`Request headers are properly defined!`, `green`);
     }
 };
 
