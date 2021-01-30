@@ -15,7 +15,7 @@
   "license": "GPL-3.0",
   "homepage": "https://github.com/BR88C/peter#readme",
   "dependencies": {
-    "@discordjs/opus": "^0.3.3",
+    "@discordjs/opus": "0.3.3",
     "dblapi.js": "^2.4.1",
     "discord-ytdl-core": "^5.0.0",
     "discord.js": "^12.5.1",
