@@ -18,6 +18,13 @@ const client = new Discord.Client({
     messageEditHistoryMaxSize: 1
 });
 
+
+/* Catch unhandled promise rejection errors */
+process.on(`unhandledRejection`, error => {
+    log(`Unhandled promise rejection: ${JSON.stringify(error)}`, `red`);
+});
+
+
 /* Load all commands, events, and variables, then authenticate with Discord */
 loader.start(client);
 client.login(process.env.BOT_TOKEN).catch(error => end(client, false, `Failed to authenticate client with application.`));
