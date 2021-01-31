@@ -2,6 +2,7 @@
 
 const Discord = require(`discord.js-light`);
 const ytdl = require(`ytdl-core`);
+const log = require(`../../modules/log.js`);
 const Song = require(`../Song.js`);
 const requestHeaders = require(`../../modules/requestHeaders.js`);
 
