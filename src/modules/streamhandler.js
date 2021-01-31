@@ -5,7 +5,7 @@ const ytdl = require(`discord-ytdl-core`);
 const log = require(`./log.js`);
 const requestHeaders = require(`./requestHeaders.js`);
 
-module.exports = {
+const streamhandler = {
     async play (song, message) {
         const serverQueue = message.client.queue.get(message.guild.id);
 
@@ -108,4 +108,6 @@ module.exports = {
         if (serverQueue.loop !== `single`) serverQueue.currentSong--;
         serverQueue.connection.dispatcher.end();
     }
-}
+};
+
+module.exports = streamhandler;

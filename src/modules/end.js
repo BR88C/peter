@@ -2,7 +2,7 @@
 
 const log = require(`./log.js`);
 
-module.exports = async (client, setDND, message) => {
+const end = async (client, setDND, message) => {
     if (setDND) {
         await client.user.setPresence({
             activity: {
@@ -17,4 +17,6 @@ module.exports = async (client, setDND, message) => {
     log(`\nStopped. Bot Offline.`, `red`);
     log(``, `white`);
     process.exit();
-}
+};
+
+module.exports = end;

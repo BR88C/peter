@@ -1,6 +1,6 @@
 /* Used to make complex logging easier and shorter */
 
-module.exports = (content, color, discordMessage, options) => {
+const log = (content, color, discordMessage, options) => {
     // Create Variables
     let logColor;
     let logContent = content;
@@ -64,4 +64,6 @@ module.exports = (content, color, discordMessage, options) => {
     if (options && options.regex) logContent = logContent.replace(/[^ -~]+/g, ``);
 
     return console.log(logColor, logContent);
-}
+};
+
+module.exports = log;
