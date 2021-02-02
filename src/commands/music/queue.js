@@ -29,7 +29,7 @@ module.exports = {
         }
 
         // Gets active effects
-        let activeEffects = serverQueue.effectsArray(`formatted`);
+        let activeEffects = serverQueue.effectsString(`formatted`);
 
         // Gets total raw queue time
         let totalRawTime = 0;

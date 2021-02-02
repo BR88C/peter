@@ -1,6 +1,6 @@
 /* Queue Class - Create a queue for a server and create functions to modify the queue */
 
-const effectsArray = require(`./functions/effectsArray.js`);
+const effectsString = require(`./functions/effectsString.js`);
 const queueSong = require(`./functions/queueSong.js`);
 const queuePlaylist = require(`./functions/queuePlaylist.js`);
 
@@ -62,11 +62,11 @@ class Queue {
     /**
      * Generates a string based off of active effects
      * 
-     * @param {string} type The type of array to request
+     * @param {string} type The type of string to request (ffmpeg, formatted)
      * @returns {string} The generated effects string based on type
      */
-    effectsArray (type) {
-        return effectsArray(type, this);
+    effectsString (type) {
+        return effectsString(type, this);
     }
 };
 

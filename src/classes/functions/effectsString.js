@@ -1,6 +1,6 @@
 /* Function to create an array based off of the queue's effects values */
 
-const effectsArray = (type, serverQueue) => {
+const effectsString = (type, serverQueue) => {
     let activeEffects = [];
 
     if (type === `ffmpeg`) {
@@ -35,4 +35,4 @@ const effectsArray = (type, serverQueue) => {
     return activeEffects;
 }
 
-module.exports = effectsArray;
+module.exports = effectsString;

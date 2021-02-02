@@ -27,7 +27,7 @@ const streamhandler = {
 
 
         // Create ffmpeg encoder arguments
-        let sfxArgs = serverQueue.effectsArray(`ffmpeg`);
+        let sfxArgs = serverQueue.effectsString(`ffmpeg`);
 
         // Create stream
         const stream = ytdl(song.url, {
