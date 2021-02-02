@@ -5,6 +5,12 @@ const queueSong = require(`./functions/queueSong.js`);
 const queuePlaylist = require(`./functions/queuePlaylist.js`);
 
 class Queue {
+    /**
+     * Queue constructor
+     * 
+     * @param {Object} textChannel Text channel to bind the queue to
+     * @param {Object} voiceChannel Voice channel to bind the queue to
+     */
     constructor (textChannel, voiceChannel) {
         this.textChannel = textChannel;
         this.channel = voiceChannel;
@@ -29,14 +35,36 @@ class Queue {
         };
     }
 
+
+    /**
+     * Adds a song to the queue
+     * 
+     * @param {Object} song A song object
+     * @param {Object} message The message that requested the song
+     * @param {boolean} hidden If the queued song embed should be sent
+     */
     queueSong (song, message, hidden) {
         queueSong(song, message, hidden, this);
     }
 
+
+    /**
+     * Adds songs within a playlist to the queue
+     * 
+     * @param {Object} playlist Playlist object from ytpl to queue
+     * @param {Object} message The message that requested the playlist
+     */
     queuePlaylist (playlist, message) {
         queuePlaylist(playlist, message, this);
     }
 
+
+    /**
+     * Generates a string based off of active effects
+     * 
+     * @param {string} type The type of array to request
+     * @returns {string} The generated effects string based on type
+     */
     effectsArray (type) {
         return effectsArray(type, this);
     }

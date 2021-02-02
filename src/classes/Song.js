@@ -5,6 +5,12 @@ const getFormat = require(`./functions/getFormat.js`);
 
 /* Song Class */
 class Song {
+    /**
+     * Song constructor
+     * 
+     * @param {Object} songInfo Song info from ytdl-core
+     * @param {string} messageAuthorTag Author of the song request
+     */
     constructor (songInfo, messageAuthorTag) {
         this.title = songInfo.videoDetails.title.replace(/-|\*|_|\|/g, ` `);
         this.livestream = songInfo.videoDetails.isLiveContent;
