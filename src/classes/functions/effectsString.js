@@ -1,5 +1,10 @@
-/* Function to create an array based off of the queue's effects values */
-
+/**
+ *  Generates a string based off of active effects
+ * 
+ * @param {string} type The type of string to request (ffmpeg, formatted)
+ * @param {Object} serverQueue Server queue object (this)
+ * @returns {string} The generated effects string based on type
+ */
 const effectsString = (type, serverQueue) => {
     let activeEffects = [];
 
@@ -33,6 +38,6 @@ const effectsString = (type, serverQueue) => {
     }
 
     return activeEffects;
-}
+};
 
 module.exports = effectsString;

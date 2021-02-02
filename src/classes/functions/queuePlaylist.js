@@ -1,11 +1,16 @@
-/* Function to queue a provided playlist */
-
 const Discord = require(`discord.js-light`);
 const ytdl = require(`ytdl-core`);
 const log = require(`../../modules/log.js`);
 const Song = require(`../Song.js`);
 const requestHeaders = require(`../../modules/requestHeaders.js`);
 
+/**
+ * Adds songs within a playlist to the queue
+ * 
+ * @param {Object} playlist Playlist object from ytpl to queue
+ * @param {Object} message The message that requested the playlist
+ * @param {Object} serverQueue Server queue object (this)
+ */
 const queuePlaylist = async (playlist, message, serverQueue) => {
     let attemptingToQueueEmbed = new Discord.MessageEmbed()
         .setColor(0xdbbe00)
