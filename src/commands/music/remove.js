@@ -27,6 +27,9 @@ module.exports = {
         // Removes the specified song from the queue
         const song = serverQueue.songs.splice(specifiedValue - 1, 1);
 
+        // Change the current song index if needed
+        if (specifiedValue - 1 < serverQueue.currentSong) serverQueue.currentSong--;
+
         let removeEmbed = new Discord.MessageEmbed()
             .setColor(0xff668a)
             .setTitle(`❌  Removed **${song[0].title}** from the queue!`);
