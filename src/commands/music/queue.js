@@ -7,7 +7,7 @@ module.exports = {
     name: `queue`,
     description: `Lists the queue`,
     guildOnly: true,
-    aliases: [`q`],
+    aliases: [`q`, `list`, `ls`],
     async execute (client, message, args) {
         // If the queue is empty reply with an error
         const serverQueue = message.client.queue.get(message.guild.id);
