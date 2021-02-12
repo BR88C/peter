@@ -6,6 +6,12 @@ const log = require(`./log.js`);
 const requestHeaders = require(`./requestHeaders.js`);
 
 const streamhandler = {
+    /**
+     * Stream a song to a VC
+     * 
+     * @param {object} song Song object to play
+     * @param {object} message Message sent that queued song
+     */
     async play (song, message) {
         const serverQueue = message.client.queue.get(message.guild.id);
 
@@ -23,6 +29,7 @@ const streamhandler = {
             }
         }
 
+        // If server queue is not defined, return
         if (!serverQueue) return;
 
 
@@ -101,7 +108,12 @@ const streamhandler = {
         if (!serverQueue.songs[serverQueue.currentSong].hidden) serverQueue.textChannel.send(playingEmbed);
     },
 
-    /* Restarts a stream at a specified time */
+    /**
+     * Restarts a stream at a specified time
+     * 
+     * @param {object} serverQueue Server queue object
+     * @param {number} startTime Time to start stream at
+     */
     async restartStream (serverQueue, startTime) {
         if (!serverQueue.songs[serverQueue.currentSong].livestream) serverQueue.songs[serverQueue.currentSong].startTime = startTime;
         serverQueue.songs[serverQueue.currentSong].hidden = true;

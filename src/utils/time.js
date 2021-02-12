@@ -1,5 +1,9 @@
-/* Generates a timestamp based on the time specified in seconds */
-
+/**
+ * Generates a timestamp based on the time specified in seconds
+ * 
+ * @param {number} time Time provided in seconds
+ * @returns {string} Timestamp string
+ */
 const time = (time) => {
     const hours = Math.floor(time / 60 / 60);
     const minutes = Math.floor(time / 60) - (hours * 60);

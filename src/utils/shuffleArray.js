@@ -1,5 +1,9 @@
-/* Shuffles a provided array */
-
+/**
+ * Shuffles a provided array
+ * 
+ * @param {array} array Array to be shuffled
+ * @returns {array} Shuffled Array
+ */
 const shuffleArray = (array) => {
     let currentIndex = array.length, temporaryValue, randomIndex;
 

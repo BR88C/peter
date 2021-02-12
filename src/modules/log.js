@@ -1,5 +1,11 @@
-/* Used to make complex logging easier and shorter */
-
+/**
+ * Simplified logging method
+ * 
+ * @param {string} content Log content
+ * @param {string} color Log color
+ * @param {object} discordMessage Discord message object
+ * @param {*} options Options - Requires discordMessage to be defined (server => If the message guild should be logged; user => If the message author should be logged)
+ */
 const log = (content, color, discordMessage, options) => {
     // Create Variables
     let logColor;

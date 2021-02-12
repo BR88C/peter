@@ -5,6 +5,11 @@ const log = require(`./log.js`);
 const randomInt = require(`../utils/randomInt.js`);
 
 const requestHeaders = {
+    /**
+     * Check headers
+     * 
+     * @returns {boolean} If headers are defined properly
+     */
     checkHeaders: () => {
         if (!process.env.COOKIES) {
             log(`WARNING: Cookies request header is undefined.`, `yellow`)
@@ -37,6 +42,11 @@ const requestHeaders = {
         return true;
     },
 
+    /**
+     * Get headers object
+     * 
+     * @returns {object} Header object
+     */
     getHeaders: () => {
         if (!requestHeaders.checkHeaders()) return;
 
@@ -54,6 +64,9 @@ const requestHeaders = {
         };
     },
 
+    /**
+     * Sets default headers that mimicks a browser
+     */
     setDefaultHeaders: () => {
         const getFirefoxUserAgent = () => {
             let date = new Date();
@@ -68,7 +81,7 @@ const requestHeaders = {
 
         miniget.defaultOptions.headers = headers;
 
-        log(`Successfully set miniget headers!`, `green`);
+        return log(`Successfully set miniget headers!`, `green`);
     }
 };
 

@@ -8,7 +8,7 @@ class Song {
     /**
      * Song constructor
      * 
-     * @param {Object} songInfo Song info from ytdl-core
+     * @param {object} songInfo Song info from ytdl-core
      * @param {string} messageAuthorTag Author of the song request
      */
     constructor (songInfo, messageAuthorTag) {

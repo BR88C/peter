@@ -1,7 +1,8 @@
-/* Display a header for logging */
-
 const config = require(`../config/config.js`);
 
+/**
+ * Creates a header for logging
+ */
 const logHeader = () => {
     console.log(`\x1b[34m`, `______    _            _ `);
     console.log(`\x1b[34m`, `| ___ \\  | |          | |`);

@@ -8,8 +8,8 @@ class Queue {
     /**
      * Queue constructor
      * 
-     * @param {Object} textChannel Text channel to bind the queue to
-     * @param {Object} voiceChannel Voice channel to bind the queue to
+     * @param {object} textChannel Text channel to bind the queue to
+     * @param {object} voiceChannel Voice channel to bind the queue to
      */
     constructor (textChannel, voiceChannel) {
         this.textChannel = textChannel;
@@ -39,8 +39,8 @@ class Queue {
     /**
      * Adds a song to the queue
      * 
-     * @param {Object} song A song object
-     * @param {Object} message The message that requested the song
+     * @param {object} song A song object
+     * @param {object} message The message that requested the song
      * @param {boolean} hidden If the queued song embed should be sent
      */
     queueSong (song, message, hidden) {
@@ -51,8 +51,8 @@ class Queue {
     /**
      * Adds songs within a playlist to the queue
      * 
-     * @param {Object} playlist Playlist object from ytpl to queue
-     * @param {Object} message The message that requested the playlist
+     * @param {object} playlist Playlist object from ytpl to queue
+     * @param {object} message The message that requested the playlist
      */
     queuePlaylist (playlist, message) {
         queuePlaylist(playlist, message, this);

@@ -8,7 +8,11 @@ const requestHeaders = require(`./requestHeaders.js`);
 const logHeader = require(`../utils/logHeader.js`);
 
 const loader = {
-    /* Load variables and save on client */
+    /**
+     * Load variables and save on client
+     * 
+     * @param {object} client Client object
+     */
     async loadVariables (client) {
         if (process.env.DBL_TOKEN) {
             client.dbl = new DBL(process.env.DBL_TOKEN, client);
@@ -19,7 +23,11 @@ const loader = {
         client.pjson = require(`../../package.json`);
     },
 
-    /* Load events */
+    /**
+     * Load events
+     * 
+     * @param {object} client Client object
+     */
     async loadEvents (client) {
         const eventFiles = fs.readdirSync(`./src/events`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
         for (const file of eventFiles) {
@@ -31,7 +39,11 @@ const loader = {
         log(`Finished loading events!`, `green`);
     },
 
-    /* Load directories and commands */
+    /**
+     * Load directories and commands
+     * 
+     * @param {object} client Client object
+     */
     async loadCommands (client) {
         client.commands = new Discord.Collection();
         client.directories = new Discord.Collection();
@@ -52,7 +64,11 @@ const loader = {
         log(`Finished loading commands!`, `green`);
     },
 
-    /* Run all methods */
+    /**
+     * Run all loader methods
+     * 
+     * @param {object} client Client object
+     */
     async start (client) {
         logHeader();
         await this.loadVariables(client);

@@ -3,7 +3,7 @@ const ytdl = require(`ytdl-core`);
 /**
  * Function to get video format
  * 
- * @param {Object} songInfo Song info from ytdl-core
+ * @param {object} songInfo Song info from ytdl-core
  * @returns {string} iTag
  */
 const getFormat = (songInfo) => {
