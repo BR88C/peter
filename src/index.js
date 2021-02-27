@@ -20,9 +20,7 @@ const client = new Discord.Client({
 
 
 /* Catch unhandled promise rejection errors */
-process.on(`unhandledRejection`, error => {
-    log(`Unhandled promise rejection: ${JSON.stringify(error)}`, `red`);
-});
+process.on(`unhandledRejection`, error => log(error, `red`));
 
 
 /* Load all commands, events, and variables, then authenticate with Discord */
