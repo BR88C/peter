@@ -119,7 +119,7 @@ module.exports = {
         const emojiGuild = client.guilds.forge(client.config.emojiGuild);
         const textChannel = await emojiGuild.emojis.fetch(client.config.emojis.textChannel);
         const voiceChannel = await emojiGuild.emojis.fetch(client.config.emojis.voiceChannel);
-        const nowPlayingEmojis = [message.client.config.emojis.nowPlaying, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepjam]
+        const nowPlayingEmojis = [message.client.config.emojis.nowPlaying, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepojam]
         const nowPlayingEmoji = await emojiGuild.emojis.fetch(nowPlayingEmojis[randomInt(0, nowPlayingEmojis.length - 1)]);
 
         let title;
