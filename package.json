@@ -4,7 +4,7 @@
   "description": "A 24/7 music bot with free audio effects/filters (SFX)",
   "main": "index.js",
   "scripts": {
-    "start": "node --max-old-space-size=1024 ./src/index.js",
+    "start": "node --max-old-space-size=768 ./src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,17 +15,17 @@
   "license": "GPL-3.0",
   "homepage": "https://github.com/BR88C/peter#readme",
   "dependencies": {
-    "@discordjs/opus": "0.3.3",
+    "@discordjs/opus": "^0.4.0",
     "dblapi.js": "^2.4.1",
-    "discord-ytdl-core": "^5.0.0",
+    "discord-ytdl-core": "^5.0.1",
     "discord.js": "^12.5.1",
-    "discord.js-light": "^3.5.3",
+    "discord.js-light": "^3.5.4",
     "dotenv": "^8.2.0",
     "ffmpeg-static": "^4.2.7",
     "miniget": "^4.2.0",
-    "prism-media": "^1.2.4",
-    "ytdl-core": "^4.4.5",
+    "prism-media": "^1.2.7",
+    "ytdl-core": "^4.5.0",
     "ytpl": "^2.0.5",
-    "ytsr": "^3.2.4"
+    "ytsr": "^3.3.1"
   }
 }
