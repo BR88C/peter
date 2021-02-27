@@ -44,7 +44,7 @@ module.exports = {
             return message.channel.send(effectsEmbed);
 
         } else if (args.length) {
-            let effectCommands = [`bass`, `bassboost`, `flanger`, `highpass`, `lowpass`, `phaser`, `pitch`, `speed`, `treble`, `vibrato`];
+            let effectCommands = [`bass`, `bassboost`, `flanger`, `highpass`, `lowpass`, `phaser`, `pitch`, `speed`, `treble`, `vibrato`, `volume`, `v`];
 
             if (effectCommands.indexOf(args[0].toLowerCase()) > -1) {
                 // Get command name and shift args
