@@ -4,6 +4,7 @@ const Discord = require(`discord.js-light`);
 const ytdl = require(`discord-ytdl-core`);
 const log = require(`./log.js`);
 const requestHeaders = require(`./requestHeaders.js`);
+const randomInt = require(`../utils/randomInt.js`);
 
 const streamhandler = {
     /**
@@ -95,7 +96,7 @@ const streamhandler = {
 
         // Get emojis
         const emojiGuild = message.client.guilds.forge(message.client.config.emojiGuild);
-        const nowPlaying = await emojiGuild.emojis.fetch(message.client.config.emojis.nowPlaying);
+        const nowPlaying = await emojiGuild.emojis.fetch(randomInt(1, 10) < 8 ? message.client.config.emojis.nowPlaying : message.client.config.emojis.conga);
 
         let playingEmbed = new Discord.MessageEmbed()
             .setColor(0x5ce6c8)
