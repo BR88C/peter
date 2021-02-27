@@ -18,5 +18,5 @@ module.exports = async (client) => {
     log(`Ready! Serving ${guilds} guilds!`, `green`);
     log(`\n**************************************************************************\n`, `white`);
 
-    setInterval(() => setPresence(), 6e5);
+    setInterval(setPresence, 6e5);
 }
