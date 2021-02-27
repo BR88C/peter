@@ -17,7 +17,7 @@ module.exports = {
         if (serverQueue.songs[serverQueue.currentSong].livestream) return message.reply(`this command does not support livestreams!`);
 
         // Sets the type of loop based on arguments provided
-        if (args[0].toLowerCase() === `off`) {
+        if (args.length && args[0].toLowerCase() === `off`) {
             serverQueue.loop = `off`;
 
             let loopEmbed = new Discord.MessageEmbed()
@@ -27,7 +27,7 @@ module.exports = {
             return message.channel.send(loopEmbed);
 
 
-        } else if (args[0].toLowerCase() === `single`) {
+        } else if (args.length && args[0].toLowerCase() === `single`) {
             serverQueue.loop = `single`;
 
             let loopEmbed = new Discord.MessageEmbed()
