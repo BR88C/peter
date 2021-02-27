@@ -3,7 +3,7 @@ const log = require(`../../modules/log.js`);
 
 module.exports = {
     name: `247`,
-    description: `Makes the queue continue to play even if no users are in vc (Reminder, if loop is not enabled, Peter will go through the queue normally and may run out of music to play)`,
+    description: `Makes the queue continue to play even if no users are in VC (If loop is not enabled, the queue will automatically be looped)`,
     guildOnly: true,
     aliases: [`24/7`, `twentyfourseven`],
     usage: `[on/off]`,
@@ -27,6 +27,7 @@ module.exports = {
         // Sets the queue's 24/7 status based on arguments
         if (!args[0] || args[0].toLowerCase() === `on`) {
             serverQueue.twentyFourSeven = true;
+            if (serverQueue.loop === `off`) serverQueue.loop = `queue`;
 
             let twentyFourSevenEmbed = new Discord.MessageEmbed()
                 .setColor(0x9cd6ff)
