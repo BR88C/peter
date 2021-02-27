@@ -21,17 +21,17 @@ const effectsString = (type, serverQueue) => {
         activeEffects = activeEffects.join(`, `);
 
     } else if (type === `formatted`) {
-        if (serverQueue.effects.bass !== 0) activeEffects.push(`Bass = +${serverQueue.effects.bass}%`);
-        if (serverQueue.effects.flanger !== 0) activeEffects.push(`Flanger = ${serverQueue.effects.flanger}%`);
-        if (serverQueue.effects.lowpass !== 0) activeEffects.push(`Lowpass = +${serverQueue.effects.lowpass}%`);
-        if (serverQueue.effects.highpass !== 0) activeEffects.push(`Highpass = +${serverQueue.effects.highpass}%`);
-        if (serverQueue.effects.phaser !== 0) activeEffects.push(`Phaser = ${serverQueue.effects.phaser}%`);
-        if (serverQueue.effects.pitch !== 100) activeEffects.push(`Pitch = ${serverQueue.effects.pitch}%`);
-        if (serverQueue.effects.speed !== 100) activeEffects.push(`Speed = ${serverQueue.effects.speed}%`);
-        if (serverQueue.effects.treble !== 0) activeEffects.push(`Treble = +${serverQueue.effects.treble}%`);
-        if (serverQueue.effects.vibrato !== 0) activeEffects.push(`Vibrato = ${serverQueue.effects.vibrato}%`);
-        if (serverQueue.volume !== 100) activeEffects.push(`Volume = ${serverQueue.volume}%`)
-        activeEffects = activeEffects[0] ? `\`\`\`${activeEffects.join(`, `)}\`\`\`` : `\`\`\`No Active effects\`\`\``;
+        if (serverQueue.effects.bass !== 0) activeEffects.push(`Bass = +${serverQueue.effects.bass}﹪`);
+        if (serverQueue.effects.flanger !== 0) activeEffects.push(`Flanger = ${serverQueue.effects.flanger}﹪`);
+        if (serverQueue.effects.lowpass !== 0) activeEffects.push(`Lowpass = +${serverQueue.effects.lowpass}﹪`);
+        if (serverQueue.effects.highpass !== 0) activeEffects.push(`Highpass = +${serverQueue.effects.highpass}﹪`);
+        if (serverQueue.effects.phaser !== 0) activeEffects.push(`Phaser = ${serverQueue.effects.phaser}﹪`);
+        if (serverQueue.effects.pitch !== 100) activeEffects.push(`Pitch = ${serverQueue.effects.pitch}﹪`);
+        if (serverQueue.effects.speed !== 100) activeEffects.push(`Speed = ${serverQueue.effects.speed}﹪`);
+        if (serverQueue.effects.treble !== 0) activeEffects.push(`Treble = +${serverQueue.effects.treble}﹪`);
+        if (serverQueue.effects.vibrato !== 0) activeEffects.push(`Vibrato = ${serverQueue.effects.vibrato}﹪`);
+        if (serverQueue.volume !== 100) activeEffects.push(`Volume = ${serverQueue.volume}﹪`)
+        activeEffects = activeEffects[0] ? `\`\`\`prolog\n${activeEffects.join(`, `)}\n\`\`\`` : `\`\`\`diff\n-= No Active effects =-\n\`\`\``;
 
     } else {
         throw `Invalid effects array type`;
