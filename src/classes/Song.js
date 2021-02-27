@@ -1,6 +1,7 @@
 /* Song Class - Creates a song to be pushed to the queue based off of songInfo */
 
 const time = require(`../utils/time.js`);
+const cleanseMarkdown = require(`../utils/cleanseMarkdown.js`);
 const getFormat = require(`./functions/getFormat.js`);
 
 /* Song Class */
@@ -12,7 +13,7 @@ class Song {
      * @param {string} messageAuthorTag Author of the song request
      */
     constructor (songInfo, messageAuthorTag) {
-        this.title = songInfo.videoDetails.title.replace(/-|\*|_|\|/g, ` `);
+        this.title = cleanseMarkdown(songInfo.videoDetails.title);
         this.livestream = songInfo.videoDetails.isLiveContent;
         this.format = getFormat(songInfo);
         this.url = songInfo.videoDetails.video_url;
