@@ -95,13 +95,13 @@ const streamhandler = {
         dispatcher.setVolumeLogarithmic(serverQueue.volume / 250);
 
         // Get emojis
-        const emojis = [message.client.config.emojis.nowPlaying, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepjam]
         const emojiGuild = message.client.guilds.forge(message.client.config.emojiGuild);
-        const nowPlaying = await emojiGuild.emojis.fetch(emojis[randomInt(0, emojis.length - 1)]);
+        const nowPlayingEmojis = [message.client.config.emojis.nowPlaying, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepjam]
+        const nowPlayingEmoji = await emojiGuild.emojis.fetch(nowPlayingEmojis[randomInt(0, nowPlayingEmojis.length - 1)]);
 
         let playingEmbed = new Discord.MessageEmbed()
             .setColor(0x5ce6c8)
-            .setTitle(`${nowPlaying}  Started playing: ${song.title}`)
+            .setTitle(`${nowPlayingEmoji}  Started playing: ${song.title}`)
             .setImage(song.thumbnail)
             .setDescription(`**Link:** ${song.url}`)
             .setFooter(`Requested by: ${song.requestedBy}`)

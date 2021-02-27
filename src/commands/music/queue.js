@@ -2,6 +2,7 @@ const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
 const currentTime = require(`../../utils/currentTime.js`);
 const time = require(`../../utils/time.js`);
+const randomInt = require(`../../utils/randomInt.js`);
 
 module.exports = {
     name: `queue`,
@@ -114,18 +115,20 @@ module.exports = {
             queueList.push(`${current}**${i + 1}.** [${song.title}](${song.url}) [${song.timestamp}]`);
         }
 
-        let title;
-        if (serverQueue.songs[serverQueue.currentSong]) {
-            title = `**Now Playing**: ${currentSong.title} [${time(songTimeLeft)} remaining]`;
-        } else {
-            title = `**No song playing**`;
-        }
-        const thumbnail = currentSong.thumbnail;
-
         // Gets emojis
         const emojiGuild = client.guilds.forge(client.config.emojiGuild);
         const textChannel = await emojiGuild.emojis.fetch(client.config.emojis.textChannel);
         const voiceChannel = await emojiGuild.emojis.fetch(client.config.emojis.voiceChannel);
+        const nowPlayingEmojis = [message.client.config.emojis.nowPlaying, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepjam]
+        const nowPlayingEmoji = await emojiGuild.emojis.fetch(nowPlayingEmojis[randomInt(0, nowPlayingEmojis.length - 1)]);
+
+        let title;
+        if (serverQueue.songs[serverQueue.currentSong]) {
+            title = `${nowPlayingEmoji}  **Now Playing**: ${currentSong.title} [${time(songTimeLeft)} remaining]`;
+        } else {
+            title = `**No song playing**`;
+        }
+        const thumbnail = currentSong.thumbnail;
 
         // Generate the embed
         const generateQueueEmbed = async (queueContent) => {

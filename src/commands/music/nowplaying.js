@@ -3,6 +3,7 @@ const log = require(`../../modules/log.js`);
 const time = require(`../../utils/time.js`)
 const progressBar = require(`../../utils/progressBar.js`);
 const currentTime = require(`../../utils/currentTime.js`);
+const randomInt = require(`../../utils/randomInt.js`);
 
 module.exports = {
     name: `nowplaying`,
@@ -29,12 +30,16 @@ module.exports = {
             description = `\`\`\`${playingEmoji} ${time(completed)} ${progressBar(percentComplete, 25)} ${timestamp}\`\`\``;
         }
 
+        // Get emojis
+        const emojiGuild = message.client.guilds.forge(message.client.config.emojiGuild);
+        const nowPlayingEmojis = [message.client.config.emojis.nowPlaying, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepjam]
+        const nowPlayingEmoji = await emojiGuild.emojis.fetch(nowPlayingEmojis[randomInt(0, nowPlayingEmojis.length - 1)]);
 
         // Create embed
         let nowPlayingEmbed = new Discord.MessageEmbed()
             .setColor(0xb0ffe2)
             .setAuthor(`🎶 Currently playing:`)
-            .setTitle(`**${serverQueue.songs[serverQueue.currentSong].title}**`)
+            .setTitle(`${nowPlayingEmoji}  **${serverQueue.songs[serverQueue.currentSong].title}**  ${nowPlayingEmoji}`)
             .setURL(serverQueue.songs[serverQueue.currentSong].url)
             .setDescription(description)
             .setThumbnail(serverQueue.songs[serverQueue.currentSong].thumbnail)
