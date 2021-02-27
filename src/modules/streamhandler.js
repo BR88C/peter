@@ -95,8 +95,9 @@ const streamhandler = {
         dispatcher.setVolumeLogarithmic(serverQueue.volume / 250);
 
         // Get emojis
+        const emojis = [message.client.config.emojis.nowPlaying, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepjam]
         const emojiGuild = message.client.guilds.forge(message.client.config.emojiGuild);
-        const nowPlaying = await emojiGuild.emojis.fetch(randomInt(1, 10) < 8 ? message.client.config.emojis.nowPlaying : message.client.config.emojis.conga);
+        const nowPlaying = await emojiGuild.emojis.fetch(emojis[randomInt(0, emojis.length - 1)]);
 
         let playingEmbed = new Discord.MessageEmbed()
             .setColor(0x5ce6c8)
