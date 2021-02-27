@@ -28,9 +28,6 @@ module.exports = {
             completed = 0;
         }
 
-        // Gets active effects
-        let activeEffects = serverQueue.effectsString(`formatted`);
-
         // Gets total raw queue time
         let totalRawTime = 0;
         for (const song of serverQueue.songs) totalRawTime += song.rawTime;
@@ -164,7 +161,7 @@ module.exports = {
                     inline: true
                 }, {
                     name: `**Active Effects**`,
-                    value: activeEffects
+                    value: serverQueue.effectsString(`formatted`)
                 })
                 .setTimestamp(new Date());
 
