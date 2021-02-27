@@ -4,7 +4,7 @@ module.exports = {
     name: `loop`,
     description: `Specify if the current song should be looped`,
     guildOnly: true,
-    usage: `<off, single, or queue>`,
+    usage: `[off, single, or queue]`,
     async execute (client, message, args) {
         // If the queue is empty reply with an error
         const serverQueue = message.client.queue.get(message.guild.id);
@@ -17,10 +17,7 @@ module.exports = {
         if (serverQueue.songs[serverQueue.currentSong].livestream) return message.reply(`this command does not support livestreams!`);
 
         // Sets the type of loop based on arguments provided
-        if (!args.length) {
-            return message.reply(`that isn't a valid argument! You must specify "off", "single", or "queue".`);
-
-        } else if (args[0].toLowerCase() === `off`) {
+        if (args[0].toLowerCase() === `off`) {
             serverQueue.loop = `off`;
 
             let loopEmbed = new Discord.MessageEmbed()
@@ -40,7 +37,7 @@ module.exports = {
             return message.channel.send(loopEmbed);
 
 
-        } else if (args[0].toLowerCase() === `queue` || args[0].toLowerCase() === `q`) {
+        } else {
             serverQueue.loop = `queue`;
 
             let loopEmbed = new Discord.MessageEmbed()
@@ -48,10 +45,6 @@ module.exports = {
                 .setTitle(`🔁  Now looping the queue.`);
 
             return message.channel.send(loopEmbed);
-
-
-        } else {
-            return message.reply(`that isn't a valid argument! You must specify "off", "single", or "queue".`);
         }
     },
 }
