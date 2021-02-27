@@ -74,7 +74,6 @@ const loader = {
         await this.loadVariables(client);
         await this.loadEvents(client);
         await this.loadCommands(client);
-        requestHeaders.setDefaultHeaders();
         if (requestHeaders.checkHeaders()) log(`Request headers are properly defined!`, `green`);
     }
 };
