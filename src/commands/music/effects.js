@@ -9,7 +9,7 @@ module.exports = {
     description: `View / manage effects`,
     guildOnly: true,
     aliases: [`effect`, `eff`, `sfx`],
-    usage: `[An effects command, off or clear]`,
+    usage: `[An effects command, off, or clear]`,
     async execute (client, message, args) {
         // If the queue is empty reply with an error
         const serverQueue = message.client.queue.get(message.guild.id);
