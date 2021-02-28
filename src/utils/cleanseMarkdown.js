@@ -5,14 +5,12 @@
  * @returns The cleaned string
  */
 const cleanseMarkdown = (string) => {
-    string
-        .replace(`\``, `\\\``) // Backticks
-        .replace(`-`, `\\-`) // Hyphens
-        .replace(`*`, `\\*`) // Asterisks
-        .replace(`_`, `\\_`) // Underlines
-        .replace(`||`, `\\\|\\\|`); // Vertical bars
-
-    return string;
+    return string
+        .replace(/\`/g, `\\\``) // Backticks
+        .replace(/~/g, `\\-`) // Tildes
+        .replace(/\*/g, `\\*`) // Asterisks
+        .replace(/_/g, `\\_`) // Underlines
+        .replace(/\|/g, `\\|`); // Vertical bars
 };
 
 module.exports = cleanseMarkdown;
