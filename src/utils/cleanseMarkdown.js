@@ -10,7 +10,7 @@ const cleanseMarkdown = (string) => {
         .replace(`-`, `\\-`) // Hyphens
         .replace(`*`, `\\*`) // Asterisks
         .replace(`_`, `\\_`) // Underlines
-        .replace(`|`, `\\|`); // Vertical bars
+        .replace(`||`, `\\\|\\\|`); // Vertical bars
 
     return string;
 };
