@@ -29,10 +29,7 @@ module.exports = async (client, oldState, newState) => {
 
                 serverQueue.textChannel.send(leaveEmbed);
 
-                if (serverQueue.connection.dispatcher) {
-                    if (serverQueue.connection.dispatcher.streams && serverQueue.connection.dispatcher.streams.input) await serverQueue.connection.dispatcher.streams.input.emit(`close`);
-                    serverQueue.connection.dispatcher.destroy();
-                }
+
                 if (serverQueue.songs) serverQueue.songs = [];
             }
             if (client.queue) client.queue.delete(oldState.guild.id);

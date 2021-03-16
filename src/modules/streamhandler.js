@@ -104,10 +104,6 @@ const streamhandler = {
 
                 if (serverQueue) {
                     serverQueue.textChannel.send(errorEmbed);
-                    if (serverQueue.connection.dispatcher) {
-                        if (serverQueue.connection.dispatcher.streams && serverQueue.connection.dispatcher.streams.input) await serverQueue.connection.dispatcher.streams.input.emit(`close`);
-                        serverQueue.connection.dispatcher.destroy();
-                    }
                     if (serverQueue.songs) serverQueue.songs = [];
                 }
                 if (message.client.queue) message.client.queue.delete(message.guild.id);

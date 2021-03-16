@@ -20,10 +20,7 @@ module.exports = {
         if (message.guild.voice.connection) {
             if (serverQueue) {
                 if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to make me leave!`);
-                if (serverQueue.connection.dispatcher) {
-                    if (serverQueue.connection.dispatcher.streams && serverQueue.connection.dispatcher.streams.input) await serverQueue.connection.dispatcher.streams.input.emit(`close`);
-                    serverQueue.connection.dispatcher.destroy();
-                }
+
                 if (serverQueue.songs) serverQueue.songs = [];
             }
             if (message.client.queue) message.client.queue.delete(message.guild.id);
@@ -38,11 +35,8 @@ module.exports = {
         // If the bot is not in a vc, make sure the queue is cleared
         } else {
             if (serverQueue) {
-                if (serverQueue.connection.dispatcher) {
                     if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to make me leave!`);
-                    if (serverQueue.connection.dispatcher.streams && serverQueue.connection.dispatcher.streams.input) await serverQueue.connection.dispatcher.streams.input.emit(`close`);
-                    serverQueue.connection.dispatcher.destroy();
-                }
+
                 if (serverQueue.songs) serverQueue.songs = [];
             }
             if (message.client.queue) message.client.queue.delete(message.guild.id);
