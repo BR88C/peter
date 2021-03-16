@@ -5,7 +5,7 @@ module.exports = {
     name: `leave`,
     description: `Make the bot leave VC`,
     guildOnly: true,
-    aliases: [`l`, `disconnect`, `exit`, `dc`, `die`],
+    aliases: [`l`, `disconnect`, `exit`, `dc`, `stop`, `die`],
     async execute (client, message, args) {
         const serverQueue = message.client.queue.get(message.guild.id);
 
