@@ -61,8 +61,7 @@ const streamhandler = {
 
         // Create ffmpeg transcoder
         const transcoder = new FFmpeg({
-            args: ffmpegArgs,
-            shell: false
+            args: ffmpegArgs
         });
 
         // Create opus transcoder
