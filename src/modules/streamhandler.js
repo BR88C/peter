@@ -111,7 +111,7 @@ const streamhandler = {
             });
 
 
-        serverQueue.connection.on(`disconnect`, () => {
+        if (!serverQueue.connectionListenerAttached) serverQueue.connection.on(`disconnect`, () => {
             if (stream) stream.emit(`close`);
         });
 

@@ -15,6 +15,7 @@ class Queue {
         this.textChannel = textChannel;
         this.channel = voiceChannel;
         this.connection = null;
+        this.connectionListenerAttached = false;
         this.bitrate = voiceChannel.bitrate / 1000 || 128;
         this.songs = [];
         this.currentSong = 0;
