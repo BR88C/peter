@@ -57,11 +57,10 @@ const streamhandler = {
             `-ac`, `2`
         ];
         let sfxArgs = serverQueue.effectsString(`ffmpeg`);
-        if (sfxArgs.length !== 0) ffmpegArgs.concat([`-af`, sfxArgs])
 
         // Create ffmpeg transcoder
         const transcoder = new FFmpeg({
-            args: ffmpegArgs
+            args: sfxArgs.length !== 0 ? ffmpegArgs.concat([`-af`, sfxArgs]) : ffmpegArgs,
         });
 
         // Create opus transcoder
