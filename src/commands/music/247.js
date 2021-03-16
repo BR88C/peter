@@ -5,6 +5,7 @@ module.exports = {
     name: `247`,
     description: `Makes the queue continue to play even if no users are in VC (If loop is not enabled, the queue will automatically be looped)`,
     guildOnly: true,
+    voteLocked: true,
     aliases: [`24/7`, `twentyfourseven`],
     usage: `[on/off]`,
     async execute (client, message, args) {
@@ -14,15 +15,6 @@ module.exports = {
 
         // Checks if the user is in the VC
         if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to make the music 24/7!`);
-
-        // Checks if the user has voted
-        let voteEmbed = new Discord.MessageEmbed()
-            .setColor(0xff0000)
-            .setTitle(`You must vote to use this command!`)
-            .setDescription(`To vote for Peter, go to his top.gg page [here](${client.config.links.voteLink}) and click the vote button.\nReminder that your vote status is reset every 12 hours.`)
-
-        const voted = await client.dbl.hasVoted(message.author.id)
-        if (!voted) return message.channel.send(voteEmbed);
 
         // Sets the queue's 24/7 status based on arguments
         if (!args[0] || args[0].toLowerCase() === `on`) {

@@ -6,6 +6,7 @@ module.exports = {
     description: ``,
     args: false,
     guildOnly: false,
+    voteLocked: false,
     devOnly: false,
     hide: false,
     aliases: [],

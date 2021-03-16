@@ -46,6 +46,19 @@ const executeCommand = (commandName, args, client, message) => {
         return message.channel.send(guildOnlyEmbed);
     }
 
+    // Checks if command is vote locked
+    if (command.voteLocked && client.dbl) {
+        const voted = await client.dbl.hasVoted(message.author.id);
+        if (!voted && !client.config.devs.ids.includes(message.author.id.toString())) {
+            let voteEmbed = new Discord.MessageEmbed()
+                .setColor(0xff0000)
+                .setTitle(`You must vote to use this command!`)
+                .setDescription(`To vote for Peter, go to his top.gg page [here](${client.config.links.voteLink}) and click the vote button.\nReminder that your vote status is reset every 12 hours.`)
+
+            return message.channel.send(voteEmbed);
+        }
+    }
+
     // Checks if command is Dev Only
     if (command.devOnly && !client.config.devs.ids.includes(message.author.id.toString())) {
         let devOnlyError;
