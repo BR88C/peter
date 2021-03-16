@@ -4,7 +4,7 @@
   "description": "A 24/7 music bot with free audio effects/filters (SFX)",
   "main": "index.js",
   "scripts": {
-    "start": "node --max-old-space-size=768 ./src/index.js",
+    "start": "node --max-old-space-size=512 ./src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
