@@ -9,7 +9,7 @@ const log = require(`../modules/log.js`);
  * @param {object} client Client object
  * @param {object} message Message object
  */
-const executeCommand = (commandName, args, client, message) => {
+const executeCommand = async (commandName, args, client, message) => {
     // Get the command
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
