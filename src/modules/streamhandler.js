@@ -1,7 +1,14 @@
 /* Handles creating and running a stream for a specified song, restarting streams, and pushing the queue when a song ends */
 
 const Discord = require(`discord.js-light`);
-const ytdl = require(`discord-ytdl-core`);
+const ytdl = require(`ytdl-core`);
+const {
+    FFmpeg,
+    opus
+} = require(`prism-media`);
+const {
+    pipeline
+} = require(`stream`);
 const log = require(`./log.js`);
 const requestHeaders = require(`./requestHeaders.js`);
 const randomInt = require(`../utils/randomInt.js`);
@@ -33,20 +40,42 @@ const streamhandler = {
         // If server queue is not defined, return
         if (!serverQueue) return;
 
-
-        // Create ffmpeg encoder arguments
-        let sfxArgs = serverQueue.effectsString(`ffmpeg`);
-
-        // Create stream
-        const stream = ytdl(song.url, {
-            seek: song.startTime,
-            opusEncoded: true,
-            highWaterMark: 1 << 20,
+        // Create ytdl stream
+        const ytdlStream = ytdl(song.url, {
+            highWaterMark: 1 << 19,
             quality: song.format,
-            encoderArgs: sfxArgs.length !== 0 ? [`-af`, sfxArgs] : undefined,
             requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
         });
 
+        // Create ffmpeg encoder arguments
+        const ffmpegArgs = [
+            `-ss`, song.startTime.toString(),
+            `-analyzeduration`, `0`,
+            `-loglevel`, `0`,
+            `-f`, `s16le`,
+            `-ar`, `48000`,
+            `-ac`, `2`
+        ];
+        let sfxArgs = serverQueue.effectsString(`ffmpeg`);
+        if (sfxArgs.length !== 0) ffmpegArgs.concat([`-af`, sfxArgs])
+
+        // Create ffmpeg transcoder
+        const transcoder = new FFmpeg({
+            args: ffmpegArgs,
+            shell: false
+        });
+
+        // Create opus transcoder
+        const opusTranscoder = new opus.Encoder({
+            rate: 48000,
+            channels: 2,
+            frameSize: 960
+        });
+
+        // Create stream
+        const stream = pipeline(ytdlStream, transcoder, opusTranscoder, (error) => {
+            if (error && error.message !== `Premature close`) log(error, `red`);
+        });
 
         // Play the stream
         const dispatcher = serverQueue.connection.play(stream, {
