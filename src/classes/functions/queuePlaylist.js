@@ -21,6 +21,7 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
         .setTitle(`Stopped queuing playlist due to server queue being deleted.`);
 
     let songsAdded = 0;
+    let lastEdit = 0;
     let success = true;
     await message.channel.send(attemptingToQueueEmbed).then(async msg => {
         for (const video of playlist.items) {
@@ -53,7 +54,8 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
                 .setColor(0xdbbe00)
                 .setTitle(`Queued ${songsAdded}/${playlist.items.length + 1} songs...`);
 
-            await msg.edit(attemptingToQueueEmbed);
+            if (Date.now() - lastEdit > 1e3) msg.edit(attemptingToQueueEmbed);
+            lastEdit = Date.now();
         }
 
         await msg.delete().catch((error) => log(error, `red`));
