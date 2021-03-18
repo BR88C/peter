@@ -78,9 +78,6 @@ const streamhandler = {
 
         // Create stream
         serverQueue.songs[serverQueue.currentSong].stream = pipeline(ytdlStream, transcoder, opusTranscoder, (error) => {
-            if (ytdlStream) ytdlStream.destroy((error) => log(error, `red`));
-            if (transcoder) transcoder.destroy((error) => log(error, `red`));
-            if (opusTranscoder) opusTranscoder.destroy((error) => log(error, `red`));
             if (error && error.message !== `Premature close`) log(error, `red`);
         });
 
@@ -92,7 +89,6 @@ const streamhandler = {
             // When the song ends
             .on(`finish`, (reason) => {
                 if(serverQueue.songs[serverQueue.currentSong]) {
-                    if (serverQueue.songs[serverQueue.currentSong].stream) serverQueue.songs[serverQueue.currentSong].stream.emit(`close`);
                     if (serverQueue.loop === `single` && !serverQueue.songs[serverQueue.currentSong].livestream) {
                         serverQueue.songs[serverQueue.currentSong].startTime = 0;
                         serverQueue.songs[serverQueue.currentSong].hidden = false;
@@ -111,8 +107,6 @@ const streamhandler = {
                     .setColor(0xff4a4a)
                     .setTitle(`An unknown error occured. If the problem persists please report the issue in the support server.`)
                     .setDescription(`Link: ${message.client.config.links.supportServer}`);
-
-                if (serverQueue.songs[serverQueue.currentSong].stream) serverQueue.songs[serverQueue.currentSong].stream.emit(`close`);
 
                 if (serverQueue) {
                     serverQueue.textChannel.send(errorEmbed);
