@@ -1,4 +1,5 @@
 const Discord = require(`discord.js-light`);
+const log = require(`../../modules/log.js`);
 const currentTime = require(`../../utils/currentTime.js`);
 const time = require(`../../utils/time.js`);
 

@@ -1,6 +1,7 @@
 /* Leaves VCs if only the bot is present, or if bot is manually disconnected from vc */
 
 const Discord = require(`discord.js-light`);
+const log = require(`../modules/log.js`);
 
 module.exports = async (client, oldState, newState) => {
     // If a user leaves
