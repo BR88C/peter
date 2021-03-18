@@ -56,7 +56,7 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
 
             if (Date.now() - lastEdit > 1e3) {
                 lastEdit = Date.now();
-                msg.edit(attemptingToQueueEmbed);
+                await msg.edit(attemptingToQueueEmbed);
             }
         }
 
