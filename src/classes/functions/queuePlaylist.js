@@ -26,16 +26,14 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
         for (const video of playlist.items) {
             if (!message.client.queue.get(message.guild.id)) {
                 message.channel.send(queueDeletedEmbed);
-                await msg.delete();
+                await msg.delete().catch((error) => log(error, `red`));;
                 return success = false;
             }
 
 
             const songInfo = await ytdl.getInfo(video.id, {
                 requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
-            }).catch((error) => {
-                log(error, `red`);
-            });
+            }).catch((error) => log(error, `red`));
 
             if (!songInfo) {
                 message.channel.send(`*Error adding "${video.title}" to the queue!*`);
@@ -59,7 +57,7 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
             await msg.edit(attemptingToQueueEmbed);
         }
 
-        await msg.delete();
+        await msg.delete().catch((error) => log(error, `red`));;
     });
 
     if (success) {

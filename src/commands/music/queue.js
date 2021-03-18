@@ -208,7 +208,9 @@ module.exports = {
                         return sendReactionQueueEmbed();
 
                     }).catch((error) => {
-                        msg.reactions.removeAll();
+                        log(error, `red`);
+                        msg.reactions.removeAll().catch((error) => log(error, `red`));
+                        return;
                     });
                 });
             }
