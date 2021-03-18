@@ -54,8 +54,10 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
                 .setColor(0xdbbe00)
                 .setTitle(`Queued ${songsAdded}/${playlist.items.length + 1} songs...`);
 
-            if (Date.now() - lastEdit > 1e3) msg.edit(attemptingToQueueEmbed);
-            lastEdit = Date.now();
+            if (Date.now() - lastEdit > 1e3) {
+                lastEdit = Date.now();
+                msg.edit(attemptingToQueueEmbed);
+            }
         }
 
         await msg.delete().catch((error) => log(error, `red`));
