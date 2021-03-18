@@ -3,7 +3,7 @@
 const Discord = require(`discord.js-light`);
 const presence = require(`../config/presence.js`);
 const log = require(`../modules/log.js`);
-const shuffleArray = require(`../utils/shuffleArray.js`)
+const shuffleArray = require(`../utils/shuffleArray.js`);
 
 module.exports = async (client) => {
     const guilds = await client.guilds.cache.size;
@@ -19,4 +19,4 @@ module.exports = async (client) => {
     log(`\n**************************************************************************\n`, `white`);
 
     setInterval(setPresence, 6e5);
-}
+};

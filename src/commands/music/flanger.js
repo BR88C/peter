@@ -35,5 +35,5 @@ module.exports = {
             .setTitle(`🎸  Set the flanger value to **${specifiedValue}%**`);
 
         return message.channel.send(flangerEmbed);
-    },
-}
+    }
+};

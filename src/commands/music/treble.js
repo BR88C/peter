@@ -35,5 +35,5 @@ module.exports = {
             .setTitle(`🎼  Set the treble to **+${specifiedValue}%**`);
 
         return message.channel.send(trebleEmbed);
-    },
-}
+    }
+};

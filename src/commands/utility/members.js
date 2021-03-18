@@ -13,5 +13,5 @@ module.exports = {
             .setDescription(await message.guild.memberCount);
 
         return message.channel.send(memberEmbed);
-    },
-}
+    }
+};

@@ -16,7 +16,7 @@ const randomInt = require(`../utils/randomInt.js`);
 const streamhandler = {
     /**
      * Stream a song to a VC. Will always play serverQueue.songs[serverQueue.currentSong]
-     * 
+     *
      * @param {object} song Song object to play
      * @param {object} message Message sent that queued song
      */
@@ -43,7 +43,7 @@ const streamhandler = {
                 if (typeof song.stream.destroy === `function`) song.stream.destroy();
                 song.stream = null;
             }
-        };
+        }
 
         // Create ytdl stream
         const ytdlStream = ytdl(serverQueue.songs[serverQueue.currentSong].url, {
@@ -86,9 +86,9 @@ const streamhandler = {
 
         // Play the stream
         const dispatcher = serverQueue.connection.play(serverQueue.songs[serverQueue.currentSong].stream, {
-                type: `opus`,
-                bitrate: serverQueue.bitrate
-            })
+            type: `opus`,
+            bitrate: serverQueue.bitrate
+        })
             // When the song ends
             .on(`finish`, (reason) => {
                 if (serverQueue.songs[serverQueue.currentSong].stream) serverQueue.songs[serverQueue.currentSong].stream.emit(`close`);
@@ -120,7 +120,7 @@ const streamhandler = {
                                 if (typeof song.stream.destroy === `function`) song.stream.destroy();
                                 song.stream = null;
                             }
-                        };
+                        }
                         serverQueue.songs = [];
                     }
                 }
@@ -133,7 +133,7 @@ const streamhandler = {
 
         // Get emojis
         const emojiGuild = message.client.guilds.forge(message.client.config.emojiGuild);
-        const nowPlayingEmojis = [message.client.config.emojis.nowPlaying, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepojam]
+        const nowPlayingEmojis = [message.client.config.emojis.nowPlaying, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepojam];
         const nowPlayingEmoji = await emojiGuild.emojis.fetch(nowPlayingEmojis[randomInt(0, nowPlayingEmojis.length - 1)]);
 
         let playingEmbed = new Discord.MessageEmbed()
@@ -149,7 +149,7 @@ const streamhandler = {
 
     /**
      * Restarts a stream at a specified time
-     * 
+     *
      * @param {object} serverQueue Server queue object
      * @param {number} startTime Time to start stream at
      */

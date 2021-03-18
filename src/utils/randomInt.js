@@ -1,6 +1,6 @@
 /**
  * Generates a random integer between min and max
- * 
+ *
  * @param {number} min Min output
  * @param {number} max Max output
  * @returns {number} Random integer

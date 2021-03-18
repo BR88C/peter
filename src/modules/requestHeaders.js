@@ -1,33 +1,32 @@
 /* Functions for handling request headers */
 
-const miniget = require(`miniget`);
 const log = require(`./log.js`);
 const randomInt = require(`../utils/randomInt.js`);
 
 const requestHeaders = {
     /**
      * Check headers
-     * 
+     *
      * @returns {boolean} If headers are defined properly
      */
     checkHeaders: () => {
         if (!process.env.COOKIES) {
-            log(`WARNING: Cookies request header is undefined.`, `yellow`)
+            log(`WARNING: Cookies request header is undefined.`, `yellow`);
             return false;
         }
 
         if (!process.env.YOUTUBE_IDENTITY_TOKENS) {
-            log(`WARNING: Youtube identity token request header is undefined.`, `yellow`)
+            log(`WARNING: Youtube identity token request header is undefined.`, `yellow`);
             return false;
         }
 
         if (typeof process.env.COOKIES !== `string`) {
-            log(`WARNING: Cookies request header is not defined properly.`, `yellow`)
+            log(`WARNING: Cookies request header is not defined properly.`, `yellow`);
             return false;
         }
 
         if (typeof process.env.YOUTUBE_IDENTITY_TOKENS !== `string`) {
-            log(`WARNING: Youtube identity token request header is not defined properly.`, `yellow`)
+            log(`WARNING: Youtube identity token request header is not defined properly.`, `yellow`);
             return false;
         }
 
@@ -35,7 +34,7 @@ const requestHeaders = {
         let identityToken = JSON.parse(process.env.YOUTUBE_IDENTITY_TOKENS);
 
         if (cookies.length !== identityToken.length) {
-            log(`WARNING: Request headers array lengths do not match.`, `yellow`)
+            log(`WARNING: Request headers array lengths do not match.`, `yellow`);
             return false;
         }
 
@@ -44,7 +43,7 @@ const requestHeaders = {
 
     /**
      * Get headers object
-     * 
+     *
      * @returns {object} Header object
      */
     getHeaders: () => {

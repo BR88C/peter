@@ -35,5 +35,5 @@ module.exports = {
             .setTitle(`❌  Removed **${song[0].title}** from the queue!`);
 
         return message.channel.send(removeEmbed);
-    },
-}
+    }
+};

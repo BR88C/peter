@@ -15,5 +15,5 @@ module.exports = {
             .setDescription(`\`\`\`${ping}ms\`\`\``);
 
         return message.channel.send(pingEmbed);
-    },
-}
+    }
+};

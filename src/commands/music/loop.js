@@ -25,8 +25,6 @@ module.exports = {
                 .setTitle(`Looping has been turned off.`);
 
             return message.channel.send(loopEmbed);
-
-
         } else if (args.length && args[0].toLowerCase() === `single`) {
             serverQueue.loop = `single`;
 
@@ -35,8 +33,6 @@ module.exports = {
                 .setTitle(`🔂  Now looping the current song.`);
 
             return message.channel.send(loopEmbed);
-
-
         } else {
             serverQueue.loop = `queue`;
 
@@ -46,5 +42,5 @@ module.exports = {
 
             return message.channel.send(loopEmbed);
         }
-    },
-}
+    }
+};

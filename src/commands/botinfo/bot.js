@@ -31,7 +31,7 @@ module.exports = {
                 inline: true
             }, {
                 name: `**Ping**`,
-                value: `${Math.round(100*client.ws.ping)/100}ms`,
+                value: `${Math.round(100 * client.ws.ping) / 100}ms`,
                 inline: true
             }, {
                 name: `**Uptime**`,
@@ -52,5 +52,5 @@ module.exports = {
             });
 
         return message.channel.send(botInfoEmbed);
-    },
-}
+    }
+};

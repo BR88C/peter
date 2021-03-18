@@ -1,6 +1,6 @@
 /**
  * Checks if a value specified is valid
- * 
+ *
  * @param {any} input Input number
  * @param {number} min Max accepted value
  * @param {number} max Min accepted value

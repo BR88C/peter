@@ -35,5 +35,5 @@ module.exports = {
             .setTitle(`🎵  Set the vibrato to **${specifiedValue}%**`);
 
         return message.channel.send(vibratoEmbed);
-    },
-}
+    }
+};

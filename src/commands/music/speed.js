@@ -42,5 +42,5 @@ module.exports = {
             .setTitle(`🏃  Set the speed to **${specifiedValue}%**`);
 
         return message.channel.send(speedEmbed);
-    },
-}
+    }
+};

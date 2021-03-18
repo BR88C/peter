@@ -10,10 +10,10 @@ module.exports = {
     async execute (client, message, args) {
         // Check if user can mute
         const author = await message.guild.members.fetch(message.author.id, false);
-        if (!author.hasPermission('MANAGE_ROLES')) return message.reply(`you don't have permission to unmute! (Manage roles permission required)`);
+        if (!author.hasPermission(`MANAGE_ROLES`)) return message.reply(`you don't have permission to unmute! (Manage roles permission required)`);
 
         // Set up mute role and user
-        const mutedRole = message.guild.roles.cache.find(role => role.name.toLowerCase() === 'muted');
+        const mutedRole = message.guild.roles.cache.find(role => role.name.toLowerCase() === `muted`);
         const user = message.mentions.users.first();
         if (!user) return message.reply(`please specify a user to unmute!`);
 
@@ -42,5 +42,5 @@ module.exports = {
         await user.send(unmutedEmbed).catch((error) => log(error, `red`));
         await userGuildMember.roles.remove(mutedRole);
         return message.channel.send(logUnmutedEmbed);
-    },
-}
+    }
+};

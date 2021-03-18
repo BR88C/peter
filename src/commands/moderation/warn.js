@@ -10,12 +10,12 @@ module.exports = {
     async execute (client, message, args) {
         // Check if user can warn
         const author = await message.guild.members.fetch(message.author.id, false);
-        if (!author.hasPermission('MANAGE_MESSAGES')) return message.reply(`you don't have permission to warn! (Manage messages permission required)`);
+        if (!author.hasPermission(`MANAGE_MESSAGES`)) return message.reply(`you don't have permission to warn! (Manage messages permission required)`);
 
         // Set up reason and user
         let warnReason;
-        if (args.slice(1).join(' ')) {
-            warnReason = args.slice(1).join(' ');
+        if (args.slice(1).join(` `)) {
+            warnReason = args.slice(1).join(` `);
         } else {
             warnReason = `No reason specified`;
         }
@@ -38,5 +38,5 @@ module.exports = {
         log(`${user.tag} warned for ${warnReason}`, `yellow`, message, { server: true, regex: true });
         await user.send(warnEmbed).catch((error) => log(error, `red`));
         return message.channel.send(logWarnEmbed);
-    },
-}
+    }
+};

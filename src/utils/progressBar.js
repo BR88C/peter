@@ -1,6 +1,6 @@
 /**
  * Creates a progress bar based on the percent and length specified
- * 
+ *
  * @param {number} percent Percent of progress bar to show complete
  * @param {number} length Length of the progress bar
  * @returns {string} Progress bar string
@@ -19,7 +19,7 @@ const progressBar = (percent, length) => {
     let incomplete = `─`.repeat((length - 1) - lengthCompleted);
 
     // Return complete, a marker for the current position, and incomplete
-    return complete + `🔘` + incomplete;
+    return `${complete}🔘${incomplete}`;
 };
 
 module.exports = progressBar;

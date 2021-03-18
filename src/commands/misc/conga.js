@@ -19,7 +19,7 @@ module.exports = {
             playCommand.execute(client, message, args);
         } catch (error) {
             log(error, `red`);
-            return message.reply('there was an error trying to execute that command!');
+            return message.reply(`there was an error trying to execute that command!`);
         }
-    },
-}
+    }
+};

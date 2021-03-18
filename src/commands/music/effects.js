@@ -42,7 +42,6 @@ module.exports = {
 
             // Send embed
             return message.channel.send(effectsEmbed);
-
         } else if (args.length) {
             let effectCommands = [`bass`, `bassboost`, `flanger`, `highpass`, `lowpass`, `phaser`, `pitch`, `speed`, `treble`, `vibrato`, `volume`, `v`];
 
@@ -52,9 +51,7 @@ module.exports = {
 
                 // Execute the command
                 return executeCommand(commandName, args, client, message);
-
-            } else return message.reply(`please specify a valid argument!`)
-
+            } else return message.reply(`please specify a valid argument!`);
         } else {
             // Create embed
             let effectsEmbed = new Discord.MessageEmbed()
@@ -65,5 +62,5 @@ module.exports = {
             // Send embed
             return message.channel.send(effectsEmbed);
         }
-    },
-}
+    }
+};

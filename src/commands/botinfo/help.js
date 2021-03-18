@@ -12,7 +12,6 @@ module.exports = {
         const commands = message.client.commands;
         const directories = message.client.directories;
 
-
         // If no arguments, list categories
         if (!args.length) {
             // Create embed content
@@ -31,7 +30,6 @@ module.exports = {
             // Send embed
             return message.channel.send(helpEmbed);
         }
-
 
         // If the user specifies a category, list commands in category
         if (args[0].toLowerCase() !== `command`) {
@@ -66,7 +64,6 @@ module.exports = {
             return message.channel.send(helpEmbed);
         }
 
-
         // If the user specifies a command, list information on that command
         if (!args[1]) return message.reply(`please specify a command!`);
         const name = args[1].toLowerCase();
@@ -78,7 +75,7 @@ module.exports = {
         // Gets info on the command
         data.push(`**Name:** ${command.name}`);
         data.push(`**Category:** ${directories.get(command.directory).fullName}`);
-        if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
+        if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(`, `)}`);
         if (command.description) data.push(`**Description:** ${command.description}`);
         if (command.args) data.push(`**Arguments Required:** ${command.args}`);
         if (command.usage) data.push(`**Usage:** ${config.prefix}${command.name} ${command.usage}`);
@@ -95,5 +92,5 @@ module.exports = {
 
         // Send the Embed
         return message.channel.send(helpEmbed);
-    },
-}
+    }
+};

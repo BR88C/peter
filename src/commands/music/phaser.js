@@ -35,5 +35,5 @@ module.exports = {
             .setTitle(`🌊  Set the phaser value to **${specifiedValue}%**`);
 
         return message.channel.send(phaserEmbed);
-    },
-}
+    }
+};

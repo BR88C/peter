@@ -25,7 +25,7 @@ module.exports = {
         // Sets the starTime to 0 and hidden to false for all songs
         for (const song of serverQueue.songs) {
             song.startTime = 0;
-            song.hidden = false
+            song.hidden = false;
         }
 
         // Skips to the specified song
@@ -40,5 +40,5 @@ module.exports = {
             .setTitle(`⏭️  Skipped to **${serverQueue.songs[specifiedValue - 1].title}**!`);
 
         return message.channel.send(skippedToEmbed);
-    },
-}
+    }
+};

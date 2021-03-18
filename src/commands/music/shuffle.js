@@ -17,7 +17,7 @@ module.exports = {
         // Sets the starTime to 0 and hidden to false for all songs
         for (const song of serverQueue.songs) {
             song.startTime = 0;
-            song.hidden = false
+            song.hidden = false;
         }
 
         // Skips to the specified song
@@ -31,5 +31,5 @@ module.exports = {
             .setTitle(`🔀  Shuffled the queue`);
 
         return message.channel.send(shuffleEmbed);
-    },
-}
+    }
+};

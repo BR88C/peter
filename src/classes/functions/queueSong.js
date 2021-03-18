@@ -5,7 +5,7 @@ const time = require(`../../utils/time.js`);
 
 /**
  * Adds a song to the queue
- * 
+ *
  * @param {object} song A song object
  * @param {object} message The message that requested the song
  * @param {boolean} hidden If the queued song embed should be sent
@@ -48,7 +48,7 @@ const queueSong = async (song, message, hidden, serverQueue) => {
                 name: `**URL**`,
                 value: `[Link](${song.url})`,
                 inline: true
-            }, )
+            })
             .setFooter(`Requested by: ${song.requestedBy}`)
             .setTimestamp(new Date());
 
@@ -76,7 +76,6 @@ const queueSong = async (song, message, hidden, serverQueue) => {
                         .setTitle(`⏭️  Skipped to **${serverQueue.songs[songIndex].title}**!`);
 
                     channel.send(skippedToEmbed);
-
                 } else if (reaction.emoji.name === `❌`) {
                     const song = serverQueue.songs.splice(songIndex, 1);
 
@@ -88,12 +87,9 @@ const queueSong = async (song, message, hidden, serverQueue) => {
                 }
 
                 msg.delete().catch((error) => log(error, `red`));
-                return;
-
             }).catch((error) => {
                 log(error, `red`);
                 msg.reactions.removeAll().catch((error) => log(error, `red`));
-                return;
             });
         });
     }

@@ -13,5 +13,5 @@ module.exports = {
     usage: ``,
     async execute (client, message, args) {
 
-    },
-}
+    }
+};

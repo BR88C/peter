@@ -26,5 +26,5 @@ module.exports = {
             .setTitle(`🔁  Restarted the song`);
 
         return message.channel.send(replayEmbed);
-    },
-}
+    }
+};

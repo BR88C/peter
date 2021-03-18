@@ -32,5 +32,5 @@ module.exports = {
             .setTitle(`🔊  Set the volume to **${specifiedValue}%**`);
 
         return message.channel.send(volumeEmbed);
-    },
-}
+    }
+};

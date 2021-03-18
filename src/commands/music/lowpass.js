@@ -35,5 +35,5 @@ module.exports = {
             .setTitle(`⬇️  Set the lowpass level to **+${specifiedValue}%**`);
 
         return message.channel.send(lowpassEmbed);
-    },
-}
+    }
+};

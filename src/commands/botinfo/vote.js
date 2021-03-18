@@ -11,6 +11,6 @@ module.exports = {
             .setTitle(`Peter's Vote link:`)
             .setDescription(client.config.links.voteLink);
 
-        return message.channel.send(voteEmbed)
-    },
-}
+        return message.channel.send(voteEmbed);
+    }
+};

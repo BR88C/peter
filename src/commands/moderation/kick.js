@@ -10,12 +10,12 @@ module.exports = {
     async execute (client, message, args) {
         // Check if user can kick
         const author = await message.guild.members.fetch(message.author.id, false);
-        if (!author.hasPermission('KICK_MEMBERS')) return message.reply(`you don't have permission to kick!`);
+        if (!author.hasPermission(`KICK_MEMBERS`)) return message.reply(`you don't have permission to kick!`);
 
         // Set up kick reason and user
         let kickReason;
-        if (args.slice(1).join(' ')) {
-            kickReason = args.slice(1).join(' ');
+        if (args.slice(1).join(` `)) {
+            kickReason = args.slice(1).join(` `);
         } else {
             kickReason = `No reason specified`;
         }
@@ -47,5 +47,5 @@ module.exports = {
         await user.send(kickedEmbed).catch((error) => log(error, `red`));
         await userGuildMember.kick({ reason: kickReason });
         return message.channel.send(logKickedEmbed);
-    },
-}
+    }
+};

@@ -6,7 +6,7 @@ const requestHeaders = require(`../../modules/requestHeaders.js`);
 
 /**
  * Adds songs within a playlist to the queue
- * 
+ *
  * @param {object} playlist Playlist object from ytpl to queue
  * @param {object} message The message that requested the playlist
  * @param {object} serverQueue Server queue object (this)
@@ -26,10 +26,9 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
         for (const video of playlist.items) {
             if (!message.client.queue.get(message.guild.id)) {
                 message.channel.send(queueDeletedEmbed);
-                await msg.delete().catch((error) => log(error, `red`));;
+                await msg.delete().catch((error) => log(error, `red`));
                 return success = false;
             }
-
 
             const songInfo = await ytdl.getInfo(video.id, {
                 requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
@@ -57,7 +56,7 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
             await msg.edit(attemptingToQueueEmbed);
         }
 
-        await msg.delete().catch((error) => log(error, `red`));;
+        await msg.delete().catch((error) => log(error, `red`));
     });
 
     if (success) {
@@ -67,8 +66,6 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
 
         message.channel.send(successfullyQueuedEmbed);
     }
-
-    return;
 };
 
 module.exports = queuePlaylist;

@@ -10,12 +10,10 @@ module.exports = async (client, oldState, newState) => {
 
         const oldChannelInfo = await oldState.guild.channels.fetch(oldState.channelID, false).catch((error) => {
             log(error, `red`);
-            return;
         });
         if (!oldChannelInfo) return;
         const newChannelInfo = await client.channels.fetch(oldChannelInfo.id, false).catch((error) => {
             log(error, `red`);
-            return;
         });
         if (!newChannelInfo) return;
 
@@ -38,14 +36,14 @@ module.exports = async (client, oldState, newState) => {
                             if (typeof song.stream.destroy === `function`) song.stream.destroy();
                             song.stream = null;
                         }
-                    };
+                    }
                     serverQueue.songs = [];
                 }
             }
             if (client.queue) client.queue.delete(oldState.guild.id);
             if (oldState.guild.voice.connection.channel) oldState.guild.voice.connection.channel.leave();
 
-            // If the bot is not in a VC and there is a queue, clear the queue 
+            // If the bot is not in a VC and there is a queue, clear the queue
         } else if (!newChannelInfo.members.has(client.user.id) && serverQueue && oldState.channelID.toString() === serverQueue.channel.id.toString()) {
             let leaveEmbed = new Discord.MessageEmbed()
                 .setColor(0xff4a4a)
@@ -59,11 +57,11 @@ module.exports = async (client, oldState, newState) => {
                         if (typeof song.stream.destroy === `function`) song.stream.destroy();
                         song.stream = null;
                     }
-                };
+                }
                 serverQueue.songs = [];
             }
 
             if (client.queue) client.queue.delete(oldState.guild.id);
         }
     }
-}
+};

@@ -41,7 +41,6 @@ module.exports = {
             log(`I could not join the voice channel: ${error}`, `red`);
             await channel.leave();
             return message.reply(`I could not join the voice channel: ${error}`);
-        };
-
-    },
-}
+        }
+    }
+};

@@ -27,7 +27,7 @@ module.exports = {
                             if (typeof song.stream.destroy === `function`) song.stream.destroy();
                             song.stream = null;
                         }
-                    };
+                    }
                     serverQueue.songs = [];
                 }
             }
@@ -51,7 +51,7 @@ module.exports = {
                             if (typeof song.stream.destroy === `function`) song.stream.destroy();
                             song.stream = null;
                         }
-                    };
+                    }
                     serverQueue.songs = [];
                 }
             }
@@ -59,4 +59,4 @@ module.exports = {
             return message.reply(`I can't leave if I'm not in a VC!`);
         }
     }
-}
+};

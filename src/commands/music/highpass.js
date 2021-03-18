@@ -35,5 +35,5 @@ module.exports = {
             .setTitle(`⬆️  Set the highpass level to **+${specifiedValue}%**`);
 
         return message.channel.send(highpassEmbed);
-    },
-}
+    }
+};

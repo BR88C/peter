@@ -10,7 +10,7 @@ const logHeader = require(`../utils/logHeader.js`);
 const loader = {
     /**
      * Load variables and save on client
-     * 
+     *
      * @param {object} client Client object
      */
     async loadVariables (client) {
@@ -25,7 +25,7 @@ const loader = {
 
     /**
      * Load events
-     * 
+     *
      * @param {object} client Client object
      */
     async loadEvents (client) {
@@ -35,13 +35,13 @@ const loader = {
             let eventName = file.split(`.`)[0];
             log(`Loaded event ${eventName}`, `yellow`);
             client.on(eventName, event.bind(null, client));
-        };
+        }
         log(`Finished loading events!`, `green`);
     },
 
     /**
      * Load directories and commands
-     * 
+     *
      * @param {object} client Client object
      */
     async loadCommands (client) {
@@ -59,14 +59,14 @@ const loader = {
                 command.directory = directory.name;
                 client.commands.set(command.name, command);
                 log(`Loaded command ${command.name}`, `yellow`);
-            };
-        };
+            }
+        }
         log(`Finished loading commands!`, `green`);
     },
 
     /**
      * Run all loader methods
-     * 
+     *
      * @param {object} client Client object
      */
     async start (client) {

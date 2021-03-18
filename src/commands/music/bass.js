@@ -36,5 +36,5 @@ module.exports = {
             .setTitle(`🥁  Set the bass to **+${specifiedValue}%**`);
 
         return message.channel.send(bassEmbed);
-    },
-}
+    }
+};

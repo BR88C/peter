@@ -26,7 +26,6 @@ module.exports = {
                 .setTitle(`🕐  The music is now 24/7.`);
 
             return message.channel.send(twentyFourSevenEmbed);
-
         } else if (args[0].toLowerCase() === `off`) {
             serverQueue.twentyFourSeven = false;
 
@@ -35,9 +34,8 @@ module.exports = {
                 .setTitle(`The queue is no longer 24/7.`);
 
             return message.channel.send(twentyFourSevenEmbed);
-
         } else {
             return message.reply(`that isn't a valid argument! You must specify "on" or "off".`);
         }
-    },
-}
+    }
+};

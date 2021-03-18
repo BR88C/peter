@@ -1,6 +1,6 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
-const time = require(`../../utils/time.js`)
+const time = require(`../../utils/time.js`);
 const progressBar = require(`../../utils/progressBar.js`);
 const currentTime = require(`../../utils/currentTime.js`);
 const randomInt = require(`../../utils/randomInt.js`);
@@ -15,11 +15,10 @@ module.exports = {
         const serverQueue = message.client.queue.get(message.guild.id);
         if (!serverQueue || !serverQueue.songs[serverQueue.currentSong]) return message.channel.send(`There is noting playing.`);
 
-
         // Sets the description field based on if the song is a livestream or not
         let description;
         if (serverQueue.songs[serverQueue.currentSong].livestream) {
-            description = `🔴  **LIVE**`
+            description = `🔴  **LIVE**`;
         } else {
             const completed = currentTime(serverQueue);
             const percentComplete = completed / serverQueue.songs[serverQueue.currentSong].rawTime;
@@ -32,7 +31,7 @@ module.exports = {
 
         // Get emojis
         const emojiGuild = message.client.guilds.forge(message.client.config.emojiGuild);
-        const nowPlayingEmojis = [message.client.config.emojis.nowPlaying, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepojam]
+        const nowPlayingEmojis = [message.client.config.emojis.nowPlaying, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepojam];
         const nowPlayingEmoji = await emojiGuild.emojis.fetch(nowPlayingEmojis[randomInt(0, nowPlayingEmojis.length - 1)]);
 
         // Create embed
@@ -48,5 +47,5 @@ module.exports = {
 
         // Send Embed
         return message.channel.send(nowPlayingEmbed);
-    },
-}
+    }
+};

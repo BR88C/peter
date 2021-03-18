@@ -1,6 +1,6 @@
 /**
  * Simplified logging method
- * 
+ *
  * @param {string} content Log content
  * @param {string} color Log color
  * @param {object} discordMessage Discord message object
@@ -49,18 +49,18 @@ const log = (content, color, discordMessage, options) => {
             if (discordMessage.embeds[0].title) logContent = `{Embed: Title = ${discordMessage.embeds[0].title}}`.replace(/[^ -~]+/g, ``);
             else if (discordMessage.embeds[0].author && discordMessage.embeds[0].author.name) logContent = `{Embed: Author = ${discordMessage.embeds[0].author.name}}`.replace(/[^ -~]+/g, ``);
             else if (discordMessage.embeds[0].description) logContent = `{Embed: Description = ${discordMessage.embeds[0].description}}`.replace(/[^ -~]+/g, ``);
-            else logContent = `{Embed}`
+            else logContent = `{Embed}`;
         }
 
         // If the user option is defined, append their tag to the start of logContent
-        if (options.user) logContent = `[${discordMessage.author.tag}] ` + logContent;
+        if (options.user) logContent = `[${discordMessage.author.tag}] ${logContent}`;
 
         // If the server option is defined, append the server name to the start of logContent
         if (options.server) {
             // If the message is in a guild
-            if (discordMessage.channel.type !== `dm`) logContent = `Server: ${discordMessage.guild.name} | ` + logContent;
+            if (discordMessage.channel.type !== `dm`) logContent = `Server: ${discordMessage.guild.name} | ${logContent}`;
             // If the message is in a DM
-            else logContent = `Server: DM | ` + logContent;
+            else logContent = `Server: DM | ${logContent}`;
         }
     }
 

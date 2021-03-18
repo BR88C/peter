@@ -10,12 +10,12 @@ module.exports = {
     async execute (client, message, args) {
         // Check if user can ban
         const author = await message.guild.members.fetch(message.author.id, false);
-        if (!author.hasPermission('BAN_MEMBERS')) return message.reply(`you don't have permission to ban!`);
+        if (!author.hasPermission(`BAN_MEMBERS`)) return message.reply(`you don't have permission to ban!`);
 
         // Set up ban reason and user
         let banReason;
-        if (args.slice(1).join(' ')) {
-            banReason = args.slice(1).join(' ');
+        if (args.slice(1).join(` `)) {
+            banReason = args.slice(1).join(` `);
         } else {
             banReason = `No reason specified`;
         }
@@ -47,5 +47,5 @@ module.exports = {
         await user.send(bannedEmbed).catch((error) => log(error, `red`));
         await userGuildMember.ban({ reason: banReason });
         return message.channel.send(logBannedEmbed);
-    },
-}
+    }
+};

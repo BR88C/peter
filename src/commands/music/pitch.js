@@ -35,5 +35,5 @@ module.exports = {
             .setTitle(`👂  Set the pitch to **${specifiedValue}%**`);
 
         return message.channel.send(pitchEmbed);
-    },
-}
+    }
+};

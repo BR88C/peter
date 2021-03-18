@@ -17,7 +17,7 @@ module.exports = {
         let currentSong;
         let completed;
         if (serverQueue.songs[serverQueue.currentSong]) {
-            currentSong = serverQueue.songs[serverQueue.currentSong]
+            currentSong = serverQueue.songs[serverQueue.currentSong];
             completed = currentTime(serverQueue);
         } else {
             currentSong = {
@@ -32,7 +32,6 @@ module.exports = {
         // Gets total raw queue time
         let totalRawTime = 0;
         for (const song of serverQueue.songs) totalRawTime += song.rawTime;
-
 
         // If the user specifies a song
         if (args.length) {
@@ -56,7 +55,6 @@ module.exports = {
                 } else {
                     timeUntilPlayed = `N/A`;
                 }
-
             } else if (specifiedIndex - 1 > serverQueue.currentSong) {
                 const songsBefore = serverQueue.songs.slice(serverQueue.currentSong, specifiedIndex - 1);
                 timeUntilPlayed = time(Math.round((totalRawTime / (serverQueue.effects.speed / 100)) - completed));
@@ -66,7 +64,6 @@ module.exports = {
                     timeUntilPlayed += song.rawTime;
                 }
                 timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.effects.speed / 100)) - completed));
-
             } else {
                 timeUntilPlayed = `Currently Playing`;
             }
@@ -88,14 +85,13 @@ module.exports = {
                     name: `**URL**`,
                     value: `[Link](${serverQueue.songs[specifiedIndex - 1].url})`,
                     inline: true
-                }, )
+                })
                 .setImage(serverQueue.songs[specifiedIndex - 1].thumbnail)
                 .setFooter(`Requested by: ${serverQueue.songs[specifiedIndex - 1].requestedBy}`)
                 .setTimestamp(new Date());
 
             return message.channel.send(queueEmbed);
         }
-
 
         const totalTime = Math.round(totalRawTime / (serverQueue.effects.speed / 100));
 
@@ -119,7 +115,7 @@ module.exports = {
         const emojiGuild = client.guilds.forge(client.config.emojiGuild);
         const textChannel = await emojiGuild.emojis.fetch(client.config.emojis.textChannel);
         const voiceChannel = await emojiGuild.emojis.fetch(client.config.emojis.voiceChannel);
-        const nowPlayingEmojis = [message.client.config.emojis.nowPlaying, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepojam]
+        const nowPlayingEmojis = [message.client.config.emojis.nowPlaying, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepojam];
         const nowPlayingEmoji = await emojiGuild.emojis.fetch(nowPlayingEmojis[randomInt(0, nowPlayingEmojis.length - 1)]);
 
         let title;
@@ -169,9 +165,7 @@ module.exports = {
                 .setTimestamp(new Date());
 
             return queueEmbed;
-        }
-
-
+        };
 
         // Sends the embed and adds reactions for navigating pages if needed
         if (queueList.length > 10) {
@@ -198,7 +192,6 @@ module.exports = {
                         if (reaction.emoji.name === `⬅️`) {
                             page--;
                             if (page < 1) page = maxPage;
-
                         } else if (reaction.emoji.name === `➡️`) {
                             page++;
                             if (page > maxPage) page = 1;
@@ -206,14 +199,12 @@ module.exports = {
 
                         msg.delete().catch((error) => log(error, `red`));
                         return sendReactionQueueEmbed();
-
                     }).catch((error) => {
                         log(error, `red`);
                         msg.reactions.removeAll().catch((error) => log(error, `red`));
-                        return;
                     });
                 });
-            }
+            };
 
             return sendReactionQueueEmbed();
 
@@ -221,5 +212,5 @@ module.exports = {
         } else {
             return message.channel.send(await generateQueueEmbed(`${queueList.join(`\n`)}\n\n*Page 1/1*`));
         }
-    },
-}
+    }
+};

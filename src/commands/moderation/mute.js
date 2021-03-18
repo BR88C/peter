@@ -10,13 +10,13 @@ module.exports = {
     async execute (client, message, args) {
         // Check if user can mute
         const author = await message.guild.members.fetch(message.author.id, false);
-        if (!author.hasPermission('MANAGE_ROLES')) return message.reply(`you don't have permission to mute! (Manage roles permission required)`);
+        if (!author.hasPermission(`MANAGE_ROLES`)) return message.reply(`you don't have permission to mute! (Manage roles permission required)`);
 
         // Set up mute role, reason and user
-        const mutedRole = message.guild.roles.cache.find(role => role.name.toLowerCase() === 'muted');
+        const mutedRole = message.guild.roles.cache.find(role => role.name.toLowerCase() === `muted`);
         let muteReason;
-        if (args.slice(1).join(' ')) {
-            muteReason = args.slice(1).join(' ');
+        if (args.slice(1).join(` `)) {
+            muteReason = args.slice(1).join(` `);
         } else {
             muteReason = `No reason specified`;
         }
@@ -54,5 +54,5 @@ module.exports = {
         await user.send(mutedEmbed).catch((error) => log(error, `red`));
         await userGuildMember.roles.add(mutedRole);
         return message.channel.send(logMutedEmbed);
-    },
-}
+    }
+};

@@ -9,7 +9,6 @@ const Queue = require(`../../classes/Queue.js`);
 const requestHeaders = require(`../../modules/requestHeaders.js`);
 const streamhandler = require(`../../modules/streamhandler.js`);
 
-
 module.exports = {
     name: `play`,
     description: `Plays a song in a VC`,
@@ -40,8 +39,6 @@ module.exports = {
         // Defines the server queue
         const serverQueue = message.client.queue.get(message.guild.id);
 
-
-
         // Define variables for playlist
         const playlistRegex = /^.*(youtu.be\/|list=)([^#\&\?]*).*/;
         let playlist;
@@ -64,9 +61,7 @@ module.exports = {
             playlist = await ytpl(args.slice(0).join(` `).match(playlistRegex)[2], {
                 limit: Infinity,
                 requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
-            }).catch((error) => {
-                return log(error, `red`);
-            })
+            }).catch((error) => log(error, `red`));
 
             if (!playlist) return message.channel.send(errorEmbed);
 
@@ -109,8 +104,6 @@ module.exports = {
             });
         }
 
-
-
         // Defines song info
         let song = new Song(songInfo, message.author.tag);
         if (!song.format) return message.channel.send(videoUnavailableEmbed);
@@ -140,8 +133,6 @@ module.exports = {
         message.client.queue.set(message.guild.id, queueConstruct);
         queueConstruct.songs.push(song);
 
-
-
         // Join vc and play music
         try {
             streamhandler.play(message);
@@ -152,6 +143,6 @@ module.exports = {
             message.client.queue.delete(message.guild.id);
             await channel.leave();
             return message.reply(`I could not join the voice channel: ${error}`);
-        };
-    },
-}
+        }
+    }
+};

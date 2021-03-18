@@ -25,7 +25,7 @@ module.exports = {
         if (isNaN(specifiedTime)) return message.reply(`please specify an Integer!`);
 
         // If the time specified is less than 0
-        if (specifiedTime < 0) return message.reply(`you can't seek to a negative time!`)
+        if (specifiedTime < 0) return message.reply(`you can't seek to a negative time!`);
 
         // If time specified is longer than the video, seek to the last 2 seconds of the video
         if (specifiedTime >= serverQueue.songs[serverQueue.currentSong].rawTime) specifiedTime = serverQueue.songs[serverQueue.currentSong].rawTime - 2;
@@ -38,5 +38,5 @@ module.exports = {
             .setTitle(`⏩  Seeked to **${time(specifiedTime)}**`);
 
         return message.channel.send(seekEmbed);
-    },
-}
+    }
+};

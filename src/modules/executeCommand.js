@@ -3,7 +3,7 @@ const log = require(`../modules/log.js`);
 
 /**
  * Check if a command and arguments are valid, then execute it
- * 
+ *
  * @param {string} commandName Name of the command, or it's alias
  * @param {array} args Command arguments
  * @param {object} client Client object
@@ -35,8 +35,6 @@ const executeCommand = async (commandName, args, client, message) => {
         });
     }
 
-
-
     // Checks if command is Guild Only
     if (command.guildOnly && message.channel.type === `dm`) {
         let guildOnlyEmbed = new Discord.MessageEmbed()
@@ -53,7 +51,7 @@ const executeCommand = async (commandName, args, client, message) => {
             let voteEmbed = new Discord.MessageEmbed()
                 .setColor(0xff0000)
                 .setTitle(`You must vote to use this command!`)
-                .setDescription(`To vote for Peter, go to his top.gg page [here](${client.config.links.voteLink}) and click the vote button.\nReminder that your vote status is reset every 12 hours.`)
+                .setDescription(`To vote for Peter, go to his top.gg page [here](${client.config.links.voteLink}) and click the vote button.\nReminder that your vote status is reset every 12 hours.`);
 
             return message.channel.send(voteEmbed);
         }
@@ -88,8 +86,6 @@ const executeCommand = async (commandName, args, client, message) => {
 
         return message.channel.send(noArgsEmbed);
     }
-
-
 
     // Executes the command
     try {

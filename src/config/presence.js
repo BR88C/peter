@@ -1,4 +1,5 @@
-const presence = [{
+const presence = [
+    {
         activity: {
             name: `a kid's guide to the Internet`,
             type: `WATCHING`

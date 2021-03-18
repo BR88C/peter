@@ -8,7 +8,7 @@ const getFormat = require(`./functions/getFormat.js`);
 class Song {
     /**
      * Song constructor
-     * 
+     *
      * @param {object} songInfo Song info from ytdl-core
      * @param {string} messageAuthorTag Author of the song request
      */
@@ -25,6 +25,6 @@ class Song {
         this.startTime = 0;
         this.stream = null;
     }
-};
+}
 
 module.exports = Song;

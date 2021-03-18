@@ -4,7 +4,7 @@ const log = require(`./log.js`);
 
 /**
  * End the process
- * 
+ *
  * @param {object} client Client object
  * @param {boolean} setDND If the bot should be set to DND mode and display a status of "Playing Restarting Bot"
  * @param {string} message Message to be logged
@@ -14,9 +14,9 @@ const end = async (client, setDND, message) => {
         await client.user.setPresence({
             activity: {
                 name: `Restarting Bot`,
-                type: 'PLAYING'
+                type: `PLAYING`
             },
-            status: 'dnd'
+            status: `dnd`
         }).catch((error) => log(error, `red`));
     }
 

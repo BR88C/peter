@@ -1,6 +1,6 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
-const randomInt = require("../../utils/randomInt.js");
+const randomInt = require(`../../utils/randomInt.js`);
 
 module.exports = {
     name: `8ball`,
@@ -37,5 +37,5 @@ module.exports = {
             .setTitle(`🎱  ${output}`);
 
         return message.channel.send(headsEmbed);
-    },
-}
+    }
+};

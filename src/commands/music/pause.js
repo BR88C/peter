@@ -31,5 +31,5 @@ module.exports = {
         } else {
             return message.reply(`there is nothing to pause!`);
         }
-    },
-}
+    }
+};

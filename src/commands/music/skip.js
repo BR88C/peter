@@ -34,5 +34,5 @@ module.exports = {
             .setTitle(`⏭️  The current song has been skipped.`);
 
         return message.channel.send(skipEmbed);
-    },
-}
+    }
+};

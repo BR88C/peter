@@ -12,13 +12,13 @@ module.exports = {
         const availableTypes = [`PLAYING`, `STREAMING`, `LISTENING`, `WATCHING`, `COMPETING`];
 
         const statusType = args[0].toUpperCase();
-        if (!availableTypes.includes(statusType)) return message.channel.send(`Error: invalid status type`)
+        if (!availableTypes.includes(statusType)) return message.channel.send(`Error: invalid status type`);
 
-        const content = args.slice(1).join(' ');
+        const content = args.slice(1).join(` `);
 
         await client.user.setActivity(content, {
             type: statusType
         });
-        return message.channel.send(`Status successfully updated.`)
-    },
-}
+        return message.channel.send(`Status successfully updated.`);
+    }
+};

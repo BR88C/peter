@@ -11,6 +11,6 @@ module.exports = {
             .setTitle(`Peter's Invite link:`)
             .setDescription(client.config.links.invite);
 
-        return message.channel.send(inviteEmbed)
-    },
-}
+        return message.channel.send(inviteEmbed);
+    }
+};

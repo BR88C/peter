@@ -20,7 +20,7 @@ module.exports = {
                     if (typeof song.stream.destroy === `function`) song.stream.destroy();
                     song.stream = null;
                 }
-            };
+            }
             serverQueue.songs = [serverQueue.songs[serverQueue.currentSong]];
         } else {
             for (const song of serverQueue.songs) {
@@ -28,7 +28,7 @@ module.exports = {
                     if (typeof song.stream.destroy === `function`) song.stream.destroy();
                     song.stream = null;
                 }
-            };
+            }
             serverQueue.songs = [];
         }
         serverQueue.currentSong = 0;
@@ -40,5 +40,5 @@ module.exports = {
 
         // Send embed
         return message.channel.send(clearEmbed);
-    },
-}
+    }
+};

@@ -1,14 +1,13 @@
 /**
  * Shuffles a provided array
- * 
+ *
  * @param {array} array Array to be shuffled
  * @returns {array} Shuffled Array
  */
 const shuffleArray = (array) => {
-    let currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length; let temporaryValue; let randomIndex;
 
     while (currentIndex !== 0) {
-
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
 
