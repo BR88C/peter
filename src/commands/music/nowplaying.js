@@ -31,7 +31,7 @@ module.exports = {
 
         // Get emojis
         const emojiGuild = message.client.guilds.forge(message.client.config.emojiGuild);
-        const nowPlayingEmojis = [message.client.config.emojis.nowPlaying, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepojam];
+        const nowPlayingEmojis = [message.client.config.emojis.notes, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepojam];
         const nowPlayingEmoji = await emojiGuild.emojis.fetch(nowPlayingEmojis[randomInt(0, nowPlayingEmojis.length - 1)]);
 
         // Create embed
