@@ -9,22 +9,48 @@ module.exports = {
     hide: true,
     aliases: [`stop-bot`],
     async execute (client, message, args) {
-        log(`\nUser ${message.author.tag} ran the stopbot command. Stopping all music and the node process.`, `red`);
+        let confirmationEmbed = new Discord.MessageEmbed()
+            .setTitle(`Confirm`)
+            .setColor(0xff0000)
+            .setDescription(`Are you sure you want to stop Peter?`);
 
-        await stopAllMusic(client);
-        log(`All music stopped.`, `red`);
+        message.channel.send(confirmationEmbed).then(async msg => {
+            await msg.react(`✅`);
+            await msg.react(`❌`);
 
-        await client.user.setPresence({
-            activity: {
-                name: `Restarting Bot`,
-                type: `PLAYING`
-            },
-            status: `dnd`
-        }).catch((error) => log(error, `red`));
-        log(`Bot presence set to DND.`, `red`);
+            const filter = (reaction, user) => [`✅`, `❌`].includes(reaction.emoji.name) && client.config.devs.ids.includes(user.id);
 
-        log(`\nStopped. Bot Offline.`, `red`);
-        log(``, `white`);
-        process.exit();
+            msg.awaitReactions(filter, {
+                max: 1,
+                time: 1e4,
+                errors: [`time`]
+            }).then(async collected => {
+                const reaction = collected.first();
+
+                if (reaction.emoji.name === `✅`) {
+                    await message.channel.send(`Starting shutdown process.`);
+                    log(`\nUser ${message.author.tag} ran the stopbot command. Stopping all music and the node process.`, `red`);
+
+                    await stopAllMusic(client);
+                    log(`All music stopped.`, `red`);
+
+                    await client.user.setPresence({
+                        activity: {
+                            name: `Restarting Bot`,
+                            type: `PLAYING`
+                        },
+                        status: `dnd`
+                    }).catch((error) => log(error, `red`));
+                    log(`Bot presence set to DND.`, `red`);
+
+                    log(`\nStopped. Bot Offline.`, `red`);
+                    log(``, `white`);
+                    process.exit();
+                } else if (reaction.emoji.name === `❌`) {
+                    msg.reactions.removeAll().catch((error) => {});
+                    return message.channel.send(`Cancelled bot shutdown process.`);
+                }
+            }).catch((error) => msg.reactions.removeAll().catch((error) => {}));
+        });
     }
 };
