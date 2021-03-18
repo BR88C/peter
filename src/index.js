@@ -25,7 +25,10 @@ process.on(`unhandledRejection`, (error) => log(error, `red`));
 
 /* Load all commands, events, and variables, then authenticate with Discord */
 loader.start(client);
-client.login(process.env.BOT_TOKEN).catch((error) => end(client, false, `Failed to authenticate client with application.`));
+client.login(process.env.BOT_TOKEN).catch((error) => {
+    log(error, `red`);
+    end(client, false, `Failed to authenticate client with application.`)
+});
 
 
 /* Report if there is an error with DBL */

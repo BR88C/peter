@@ -204,7 +204,7 @@ module.exports = {
                             if (page > maxPage) page = 1;
                         }
 
-                        msg.delete();
+                        msg.delete().catch((error) => log(error, `red`));
                         return sendReactionQueueEmbed();
 
                     }).catch((error) => {

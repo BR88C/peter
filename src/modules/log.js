@@ -40,9 +40,7 @@ const log = (content, color, discordMessage, options) => {
     }
 
     // If no log volor is specified or if the color specified is invalid, throw an error
-    if (!logColor) {
-        throw `Did not specify a valid color`;
-    }
+    if (!logColor) throw new Error(`Did not specify a valid color`);
 
     // If discordMessage is defined
     if (discordMessage) {
