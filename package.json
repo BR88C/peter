@@ -5,13 +5,18 @@
   "main": "index.js",
   "scripts": {
     "start": "node --max-old-space-size=512 ./src/index.js",
-    "dev:lint": "eslint . --fix --ext .js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:lint": "eslint . --fix --ext .js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BR88C/peter.git"
   },
+  "keywords": [
+    "peter",
+    "discord",
+    "bot",
+    "musicbot"
+  ],
   "author": "BR88C",
   "license": "GPL-3.0",
   "homepage": "https://github.com/BR88C/peter#readme",
