@@ -1,4 +1,4 @@
-/* Leaves VCs if only the bot is present, or if bot is manually disconnected from vc */
+/* Leaves VCs if only the bot is present, or if bot is manually disconnected from VC */
 
 const Discord = require(`discord.js-light`);
 const log = require(`../modules/log.js`);

@@ -16,7 +16,7 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        // Gets emojis
+        // Gets emojis.
         const emojiGuild = client.guilds.forge(client.config.emojiGuild);
         const conga = await emojiGuild.emojis.fetch(client.config.emojis.conga);
 

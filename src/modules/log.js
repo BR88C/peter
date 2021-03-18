@@ -1,17 +1,18 @@
 /**
- * Simplified logging method
+ * Simplified logging method.
  *
- * @param {String} content Log content
- * @param {String} color Log color
- * @param {Object} discordMessage Discord message object
- * @param {*} options Options - Requires discordMessage to be defined (server => If the message guild should be logged; user => If the message author should be logged)
+ * @param {String} content Log content.
+ * @param {String} color Log color.
+ * @param {Object} discordMessage Discord message object.
+ * @param {{ server: boolean, user: boolean, regex: boolean }} options Options - Requires discordMessage to be defined.
+ * @returns {Void} Void.
  */
 const log = (content, color, discordMessage, options) => {
-    // Create Variables
+    // Create Variables.
     let logColor;
     let logContent = content;
 
-    // Get color specified and set logColor variable to correct color
+    // Get color specified and set logColor variable to correct color.
     switch (color) {
         case `black`:
             logColor = `\x1b[30m`;
@@ -39,12 +40,12 @@ const log = (content, color, discordMessage, options) => {
             break;
     }
 
-    // If no log volor is specified or if the color specified is invalid, throw an error
+    // If no log volor is specified or if the color specified is invalid, throw an error.
     if (!logColor) throw new Error(`Did not specify a valid color`);
 
-    // If discordMessage is defined
+    // If discordMessage is defined.
     if (discordMessage) {
-        // If the message contains an embed, log it as an embed with it's title, author, or description if applicable
+        // If the message contains an embed, log it as an embed with it's title, author, or description if applicable.
         if (discordMessage.embeds.length > 0) {
             if (discordMessage.embeds[0].title) logContent = `{Embed: Title = ${discordMessage.embeds[0].title}}`.replace(/[^ -~]+/g, ``);
             else if (discordMessage.embeds[0].author && discordMessage.embeds[0].author.name) logContent = `{Embed: Author = ${discordMessage.embeds[0].author.name}}`.replace(/[^ -~]+/g, ``);
@@ -52,19 +53,19 @@ const log = (content, color, discordMessage, options) => {
             else logContent = `{Embed}`;
         }
 
-        // If the user option is defined, append their tag to the start of logContent
+        // If the user option is defined, append their tag to the start of logContent.
         if (options.user) logContent = `[${discordMessage.author.tag}] ${logContent}`;
 
-        // If the server option is defined, append the server name to the start of logContent
+        // If the server option is defined, append the server name to the start of logContent.
         if (options.server) {
-            // If the message is in a guild
+            // If the message is in a guild.
             if (discordMessage.channel.type !== `dm`) logContent = `Server: ${discordMessage.guild.name} | ${logContent}`;
-            // If the message is in a DM
+            // If the message is in a DM.
             else logContent = `Server: DM | ${logContent}`;
         }
     }
 
-    // If the regex option is defined, apply the regex to logContent
+    // If the regex option is defined, apply the regex to logContent.
     if (options && options.regex) logContent = logContent.replace(/[^ -~]+/g, ``);
 
     return console.log(logColor, logContent);

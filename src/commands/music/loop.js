@@ -15,17 +15,17 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        // If the queue is empty reply with an error
+        // If the queue is empty reply with an error.
         const serverQueue = message.client.queue.get(message.guild.id);
         if (!serverQueue || !serverQueue.songs[serverQueue.currentSong]) return message.reply(`I can't loop if if there is no music playing!`);
 
-        // Checks if the user is in the VC
+        // Checks if the user is in the VC.
         if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to loop the current song!`);
 
-        // Checks if the current song is a livestream
+        // Checks if the current song is a livestream.
         if (serverQueue.songs[serverQueue.currentSong].livestream) return message.reply(`this command does not support livestreams!`);
 
-        // Sets the type of loop based on arguments provided
+        // Sets the type of loop based on arguments provided.
         if (args.length && args[0].toLowerCase() === `off`) {
             serverQueue.loop = `off`;
 

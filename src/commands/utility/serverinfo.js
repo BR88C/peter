@@ -16,22 +16,22 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        // Check if server has news channel
+        // Check if server has news channel.
         let newsChannel;
         if (message.guild.channels.cache.filter(channel => channel.type === `news`).size > 0) newsChannel = `✅ News Channel`;
         else newsChannel = `❌ News Channel`;
 
-        // Check if server has invite splash
+        // Check if server has invite splash.
         let inviteSplash;
         if (message.guild.splash) inviteSplash = `✅ Invite Splash`;
         else inviteSplash = `❌ Invite Splash`;
 
-        // Check if server has banner
+        // Check if server has banner.
         let serverBanner;
         if (message.guild.banner) serverBanner = `✅ Server Banner`;
         else serverBanner = `❌ Server Banner`;
 
-        // Checks to make sure owner exists (applicable on large servers where the owner property will not be returned when the owner is offline)
+        // Checks to make sure owner exists (applicable on large servers where the owner property will not be returned when the owner is offline).
         let serverOwner;
         if (message.guild.ownerID) {
             const serverOwnerUser = await client.users.fetch(message.guild.ownerID, false);
@@ -40,7 +40,7 @@ module.exports = {
             serverOwner = `Error getting owner`;
         }
 
-        // Create Embed
+        // Create Embed.
         let serverInfoEmbed = new Discord.MessageEmbed()
             .setColor(0x949fff)
             .setTitle(`Information about ${message.guild.name}`)
@@ -74,7 +74,7 @@ module.exports = {
                 inline: true
             });
 
-        // Send Embed
+        // Send Embed.
         return message.channel.send(serverInfoEmbed);
     }
 };

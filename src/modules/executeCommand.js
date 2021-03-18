@@ -10,11 +10,10 @@ const log = require(`../modules/log.js`);
  * @param {Object} message Message object
  */
 const executeCommand = async (commandName, args, client, message) => {
-    // Get the command
+    // Get the command.
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
-    // If command does not exist it logs it in red and replies with an error
-    if (!command) {
+    if (!command) { // If command does not exist it logs it in red and replies with an error.
         let invalidCommandEmbed = new Discord.MessageEmbed()
             .setColor(0xff0000)
             .setTitle(`Error: ${commandName} is not a valid command!`);
@@ -25,9 +24,7 @@ const executeCommand = async (commandName, args, client, message) => {
             user: true,
             regex: true
         });
-
-        // If the command exists it logs it in green
-    } else {
+    } else { // If the command exists it logs it in green.
         log(message.content, `green`, message, {
             server: true,
             user: true,
@@ -35,7 +32,7 @@ const executeCommand = async (commandName, args, client, message) => {
         });
     }
 
-    // Checks if command is Guild Only
+    // Checks if command is Guild Only.
     if (command.guildOnly && message.channel.type === `dm`) {
         let guildOnlyEmbed = new Discord.MessageEmbed()
             .setColor(0xff0000)
@@ -44,7 +41,7 @@ const executeCommand = async (commandName, args, client, message) => {
         return message.channel.send(guildOnlyEmbed);
     }
 
-    // Checks if command is vote locked
+    // Checks if command is vote locked.
     if (command.voteLocked && client.dbl) {
         const voted = await client.dbl.hasVoted(message.author.id);
         if (!voted && !client.config.devs.ids.includes(message.author.id.toString())) {
@@ -57,7 +54,7 @@ const executeCommand = async (commandName, args, client, message) => {
         }
     }
 
-    // Checks if command is Dev Only
+    // Checks if command is Dev Only.
     if (command.devOnly && !client.config.devs.ids.includes(message.author.id.toString())) {
         let devOnlyError;
         if (client.config.devs.tags.length > 1) {
@@ -73,7 +70,7 @@ const executeCommand = async (commandName, args, client, message) => {
         return message.channel.send(devOnlyEmbed);
     }
 
-    // Check if command needs args
+    // Check if command needs args.
     if (command.args && !args.length) {
         let noArgsError = `Error: That command requires Arguments!`;
         if (command.usage) {
@@ -87,7 +84,7 @@ const executeCommand = async (commandName, args, client, message) => {
         return message.channel.send(noArgsEmbed);
     }
 
-    // Executes the command
+    // Executes the command.
     try {
         command.execute(client, message, args);
     } catch (error) {

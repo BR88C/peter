@@ -20,30 +20,30 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        // If the queue is empty reply with an error
+        // If the queue is empty reply with an error.
         const serverQueue = message.client.queue.get(message.guild.id);
         if (!serverQueue || !serverQueue.songs[serverQueue.currentSong]) return message.reply(`I can't change the speed if there is no music playing!`);
 
-        // Checks if the user is in the VC
+        // Checks if the user is in the VC.
         if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to change the music's speed!`);
 
-        // Checks if the current song is a livestream
+        // Checks if the current song is a livestream.
         if (serverQueue.songs[serverQueue.currentSong].livestream) return message.reply(`this command does not support livestreams!`);
 
-        // Replies with the current speed if no arguments are specified
+        // Replies with the current speed if no arguments are specified.
         if (!args[0]) return message.channel.send(`The current speed is: **${serverQueue.effects.speed}%**`);
 
-        // Checks to make sure the value specified is valid
+        // Checks to make sure the value specified is valid.
         const specifiedValue = checkValueSpecified(args[0], 50, 500, message, `off`);
         if (specifiedValue === `invalid`) return;
 
-        // Get old speed
+        // Get old speed.
         const time = currentTime(serverQueue);
 
-        // Sets value
+        // Sets value.
         serverQueue.effects.speed = specifiedValue;
 
-        // Restart the stream at the current time
+        // Restart the stream at the current time.
         streamhandler.restartStream(serverQueue, time);
 
         let speedEmbed = new Discord.MessageEmbed()

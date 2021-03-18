@@ -17,11 +17,11 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        // Check if user can kick
+        // Check if user can kick.
         const author = await message.guild.members.fetch(message.author.id, false);
         if (!author.hasPermission(`KICK_MEMBERS`)) return message.reply(`you don't have permission to kick!`);
 
-        // Set up kick reason and user
+        // Set up kick reason and user.
         let kickReason;
         if (args.slice(1).join(` `)) {
             kickReason = args.slice(1).join(` `);
@@ -34,13 +34,13 @@ module.exports = {
 
         const userGuildMember = await message.guild.members.fetch(message.mentions.users.first().id, false);
 
-        // Checks to see if the message author is trying to be kicked
+        // Checks to see if the message author is trying to be kicked.
         if (user === message.author) return message.reply(`you can't kick yourself!`);
 
-        // Makes sure the bot can kick the user
+        // Makes sure the bot can kick the user.
         if (!userGuildMember.kickable) return message.reply(`I do not have sufficient permissions to kick this user!`);
 
-        // Create embeds
+        // Create embeds.
         let kickedEmbed = new Discord.MessageEmbed()
             .setColor(0xdb1226)
             .setTitle(`**You have been kicked from ${message.guild.name}!**`)
@@ -51,7 +51,7 @@ module.exports = {
             .setTitle(`**${user.tag} has been kicked**`)
             .setDescription(`Reason: ${kickReason}`);
 
-        // Send the embeds and kick the user
+        // Send the embeds and kick the user.
         log(`${user.tag} kicked for ${kickReason}`, `red`, message, { server: true, regex: true });
         await user.send(kickedEmbed).catch((error) => log(error, `red`));
         await userGuildMember.kick({ reason: kickReason });

@@ -19,27 +19,27 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        // If the queue is empty reply with an error
+        // If the queue is empty reply with an error.
         const serverQueue = message.client.queue.get(message.guild.id);
         if (!serverQueue || !serverQueue.songs[serverQueue.currentSong]) return message.reply(`I can't seek if there is no music playing!`);
 
-        // Checks if the user is in the VC
+        // Checks if the user is in the VC.
         if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to seek!`);
 
-        // Checks if the current song is a livestream
+        // Checks if the current song is a livestream.
         if (serverQueue.songs[serverQueue.currentSong].livestream) return message.reply(`this command does not support livestreams!`);
 
-        // Checks to make sure the bass value is an integer
+        // Checks to make sure the bass value is an integer.
         let specifiedTime = parseInt(args[0]);
         if (isNaN(specifiedTime)) return message.reply(`please specify an Integer!`);
 
-        // If the time specified is less than 0
+        // If the time specified is less than 0.
         if (specifiedTime < 0) return message.reply(`you can't seek to a negative time!`);
 
-        // If time specified is longer than the video, seek to the last 2 seconds of the video
+        // If time specified is longer than the video, seek to the last 2 seconds of the video.
         if (specifiedTime >= serverQueue.songs[serverQueue.currentSong].rawTime) specifiedTime = serverQueue.songs[serverQueue.currentSong].rawTime - 2;
 
-        // Restart the stream at the specified time
+        // Restart the stream at the specified time.
         streamhandler.restartStream(serverQueue, specifiedTime);
 
         let seekEmbed = new Discord.MessageEmbed()

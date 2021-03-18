@@ -1,5 +1,3 @@
-/* Handles creating and running a stream for a specified song, restarting streams, and pushing the queue when a song ends */
-
 const Discord = require(`discord.js-light`);
 const ytdl = require(`ytdl-core`);
 const {
@@ -15,18 +13,19 @@ const randomInt = require(`../utils/randomInt.js`);
 
 const streamhandler = {
     /**
-     * Stream a song to a VC. Will always play serverQueue.songs[serverQueue.currentSong]
+     * Stream a song to a VC. Will always play serverQueue.songs[serverQueue.currentSong].
      *
-     * @param {Object} song Song object to play
-     * @param {Object} message Message sent that queued song
+     * @param {Object} song Song object to play.
+     * @param {Object} message Message sent that queued song.
+     * @returns {Void} Void.
      */
     async play (message) {
         const serverQueue = message.client.queue.get(message.guild.id);
 
-        // If server queue is not defined, return
+        // If server queue is not defined, return.
         if (!serverQueue) return;
 
-        // Return if song isn't defined, unless the queue is being looped
+        // Return if song isn't defined, unless the queue is being looped.
         if (!serverQueue.songs[serverQueue.currentSong]) {
             if (serverQueue.loop === `queue` && serverQueue.songs[0]) {
                 for (const song of serverQueue.songs) {
@@ -37,7 +36,7 @@ const streamhandler = {
             } else return;
         }
 
-        // Make sure all streams are closed
+        // Make sure all streams are closed.
         for (const song of serverQueue.songs) {
             if (song.stream !== null) {
                 if (typeof song.stream.destroy === `function`) song.stream.destroy();
@@ -45,14 +44,14 @@ const streamhandler = {
             }
         }
 
-        // Create ytdl stream
+        // Create ytdl stream.
         const ytdlStream = ytdl(serverQueue.songs[serverQueue.currentSong].url, {
             highWaterMark: 1 << 19,
             quality: serverQueue.songs[serverQueue.currentSong].format,
             requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
         });
 
-        // Create ffmpeg encoder arguments
+        // Create ffmpeg encoder arguments.
         const ffmpegArgs = [
             `-ss`, serverQueue.songs[serverQueue.currentSong].startTime.toString(),
             `-analyzeduration`, `0`,
@@ -63,30 +62,30 @@ const streamhandler = {
         ];
         let sfxArgs = serverQueue.effectsString(`ffmpeg`);
 
-        // Create ffmpeg transcoder
+        // Create ffmpeg transcoder.
         const transcoder = new FFmpeg({
             args: sfxArgs.length !== 0 ? ffmpegArgs.concat([`-af`, sfxArgs]) : ffmpegArgs,
             shell: false
         });
 
-        // Create opus transcoder
+        // Create opus transcoder.
         const opusTranscoder = new opus.Encoder({
             rate: 48000,
             channels: 2,
             frameSize: 960
         });
 
-        // Create stream
+        // Create stream.
         serverQueue.songs[serverQueue.currentSong].stream = pipeline(ytdlStream, transcoder, opusTranscoder, (error) => {
             if (error && error.message !== `Premature close`) log(error, `red`);
         });
 
-        // Play the stream
+        // Play the stream.
         const dispatcher = serverQueue.connection.play(serverQueue.songs[serverQueue.currentSong].stream, {
             type: `opus`,
             bitrate: serverQueue.bitrate
         })
-            // When the song ends
+            // When the song ends.
             .on(`finish`, (reason) => {
                 if (serverQueue.loop === `single` && serverQueue.songs[serverQueue.currentSong] && !serverQueue.songs[serverQueue.currentSong].livestream) {
                     serverQueue.songs[serverQueue.currentSong].startTime = 0;
@@ -97,7 +96,7 @@ const streamhandler = {
                     this.play(message);
                 }
             })
-            // If there is an error leave the vc and report to the user
+            // If there is an error leave the VC and report to the user.
             .on(`error`, async (error) => {
                 log(error, `red`);
 
@@ -122,10 +121,10 @@ const streamhandler = {
                 if (message.guild.voice.connection.channel) message.guild.voice.connection.channel.leave();
             });
 
-        // Setting volume
+        // Setting volume.
         dispatcher.setVolumeLogarithmic(serverQueue.volume / 250);
 
-        // Get emojis
+        // Get emojis.
         const emojiGuild = message.client.guilds.forge(message.client.config.emojiGuild);
         const nowPlayingEmojis = [message.client.config.emojis.notes, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepojam];
         const nowPlayingEmoji = await emojiGuild.emojis.fetch(nowPlayingEmojis[randomInt(0, nowPlayingEmojis.length - 1)]);
@@ -142,10 +141,11 @@ const streamhandler = {
     },
 
     /**
-     * Restarts a stream at a specified time
+     * Restarts a stream at a specified time.
      *
-     * @param {Object} serverQueue Server queue object
-     * @param {number} startTime Time to start stream at
+     * @param {Object} serverQueue Server queue object.
+     * @param {number} startTime Time to start stream at.
+     * @returns {Void} Void.
      */
     async restartStream (serverQueue, startTime) {
         if (!serverQueue.songs[serverQueue.currentSong].livestream) serverQueue.songs[serverQueue.currentSong].startTime = startTime;

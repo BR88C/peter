@@ -20,11 +20,11 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        // If the queue is empty reply with an error
+        // If the queue is empty reply with an error.
         const serverQueue = message.client.queue.get(message.guild.id);
         if (!serverQueue || !serverQueue.songs[serverQueue.currentSong]) return message.channel.send(`There is nothing playing.`);
 
-        // Sets the description field based on if the song is a livestream or not
+        // Sets the description field based on if the song is a livestream or not.
         let description;
         if (serverQueue.songs[serverQueue.currentSong].livestream) {
             description = `🔴  **LIVE**`;
@@ -38,12 +38,12 @@ module.exports = {
             description = `\`\`\`${playingEmoji} ${time(completed)} ${progressBar(percentComplete, 25)} ${timestamp}\`\`\``;
         }
 
-        // Get emojis
+        // Get emojis.
         const emojiGuild = message.client.guilds.forge(message.client.config.emojiGuild);
         const nowPlayingEmojis = [message.client.config.emojis.notes, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepojam];
         const nowPlayingEmoji = await emojiGuild.emojis.fetch(nowPlayingEmojis[randomInt(0, nowPlayingEmojis.length - 1)]);
 
-        // Create embed
+        // Create embed.
         let nowPlayingEmbed = new Discord.MessageEmbed()
             .setColor(0xb0ffe2)
             .setAuthor(`🎶 Currently playing:`)
@@ -54,7 +54,7 @@ module.exports = {
             .setFooter(`Requested by: ${serverQueue.songs[serverQueue.currentSong].requestedBy}`)
             .setTimestamp(new Date());
 
-        // Send Embed
+        // Send Embed.
         return message.channel.send(nowPlayingEmbed);
     }
 };

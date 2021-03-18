@@ -17,11 +17,11 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        // Check if user can warn
+        // Check if user can warn.
         const author = await message.guild.members.fetch(message.author.id, false);
         if (!author.hasPermission(`MANAGE_MESSAGES`)) return message.reply(`you don't have permission to warn! (Manage messages permission required)`);
 
-        // Set up reason and user
+        // Set up reason and user.
         let warnReason;
         if (args.slice(1).join(` `)) {
             warnReason = args.slice(1).join(` `);
@@ -32,7 +32,7 @@ module.exports = {
         const user = message.mentions.users.first();
         if (!user) return message.reply(`please specify a user to warn!`);
 
-        // Create embeds
+        // Create embeds.
         let warnEmbed = new Discord.MessageEmbed()
             .setColor(0xffd000)
             .setTitle(`**You have been warned in ${message.guild.name}!**`)
@@ -43,7 +43,7 @@ module.exports = {
             .setTitle(`**${user.tag} has been warned**`)
             .setDescription(`Reason: ${warnReason}`);
 
-        // Send the embeds and warn the user
+        // Send the embeds and warn the user.
         log(`${user.tag} warned for ${warnReason}`, `yellow`, message, { server: true, regex: true });
         await user.send(warnEmbed).catch((error) => log(error, `red`));
         return message.channel.send(logWarnEmbed);

@@ -17,11 +17,11 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        // Check if user can mute
+        // Check if user can mute.
         const author = await message.guild.members.fetch(message.author.id, false);
         if (!author.hasPermission(`MANAGE_ROLES`)) return message.reply(`you don't have permission to mute! (Manage roles permission required)`);
 
-        // Set up mute role, reason and user
+        // Set up mute role, reason and user.
         const mutedRole = message.guild.roles.cache.find(role => role.name.toLowerCase() === `muted`);
         let muteReason;
         if (args.slice(1).join(` `)) {
@@ -35,19 +35,19 @@ module.exports = {
 
         const userGuildMember = await message.guild.members.fetch(message.mentions.users.first().id, false);
 
-        // Checks if the muted role exists
+        // Checks if the muted role exists.
         if (!mutedRole) return message.reply(`I can't mute users if a muted role does not exist! Please make sure you have a role called "Muted" to use this command!`);
 
-        // Check if the specified user is already muted
+        // Check if the specified user is already muted.
         if (userGuildMember.roles.cache.has(mutedRole.id)) return message.reply(`that user is already muted!`);
 
-        // Checks to see if the message author is trying to be muted
+        // Checks to see if the message author is trying to be muted.
         if (user === message.author) return message.reply(`you can't mute yourself!`);
 
-        // Makes sure the bot can mute the user
+        // Makes sure the bot can mute the user.
         if (!userGuildMember.manageable) return message.reply(`I do not have sufficient permissions to mute this user!`);
 
-        // Create embeds
+        // Create embeds.
         let mutedEmbed = new Discord.MessageEmbed()
             .setColor(0xffd000)
             .setTitle(`**You have been muted in ${message.guild.name}!**`)
@@ -58,7 +58,7 @@ module.exports = {
             .setTitle(`**${user.tag} has been muted**`)
             .setDescription(`Reason: ${muteReason}`);
 
-        // Send the embeds and mute the user
+        // Send the embeds and mute the user.
         log(`${user.tag} muted for ${muteReason}`, `yellow`, message, { server: true, regex: true });
         await user.send(mutedEmbed).catch((error) => log(error, `red`));
         await userGuildMember.roles.add(mutedRole);

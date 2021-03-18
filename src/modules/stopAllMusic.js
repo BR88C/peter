@@ -1,10 +1,10 @@
 const Discord = require(`discord.js-light`);
 
 /**
- * Stop all music playing within a client
+ * Stop all music playing within a client.
  *
- * @param {Object} client Client object
- * @returns {Promise} Promise
+ * @param {Object} client Client object.
+ * @returns {Promise<Void>} Promise.
  */
 const stopAllMusic = (client) => new Promise((resolve) => {
     if (client.queue.size === 0) resolve();

@@ -16,14 +16,14 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        // If the queue is empty reply with an error
+        // If the queue is empty reply with an error.
         const serverQueue = message.client.queue.get(message.guild.id);
         if (!serverQueue || !serverQueue.songs[serverQueue.currentSong]) return message.reply(`I can't skip if there is no music playing!`);
 
-        // Checks if the user is in the VC
+        // Checks if the user is in the VC.
         if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to skip music!`);
 
-        // Sets the starTime to 0 and hidden to false for next song
+        // Sets the starTime to 0 and hidden to false for next song.
         if (serverQueue.loop === `single`) {
             serverQueue.songs[serverQueue.currentSong].startTime = 0;
             serverQueue.songs[serverQueue.currentSong].hidden = false;
@@ -35,7 +35,7 @@ module.exports = {
             serverQueue.songs[0].hidden = false;
         }
 
-        // Skips to the next song
+        // Skips to the next song.
         serverQueue.connection.dispatcher.end();
 
         let skipEmbed = new Discord.MessageEmbed()

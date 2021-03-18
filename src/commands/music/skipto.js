@@ -20,24 +20,24 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        // If the queue is empty reply with an error
+        // If the queue is empty reply with an error.
         const serverQueue = message.client.queue.get(message.guild.id);
         if (!serverQueue || !serverQueue.songs[0]) return message.reply(`I can't skip to a song if there are no songs in the queue!`);
 
-        // Checks if the user is in the VC
+        // Checks if the user is in the VC.
         if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to remove music from the queue!`);
 
-        // Checks to make sure the value specified is valid
+        // Checks to make sure the value specified is valid.
         const specifiedValue = checkValueSpecified(args[0], 1, serverQueue.songs.length, message);
         if (specifiedValue === `invalid`) return;
 
-        // Sets the starTime to 0 and hidden to false for all songs
+        // Sets the starTime to 0 and hidden to false for all songs.
         for (const song of serverQueue.songs) {
             song.startTime = 0;
             song.hidden = false;
         }
 
-        // Skips to the specified song
+        // Skips to the specified song.
         serverQueue.currentSong = specifiedValue - 1;
         if (serverQueue.connection.dispatcher) {
             if (serverQueue.loop !== `single`) serverQueue.currentSong--;

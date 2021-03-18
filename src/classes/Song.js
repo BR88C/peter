@@ -1,16 +1,18 @@
-/* Song Class - Creates a song to be pushed to the queue based off of songInfo */
-
 const time = require(`../utils/time.js`);
 const cleanseMarkdown = require(`../utils/cleanseMarkdown.js`);
 const getFormat = require(`./functions/getFormat.js`);
 
-/* Song Class */
+/**
+ * Song classs - Used for creating song objects to be added to the queue.
+ *
+ * @class
+ */
 class Song {
     /**
-     * Song constructor
+     * Song constructor.
      *
-     * @param {Object} songInfo Song info from ytdl-core
-     * @param {String} messageAuthorTag Author of the song request
+     * @param {Object} songInfo Song info from ytdl-core.
+     * @param {String} messageAuthorTag Author of the song request.
      */
     constructor (songInfo, messageAuthorTag) {
         this.title = cleanseMarkdown(songInfo.videoDetails.title);

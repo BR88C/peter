@@ -20,24 +20,24 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        // If the queue is empty reply with an error
+        // If the queue is empty reply with an error.
         const serverQueue = message.client.queue.get(message.guild.id);
         if (!serverQueue || !serverQueue.songs[serverQueue.currentSong]) return message.reply(`I can't bassboost if there is no music playing!`);
 
-        // Checks if the user is in the VC
+        // Checks if the user is in the VC.
         if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to bassboost music!`);
 
-        // Replies with the current bass value if no arguments are specified
+        // Replies with the current bass value if no arguments are specified.
         if (!args[0]) return message.channel.send(`The current bass level is: **+${serverQueue.effects.bass}%**`);
 
-        // Checks to make sure the value specified is valid
+        // Checks to make sure the value specified is valid.
         const specifiedValue = checkValueSpecified(args[0], 0, 100, message, `off`);
         if (specifiedValue === `invalid`) return;
 
-        // Sets value
+        // Sets value.
         serverQueue.effects.bass = specifiedValue;
 
-        // Restart the stream at the current time
+        // Restart the stream at the current time.
         streamhandler.restartStream(serverQueue, currentTime(serverQueue));
 
         let bassEmbed = new Discord.MessageEmbed()

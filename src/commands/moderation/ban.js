@@ -17,11 +17,11 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        // Check if user can ban
+        // Check if user can ban.
         const author = await message.guild.members.fetch(message.author.id, false);
         if (!author.hasPermission(`BAN_MEMBERS`)) return message.reply(`you don't have permission to ban!`);
 
-        // Set up ban reason and user
+        // Set up ban reason and user.
         let banReason;
         if (args.slice(1).join(` `)) {
             banReason = args.slice(1).join(` `);
@@ -34,13 +34,13 @@ module.exports = {
 
         const userGuildMember = await message.guild.members.fetch(message.mentions.users.first().id, false);
 
-        // Checks to see if the message author is trying to be banned
+        // Checks to see if the message author is trying to be banned.
         if (user === message.author) return message.reply(`you can't ban yourself!`);
 
-        // Makes sure the bot can ban the user
+        // Makes sure the bot can ban the user.
         if (!userGuildMember.bannable) return message.reply(`I do not have sufficient permissions to ban this user!`);
 
-        // Create embeds
+        // Create embeds.
         let bannedEmbed = new Discord.MessageEmbed()
             .setColor(0xdb1226)
             .setTitle(`**You have been banned from ${message.guild.name}!**`)
@@ -51,7 +51,7 @@ module.exports = {
             .setTitle(`**${user.tag} has been banned**`)
             .setDescription(`Reason: ${banReason}`);
 
-        // Send the embeds and ban the user
+        // Send the embeds and ban the user.
         log(`${user.tag} banned for ${banReason}`, `red`, message, { server: true, regex: true });
         await user.send(bannedEmbed).catch((error) => log(error, `red`));
         await userGuildMember.ban({ reason: banReason });

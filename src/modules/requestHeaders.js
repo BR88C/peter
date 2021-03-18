@@ -5,9 +5,9 @@ const randomInt = require(`../utils/randomInt.js`);
 
 const requestHeaders = {
     /**
-     * Check headers
+     * Check headers defined in .env.
      *
-     * @returns {boolean} If headers are defined properly
+     * @returns {boolean} If headers are defined properly.
      */
     checkHeaders: () => {
         if (!process.env.COOKIES) {
@@ -42,9 +42,9 @@ const requestHeaders = {
     },
 
     /**
-     * Get headers object
+     * Get headers object for ytdl, ytsr, and ytpl requests.
      *
-     * @returns {Object} Header object
+     * @returns {Object} Header object.
      */
     getHeaders: () => {
         if (!requestHeaders.checkHeaders()) return;

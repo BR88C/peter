@@ -5,11 +5,12 @@ const Song = require(`../Song.js`);
 const requestHeaders = require(`../../modules/requestHeaders.js`);
 
 /**
- * Adds songs within a playlist to the queue
+ * Adds songs within a playlist to the queue.
  *
- * @param {Object} playlist Playlist object from ytpl to queue
- * @param {Object} message The message that requested the playlist
- * @param {Object} serverQueue Server queue object (this)
+ * @param {Object} playlist Playlist object from ytpl to queue.
+ * @param {Object} message The message that requested the playlist.
+ * @param {Object} serverQueue Server queue object (this).
+ * @returns {Void} Void.
  */
 const queuePlaylist = async (playlist, message, serverQueue) => {
     let attemptingToQueueEmbed = new Discord.MessageEmbed()

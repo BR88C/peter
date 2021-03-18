@@ -1,10 +1,10 @@
 const randomInt = require(`./randomInt.js`);
 
 /**
- * Creates a random hex color or a hex color based on the integer defined
+ * Creates a random hex color or a hex color based on the integer defined.
  *
- * @param {number} int
- * @returns {number} Hex color
+ * @param {number} int Integer to base hex off of (Not required).
+ * @returns {number} Hex color.
  */
 const randomHex = (int) => {
     // If an integer is defined, mod it by the number of possible hex colors

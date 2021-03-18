@@ -25,8 +25,7 @@ module.exports = {
             emoji = `👋`;
         }
 
-        // If the bot is in a vc, clear the queue and leave
-        if (message.guild.voice.connection) {
+        if (message.guild.voice.connection) { // If the bot is in a VC, clear the queue and leave.
             if (serverQueue) {
                 if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to make me leave!`);
 
@@ -48,9 +47,7 @@ module.exports = {
                 .setTitle(`${emoji}  Left the VC.`);
 
             return message.channel.send(leaveEmbed);
-
-            // If the bot is not in a vc, make sure the queue is cleared
-        } else {
+        } else { // If the bot is not in a VC, make sure the queue is cleared.
             if (serverQueue) {
                 if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to make me leave!`);
 
