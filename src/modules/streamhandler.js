@@ -88,7 +88,7 @@ const streamhandler = {
         })
             // When the song ends
             .on(`finish`, (reason) => {
-                if(serverQueue.songs[serverQueue.currentSong]) {
+                if (serverQueue.songs[serverQueue.currentSong]) {
                     if (serverQueue.loop === `single` && !serverQueue.songs[serverQueue.currentSong].livestream) {
                         serverQueue.songs[serverQueue.currentSong].startTime = 0;
                         serverQueue.songs[serverQueue.currentSong].hidden = false;
