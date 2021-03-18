@@ -8,7 +8,16 @@ module.exports = {
     guildOnly: false,
     aliases: [`pfp`],
     usage: `[@user]`,
-    async execute (client, message, args) {
+
+    /**
+     * Execute the command.
+     *
+     * @param {Object} client Client object.
+     * @param {Object} message Message object that executed the command.
+     * @param {Array} args Parsed arguments.
+     * @returns {Void} Void.
+     */
+    execute: async (client, message, args) => {
         let user = message.mentions.users.first();
         if (!user) user = message.author;
 

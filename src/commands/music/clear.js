@@ -5,7 +5,16 @@ module.exports = {
     name: `clear`,
     description: `Clears the queue without removing the song currently playing`,
     guildOnly: true,
-    async execute (client, message, args) {
+
+    /**
+     * Execute the command.
+     *
+     * @param {Object} client Client object.
+     * @param {Object} message Message object that executed the command.
+     * @param {Array} args Parsed arguments.
+     * @returns {Void} Void.
+     */
+    execute: async (client, message, args) => {
         // If the queue is empty reply with an error
         const serverQueue = message.client.queue.get(message.guild.id);
         if (!serverQueue || !serverQueue.songs[0]) return message.reply(`I can't clear the queue if the queue is empty!`);

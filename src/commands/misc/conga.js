@@ -6,7 +6,16 @@ module.exports = {
     description: `Hidden command that plays Conga by Gloria Estefan and sends an emoji`,
     guildOnly: true,
     hide: true,
-    async execute (client, message, args) {
+
+    /**
+     * Execute the command.
+     *
+     * @param {Object} client Client object.
+     * @param {Object} message Message object that executed the command.
+     * @param {Array} args Parsed arguments.
+     * @returns {Void} Void.
+     */
+    execute: async (client, message, args) => {
         // Gets emojis
         const emojiGuild = client.guilds.forge(client.config.emojiGuild);
         const conga = await emojiGuild.emojis.fetch(client.config.emojis.conga);

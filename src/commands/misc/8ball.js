@@ -6,7 +6,16 @@ module.exports = {
     name: `8ball`,
     description: `Returns an output from a Magic 8 ball`,
     aliases: [`eightball`],
-    async execute (client, message, args) {
+
+    /**
+     * Execute the command.
+     *
+     * @param {Object} client Client object.
+     * @param {Object} message Message object that executed the command.
+     * @param {Array} args Parsed arguments.
+     * @returns {Void} Void.
+     */
+    execute: async (client, message, args) => {
         const possibleOutputs = [
             `As I see it, yes.`,
             `Ask again later.`,

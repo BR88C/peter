@@ -6,7 +6,16 @@ module.exports = {
     description: `Get info on your server`,
     guildOnly: true,
     aliases: [`guildinfo`, `server`, `guild`],
-    async execute (client, message, args) {
+
+    /**
+     * Execute the command.
+     *
+     * @param {Object} client Client object.
+     * @param {Object} message Message object that executed the command.
+     * @param {Array} args Parsed arguments.
+     * @returns {Void} Void.
+     */
+    execute: async (client, message, args) => {
         // Check if server has news channel
         let newsChannel;
         if (message.guild.channels.cache.filter(channel => channel.type === `news`).size > 0) newsChannel = `✅ News Channel`;

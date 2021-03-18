@@ -10,7 +10,16 @@ module.exports = {
     guildOnly: true,
     aliases: [`bassboost`],
     usage: `[bass value]`,
-    async execute (client, message, args) {
+
+    /**
+     * Execute the command.
+     *
+     * @param {Object} client Client object.
+     * @param {Object} message Message object that executed the command.
+     * @param {Array} args Parsed arguments.
+     * @returns {Void} Void.
+     */
+    execute: async (client, message, args) => {
         // If the queue is empty reply with an error
         const serverQueue = message.client.queue.get(message.guild.id);
         if (!serverQueue || !serverQueue.songs[serverQueue.currentSong]) return message.reply(`I can't bassboost if there is no music playing!`);

@@ -6,7 +6,16 @@ module.exports = {
     description: `Make the bot leave VC`,
     guildOnly: true,
     aliases: [`l`, `disconnect`, `exit`, `dc`, `stop`, `die`],
-    async execute (client, message, args) {
+
+    /**
+     * Execute the command.
+     *
+     * @param {Object} client Client object.
+     * @param {Object} message Message object that executed the command.
+     * @param {Array} args Parsed arguments.
+     * @returns {Void} Void.
+     */
+    execute: async (client, message, args) => {
         const serverQueue = message.client.queue.get(message.guild.id);
 
         let emoji;

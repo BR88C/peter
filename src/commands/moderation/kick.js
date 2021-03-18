@@ -7,7 +7,16 @@ module.exports = {
     args: true,
     guildOnly: true,
     usage: `<@user> [reason]`,
-    async execute (client, message, args) {
+
+    /**
+     * Execute the command.
+     *
+     * @param {Object} client Client object.
+     * @param {Object} message Message object that executed the command.
+     * @param {Array} args Parsed arguments.
+     * @returns {Void} Void.
+     */
+    execute: async (client, message, args) => {
         // Check if user can kick
         const author = await message.guild.members.fetch(message.author.id, false);
         if (!author.hasPermission(`KICK_MEMBERS`)) return message.reply(`you don't have permission to kick!`);

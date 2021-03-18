@@ -16,7 +16,16 @@ module.exports = {
     guildOnly: true,
     aliases: [`p`, `playyoutube`, `youtube`, `yt`],
     usage: `<search query> **or** ${config.prefix} play <url>`,
-    async execute (client, message, args) {
+
+    /**
+     * Execute the command.
+     *
+     * @param {Object} client Client object.
+     * @param {Object} message Message object that executed the command.
+     * @param {Array} args Parsed arguments.
+     * @returns {Void} Void.
+     */
+    execute: async (client, message, args) => {
         // Checks if user is in vc
         const channel = message.member.voice.channel;
         if (!channel) return message.reply(`you need to be in a voice channel to play music!`);

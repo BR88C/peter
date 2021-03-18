@@ -8,7 +8,16 @@ module.exports = {
     devOnly: true,
     hide: true,
     aliases: [`stop-bot`],
-    async execute (client, message, args) {
+
+    /**
+     * Execute the command.
+     *
+     * @param {Object} client Client object.
+     * @param {Object} message Message object that executed the command.
+     * @param {Array} args Parsed arguments.
+     * @returns {Void} Void.
+     */
+    execute: async (client, message, args) => {
         let confirmationEmbed = new Discord.MessageEmbed()
             .setTitle(`Confirm`)
             .setColor(0xff0000)

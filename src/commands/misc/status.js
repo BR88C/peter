@@ -8,7 +8,16 @@ module.exports = {
     devOnly: true,
     hide: true,
     usage: `<statusType> <content>`,
-    async execute (client, message, args) {
+
+    /**
+     * Execute the command.
+     *
+     * @param {Object} client Client object.
+     * @param {Object} message Message object that executed the command.
+     * @param {Array} args Parsed arguments.
+     * @returns {Void} Void.
+     */
+    execute: async (client, message, args) => {
         const availableTypes = [`PLAYING`, `STREAMING`, `LISTENING`, `WATCHING`, `COMPETING`];
 
         const statusType = args[0].toUpperCase();
