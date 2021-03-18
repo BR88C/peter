@@ -9,48 +9,38 @@
         "standard",
         "eslint:recommended"
     ],
-    "parser": "babel-eslint",
+    "parser": "@babel/eslint-parser",
     "parserOptions": {
-        "ecmaVersion": 6
+        "ecmaVersion": 6,
+        "requireConfigFile": false
     },
-    "plugins": [
-        "prefer-arrow"
-    ],
     "rules": {
         "func-call-spacing": 1,
         "no-unexpected-multiline": 1,
         "eqeqeq": 1,
         "no-eval": 2,
         "array-bracket-newline": 1,
-        "brace-style": 1,
+        "brace-style": 0,
         "comma-spacing": 1,
-        "no-var": 0,
-        "indent": ["warn", 4, {
+        "no-var": 1,
+        "indent": ["error", 4, {
             "SwitchCase": 1
         }],
-        "semi": [1, "always"],
+        "semi": [2, "always"],
         "quotes": [2, "backtick", "avoid-escape"],
         "no-undef": 1,
         "no-unused-vars": 1,
-        "prefer-const": 0,
+        "prefer-const": 1,
         "no-mixed-operators": 0,
         "no-prototype-builtins": 1,
         "curly": 0,
         "prefer-arrow-callback": 1,
         "prefer-template": 1,
         "no-unreachable-loop": 1,
-        "no-unused-expressions": 0,
-        "no-useless-escape": 0,
-        "camelcase": 0,
+        "no-unused-expressions": 1,
+        "no-useless-escape": 1,
+        "camelcase": 1,
         "node/no-callback-literal": 0,
-        "no-return-assign": 0,
-        "eol-last": 1,
-        "arrow-body-style": ["warn", "as-needed"],
-        "func-style": 1,
-        "prefer-arrow/prefer-arrow-functions": ["warn", {
-            "disallowPrototype": true,
-            "singleReturnOnly": true,
-            "classPropertiesAllowed": false
-        }]
+        "no-return-assign": 0
     }
 }
