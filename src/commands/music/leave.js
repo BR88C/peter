@@ -21,9 +21,17 @@ module.exports = {
             if (serverQueue) {
                 if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to make me leave!`);
 
-                if (serverQueue.songs) serverQueue.songs = [];
+                if (serverQueue.songs) {
+                    for (const song of serverQueue.songs) {
+                        if (song.stream !== null) {
+                            if (typeof song.stream.destroy === `function`) song.stream.destroy();
+                            song.stream = null;
+                        }
+                    };
+                    serverQueue.songs = [];
+                }
             }
-            if (message.client.queue) message.client.queue.delete(message.guild.id);
+            message.client.queue.delete(message.guild.id);
             if (message.guild.voice.connection.channel) message.guild.voice.connection.channel.leave();
 
             let leaveEmbed = new Discord.MessageEmbed()
@@ -32,12 +40,20 @@ module.exports = {
 
             return message.channel.send(leaveEmbed);
 
-        // If the bot is not in a vc, make sure the queue is cleared
+            // If the bot is not in a vc, make sure the queue is cleared
         } else {
             if (serverQueue) {
-                    if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to make me leave!`);
+                if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to make me leave!`);
 
-                if (serverQueue.songs) serverQueue.songs = [];
+                if (serverQueue.songs) {
+                    for (const song of serverQueue.songs) {
+                        if (song.stream !== null) {
+                            if (typeof song.stream.destroy === `function`) song.stream.destroy();
+                            song.stream = null;
+                        }
+                    };
+                    serverQueue.songs = [];
+                }
             }
             if (message.client.queue) message.client.queue.delete(message.guild.id);
             return message.reply(`I can't leave if I'm not in a VC!`);

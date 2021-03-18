@@ -10,12 +10,12 @@ class Queue {
      * 
      * @param {object} textChannel Text channel to bind the queue to
      * @param {object} voiceChannel Voice channel to bind the queue to
+     * @param {object} connection Voice connection object
      */
-    constructor (textChannel, voiceChannel) {
+    constructor (textChannel, voiceChannel, connection) {
         this.textChannel = textChannel;
         this.channel = voiceChannel;
-        this.connection = null;
-        this.connectionListenerAttached = false;
+        this.connection = connection;
         this.bitrate = voiceChannel.bitrate / 1000 || 128;
         this.songs = [];
         this.currentSong = 0;
@@ -34,6 +34,16 @@ class Queue {
             treble: 0,
             vibrato: 0
         };
+
+        // Make sure all streams are closed on a disconnect
+        this.connection.on(`disconnect`, () => {
+            for (const song of this.songs) {
+                if (song.stream !== null) {
+                    if (typeof song.stream.destroy === `function`) song.stream.destroy();
+                    song.stream = null;
+                }
+            };
+        });
     }
 
 

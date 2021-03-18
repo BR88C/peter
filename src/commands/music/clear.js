@@ -15,8 +15,20 @@ module.exports = {
 
         // Clears the queue without removing the song currently playing
         if (serverQueue.songs[serverQueue.currentSong]) {
+            for (const song of serverQueue.songs) {
+                if (song.stream !== null && song !== serverQueue.songs[serverQueue.currentSong]) {
+                    if (typeof song.stream.destroy === `function`) song.stream.destroy();
+                    song.stream = null;
+                }
+            };
             serverQueue.songs = [serverQueue.songs[serverQueue.currentSong]];
         } else {
+            for (const song of serverQueue.songs) {
+                if (song.stream !== null) {
+                    if (typeof song.stream.destroy === `function`) song.stream.destroy();
+                    song.stream = null;
+                }
+            };
             serverQueue.songs = [];
         }
         serverQueue.currentSong = 0;

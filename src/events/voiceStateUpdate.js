@@ -29,8 +29,15 @@ module.exports = async (client, oldState, newState) => {
 
                 serverQueue.textChannel.send(leaveEmbed);
 
-
-                if (serverQueue.songs) serverQueue.songs = [];
+                if (serverQueue.songs) {
+                    for (const song of serverQueue.songs) {
+                        if (song.stream !== null) {
+                            if (typeof song.stream.destroy === `function`) song.stream.destroy();
+                            song.stream = null;
+                        }
+                    };
+                    serverQueue.songs = [];
+                }
             }
             if (client.queue) client.queue.delete(oldState.guild.id);
             if (oldState.guild.voice.connection.channel) oldState.guild.voice.connection.channel.leave();
@@ -42,6 +49,17 @@ module.exports = async (client, oldState, newState) => {
                 .setTitle(`👋 Left due to being manually disconnected.`);
 
             serverQueue.textChannel.send(leaveEmbed);
+
+            if (serverQueue.songs) {
+                for (const song of serverQueue.songs) {
+                    if (song.stream !== null) {
+                        if (typeof song.stream.destroy === `function`) song.stream.destroy();
+                        song.stream = null;
+                    }
+                };
+                serverQueue.songs = [];
+            }
+
             if (client.queue) client.queue.delete(oldState.guild.id);
         }
     }

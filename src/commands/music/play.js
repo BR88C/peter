@@ -129,12 +129,14 @@ module.exports = {
                 if (playlist) await serverQueue.queuePlaylist(playlist, message);
                 await serverQueue.queueSong(song, message, true);
                 serverQueue.currentSong = serverQueue.songs.indexOf(song);
-                return streamhandler.play(serverQueue.songs[serverQueue.currentSong], message);
+                return streamhandler.play(message);
             }
         }
 
         // Create queue and push first song
-        const queueConstruct = new Queue(await message.guild.channels.fetch(message.channel.id, false), await message.guild.channels.fetch(channel.id, false))
+        const connection = await channel.join();
+        connection.voice.setSelfDeaf(true);
+        const queueConstruct = new Queue(await message.guild.channels.fetch(message.channel.id, false), await message.guild.channels.fetch(channel.id, false), connection);
         message.client.queue.set(message.guild.id, queueConstruct);
         queueConstruct.songs.push(song);
 
@@ -142,10 +144,7 @@ module.exports = {
 
         // Join vc and play music
         try {
-            const connection = await channel.join();
-            queueConstruct.connection = connection;
-            connection.voice.setSelfDeaf(true);
-            streamhandler.play(queueConstruct.songs[queueConstruct.currentSong], message);
+            streamhandler.play(message);
             if (playlist) await queueConstruct.queuePlaylist(playlist, message);
             return;
         } catch (error) {

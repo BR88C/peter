@@ -33,9 +33,7 @@ module.exports = {
         if (serverQueue.connection.dispatcher) {
             if (serverQueue.loop !== `single`) serverQueue.currentSong--;
             serverQueue.connection.dispatcher.end();
-        } else {
-            streamhandler.play(serverQueue.songs[serverQueue.currentSong], message);
-        }
+        } else streamhandler.play(message);
 
         let skippedToEmbed = new Discord.MessageEmbed()
             .setColor(0x9cd6ff)

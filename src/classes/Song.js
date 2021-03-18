@@ -23,6 +23,7 @@ class Song {
         this.requestedBy = messageAuthorTag;
         this.hidden = false;
         this.startTime = 0;
+        this.stream = null;
     }
 };
 
