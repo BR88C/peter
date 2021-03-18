@@ -54,7 +54,7 @@ const loader = {
         for (const file of eventFiles) {
             const event = require(`../events/${file}`);
             const eventName = file.split(`.`)[0];
-            log(`Loaded event ${eventName}`, `yellow`);
+            log(`Loaded event ${eventName}.`, `yellow`);
             client.on(eventName, event.bind(null, client));
         }
         log(`Finished loading events!`, `green`);
@@ -80,7 +80,7 @@ const loader = {
                 const command = require(`../commands/${directory.name}/${file}`);
                 command.directory = directory.name;
                 client.commands.set(command.name, command);
-                log(`Loaded command ${command.name}`, `yellow`);
+                log(`Loaded command ${command.name}.`, `yellow`);
             }
         }
         log(`Finished loading commands!`, `green`);
