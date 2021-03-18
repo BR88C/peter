@@ -78,9 +78,9 @@ const streamhandler = {
 
         // Create stream
         serverQueue.songs[serverQueue.currentSong].stream = pipeline(ytdlStream, transcoder, opusTranscoder, (error) => {
-            if (ytdlStream) ytdlStream.destroy((error) => {});
-            if (transcoder) transcoder.destroy((error) => {});
-            if (opusTranscoder) opusTranscoder.destroy((error) => {});
+            if (ytdlStream) ytdlStream.destroy((error) => log(error, `red`));
+            if (transcoder) transcoder.destroy((error) => log(error, `red`));
+            if (opusTranscoder) opusTranscoder.destroy((error) => log(error, `red`));
             if (error && error.message !== `Premature close`) log(error, `red`);
         });
 

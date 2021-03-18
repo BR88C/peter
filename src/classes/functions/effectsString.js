@@ -34,7 +34,7 @@ const effectsString = (type, serverQueue) => {
         activeEffects = activeEffects[0] ? `\`\`\`prolog\n${activeEffects.join(`, `)}\n\`\`\`` : `\`\`\`diff\n-= No Active effects =-\n\`\`\``;
 
     } else {
-        throw `Invalid effects array type`;
+        throw new Error(`Invalid effects array type`);
     }
 
     return activeEffects;

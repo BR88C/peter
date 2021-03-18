@@ -39,7 +39,7 @@ module.exports = {
 
         // Send the embeds and mute the user
         log(`${user.tag} unmuted`, `green`, message, { server: true, regex: true });
-        await user.send(unmutedEmbed).catch(error => {});
+        await user.send(unmutedEmbed).catch((error) => log(error, `red`));
         await userGuildMember.roles.remove(mutedRole);
         return message.channel.send(logUnmutedEmbed);
     },

@@ -86,9 +86,9 @@ const queueSong = async (song, message, hidden, serverQueue) => {
                     channel.send(removeEmbed);
                 }
 
-                return msg.delete();
+                return msg.delete().catch((error) => log(error, `red`));
 
-            }).catch(error => {
+            }).catch((error) => {
                 msg.reactions.removeAll();
             });
         });

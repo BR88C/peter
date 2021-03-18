@@ -20,16 +20,16 @@ const client = new Discord.Client({
 
 
 /* Catch unhandled promise rejection errors */
-process.on(`unhandledRejection`, error => log(error, `red`));
+process.on(`unhandledRejection`, (error) => log(error, `red`));
 
 
 /* Load all commands, events, and variables, then authenticate with Discord */
 loader.start(client);
-client.login(process.env.BOT_TOKEN).catch(error => end(client, false, `Failed to authenticate client with application.`));
+client.login(process.env.BOT_TOKEN).catch((error) => end(client, false, `Failed to authenticate client with application.`));
 
 
 /* Report if there is an error with DBL */
-if (client.dbl) client.dbl.on('error', error => log(`DBL API Warning: ${error}`, `yellow`));
+if (client.dbl) client.dbl.on('error', (error) => log(`DBL API Warning: ${error}`, `yellow`));
 
 
 /* If the Bot is Stopped with Ctrl+C */

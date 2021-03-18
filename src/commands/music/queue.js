@@ -207,7 +207,7 @@ module.exports = {
                         msg.delete();
                         return sendReactionQueueEmbed();
 
-                    }).catch(error => {
+                    }).catch((error) => {
                         msg.reactions.removeAll();
                     });
                 });

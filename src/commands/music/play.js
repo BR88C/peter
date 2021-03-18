@@ -54,7 +54,7 @@ module.exports = {
             // Set songInfo
             songInfo = await ytdl.getInfo(args[0], {
                 requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
-            }).catch(error => {
+            }).catch((error) => {
                 log(error, `red`);
                 return message.channel.send(errorEmbed);
             });
@@ -64,7 +64,7 @@ module.exports = {
             playlist = await ytpl(args.slice(0).join(` `).match(playlistRegex)[2], {
                 limit: Infinity,
                 requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
-            }).catch(error => {
+            }).catch((error) => {
                 return log(error, `red`);
             })
 
@@ -72,7 +72,7 @@ module.exports = {
 
             songInfo = await ytdl.getInfo(playlist.items[0].id, {
                 requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
-            }).catch(error => {
+            }).catch((error) => {
                 log(error, `red`);
                 return message.channel.send(errorEmbed);
             });
@@ -103,7 +103,7 @@ module.exports = {
             // Set songInfo
             songInfo = await ytdl.getInfo(ytsrResult.items[0].url, {
                 requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
-            }).catch(error => {
+            }).catch((error) => {
                 log(error, `red`);
                 return message.channel.send(errorEmbed);
             });

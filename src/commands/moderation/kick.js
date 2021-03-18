@@ -44,7 +44,7 @@ module.exports = {
 
         // Send the embeds and kick the user
         log(`${user.tag} kicked for ${kickReason}`, `red`, message, { server: true, regex: true });
-        await user.send(kickedEmbed).catch(error => {});
+        await user.send(kickedEmbed).catch((error) => log(error, `red`));
         await userGuildMember.kick({ reason: kickReason });
         return message.channel.send(logKickedEmbed);
     },

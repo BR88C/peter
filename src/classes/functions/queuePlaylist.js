@@ -33,7 +33,7 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
 
             const songInfo = await ytdl.getInfo(video.id, {
                 requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
-            }).catch(error => {
+            }).catch((error) => {
                 log(error, `red`);
             });
 

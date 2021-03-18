@@ -17,7 +17,7 @@ const end = async (client, setDND, message) => {
                 type: 'PLAYING'
             },
             status: 'dnd'
-        }).catch(error => log(error, `red`));
+        }).catch((error) => log(error, `red`));
     }
 
     if (message) log(`\n${message}`, `red`);
