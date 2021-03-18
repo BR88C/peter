@@ -19,7 +19,7 @@ const streamhandler = {
      * @param {Object} message Message sent that queued song.
      * @returns {Void} Void.
      */
-    async play (message) {
+    play: async (message) => {
         const serverQueue = message.client.queue.get(message.guild.id);
 
         // If server queue is not defined, return.
@@ -90,10 +90,10 @@ const streamhandler = {
                 if (serverQueue.loop === `single` && serverQueue.songs[serverQueue.currentSong] && !serverQueue.songs[serverQueue.currentSong].livestream) {
                     serverQueue.songs[serverQueue.currentSong].startTime = 0;
                     serverQueue.songs[serverQueue.currentSong].hidden = false;
-                    this.play(message);
+                    streamhandler.play(message);
                 } else if (serverQueue.songs[serverQueue.currentSong + 1]) {
                     serverQueue.currentSong++;
-                    this.play(message);
+                    streamhandler.play(message);
                 }
             })
             // If there is an error leave the VC and report to the user.
@@ -147,7 +147,7 @@ const streamhandler = {
      * @param {number} startTime Time to start stream at.
      * @returns {Void} Void.
      */
-    async restartStream (serverQueue, startTime) {
+    restartStream: (serverQueue, startTime) => {
         if (!serverQueue.songs[serverQueue.currentSong].livestream) serverQueue.songs[serverQueue.currentSong].startTime = startTime;
         serverQueue.songs[serverQueue.currentSong].hidden = true;
         if (serverQueue.loop !== `single`) serverQueue.currentSong--;

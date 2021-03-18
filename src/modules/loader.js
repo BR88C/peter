@@ -14,7 +14,7 @@ const loader = {
      * @param {Object} client Client object.
      * @returns {Void} Void.
      */
-    async loadVariables (client) {
+    loadVariables: (client) => {
         if (process.env.DBL_TOKEN) {
             client.dbl = new DBL(process.env.DBL_TOKEN, client);
             log(`Initialized DBL API!`, `green`);
@@ -30,7 +30,7 @@ const loader = {
      * @param {Object} client Client object.
      * @returns {Void} Void.
      */
-    async loadEvents (client) {
+    loadEvents: (client) => {
         const eventFiles = fs.readdirSync(`./src/events`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
         for (const file of eventFiles) {
             const event = require(`../events/${file}`);
@@ -47,7 +47,7 @@ const loader = {
      * @param {Object} client Client object.
      * @returns {Void} Void.
      */
-    async loadCommands (client) {
+    loadCommands: (client) => {
         client.commands = new Discord.Collection();
         client.directories = new Discord.Collection();
         const dirConfigs = fs.readdirSync(`./src/config/cmddirectories`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
@@ -68,16 +68,16 @@ const loader = {
     },
 
     /**
-     * Run all loader methods.
+     * Starts the bot by running all loader methods.
      *
      * @param {Object} client Client object.
      * @returns {Void} Void.
      */
-    async start (client) {
+    start: (client) => {
         logHeader();
-        await this.loadVariables(client);
-        await this.loadEvents(client);
-        await this.loadCommands(client);
+        loader.loadVariables(client);
+        loader.loadEvents(client);
+        loader.loadCommands(client);
         if (requestHeaders.checkHeaders()) log(`Request headers are properly defined!`, `green`);
     }
 };
