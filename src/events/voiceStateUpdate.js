@@ -8,13 +8,9 @@ module.exports = async (client, oldState, newState) => {
     if (oldState && !newState) {
         const serverQueue = client.queue.get(oldState.guild.id);
 
-        const oldChannelInfo = await oldState.guild.channels.fetch(oldState.channelID, false).catch((error) => {
-            log(error, `red`);
-        });
+        const oldChannelInfo = await oldState.guild.channels.fetch(oldState.channelID, false).catch((error) => {});
         if (!oldChannelInfo) return;
-        const newChannelInfo = await client.channels.fetch(oldChannelInfo.id, false).catch((error) => {
-            log(error, `red`);
-        });
+        const newChannelInfo = await client.channels.fetch(oldChannelInfo.id, false).catch((error) => {});
         if (!newChannelInfo) return;
 
         const usersInVC = oldChannelInfo.members.filter(member => !member.user.bot).size;
