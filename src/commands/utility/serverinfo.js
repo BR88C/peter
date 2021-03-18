@@ -9,7 +9,7 @@ module.exports = {
     async execute (client, message, args) {
         // Check if server has news channel
         let newsChannel;
-        if (message.guild.channels.cache.filter(channel => channel.type == 'news').size > 0) newsChannel = `✅ News Channel`;
+        if (message.guild.channels.cache.filter(channel => channel.type === 'news').size > 0) newsChannel = `✅ News Channel`;
         else newsChannel = `❌ News Channel`;
 
         // Check if server has invite splash
