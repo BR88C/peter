@@ -11,7 +11,7 @@ const loader = {
     /**
      * Load variables and save on client
      *
-     * @param {object} client Client object
+     * @param {Object} client Client object
      */
     async loadVariables (client) {
         if (process.env.DBL_TOKEN) {
@@ -26,7 +26,7 @@ const loader = {
     /**
      * Load events
      *
-     * @param {object} client Client object
+     * @param {Object} client Client object
      */
     async loadEvents (client) {
         const eventFiles = fs.readdirSync(`./src/events`).filter(file => file.endsWith(`.js`) && !file.startsWith(`_`));
@@ -42,7 +42,7 @@ const loader = {
     /**
      * Load directories and commands
      *
-     * @param {object} client Client object
+     * @param {Object} client Client object
      */
     async loadCommands (client) {
         client.commands = new Discord.Collection();
@@ -67,7 +67,7 @@ const loader = {
     /**
      * Run all loader methods
      *
-     * @param {object} client Client object
+     * @param {Object} client Client object
      */
     async start (client) {
         logHeader();

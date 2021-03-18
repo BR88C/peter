@@ -1,7 +1,7 @@
 /**
  * Adds a backslash before all markdown formatting characters in a string
  *
- * @param {string} string String to be cleansed
+ * @param {String} string String to be cleansed
  * @returns The cleaned string
  */
 const cleanseMarkdown = (string) =>

@@ -9,8 +9,8 @@ class Song {
     /**
      * Song constructor
      *
-     * @param {object} songInfo Song info from ytdl-core
-     * @param {string} messageAuthorTag Author of the song request
+     * @param {Object} songInfo Song info from ytdl-core
+     * @param {String} messageAuthorTag Author of the song request
      */
     constructor (songInfo, messageAuthorTag) {
         this.title = cleanseMarkdown(songInfo.videoDetails.title);

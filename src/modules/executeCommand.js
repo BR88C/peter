@@ -4,10 +4,10 @@ const log = require(`../modules/log.js`);
 /**
  * Check if a command and arguments are valid, then execute it
  *
- * @param {string} commandName Name of the command, or it's alias
- * @param {array} args Command arguments
- * @param {object} client Client object
- * @param {object} message Message object
+ * @param {String} commandName Name of the command, or it's alias
+ * @param {Array} args Command arguments
+ * @param {Object} client Client object
+ * @param {Object} message Message object
  */
 const executeCommand = async (commandName, args, client, message) => {
     // Get the command

@@ -4,8 +4,8 @@
  * @param {any} input Input number
  * @param {number} min Max accepted value
  * @param {number} max Min accepted value
- * @param {object} message Message object
- * @param {string} offString String to set value to min
+ * @param {Object} message Message object
+ * @param {String} offString String to set value to min
  * @returns {number} Parsed input value
  */
 const checkValueSpecified = (input, min, max, message, offString) => {

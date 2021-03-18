@@ -17,8 +17,8 @@ const streamhandler = {
     /**
      * Stream a song to a VC. Will always play serverQueue.songs[serverQueue.currentSong]
      *
-     * @param {object} song Song object to play
-     * @param {object} message Message sent that queued song
+     * @param {Object} song Song object to play
+     * @param {Object} message Message sent that queued song
      */
     async play (message) {
         const serverQueue = message.client.queue.get(message.guild.id);
@@ -144,7 +144,7 @@ const streamhandler = {
     /**
      * Restarts a stream at a specified time
      *
-     * @param {object} serverQueue Server queue object
+     * @param {Object} serverQueue Server queue object
      * @param {number} startTime Time to start stream at
      */
     async restartStream (serverQueue, startTime) {

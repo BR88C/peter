@@ -3,7 +3,7 @@
  *
  * @param {number} percent Percent of progress bar to show complete
  * @param {number} length Length of the progress bar
- * @returns {string} Progress bar string
+ * @returns {String} Progress bar string
  */
 const progressBar = (percent, length) => {
     // If the length is not odd, make it odd

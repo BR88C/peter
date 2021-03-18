@@ -44,7 +44,7 @@ const requestHeaders = {
     /**
      * Get headers object
      *
-     * @returns {object} Header object
+     * @returns {Object} Header object
      */
     getHeaders: () => {
         if (!requestHeaders.checkHeaders()) return;

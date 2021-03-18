@@ -8,9 +8,9 @@ class Queue {
     /**
      * Queue constructor
      *
-     * @param {object} textChannel Text channel to bind the queue to
-     * @param {object} voiceChannel Voice channel to bind the queue to
-     * @param {object} connection Voice connection object
+     * @param {Object} textChannel Text channel to bind the queue to
+     * @param {Object} voiceChannel Voice channel to bind the queue to
+     * @param {Object} connection Voice connection object
      */
     constructor (textChannel, voiceChannel, connection) {
         this.textChannel = textChannel;
@@ -49,8 +49,8 @@ class Queue {
     /**
      * Adds a song to the queue
      *
-     * @param {object} song A song object
-     * @param {object} message The message that requested the song
+     * @param {Object} song A song object
+     * @param {Object} message The message that requested the song
      * @param {boolean} hidden If the queued song embed should be sent
      */
     queueSong (song, message, hidden) {
@@ -60,8 +60,8 @@ class Queue {
     /**
      * Adds songs within a playlist to the queue
      *
-     * @param {object} playlist Playlist object from ytpl to queue
-     * @param {object} message The message that requested the playlist
+     * @param {Object} playlist Playlist object from ytpl to queue
+     * @param {Object} message The message that requested the playlist
      */
     queuePlaylist (playlist, message) {
         queuePlaylist(playlist, message, this);
@@ -70,8 +70,8 @@ class Queue {
     /**
      * Generates a string based off of active effects
      *
-     * @param {string} type The type of string to request (ffmpeg, formatted)
-     * @returns {string} The generated effects string based on type
+     * @param {String} type The type of string to request (ffmpeg, formatted)
+     * @returns {String} The generated effects string based on type
      */
     effectsString (type) {
         return effectsString(type, this);

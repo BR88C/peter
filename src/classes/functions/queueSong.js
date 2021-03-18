@@ -6,10 +6,10 @@ const time = require(`../../utils/time.js`);
 /**
  * Adds a song to the queue
  *
- * @param {object} song A song object
- * @param {object} message The message that requested the song
+ * @param {Object} song A song object
+ * @param {Object} message The message that requested the song
  * @param {boolean} hidden If the queued song embed should be sent
- * @param {object} serverQueue Server queue object (this)
+ * @param {Object} serverQueue Server queue object (this)
  */
 const queueSong = async (song, message, hidden, serverQueue) => {
     serverQueue.songs.push(song);
