@@ -91,14 +91,16 @@ const streamhandler = {
         })
             // When the song ends
             .on(`finish`, (reason) => {
-                if (serverQueue.songs[serverQueue.currentSong].stream) serverQueue.songs[serverQueue.currentSong].stream.emit(`close`);
-                if (serverQueue.loop === `single` && !serverQueue.songs[serverQueue.currentSong].livestream) {
-                    serverQueue.songs[serverQueue.currentSong].startTime = 0;
-                    serverQueue.songs[serverQueue.currentSong].hidden = false;
-                    this.play(message);
-                } else {
-                    serverQueue.currentSong++;
-                    this.play(message);
+                if(serverQueue.songs[serverQueue.currentSong]) {
+                    if (serverQueue.songs[serverQueue.currentSong].stream) serverQueue.songs[serverQueue.currentSong].stream.emit(`close`);
+                    if (serverQueue.loop === `single` && !serverQueue.songs[serverQueue.currentSong].livestream) {
+                        serverQueue.songs[serverQueue.currentSong].startTime = 0;
+                        serverQueue.songs[serverQueue.currentSong].hidden = false;
+                        this.play(message);
+                    } else {
+                        serverQueue.currentSong++;
+                        this.play(message);
+                    }
                 }
             })
             // If there is an error leave the vc and report to the user
