@@ -39,7 +39,7 @@ module.exports = {
         // Restart the stream at the current time.
         streamhandler.restartStream(serverQueue, currentTime(serverQueue));
 
-        let phaserEmbed = new Discord.MessageEmbed()
+        const phaserEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)
             .setTitle(`🌊  Set the phaser value to **${specifiedValue}%**`);
 

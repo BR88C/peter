@@ -18,7 +18,7 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        let confirmationEmbed = new Discord.MessageEmbed()
+        const confirmationEmbed = new Discord.MessageEmbed()
             .setTitle(`Confirm`)
             .setColor(0xff0000)
             .setDescription(`Are you sure you want to stop Peter?`);

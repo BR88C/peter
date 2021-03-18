@@ -38,11 +38,11 @@ module.exports = {
         if (!userGuildMember.manageable) return message.reply(`I do not have sufficient permissions to unmute this user!`);
 
         // Create embeds.
-        let unmutedEmbed = new Discord.MessageEmbed()
+        const unmutedEmbed = new Discord.MessageEmbed()
             .setColor(0x57ff5c)
             .setTitle(`**You have been unmuted in ${message.guild.name}!**`);
 
-        let logUnmutedEmbed = new Discord.MessageEmbed()
+        const logUnmutedEmbed = new Discord.MessageEmbed()
             .setColor(0x57ff5c)
             .setTitle(`**${user.tag} has been unmuted**`);
 

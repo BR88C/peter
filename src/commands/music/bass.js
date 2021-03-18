@@ -40,7 +40,7 @@ module.exports = {
         // Restart the stream at the current time.
         streamhandler.restartStream(serverQueue, currentTime(serverQueue));
 
-        let bassEmbed = new Discord.MessageEmbed()
+        const bassEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)
             .setTitle(`🥁  Set the bass to **+${specifiedValue}%**`);
 

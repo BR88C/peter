@@ -38,7 +38,7 @@ module.exports = {
         // Skips to the next song.
         serverQueue.connection.dispatcher.end();
 
-        let skipEmbed = new Discord.MessageEmbed()
+        const skipEmbed = new Discord.MessageEmbed()
             .setColor(0x9cd6ff)
             .setTitle(`⏭️  The current song has been skipped.`);
 

@@ -33,12 +33,12 @@ module.exports = {
         if (!user) return message.reply(`please specify a user to warn!`);
 
         // Create embeds.
-        let warnEmbed = new Discord.MessageEmbed()
+        const warnEmbed = new Discord.MessageEmbed()
             .setColor(0xffd000)
             .setTitle(`**You have been warned in ${message.guild.name}!**`)
             .setDescription(`Reason: ${warnReason}`);
 
-        let logWarnEmbed = new Discord.MessageEmbed()
+        const logWarnEmbed = new Discord.MessageEmbed()
             .setColor(0xffd000)
             .setTitle(`**${user.tag} has been warned**`)
             .setDescription(`Reason: ${warnReason}`);

@@ -39,7 +39,7 @@ module.exports = {
         // Restart the stream at the current time.
         streamhandler.restartStream(serverQueue, currentTime(serverQueue));
 
-        let pitchEmbed = new Discord.MessageEmbed()
+        const pitchEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)
             .setTitle(`👂  Set the pitch to **${specifiedValue}%**`);
 

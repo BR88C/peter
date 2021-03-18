@@ -19,7 +19,7 @@ module.exports = {
             data.push(`\nDo \`\`${config.prefix}help <category name>\`\`\nto list all commands in a category\n\nDo \`\`${config.prefix}help command <command name>\`\`\nto get more info on a command`);
 
             // Create embed.
-            let helpEmbed = new Discord.MessageEmbed()
+            const helpEmbed = new Discord.MessageEmbed()
                 .setColor(0xdbbe00)
                 .setTitle(`**Command Categories:**`)
                 .setDescription(data, {
@@ -52,7 +52,7 @@ module.exports = {
             data.push(`\nDo \`\`${config.prefix}help command <command name>\`\`\nto get more info on a command`);
 
             // Create embed.
-            let helpEmbed = new Discord.MessageEmbed()
+            const helpEmbed = new Discord.MessageEmbed()
                 .setColor(0xdbbe00)
                 .setTitle(`**${specifiedDirectory.fullName} category**`)
                 .setDescription(data, {
@@ -82,7 +82,7 @@ module.exports = {
         if (command.devOnly) data.push(`**Dev Only:** ${command.devOnly}`);
 
         // Create the Embed.
-        let helpEmbed = new Discord.MessageEmbed()
+        const helpEmbed = new Discord.MessageEmbed()
             .setColor(0xdbbe00)
             .setTitle(`**${command.name} command information:**`)
             .setDescription(data, {

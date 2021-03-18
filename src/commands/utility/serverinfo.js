@@ -41,7 +41,7 @@ module.exports = {
         }
 
         // Create Embed.
-        let serverInfoEmbed = new Discord.MessageEmbed()
+        const serverInfoEmbed = new Discord.MessageEmbed()
             .setColor(0x949fff)
             .setTitle(`Information about ${message.guild.name}`)
             .setThumbnail(message.guild.iconURL({

@@ -42,7 +42,7 @@ module.exports = {
             message.client.queue.delete(message.guild.id);
             if (message.guild.voice.connection.channel) message.guild.voice.connection.channel.leave();
 
-            let leaveEmbed = new Discord.MessageEmbed()
+            const leaveEmbed = new Discord.MessageEmbed()
                 .setColor(0xff4a4a)
                 .setTitle(`${emoji}  Left the VC.`);
 

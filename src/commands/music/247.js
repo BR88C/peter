@@ -30,7 +30,7 @@ module.exports = {
             serverQueue.twentyFourSeven = true;
             if (serverQueue.loop === `off`) serverQueue.loop = `queue`;
 
-            let twentyFourSevenEmbed = new Discord.MessageEmbed()
+            const twentyFourSevenEmbed = new Discord.MessageEmbed()
                 .setColor(0x9cd6ff)
                 .setTitle(`🕐  The music is now 24/7.`);
 
@@ -38,7 +38,7 @@ module.exports = {
         } else if (args[0].toLowerCase() === `off`) {
             serverQueue.twentyFourSeven = false;
 
-            let twentyFourSevenEmbed = new Discord.MessageEmbed()
+            const twentyFourSevenEmbed = new Discord.MessageEmbed()
                 .setColor(0x9cd6ff)
                 .setTitle(`The queue is no longer 24/7.`);
 

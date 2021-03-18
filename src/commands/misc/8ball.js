@@ -41,7 +41,7 @@ module.exports = {
 
         const output = possibleOutputs[randomInt(0, possibleOutputs.length - 1)];
 
-        let headsEmbed = new Discord.MessageEmbed()
+        const headsEmbed = new Discord.MessageEmbed()
             .setColor(0xd4d4d4)
             .setTitle(`🎱  ${output}`);
 

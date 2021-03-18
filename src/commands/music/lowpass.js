@@ -39,7 +39,7 @@ module.exports = {
         // Restart the stream at the current time.
         streamhandler.restartStream(serverQueue, currentTime(serverQueue));
 
-        let lowpassEmbed = new Discord.MessageEmbed()
+        const lowpassEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)
             .setTitle(`⬇️  Set the lowpass level to **+${specifiedValue}%**`);
 

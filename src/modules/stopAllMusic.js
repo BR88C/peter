@@ -26,7 +26,7 @@ const stopAllMusic = (client) => new Promise((resolve) => {
             const emojiGuild = client.guilds.forge(client.config.emojiGuild);
             const loadingEmoji = await emojiGuild.emojis.fetch(client.config.emojis.loading);
 
-            let leaveEmbed = new Discord.MessageEmbed()
+            const leaveEmbed = new Discord.MessageEmbed()
                 .setColor(0xff4a4a)
                 .setTitle(`${loadingEmoji}  Peter is currently restarting. Music stopped.`);
 

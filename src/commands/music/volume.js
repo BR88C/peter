@@ -36,7 +36,7 @@ module.exports = {
         serverQueue.volume = specifiedValue;
         serverQueue.connection.dispatcher.setVolumeLogarithmic(specifiedValue / 250);
 
-        let volumeEmbed = new Discord.MessageEmbed()
+        const volumeEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)
             .setTitle(`🔊  Set the volume to **${specifiedValue}%**`);
 

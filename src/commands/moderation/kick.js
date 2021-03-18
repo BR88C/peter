@@ -41,12 +41,12 @@ module.exports = {
         if (!userGuildMember.kickable) return message.reply(`I do not have sufficient permissions to kick this user!`);
 
         // Create embeds.
-        let kickedEmbed = new Discord.MessageEmbed()
+        const kickedEmbed = new Discord.MessageEmbed()
             .setColor(0xdb1226)
             .setTitle(`**You have been kicked from ${message.guild.name}!**`)
             .setDescription(`Reason: ${kickReason}`);
 
-        let logKickedEmbed = new Discord.MessageEmbed()
+        const logKickedEmbed = new Discord.MessageEmbed()
             .setColor(0xdb1226)
             .setTitle(`**${user.tag} has been kicked**`)
             .setDescription(`Reason: ${kickReason}`);

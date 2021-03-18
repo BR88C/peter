@@ -39,7 +39,7 @@ module.exports = {
         // Restart the stream at the current time.
         streamhandler.restartStream(serverQueue, currentTime(serverQueue));
 
-        let trebleEmbed = new Discord.MessageEmbed()
+        const trebleEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)
             .setTitle(`🎼  Set the treble to **+${specifiedValue}%**`);
 

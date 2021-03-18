@@ -39,7 +39,7 @@ module.exports = {
         // Change the current song index if needed.
         if (specifiedValue - 1 < serverQueue.currentSong) serverQueue.currentSong--;
 
-        let removeEmbed = new Discord.MessageEmbed()
+        const removeEmbed = new Discord.MessageEmbed()
             .setColor(0xff668a)
             .setTitle(`❌  Removed **${song[0].title}** from the queue!`);
 

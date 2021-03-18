@@ -35,7 +35,7 @@ module.exports = {
         serverQueue.songs = shuffleArray(serverQueue.songs);
         serverQueue.connection.dispatcher.end();
 
-        let shuffleEmbed = new Discord.MessageEmbed()
+        const shuffleEmbed = new Discord.MessageEmbed()
             .setColor(0x9cd6ff)
             .setTitle(`🔀  Shuffled the queue`);
 

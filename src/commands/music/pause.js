@@ -29,7 +29,7 @@ module.exports = {
             serverQueue.playing = false;
             serverQueue.connection.dispatcher.pause();
 
-            let pauseEmbed = new Discord.MessageEmbed()
+            const pauseEmbed = new Discord.MessageEmbed()
                 .setColor(0xfff066)
                 .setTitle(`⏸  Current song was paused!`);
 

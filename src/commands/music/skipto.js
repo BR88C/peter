@@ -44,7 +44,7 @@ module.exports = {
             serverQueue.connection.dispatcher.end();
         } else streamhandler.play(message);
 
-        let skippedToEmbed = new Discord.MessageEmbed()
+        const skippedToEmbed = new Discord.MessageEmbed()
             .setColor(0x9cd6ff)
             .setTitle(`⏭️  Skipped to **${serverQueue.songs[specifiedValue - 1].title}**!`);
 

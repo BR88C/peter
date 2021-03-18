@@ -43,7 +43,7 @@ module.exports = {
         serverQueue.currentSong = 0;
 
         // Create embed.
-        let clearEmbed = new Discord.MessageEmbed()
+        const clearEmbed = new Discord.MessageEmbed()
             .setColor(0xff642b)
             .setTitle(`🧹  Cleared the Queue!`);
 

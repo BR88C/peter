@@ -13,11 +13,11 @@ const requestHeaders = require(`../../modules/requestHeaders.js`);
  * @returns {Void} Void.
  */
 const queuePlaylist = async (playlist, message, serverQueue) => {
-    let attemptingToQueueEmbed = new Discord.MessageEmbed()
+    const attemptingToQueueEmbed = new Discord.MessageEmbed()
         .setColor(0xdbbe00)
         .setTitle(`Attempting to queue ${playlist.items.length + 1} songs...`);
 
-    let queueDeletedEmbed = new Discord.MessageEmbed()
+    const queueDeletedEmbed = new Discord.MessageEmbed()
         .setColor(0xff4a4a)
         .setTitle(`Stopped queuing playlist due to server queue being deleted.`);
 
@@ -51,7 +51,7 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
 
             songsAdded++;
 
-            let attemptingToQueueEmbed = new Discord.MessageEmbed()
+            const attemptingToQueueEmbed = new Discord.MessageEmbed()
                 .setColor(0xdbbe00)
                 .setTitle(`Queued ${songsAdded}/${playlist.items.length + 1} songs...`);
 
@@ -65,7 +65,7 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
     });
 
     if (success) {
-        let successfullyQueuedEmbed = new Discord.MessageEmbed()
+        const successfullyQueuedEmbed = new Discord.MessageEmbed()
             .setColor(0x57ff5c)
             .setTitle(`Successfully queued ${songsAdded + 1} songs!`);
 

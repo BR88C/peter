@@ -18,13 +18,13 @@ module.exports = {
         const value = Math.round(Math.random());
 
         if (value === 1) {
-            let headsEmbed = new Discord.MessageEmbed()
+            const headsEmbed = new Discord.MessageEmbed()
                 .setColor(0xd4d4d4)
                 .setTitle(`The coin landed on Heads!`);
 
             return message.channel.send(headsEmbed);
         } else {
-            let tailsEmbed = new Discord.MessageEmbed()
+            const tailsEmbed = new Discord.MessageEmbed()
                 .setColor(0xd4d4d4)
                 .setTitle(`The coin landed on Tails!`);
 

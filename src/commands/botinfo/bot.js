@@ -9,7 +9,7 @@ module.exports = {
     async execute (client, message, args) {
         const uptime = time(Math.round(client.uptime / 1000));
 
-        let botInfoEmbed = new Discord.MessageEmbed()
+        const botInfoEmbed = new Discord.MessageEmbed()
             .setColor(0xffd87d)
             .setTitle(`Information about Peter!`)
             .setThumbnail(client.user.avatarURL({ dynamic: true, size: 256 }))

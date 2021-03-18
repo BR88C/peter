@@ -60,7 +60,7 @@ const streamhandler = {
             `-ar`, `48000`,
             `-ac`, `2`
         ];
-        let sfxArgs = serverQueue.effectsString(`ffmpeg`);
+        const sfxArgs = serverQueue.effectsString(`ffmpeg`);
 
         // Create ffmpeg transcoder.
         const transcoder = new FFmpeg({
@@ -100,7 +100,7 @@ const streamhandler = {
             .on(`error`, async (error) => {
                 log(error, `red`);
 
-                let errorEmbed = new Discord.MessageEmbed()
+                const errorEmbed = new Discord.MessageEmbed()
                     .setColor(0xff4a4a)
                     .setTitle(`An unknown error occured. If the problem persists please report the issue in the support server.`)
                     .setDescription(`Link: ${message.client.config.links.supportServer}`);
@@ -129,7 +129,7 @@ const streamhandler = {
         const nowPlayingEmojis = [message.client.config.emojis.notes, message.client.config.emojis.conga, message.client.config.emojis.catjam, message.client.config.emojis.pepedance, message.client.config.emojis.pepejam, message.client.config.emojis.peepojam];
         const nowPlayingEmoji = await emojiGuild.emojis.fetch(nowPlayingEmojis[randomInt(0, nowPlayingEmojis.length - 1)]);
 
-        let playingEmbed = new Discord.MessageEmbed()
+        const playingEmbed = new Discord.MessageEmbed()
             .setColor(0x5ce6c8)
             .setTitle(`${nowPlayingEmoji}  Started playing: ${serverQueue.songs[serverQueue.currentSong].title}`)
             .setImage(serverQueue.songs[serverQueue.currentSong].thumbnail)

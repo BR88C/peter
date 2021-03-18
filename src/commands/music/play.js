@@ -36,12 +36,12 @@ module.exports = {
         if (!permissions.has(`CONNECT`)) return message.reply(`I cannot connect to your voice channel, make sure I have the proper permissions!`);
         if (!permissions.has(`SPEAK`)) return message.reply(`I cannot speak in your voice channel, make sure I have the proper permissions!`);
 
-        let errorEmbed = new Discord.MessageEmbed()
+        const errorEmbed = new Discord.MessageEmbed()
             .setColor(0xff4a4a)
             .setTitle(`An unknown error occured. If the problem persists please report the issue in the support server.`)
             .setDescription(`Link: ${message.client.config.links.supportServer}`);
 
-        let videoUnavailableEmbed = new Discord.MessageEmbed()
+        const videoUnavailableEmbed = new Discord.MessageEmbed()
             .setColor(0xff4a4a)
             .setTitle(`Error: Video Unavailable`);
 
@@ -109,7 +109,7 @@ module.exports = {
         }
 
         // Defines song info.
-        let song = new Song(songInfo, message.author.tag);
+        const song = new Song(songInfo, message.author.tag);
         if (!song.format) return message.channel.send(videoUnavailableEmbed);
 
         // Queues the song if there is a song playing or play a song if the queue is defined but no song is playing.

@@ -30,7 +30,7 @@ module.exports = {
             serverQueue.playing = true;
             serverQueue.connection.dispatcher.resume();
 
-            let resumeEmbed = new Discord.MessageEmbed()
+            const resumeEmbed = new Discord.MessageEmbed()
                 .setColor(0xb8ff9c)
                 .setTitle(`▶  Current song was resumed!`);
 

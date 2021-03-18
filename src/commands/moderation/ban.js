@@ -41,12 +41,12 @@ module.exports = {
         if (!userGuildMember.bannable) return message.reply(`I do not have sufficient permissions to ban this user!`);
 
         // Create embeds.
-        let bannedEmbed = new Discord.MessageEmbed()
+        const bannedEmbed = new Discord.MessageEmbed()
             .setColor(0xdb1226)
             .setTitle(`**You have been banned from ${message.guild.name}!**`)
             .setDescription(`Reason: ${banReason}`);
 
-        let logBannedEmbed = new Discord.MessageEmbed()
+        const logBannedEmbed = new Discord.MessageEmbed()
             .setColor(0xdb1226)
             .setTitle(`**${user.tag} has been banned**`)
             .setDescription(`Reason: ${banReason}`);

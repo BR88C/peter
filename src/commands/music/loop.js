@@ -29,7 +29,7 @@ module.exports = {
         if (args.length && args[0].toLowerCase() === `off`) {
             serverQueue.loop = `off`;
 
-            let loopEmbed = new Discord.MessageEmbed()
+            const loopEmbed = new Discord.MessageEmbed()
                 .setColor(0x9cd6ff)
                 .setTitle(`Looping has been turned off.`);
 
@@ -37,7 +37,7 @@ module.exports = {
         } else if (args.length && args[0].toLowerCase() === `single`) {
             serverQueue.loop = `single`;
 
-            let loopEmbed = new Discord.MessageEmbed()
+            const loopEmbed = new Discord.MessageEmbed()
                 .setColor(0x9cd6ff)
                 .setTitle(`🔂  Now looping the current song.`);
 
@@ -45,7 +45,7 @@ module.exports = {
         } else {
             serverQueue.loop = `queue`;
 
-            let loopEmbed = new Discord.MessageEmbed()
+            const loopEmbed = new Discord.MessageEmbed()
                 .setColor(0x9cd6ff)
                 .setTitle(`🔁  Now looping the queue.`);
 

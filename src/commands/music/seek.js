@@ -42,7 +42,7 @@ module.exports = {
         // Restart the stream at the specified time.
         streamhandler.restartStream(serverQueue, specifiedTime);
 
-        let seekEmbed = new Discord.MessageEmbed()
+        const seekEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)
             .setTitle(`⏩  Seeked to **${time(specifiedTime)}**`);
 

@@ -16,7 +16,7 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        let memberEmbed = new Discord.MessageEmbed()
+        const memberEmbed = new Discord.MessageEmbed()
             .setColor(0xacecb6)
             .setTitle(`**Total Guild Members:**`)
             .setDescription(await message.guild.memberCount);

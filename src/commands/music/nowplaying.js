@@ -44,7 +44,7 @@ module.exports = {
         const nowPlayingEmoji = await emojiGuild.emojis.fetch(nowPlayingEmojis[randomInt(0, nowPlayingEmojis.length - 1)]);
 
         // Create embed.
-        let nowPlayingEmbed = new Discord.MessageEmbed()
+        const nowPlayingEmbed = new Discord.MessageEmbed()
             .setColor(0xb0ffe2)
             .setAuthor(`🎶 Currently playing:`)
             .setTitle(`${nowPlayingEmoji}  **${serverQueue.songs[serverQueue.currentSong].title}**  ${nowPlayingEmoji}`)

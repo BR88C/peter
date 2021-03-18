@@ -20,7 +20,7 @@ module.exports = async (client, oldState, newState) => {
             if (serverQueue) {
                 if (serverQueue.twentyFourSeven) return;
 
-                let leaveEmbed = new Discord.MessageEmbed()
+                const leaveEmbed = new Discord.MessageEmbed()
                     .setColor(0xff4a4a)
                     .setTitle(`👋 Left due to no other users being present in the VC.`);
 
@@ -41,7 +41,7 @@ module.exports = async (client, oldState, newState) => {
 
             // If the bot is not in a VC and there is a queue, clear the queue
         } else if (!newChannelInfo.members.has(client.user.id) && serverQueue && oldState.channelID.toString() === serverQueue.channel.id.toString()) {
-            let leaveEmbed = new Discord.MessageEmbed()
+            const leaveEmbed = new Discord.MessageEmbed()
                 .setColor(0xff4a4a)
                 .setTitle(`👋 Left due to being manually disconnected.`);
 

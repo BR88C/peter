@@ -33,7 +33,7 @@ const queueSong = async (song, message, hidden, serverQueue) => {
     }
 
     if (!hidden && !song.hidden) {
-        let queueAddEmbed = new Discord.MessageEmbed()
+        const queueAddEmbed = new Discord.MessageEmbed()
             .setColor(0x0cdf24)
             .setTitle(`✅  "${song.title}" has been added to the queue!`)
             .setImage(song.thumbnail)
@@ -72,7 +72,7 @@ const queueSong = async (song, message, hidden, serverQueue) => {
                     if (serverQueue.loop !== `single`) serverQueue.currentSong--;
                     serverQueue.connection.dispatcher.end();
 
-                    let skippedToEmbed = new Discord.MessageEmbed()
+                    const skippedToEmbed = new Discord.MessageEmbed()
                         .setColor(0x9cd6ff)
                         .setTitle(`⏭️  Skipped to **${serverQueue.songs[songIndex].title}**!`);
 
@@ -80,7 +80,7 @@ const queueSong = async (song, message, hidden, serverQueue) => {
                 } else if (reaction.emoji.name === `❌`) {
                     const song = serverQueue.songs.splice(songIndex, 1);
 
-                    let removeEmbed = new Discord.MessageEmbed()
+                    const removeEmbed = new Discord.MessageEmbed()
                         .setColor(0xff668a)
                         .setTitle(`❌  Removed **${song[0].title}** from the queue!`);
 

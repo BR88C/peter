@@ -48,12 +48,12 @@ module.exports = {
         if (!userGuildMember.manageable) return message.reply(`I do not have sufficient permissions to mute this user!`);
 
         // Create embeds.
-        let mutedEmbed = new Discord.MessageEmbed()
+        const mutedEmbed = new Discord.MessageEmbed()
             .setColor(0xffd000)
             .setTitle(`**You have been muted in ${message.guild.name}!**`)
             .setDescription(`Reason: ${muteReason}`);
 
-        let logMutedEmbed = new Discord.MessageEmbed()
+        const logMutedEmbed = new Discord.MessageEmbed()
             .setColor(0xffd000)
             .setTitle(`**${user.tag} has been muted**`)
             .setDescription(`Reason: ${muteReason}`);

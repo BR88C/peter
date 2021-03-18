@@ -30,8 +30,8 @@ const requestHeaders = {
             return false;
         }
 
-        let cookies = JSON.parse(process.env.COOKIES);
-        let identityToken = JSON.parse(process.env.YOUTUBE_IDENTITY_TOKENS);
+        const cookies = JSON.parse(process.env.COOKIES);
+        const identityToken = JSON.parse(process.env.YOUTUBE_IDENTITY_TOKENS);
 
         if (cookies.length !== identityToken.length) {
             log(`WARNING: Request headers array lengths do not match.`, `yellow`);

@@ -14,7 +14,7 @@ const executeCommand = async (commandName, args, client, message) => {
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
     if (!command) { // If command does not exist it logs it in red and replies with an error.
-        let invalidCommandEmbed = new Discord.MessageEmbed()
+        const invalidCommandEmbed = new Discord.MessageEmbed()
             .setColor(0xff0000)
             .setTitle(`Error: ${commandName} is not a valid command!`);
 
@@ -34,7 +34,7 @@ const executeCommand = async (commandName, args, client, message) => {
 
     // Checks if command is Guild Only.
     if (command.guildOnly && message.channel.type === `dm`) {
-        let guildOnlyEmbed = new Discord.MessageEmbed()
+        const guildOnlyEmbed = new Discord.MessageEmbed()
             .setColor(0xff0000)
             .setTitle(`Error: That command cannot be executed inside DMs!`);
 
@@ -45,7 +45,7 @@ const executeCommand = async (commandName, args, client, message) => {
     if (command.voteLocked && client.dbl) {
         const voted = await client.dbl.hasVoted(message.author.id);
         if (!voted && !client.config.devs.ids.includes(message.author.id.toString())) {
-            let voteEmbed = new Discord.MessageEmbed()
+            const voteEmbed = new Discord.MessageEmbed()
                 .setColor(0xff0000)
                 .setTitle(`You must vote to use this command!`)
                 .setDescription(`To vote for Peter, go to his top.gg page [here](${client.config.links.voteLink}) and click the vote button.\nReminder that your vote status is reset every 12 hours.`);
@@ -63,7 +63,7 @@ const executeCommand = async (commandName, args, client, message) => {
             devOnlyError = (`That command can only be executed by this bot's dev, ${client.config.devs.tags[0]}!`);
         }
 
-        let devOnlyEmbed = new Discord.MessageEmbed()
+        const devOnlyEmbed = new Discord.MessageEmbed()
             .setColor(0xff0000)
             .setTitle(`Error: ${devOnlyError}`);
 
@@ -77,7 +77,7 @@ const executeCommand = async (commandName, args, client, message) => {
             noArgsError += `\nThe proper usage would be:\n\`\`\`${client.config.prefix}${command.name} ${command.usage}\`\`\``;
         }
 
-        let noArgsEmbed = new Discord.MessageEmbed()
+        const noArgsEmbed = new Discord.MessageEmbed()
             .setColor(0xff0000)
             .setTitle(noArgsError);
 
@@ -89,7 +89,7 @@ const executeCommand = async (commandName, args, client, message) => {
         command.execute(client, message, args);
     } catch (error) {
         log(error, `red`);
-        let errorEmbed = new Discord.MessageEmbed()
+        const errorEmbed = new Discord.MessageEmbed()
             .setColor(0xff0000)
             .setTitle(`An unknown error occured trying to execute that command.`);
 

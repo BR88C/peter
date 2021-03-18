@@ -45,14 +45,14 @@ module.exports = {
             streamhandler.restartStream(serverQueue, currentTime(serverQueue));
 
             // Create embed.
-            let effectsEmbed = new Discord.MessageEmbed()
+            const effectsEmbed = new Discord.MessageEmbed()
                 .setColor(0xff642b)
                 .setTitle(`🧹  Cleared all effects!`);
 
             // Send embed.
             return message.channel.send(effectsEmbed);
         } else if (args.length) {
-            let effectCommands = [`bass`, `bassboost`, `flanger`, `highpass`, `lowpass`, `phaser`, `pitch`, `speed`, `treble`, `vibrato`, `volume`, `v`];
+            const effectCommands = [`bass`, `bassboost`, `flanger`, `highpass`, `lowpass`, `phaser`, `pitch`, `speed`, `treble`, `vibrato`, `volume`, `v`];
 
             if (effectCommands.indexOf(args[0].toLowerCase()) > -1) {
                 // Get command name and shift args.
@@ -63,7 +63,7 @@ module.exports = {
             } else return message.reply(`please specify a valid argument!`);
         } else {
             // Create embed.
-            let effectsEmbed = new Discord.MessageEmbed()
+            const effectsEmbed = new Discord.MessageEmbed()
                 .setColor(0x1e90ff)
                 .setTitle(`Active Effects:`)
                 .setDescription(serverQueue.effectsString(`formatted`));

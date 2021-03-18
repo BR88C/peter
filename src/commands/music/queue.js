@@ -78,7 +78,7 @@ module.exports = {
             }
 
             // Creates and sends the embed.
-            let queueEmbed = new Discord.MessageEmbed()
+            const queueEmbed = new Discord.MessageEmbed()
                 .setColor(0x1e90ff)
                 .setAuthor(`Queued song number ${specifiedIndex}:`)
                 .setTitle(`**${serverQueue.songs[specifiedIndex - 1].title}**`)
@@ -113,7 +113,7 @@ module.exports = {
         totalTimeLeft = Math.round((totalTimeLeft / (serverQueue.effects.speed / 100)) - completed);
 
         // Creates list of songs in queue.
-        let queueList = [];
+        const queueList = [];
         for (const [i, song] of serverQueue.songs.entries()) {
             const current = i === serverQueue.currentSong ? `↳ ` : ``;
             queueList.push(`${current}**${i + 1}.** [${song.title}](${song.url}) [${song.timestamp}]`);
@@ -141,7 +141,7 @@ module.exports = {
          * @returns {Void} Void.
          */
         const generateQueueEmbed = async (queueContent) => {
-            let queueEmbed = new Discord.MessageEmbed()
+            const queueEmbed = new Discord.MessageEmbed()
                 .setColor(0x1e90ff)
                 .setAuthor(`Song Queue (${queueList.length})`)
                 .setTitle(title)
@@ -182,7 +182,7 @@ module.exports = {
 
         if (queueList.length > 10) { // Sends the embed and adds reactions for navigating pages if needed.
             let page = Math.ceil((serverQueue.currentSong + 1) / 10);
-            let maxPage = Math.ceil(queueList.length / 10);
+            const maxPage = Math.ceil(queueList.length / 10);
 
             const filter = (reaction, user) => [`⬅️`, `➡️`].includes(reaction.emoji.name) && user.id !== client.user.id;
 
@@ -192,7 +192,7 @@ module.exports = {
              * @returns {Void} Void.
              */
             const sendReactionQueueEmbed = async () => {
-                let queuePage = queueList.slice((page * 10) - 10, page * 10);
+                const queuePage = queueList.slice((page * 10) - 10, page * 10);
                 queuePage.push(`\n*Page ${page}/${maxPage}*`);
 
                 message.channel.send(await generateQueueEmbed(queuePage.join(`\n`))).then(async msg => {

@@ -41,7 +41,7 @@ module.exports = {
             const connection = await channel.join();
             connection.voice.setSelfDeaf(true);
 
-            let joinEmbed = new Discord.MessageEmbed()
+            const joinEmbed = new Discord.MessageEmbed()
                 .setColor(0xc2ffb0)
                 .setTitle(`${voiceChannel}  Joined ${channelInfo.name}`);
 

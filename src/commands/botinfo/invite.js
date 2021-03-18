@@ -6,7 +6,7 @@ module.exports = {
     description: `Returns Peter's invite link`,
     aliases: [`invitelink`, `addbot`],
     async execute (client, message, args) {
-        let inviteEmbed = new Discord.MessageEmbed()
+        const inviteEmbed = new Discord.MessageEmbed()
             .setColor(0x5eff97)
             .setTitle(`Peter's Invite link:`)
             .setDescription(client.config.links.invite);

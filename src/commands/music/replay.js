@@ -30,7 +30,7 @@ module.exports = {
         // Restart the stream at the start of the song.
         streamhandler.restartStream(serverQueue, 0);
 
-        let replayEmbed = new Discord.MessageEmbed()
+        const replayEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)
             .setTitle(`🔁  Restarted the song`);
 

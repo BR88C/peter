@@ -39,7 +39,7 @@ module.exports = {
         // Restart the stream at the current time.
         streamhandler.restartStream(serverQueue, currentTime(serverQueue));
 
-        let flangerEmbed = new Discord.MessageEmbed()
+        const flangerEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)
             .setTitle(`🎸  Set the flanger value to **${specifiedValue}%**`);
 
