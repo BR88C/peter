@@ -201,7 +201,7 @@ module.exports = {
                         return sendReactionQueueEmbed();
                     }).catch((error) => {
                         log(error, `red`);
-                        msg.reactions.removeAll();
+                        msg.reactions.removeAll().catch((error) => {});
                     });
                 });
             };
