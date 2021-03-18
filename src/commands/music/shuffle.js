@@ -20,7 +20,7 @@ module.exports = {
             song.hidden = false;
         }
 
-        // Skips to the specified song
+        // Shuffle the queue
         serverQueue.currentSong = 0;
         if (serverQueue.loop !== `single`) serverQueue.currentSong--;
         serverQueue.songs = shuffleArray(serverQueue.songs);
