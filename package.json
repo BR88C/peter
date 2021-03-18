@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node --max-old-space-size=512 ./src/index.js",
+    "dev:lint": "eslint . --fix --ext .js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,5 +25,14 @@
     "ytdl-core": "^4.5.0",
     "ytpl": "^2.0.5",
     "ytsr": "^3.3.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.22.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
+    "eslint-plugin-promise": "^4.3.1"
   }
 }
