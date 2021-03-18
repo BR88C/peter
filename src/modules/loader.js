@@ -3,11 +3,30 @@
 const Discord = require(`discord.js-light`);
 const fs = require(`fs`);
 const DBL = require(`dblapi.js`);
+const MongoClient = require(`mongodb`).MongoClient;
+const mongoConfig = require(`../config/mongoConfig.js`);
 const log = require(`./log.js`);
 const requestHeaders = require(`./requestHeaders.js`);
 const logHeader = require(`../utils/logHeader.js`);
 
 const loader = {
+    /**
+     * Initiates the DB
+     *
+     * @param {Object} client Client object.
+     * @returns {Void} Void.
+     */
+    initDB: (client) => {
+        MongoClient.connect(mongoConfig.url, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        }, (error, db) => {
+            if (error) return log(error, `red`);
+            client.db = db;
+            log(`Connected to the DB!`, `green`);
+        });
+    },
+
     /**
      * Load variables and save on client.
      *
@@ -75,6 +94,7 @@ const loader = {
      */
     start: (client) => {
         logHeader();
+        loader.initDB(client);
         loader.loadVariables(client);
         loader.loadEvents(client);
         loader.loadCommands(client);

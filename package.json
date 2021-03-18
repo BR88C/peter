@@ -26,6 +26,7 @@
     "discord.js-light": "^3.5.4",
     "dotenv": "^8.2.0",
     "ffmpeg-static": "^4.2.8",
+    "mongodb": "^3.6.5",
     "prism-media": "^1.2.8",
     "ytdl-core": "^4.5.0",
     "ytpl": "^2.0.5",
