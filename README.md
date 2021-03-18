@@ -25,8 +25,8 @@ The bot also requires a Discord Bot token. In the same directory as `package.jso
 ```
 BOT_TOKEN="Your bot token"
 DBL_TOKEN="Your DBL token"  // Optional
-COOKIE="YouTube cookie String"  // Optional
-YOUTUBE_IDENTITY_TOKEN="YouTube identity token"  // Optional
+COOKIE=["Array of YouTube cookie strings"]  // Optional
+YOUTUBE_IDENTITY_TOKEN=["Array of YouTube identity tokens"]  // Optional
 ```
 and save the file as ".env"
 You can then run the bot with:
