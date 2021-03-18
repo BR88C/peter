@@ -87,10 +87,7 @@ const queueSong = async (song, message, hidden, serverQueue) => {
                 }
 
                 msg.delete().catch((error) => log(error, `red`));
-            }).catch((error) => {
-                log(error, `red`);
-                msg.reactions.removeAll().catch((error) => {});
-            });
+            }).catch((error) => msg.reactions.removeAll().catch((error) => {}));
         });
     }
 };

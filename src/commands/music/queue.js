@@ -199,10 +199,7 @@ module.exports = {
 
                         msg.delete().catch((error) => log(error, `red`));
                         return sendReactionQueueEmbed();
-                    }).catch((error) => {
-                        log(error, `red`);
-                        msg.reactions.removeAll().catch((error) => {});
-                    });
+                    }).catch((error) => msg.reactions.removeAll().catch((error) => {}));
                 });
             };
 
