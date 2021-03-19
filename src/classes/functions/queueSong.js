@@ -1,5 +1,6 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
+const streamhandler = require(`../../modules/streamhandler.js`);
 const currentTime = require(`../../utils/currentTime.js`);
 const time = require(`../../utils/time.js`);
 
@@ -70,7 +71,8 @@ const queueSong = async (song, message, hidden, serverQueue) => {
                 if (reaction.emoji.name === `⏭️`) {
                     serverQueue.currentSong = songIndex;
                     if (serverQueue.loop !== `single`) serverQueue.currentSong--;
-                    serverQueue.connection.dispatcher.end();
+                    if (serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.end();
+                    else streamhandler.play(message);
 
                     const skippedToEmbed = new Discord.MessageEmbed()
                         .setColor(0x9cd6ff)

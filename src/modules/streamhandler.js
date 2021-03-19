@@ -151,7 +151,8 @@ const streamhandler = {
         if (!serverQueue.songs[serverQueue.currentSong].livestream) serverQueue.songs[serverQueue.currentSong].startTime = startTime;
         serverQueue.songs[serverQueue.currentSong].hidden = true;
         if (serverQueue.loop !== `single`) serverQueue.currentSong--;
-        serverQueue.connection.dispatcher.end();
+        if (serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.end();
+        else streamhandler.play(message);
     }
 };
 

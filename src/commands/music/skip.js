@@ -1,5 +1,6 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
+const streamhandler = require(`../../modules/streamhandler.js`);
 
 module.exports = {
     name: `skip`,
@@ -36,7 +37,8 @@ module.exports = {
         }
 
         // Skips to the next song.
-        serverQueue.connection.dispatcher.end();
+        if (serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.end();
+        else streamhandler.play(message);
 
         const skipEmbed = new Discord.MessageEmbed()
             .setColor(0x9cd6ff)

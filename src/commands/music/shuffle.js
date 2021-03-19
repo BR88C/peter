@@ -1,6 +1,7 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
 const shuffleArray = require(`../../utils/shuffleArray.js`);
+const streamhandler = require(`../../modules/streamhandler.js`);
 
 module.exports = {
     name: `shuffle`,
@@ -33,7 +34,8 @@ module.exports = {
         serverQueue.currentSong = 0;
         if (serverQueue.loop !== `single`) serverQueue.currentSong--;
         serverQueue.songs = shuffleArray(serverQueue.songs);
-        serverQueue.connection.dispatcher.end();
+        if (serverQueue.connection.dispatcher) serverQueue.connection.dispatcher.end();
+        else streamhandler.play(message);
 
         const shuffleEmbed = new Discord.MessageEmbed()
             .setColor(0x9cd6ff)
