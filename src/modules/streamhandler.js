@@ -91,7 +91,7 @@ const streamhandler = {
                     serverQueue.songs[serverQueue.currentSong].startTime = 0;
                     serverQueue.songs[serverQueue.currentSong].hidden = false;
                     streamhandler.play(message);
-                } else if (serverQueue.songs[serverQueue.currentSong + 1]) {
+                } else {
                     serverQueue.currentSong++;
                     streamhandler.play(message);
                 }
