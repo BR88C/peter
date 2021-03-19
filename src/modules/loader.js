@@ -94,7 +94,7 @@ const loader = {
      */
     start: (client) => {
         logHeader();
-        loader.initDB(client);
+        //loader.initDB(client);
         loader.loadVariables(client);
         loader.loadEvents(client);
         loader.loadCommands(client);
