@@ -21,13 +21,13 @@
   "license": "GPL-3.0",
   "homepage": "https://github.com/BR88C/peter#readme",
   "dependencies": {
-    "@discordjs/opus": "^0.4.0",
+    "@discordjs/opus": "^0.5.0",
     "dblapi.js": "^2.4.1",
     "discord.js-light": "^3.5.4",
     "dotenv": "^8.2.0",
     "ffmpeg-static": "^4.2.8",
     "mongodb": "^3.6.5",
-    "prism-media": "^1.2.8",
+    "prism-media": "^1.2.9",
     "ytdl-core": "^4.5.0",
     "ytpl": "^2.0.5",
     "ytsr": "^3.3.1"
