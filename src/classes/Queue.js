@@ -41,7 +41,7 @@ class Queue {
         // Make sure all streams are closed on a disconnect.
         this.connection.on(`disconnect`, () => {
             for (const song of this.songs) {
-                if (song.stream !== null) {
+                if (song.stream) {
                     if (typeof song.stream.destroy === `function`) song.stream.destroy();
                     song.stream = null;
                 }

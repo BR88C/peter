@@ -34,7 +34,7 @@ module.exports = {
         if (specifiedValue - 1 === serverQueue.currentSong) return message.reply(`you can't remove the song currently playing!`);
 
         // Destroy the stream if it exists
-        if (serverQueue.songs[specifiedValue - 1].stream !== null && typeof serverQueue.songs[specifiedValue - 1].stream.destroy === `function`) serverQueue.songs[specifiedValue - 1].stream.destroy();
+        if (serverQueue.songs[specifiedValue - 1].stream && typeof serverQueue.songs[specifiedValue - 1].stream.destroy === `function`) serverQueue.songs[specifiedValue - 1].stream.destroy();
 
         // Removes the specified song from the queue.
         const song = serverQueue.songs.splice(specifiedValue - 1, 1);

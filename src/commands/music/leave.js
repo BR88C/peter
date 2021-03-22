@@ -31,7 +31,7 @@ module.exports = {
 
                 if (serverQueue.songs) {
                     for (const song of serverQueue.songs) {
-                        if (song.stream !== null) {
+                        if (song.stream) {
                             if (typeof song.stream.destroy === `function`) song.stream.destroy();
                             song.stream = null;
                         }
@@ -53,7 +53,7 @@ module.exports = {
 
                 if (serverQueue.songs) {
                     for (const song of serverQueue.songs) {
-                        if (song.stream !== null) {
+                        if (song.stream) {
                             if (typeof song.stream.destroy === `function`) song.stream.destroy();
                             song.stream = null;
                         }

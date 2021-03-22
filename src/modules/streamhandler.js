@@ -38,7 +38,7 @@ const streamhandler = {
 
         // Make sure all streams are closed.
         for (const song of serverQueue.songs) {
-            if (song.stream !== null) {
+            if (song.stream) {
                 if (typeof song.stream.destroy === `function`) song.stream.destroy();
                 song.stream = null;
             }
@@ -114,7 +114,7 @@ const streamhandler = {
                     serverQueue.textChannel.send(errorEmbed);
                     if (serverQueue.songs) {
                         for (const song of serverQueue.songs) {
-                            if (song.stream !== null) {
+                            if (song.stream) {
                                 if (typeof song.stream.destroy === `function`) song.stream.destroy();
                                 song.stream = null;
                             }
