@@ -76,9 +76,14 @@ const streamhandler = {
         });
 
         // Create stream.
-        serverQueue.songs[serverQueue.currentSong].stream = pipeline(ytdlStream, transcoder, opusTranscoder, (error) => {
+        const stream = pipeline(ytdlStream, transcoder, opusTranscoder, (error) => {
+            if (stream && stream.destroy === `function`) stream.destroy();
+            if (ytdlStream && typeof ytdlStream.destroy === `function`) ytdlStream.destroy();
+            if (transcoder && typeof transcoder.destroy === `function`) transcoder.destroy();
+            if (opusTranscoder && typeof opusTranscoder.destroy === `function`) opusTranscoder.destroy();
             if (error && error.message !== `Premature close`) log(error, `red`);
         });
+        serverQueue.songs[serverQueue.currentSong].stream = stream;
 
         // Play the stream.
         const dispatcher = serverQueue.connection.play(serverQueue.songs[serverQueue.currentSong].stream, {
