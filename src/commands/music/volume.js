@@ -29,7 +29,7 @@ module.exports = {
         if (!args[0]) return message.channel.send(`The current volume is: **${serverQueue.volume}**`);
 
         // Checks to make sure the value specified is valid.
-        const specifiedValue = checkValueSpecified(args[0], 0, 100000, message, `mute`);
+        const specifiedValue = checkValueSpecified(args[0], 0, Infinity, message, `mute`);
         if (specifiedValue === `invalid`) return;
 
         // Sets the volume.
