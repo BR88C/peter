@@ -40,6 +40,7 @@ module.exports = {
                 treble: 0,
                 vibrato: 0
             };
+            serverQueue.volume = 100;
 
             // Restart the stream at the current time.
             streamhandler.restartStream(serverQueue, currentTime(serverQueue));
