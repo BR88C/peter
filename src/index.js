@@ -12,7 +12,7 @@ const client = new Discord.Client({
     cacheChannels: false,
     cacheGuilds: true,
     cachePresences: false,
-    cacheRoles: true,
+    cacheRoles: false,
     cacheOverwrites: false,
     cacheEmojis: false,
     disabledEvents: [],
