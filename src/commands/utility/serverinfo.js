@@ -16,11 +16,6 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        // Check if server has news channel.
-        let newsChannel;
-        if (message.guild.channels.cache.filter(channel => channel.type === `news`).size > 0) newsChannel = `✅ News Channel`;
-        else newsChannel = `❌ News Channel`;
-
         // Check if server has invite splash.
         let inviteSplash;
         if (message.guild.splash) inviteSplash = `✅ Invite Splash`;
@@ -53,12 +48,12 @@ module.exports = {
                 value: serverOwner,
                 inline: true
             }, {
-                name: `**Members**`,
-                value: await message.guild.memberCount,
+                name: `**Creation Date**`,
+                value: new Date(message.guild.createdAt).toUTCString(),
                 inline: true
             }, {
-                name: `**Roles**`,
-                value: await message.guild.roles.cache.size,
+                name: `**Members**`,
+                value: await message.guild.memberCount,
                 inline: true
             }, {
                 name: `**Boosts**`,
@@ -66,7 +61,7 @@ module.exports = {
                 inline: true
             }, {
                 name: `**Server Features**`,
-                value: `${newsChannel}\n${inviteSplash}\n${serverBanner}`,
+                value: `${inviteSplash}\n${serverBanner}`,
                 inline: true
             }, {
                 name: `**General Info**`,
