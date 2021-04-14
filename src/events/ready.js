@@ -6,8 +6,6 @@ const log = require(`../modules/log.js`);
 const shuffleArray = require(`../utils/shuffleArray.js`);
 
 module.exports = async (client) => {
-    const guilds = await client.guilds.cache.size;
-
     const setPresence = async () => await client.user.setPresence(shuffleArray(presence)[0]);
 
     setPresence();
@@ -15,7 +13,7 @@ module.exports = async (client) => {
     log(`\n**************************************************************************\n`, `white`);
     log(`Using prefix ${client.config.prefix}`, `green`);
     log(`Running version ${client.pjson.version}`, `green`);
-    log(`Ready! Serving ${guilds} guilds!`, `green`);
+    log(`Ready! Serving ${client.guilds.cache.size} guilds!`, `green`);
     log(`\n**************************************************************************\n`, `white`);
 
     setInterval(setPresence, 6e5);
