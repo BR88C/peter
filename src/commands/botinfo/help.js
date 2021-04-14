@@ -7,7 +7,16 @@ module.exports = {
     description: `Get info on Peter's commands`,
     aliases: [`commands`, `command`, `cmd`, `cmds`, `commandlist`, `cmdlist`],
     usage: `<category name> **or** ${config.prefix} help command <command name>`,
-    async execute (client, message, args) {
+
+    /**
+     * Execute the command.
+     *
+     * @param {Object} client Client object.
+     * @param {Object} message Message object that executed the command.
+     * @param {Array} args Parsed arguments.
+     * @returns {Void} Void.
+     */
+    execute: async (client, message, args) => {
         const data = [];
         const commands = message.client.commands;
         const directories = message.client.directories;

@@ -4,7 +4,16 @@ const log = require(`../../modules/log.js`);
 module.exports = {
     name: `ping`,
     description: `Shows ping in milliseconds`,
-    async execute (client, message, args) {
+
+    /**
+     * Execute the command.
+     *
+     * @param {Object} client Client object.
+     * @param {Object} message Message object that executed the command.
+     * @param {Array} args Parsed arguments.
+     * @returns {Void} Void.
+     */
+    execute: async (client, message, args) => {
         // Get ping.
         const ping = Math.round(client.ws.ping);
 

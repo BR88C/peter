@@ -6,7 +6,16 @@ module.exports = {
     name: `bot`,
     description: `Displays information about the bot`,
     aliases: [`about`, `peter`],
-    async execute (client, message, args) {
+
+    /**
+     * Execute the command.
+     *
+     * @param {Object} client Client object.
+     * @param {Object} message Message object that executed the command.
+     * @param {Array} args Parsed arguments.
+     * @returns {Void} Void.
+     */
+    execute: async (client, message, args) => {
         const uptime = time(Math.round(client.uptime / 1000));
 
         const botInfoEmbed = new Discord.MessageEmbed()
