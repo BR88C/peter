@@ -29,7 +29,8 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
             if (!message.client.queue.get(message.guild.id)) {
                 message.channel.send(queueDeletedEmbed);
                 await msg.delete().catch((error) => log(error, `red`));
-                return success = false;
+                success = false;
+                return;
             }
 
             const songInfo = await ytdl.getInfo(video.id, { requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined }).catch((error) => log(error, `red`));
