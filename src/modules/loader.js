@@ -2,9 +2,8 @@
 
 const Discord = require(`discord.js-light`);
 const fs = require(`fs`);
+const config = require(`../config/config.js`);
 const DBL = require(`dblapi.js`);
-const MongoClient = require(`mongodb`).MongoClient;
-const mongoConfig = require(`../config/mongoConfig.js`);
 const log = require(`./log.js`);
 const requestHeaders = require(`./requestHeaders.js`);
 const logHeader = require(`../utils/logHeader.js`);
@@ -17,14 +16,7 @@ const loader = {
      * @returns {Void} Void.
      */
     initDB: (client) => {
-        MongoClient.connect(mongoConfig.url, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        }, (error, db) => {
-            if (error) return log(error, `red`);
-            client.db = db;
-            log(`Connected to the DB!`, `green`);
-        });
+        
     },
 
     /**
@@ -39,7 +31,7 @@ const loader = {
             log(`Initialized DBL API!`, `green`);
         } else log(`No DBL token specified, stopped DBL API initialization.`, `yellow`);
         client.queue = new Map();
-        client.config = require(`../config/config.js`);
+        client.config = config;
         client.pjson = require(`../../package.json`);
     },
 
