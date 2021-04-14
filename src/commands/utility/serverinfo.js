@@ -65,7 +65,9 @@ module.exports = {
                 inline: true
             }, {
                 name: `**General Info**`,
-                value: `Region: ${message.guild.region}\nVerification Level: ${message.guild.verificationLevel}\n[Icon URL](${message.guild.iconURL({ dynamic: true, size: 256 })})`,
+                value: `Region: ${message.guild.region}\nVerification Level: ${message.guild.verificationLevel}\n[Icon URL](${message.guild.iconURL({
+                    dynamic: true, size: 256
+                })})`,
                 inline: true
             });
 

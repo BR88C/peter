@@ -57,9 +57,7 @@ module.exports = {
 
         if (await ytdl.validateURL(args.slice(0).join(` `))) { // Checks if the arguments provided is a url.
             // Set songInfo.
-            songInfo = await ytdl.getInfo(args[0], {
-                requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
-            }).catch((error) => {
+            songInfo = await ytdl.getInfo(args[0], { requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined }).catch((error) => {
                 log(error, `red`);
                 return message.channel.send(errorEmbed);
             });
@@ -71,9 +69,7 @@ module.exports = {
 
             if (!playlist) return message.channel.send(errorEmbed);
 
-            songInfo = await ytdl.getInfo(playlist.items[0].id, {
-                requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
-            }).catch((error) => {
+            songInfo = await ytdl.getInfo(playlist.items[0].id, { requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined }).catch((error) => {
                 log(error, `red`);
                 return message.channel.send(errorEmbed);
             });
@@ -82,9 +78,7 @@ module.exports = {
             playlist.items.shift();
         } else { // If the arguments provided are not a url, search youtube for a video.
             // Gets filters.
-            const filters = await ytsr.getFilters(args.slice(0).join(` `), {
-                requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
-            });
+            const filters = await ytsr.getFilters(args.slice(0).join(` `), { requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined });
             const filter = filters.get(`Type`).get(`Video`);
 
             // Checks to see if no filter was found.
@@ -100,9 +94,7 @@ module.exports = {
             if (!ytsrResult.items[0]) return message.reply(`I couldn't find anything based on your query!`);
 
             // Set songInfo.
-            songInfo = await ytdl.getInfo(ytsrResult.items[0].url, {
-                requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
-            }).catch((error) => {
+            songInfo = await ytdl.getInfo(ytsrResult.items[0].url, { requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined }).catch((error) => {
                 log(error, `red`);
                 return message.channel.send(errorEmbed);
             });

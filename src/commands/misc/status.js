@@ -25,9 +25,7 @@ module.exports = {
 
         const content = args.slice(1).join(` `);
 
-        await client.user.setActivity(content, {
-            type: statusType
-        });
+        await client.user.setActivity(content, { type: statusType });
         return message.channel.send(`Status successfully updated.`);
     }
 };

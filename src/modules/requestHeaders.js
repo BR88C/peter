@@ -55,12 +55,10 @@ const requestHeaders = {
         let identityToken = JSON.parse(process.env.YOUTUBE_IDENTITY_TOKENS);
         identityToken = identityToken[randomInt(0, identityToken.length - 1)];
 
-        return {
-            headers: {
-                cookie: cookies,
-                'x-youtube-identity-token': identityToken
-            }
-        };
+        return { headers: {
+            cookie: cookies,
+            'x-youtube-identity-token': identityToken
+        } };
     }
 };
 

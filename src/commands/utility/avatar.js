@@ -24,8 +24,20 @@ module.exports = {
         const avatarEmbed = new Discord.MessageEmbed()
             .setColor(randomHex(user.id))
             .setTitle(`${user.username}'s Avatar`)
-            .setDescription(`Links: [128](${user.avatarURL({ dynamic: true, size: 128 })}) \| [256](${user.avatarURL({ dynamic: true, size: 256 })}) \| [512](${user.avatarURL({ dynamic: true, size: 512 })}) \| [1024](${user.avatarURL({ dynamic: true, size: 1024 })}) \| [2048](${user.avatarURL({ dynamic: true, size: 2048 })}) `)
-            .setImage(user.avatarURL({ dynamic: true, size: 512 }));
+            .setDescription(`Links: [128](${user.avatarURL({
+                dynamic: true, size: 128
+            })}) \| [256](${user.avatarURL({
+                dynamic: true, size: 256
+            })}) \| [512](${user.avatarURL({
+                dynamic: true, size: 512
+            })}) \| [1024](${user.avatarURL({
+                dynamic: true, size: 1024
+            })}) \| [2048](${user.avatarURL({
+                dynamic: true, size: 2048
+            })}) `)
+            .setImage(user.avatarURL({
+                dynamic: true, size: 512
+            }));
 
         return message.channel.send(avatarEmbed);
     }

@@ -21,7 +21,9 @@ module.exports = {
         const botInfoEmbed = new Discord.MessageEmbed()
             .setColor(0xffd87d)
             .setTitle(`Information about Peter!`)
-            .setThumbnail(client.user.avatarURL({ dynamic: true, size: 256 }))
+            .setThumbnail(client.user.avatarURL({
+                dynamic: true, size: 256
+            }))
             .addFields({
                 name: `**Tag**`,
                 value: client.user.tag,

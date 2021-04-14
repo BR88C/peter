@@ -32,9 +32,7 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
                 return success = false;
             }
 
-            const songInfo = await ytdl.getInfo(video.id, {
-                requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
-            }).catch((error) => log(error, `red`));
+            const songInfo = await ytdl.getInfo(video.id, { requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined }).catch((error) => log(error, `red`));
 
             if (!songInfo) {
                 message.channel.send(`*Error adding "${video.title}" to the queue!*`);

@@ -4,9 +4,7 @@ const {
     FFmpeg,
     opus
 } = require(`prism-media`);
-const {
-    pipeline
-} = require(`stream`);
+const { pipeline } = require(`stream`);
 const log = require(`./log.js`);
 const requestHeaders = require(`./requestHeaders.js`);
 const randomInt = require(`../utils/randomInt.js`);

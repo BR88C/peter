@@ -31,9 +31,7 @@ module.exports = {
             const helpEmbed = new Discord.MessageEmbed()
                 .setColor(0xdbbe00)
                 .setTitle(`**Command Categories:**`)
-                .setDescription(data, {
-                    split: true
-                })
+                .setDescription(data, { split: true })
                 .setFooter(`Made by ${config.devs.tags.join(`, `)}`);
 
             // Send embed.
@@ -64,9 +62,7 @@ module.exports = {
             const helpEmbed = new Discord.MessageEmbed()
                 .setColor(0xdbbe00)
                 .setTitle(`**${specifiedDirectory.fullName} category**`)
-                .setDescription(data, {
-                    split: true
-                })
+                .setDescription(data, { split: true })
                 .setFooter(`Made by ${config.devs.tags.join(`, `)}`);
 
             // Send embed.
@@ -94,9 +90,7 @@ module.exports = {
         const helpEmbed = new Discord.MessageEmbed()
             .setColor(0xdbbe00)
             .setTitle(`**${command.name} command information:**`)
-            .setDescription(data, {
-                split: true
-            })
+            .setDescription(data, { split: true })
             .setFooter(`Made by ${config.devs.tags.join(`, `)}`);
 
         // Send the Embed.
