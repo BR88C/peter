@@ -1,3 +1,6 @@
+/**
+ * An array of presences for the bot to randomly pick from every 10 minutes.
+ */
 const presence = [
     {
         activity: {
