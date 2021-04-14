@@ -16,7 +16,11 @@ const loader = {
      * @returns {Void} Void.
      */
     initDB: (client) => {
-        
+        client.mongoose = require(`mongoose`);
+        client.mongoose.connect(`${config.mongoConfig.url}${config.mongoConfig.dbName}`, {
+            useNewUrlParser: true, useUnifiedTopology: true
+        }, (error) => error ? log(error, `red`) : null);
+        client.mongoose.connection.on(`open`, () => log(`Connected to the DB!`, `green`));
     },
 
     /**
