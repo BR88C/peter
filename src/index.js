@@ -12,11 +12,14 @@ const client = new Discord.Client({
     cacheChannels: false,
     cacheGuilds: true,
     cachePresences: false,
-    cacheRoles: false,
+    cacheRoles: true,
     cacheOverwrites: false,
     cacheEmojis: false,
     disabledEvents: [],
-    messageEditHistoryMaxSize: 1
+    messageEditHistoryMaxSize: 1,
+    messageCacheMaxSize: 50,
+    messageSweepInterval: 3600,
+    disableMentions: `everyone`
 });
 
 /* Catch unhandled promise rejection errors. */
