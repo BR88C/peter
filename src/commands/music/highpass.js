@@ -37,7 +37,7 @@ module.exports = {
         serverQueue.effects.highpass = specifiedValue;
 
         // Restart the stream at the current time.
-        streamhandler.restartStream(serverQueue, currentTime(serverQueue));
+        streamhandler.restartStream(serverQueue, message, currentTime(serverQueue));
 
         const highpassEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)

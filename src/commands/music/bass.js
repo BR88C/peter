@@ -38,7 +38,7 @@ module.exports = {
         serverQueue.effects.bass = specifiedValue;
 
         // Restart the stream at the current time.
-        streamhandler.restartStream(serverQueue, currentTime(serverQueue));
+        streamhandler.restartStream(serverQueue, message, currentTime(serverQueue));
 
         const bassEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)

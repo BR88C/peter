@@ -28,7 +28,7 @@ module.exports = {
         if (serverQueue.songs[serverQueue.currentSong].livestream) return message.reply(`this command does not support livestreams!`);
 
         // Restart the stream at the start of the song.
-        streamhandler.restartStream(serverQueue, 0);
+        streamhandler.restartStream(serverQueue, message, 0);
 
         const replayEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)

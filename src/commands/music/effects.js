@@ -43,7 +43,7 @@ module.exports = {
             serverQueue.volume = 100;
 
             // Restart the stream at the current time.
-            streamhandler.restartStream(serverQueue, currentTime(serverQueue));
+            streamhandler.restartStream(serverQueue, message, currentTime(serverQueue));
 
             // Create embed.
             const effectsEmbed = new Discord.MessageEmbed()

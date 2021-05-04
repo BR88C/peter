@@ -44,7 +44,7 @@ module.exports = {
         serverQueue.effects.speed = specifiedValue;
 
         // Restart the stream at the current time.
-        streamhandler.restartStream(serverQueue, time);
+        streamhandler.restartStream(serverQueue, message, time);
 
         const speedEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)

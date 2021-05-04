@@ -147,10 +147,11 @@ const streamhandler = {
      * Restarts a stream at a specified time.
      *
      * @param {Object} serverQueue Server queue object.
+     * @param {Object} message The message object.
      * @param {number} startTime Time to start stream at.
      * @returns {Void} Void.
      */
-    restartStream: (serverQueue, startTime) => {
+    restartStream: (serverQueue, message, startTime) => {
         if (!serverQueue.songs[serverQueue.currentSong].livestream) serverQueue.songs[serverQueue.currentSong].startTime = startTime;
         serverQueue.songs[serverQueue.currentSong].hidden = true;
         if (serverQueue.loop !== `single`) serverQueue.currentSong--;

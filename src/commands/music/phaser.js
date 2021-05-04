@@ -37,7 +37,7 @@ module.exports = {
         serverQueue.effects.phaser = specifiedValue;
 
         // Restart the stream at the current time.
-        streamhandler.restartStream(serverQueue, currentTime(serverQueue));
+        streamhandler.restartStream(serverQueue, message, currentTime(serverQueue));
 
         const phaserEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)
