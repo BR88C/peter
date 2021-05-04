@@ -33,7 +33,7 @@ module.exports = {
                 inline: true
             })
             .setTimestamp();
-        
+
         message.channel.send(statsEmbed);
     }
 };
