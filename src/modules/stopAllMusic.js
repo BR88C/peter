@@ -30,7 +30,7 @@ const stopAllMusic = (client) => new Promise((resolve) => {
                 .setColor(0xff4a4a)
                 .setTitle(`${loadingEmoji}  Peter is currently restarting. Music stopped.`);
 
-            await serverQueue.textChannel.send(leaveEmbed);
+            await serverQueue.textChannel.send(leaveEmbed).catch((error) => {});
         }
 
         guildIndex++;
