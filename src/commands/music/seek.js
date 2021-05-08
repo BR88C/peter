@@ -37,7 +37,7 @@ module.exports = {
         if (specifiedTime < 0) return message.reply(`you can't seek to a negative time!`);
 
         // If time specified is longer than the video, seek to the last 2 seconds of the video.
-        if (specifiedTime >= serverQueue.songs[serverQueue.currentSong].rawTime) specifiedTime = serverQueue.songs[serverQueue.currentSong].rawTime - 2;
+        if (specifiedTime >= serverQueue.songs[serverQueue.currentSong].videoLength) specifiedTime = serverQueue.songs[serverQueue.currentSong].videoLength - 2;
 
         // Restart the stream at the specified time.
         streamhandler.restartStream(serverQueue, message, specifiedTime);

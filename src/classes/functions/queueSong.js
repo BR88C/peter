@@ -26,7 +26,7 @@ const queueSong = async (song, message, hidden, serverQueue) => {
         const completed = currentTime(serverQueue);
         timeUntilPlayed = 0;
         for (const song of songsBefore) {
-            timeUntilPlayed += song.rawTime;
+            timeUntilPlayed += song.videoLength;
         }
         timeUntilPlayed = createTimestamp(Math.round((timeUntilPlayed / (serverQueue.effects.speed / 100)) - completed));
     } else {

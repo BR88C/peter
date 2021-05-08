@@ -40,7 +40,7 @@ module.exports = {
 
         // Gets total raw queue time.
         let totalRawTime = 0;
-        for (const song of serverQueue.songs) totalRawTime += song.rawTime;
+        for (const song of serverQueue.songs) totalRawTime += song.videoLength;
 
         // If the user specifies a song.
         if (args.length) {
@@ -60,7 +60,7 @@ module.exports = {
             let timeUntilPlayed;
             if (specifiedIndex - 1 < serverQueue.currentSong) {
                 if (serverQueue.loop === `queue`) {
-                    timeUntilPlayed = createTimestamp(Math.round((totalRawTime / (serverQueue.effects.speed / 100)) - completed - serverQueue.songs[specifiedIndex - 1].rawTime));
+                    timeUntilPlayed = createTimestamp(Math.round((totalRawTime / (serverQueue.effects.speed / 100)) - completed - serverQueue.songs[specifiedIndex - 1].videoLength));
                 } else {
                     timeUntilPlayed = `N/A`;
                 }
@@ -70,7 +70,7 @@ module.exports = {
 
                 timeUntilPlayed = 0;
                 for (const song of songsBefore) {
-                    timeUntilPlayed += song.rawTime;
+                    timeUntilPlayed += song.videoLength;
                 }
                 timeUntilPlayed = createTimestamp(Math.round((timeUntilPlayed / (serverQueue.effects.speed / 100)) - completed));
             } else {
@@ -104,11 +104,11 @@ module.exports = {
 
         // Gets time left in queue.
         const totalTime = Math.round(totalRawTime / (serverQueue.effects.speed / 100));
-        const songTimeLeft = Math.round(currentSong.rawTime - completed);
+        const songTimeLeft = Math.round(currentSong.videoLength - completed);
         const songsLeft = serverQueue.songs.slice(serverQueue.currentSong);
         let totalTimeLeft = 0;
         for (const song of songsLeft) {
-            totalTimeLeft += song.rawTime;
+            totalTimeLeft += song.videoLength;
         }
         totalTimeLeft = Math.round((totalTimeLeft / (serverQueue.effects.speed / 100)) - completed);
 
