@@ -4,15 +4,14 @@ const formats = require(`./functions/formats.js`);
 
 /**
  * Song classs - Used for creating song objects to be added to the queue.
- *
  * @class
  */
 class Song {
     /**
      * Song constructor.
-     *
      * @param {Object} songInfo Song info from ytdl-core.
      * @param {String} messageAuthorTag Author of the song request.
+     * @constructor
      */
     constructor (songInfo, messageAuthorTag) {
         /**
