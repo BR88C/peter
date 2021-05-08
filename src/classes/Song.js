@@ -70,7 +70,7 @@ class Song {
          * @type {Object}
          */
         this.stream = null;
-        
+
         /**
          * The time for the song to start at, in milliseconds.
          * @type {String}
