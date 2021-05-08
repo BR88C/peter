@@ -44,7 +44,6 @@ const streamhandler = {
 
         // Create ytdl options.
         const ytdlOptions = {
-            begin: serverQueue.songs[serverQueue.currentSong].startTime,
             highWaterMark: 1 << 19,
             requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
         };
@@ -62,6 +61,7 @@ const streamhandler = {
             });
 
             const stream = pipeline([ytdlStream, demuxer], (error) => {
+                if (stream && stream.destroy === `function`) stream.destroy();
                 if (ytdlStream && typeof ytdlStream.destroy === `function`) ytdlStream.destroy();
                 if (error && error.message !== `Premature close`) log(error, `red`);
             });
@@ -69,7 +69,7 @@ const streamhandler = {
         } else { // Else, create a normal ffmpeg stream.
             // Create ffmpeg encoder arguments.
             const ffmpegArgs = [
-                `-ss`, serverQueue.songs[serverQueue.currentSong].startTime.toString(),
+                `-ss`, (Math.round(serverQueue.songs[serverQueue.currentSong].startTime / 1000)).toString(),
                 `-analyzeduration`, `0`,
                 `-loglevel`, `0`,
                 `-f`, `s16le`,
