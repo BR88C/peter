@@ -36,7 +36,7 @@ class Queue {
          * This is the bitrate of Queue#voiceChannel, or 128 if the bitrate cannot be found.
          * @type {number}
          */
-        this.bitrate = this.voiceChannel.bitrate / 1000 || 128;
+        this.bitrate = this.voiceChannel.bitrate / 1e3 || 128;
 
         /**
          * If the queue is playing.
@@ -134,7 +134,7 @@ class Queue {
             if (this.effects.bass !== 0) activeEffects.push(`bass=g=${this.effects.bass / 2}`);
             if (this.effects.flanger !== 0) activeEffects.push(`flanger=depth=${this.effects.flanger / 10}`);
             if (this.effects.highpass !== 0) activeEffects.push(`highpass=f=${this.effects.highpass * 25}`);
-            if (this.effects.lowpass !== 0) activeEffects.push(`lowpass=f=${2000 - this.effects.lowpass * 16}`);
+            if (this.effects.lowpass !== 0) activeEffects.push(`lowpass=f=${2e3 - this.effects.lowpass * 16}`);
             if (this.effects.phaser !== 0) activeEffects.push(`aphaser=decay=${this.effects.phaser / 200}`);
             if (this.effects.pitch !== 100) activeEffects.push(`rubberband=pitch=${this.effects.pitch / 100}`);
             if (this.effects.speed !== 100 && !this.songs[this.currentSong].livestream) activeEffects.push(`atempo=${this.effects.speed / 100}`);
@@ -158,6 +158,23 @@ class Queue {
         }
 
         return activeEffects;
+    }
+
+    /**
+     * Generates a timestamp based on the time specified in milliseconds.
+     * @param {number} time Time in milliseconds.
+     * @returns {String} Timestamp string.
+     */
+    createTimestamp (time) {
+        const hours = Math.floor(time / 1e3 / 60 / 60);
+        const minutes = Math.floor(time / 1e3 / 60) - (hours * 60);
+        const seconds = (time / 1e3) % 60;
+    
+        let formattedTime;
+        if (hours > 0) formattedTime = `${hours.toString()}:${minutes.toString().padStart(2, `0`)}:${seconds.toString().padStart(2, `0`)}`;
+        else formattedTime = `${minutes.toString()}:${seconds.toString().padStart(2, `0`)}`;
+
+        return formattedTime;
     }
 }
 
