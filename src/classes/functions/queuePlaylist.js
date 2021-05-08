@@ -46,6 +46,11 @@ const queuePlaylist = async (playlist, message, serverQueue) => {
                 continue;
             }
 
+            if (!song.ffmpegFormat) {
+                message.channel.send(`*"${video.title}" is unavailable, omitting from the queue.*`);
+                continue;
+            }
+
             await serverQueue.songs.push(song);
 
             songsAdded++;

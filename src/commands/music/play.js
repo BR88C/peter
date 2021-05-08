@@ -102,7 +102,7 @@ module.exports = {
 
         // Defines song info.
         const song = new Song(songInfo, message.author.tag);
-        if (!song.format) return message.channel.send(videoUnavailableEmbed);
+        if (!song.ffmpegFormat) return message.channel.send(videoUnavailableEmbed);
 
         // Queues the song if there is a song playing or play a song if the queue is defined but no song is playing.
         if (serverQueue) {
