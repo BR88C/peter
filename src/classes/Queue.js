@@ -1,4 +1,3 @@
-const effectsString = require(`./functions/effectsString.js`);
 const queueSong = require(`./functions/queueSong.js`);
 const queuePlaylist = require(`./functions/queuePlaylist.js`);
 
@@ -63,7 +62,7 @@ class Queue {
          * These values are the default values.
          * @type {Object}
          */
-         this.effects = {
+        this.effects = {
             bass: 0,
             flanger: 0,
             highpass: 0,
@@ -129,7 +128,36 @@ class Queue {
      * @returns {String} The generated effects string based on type.
      */
     effectsString (type) {
-        return effectsString(type, this);
+        let activeEffects = [];
+
+        if (type === `ffmpeg`) {
+            if (this.effects.bass !== 0) activeEffects.push(`bass=g=${this.effects.bass / 2}`);
+            if (this.effects.flanger !== 0) activeEffects.push(`flanger=depth=${this.effects.flanger / 10}`);
+            if (this.effects.highpass !== 0) activeEffects.push(`highpass=f=${this.effects.highpass * 25}`);
+            if (this.effects.lowpass !== 0) activeEffects.push(`lowpass=f=${2000 - this.effects.lowpass * 16}`);
+            if (this.effects.phaser !== 0) activeEffects.push(`aphaser=decay=${this.effects.phaser / 200}`);
+            if (this.effects.pitch !== 100) activeEffects.push(`rubberband=pitch=${this.effects.pitch / 100}`);
+            if (this.effects.speed !== 100 && !this.songs[this.currentSong].livestream) activeEffects.push(`atempo=${this.effects.speed / 100}`);
+            if (this.effects.treble !== 0) activeEffects.push(`treble=g=${this.effects.treble / 3}`);
+            if (this.effects.vibrato !== 0) activeEffects.push(`vibrato=d=${this.effects.vibrato / 100}`);
+            activeEffects = activeEffects.join(`, `);
+        } else if (type === `formatted`) {
+            if (this.effects.bass !== 0) activeEffects.push(`Bass = +${this.effects.bass}﹪`);
+            if (this.effects.flanger !== 0) activeEffects.push(`Flanger = ${this.effects.flanger}﹪`);
+            if (this.effects.lowpass !== 0) activeEffects.push(`Lowpass = +${this.effects.lowpass}﹪`);
+            if (this.effects.highpass !== 0) activeEffects.push(`Highpass = +${this.effects.highpass}﹪`);
+            if (this.effects.phaser !== 0) activeEffects.push(`Phaser = ${this.effects.phaser}﹪`);
+            if (this.effects.pitch !== 100) activeEffects.push(`Pitch = ${this.effects.pitch}﹪`);
+            if (this.effects.speed !== 100) activeEffects.push(`Speed = ${this.effects.speed}﹪`);
+            if (this.effects.treble !== 0) activeEffects.push(`Treble = +${this.effects.treble}﹪`);
+            if (this.effects.vibrato !== 0) activeEffects.push(`Vibrato = ${this.effects.vibrato}﹪`);
+            if (this.effects.volume !== 100) activeEffects.push(`Volume = ${this.effects.volume}﹪`);
+            activeEffects = activeEffects[0] ? `\`\`\`prolog\n${activeEffects.join(`, `)}\n\`\`\`` : `\`\`\`diff\n-= No Active effects =-\n\`\`\``;
+        } else {
+            throw new Error(`Invalid effects array type`);
+        }
+
+        return activeEffects;
     }
 }
 
