@@ -27,6 +27,9 @@ module.exports = {
         if (serverQueue.songs[serverQueue.currentSong].livestream) return message.reply(`this command does not support livestreams!`);
 
         if (serverQueue && serverQueue.paused) { // Checks if the the music is paused.
+            if (serverQueue.pauseTime) serverQueue.pauseTime += Date.now() - serverQueue.pausedSince;
+            else serverQueue.pauseTime = Date.now() - serverQueue.pausedSince;
+            serverQueue.pausedSince = null;
             serverQueue.paused = false;
             serverQueue.connection.dispatcher.resume();
 

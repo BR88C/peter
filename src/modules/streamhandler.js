@@ -171,10 +171,9 @@ const streamhandler = {
 
     /**
      * Restarts a stream at a specified time.
-     *
      * @param {Object} serverQueue Server queue object.
      * @param {Object} message The message object.
-     * @param {number} startTime Time to start stream at.
+     * @param {number} startTime Time to start stream at, in milliseconds.
      * @returns {Void} Void.
      */
     restartStream: (serverQueue, message, startTime) => {

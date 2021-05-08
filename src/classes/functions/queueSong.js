@@ -1,7 +1,6 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
 const streamhandler = require(`../../modules/streamhandler.js`);
-const currentTime = require(`../../utils/currentTime.js`);
 const createTimestamp = require(`../../utils/createTimestamp.js`);
 
 /**
@@ -25,13 +24,9 @@ const queueSong = async (song, message, hidden, serverQueue) => {
     if (serverQueue.connection && serverQueue.connection.dispatcher) {
         const completed = currentTime(serverQueue);
         timeUntilPlayed = 0;
-        for (const song of songsBefore) {
-            timeUntilPlayed += song.videoLength;
-        }
+        for (const song of songsBefore) timeUntilPlayed += song.videoLength;
         timeUntilPlayed = createTimestamp(Math.round((timeUntilPlayed / (serverQueue.effects.speed / 100)) - completed));
-    } else {
-        timeUntilPlayed = `Unavailable`;
-    }
+    } else timeUntilPlayed = `Unavailable`;
 
     if (!hidden && !song.hidden) {
         const queueAddEmbed = new Discord.MessageEmbed()

@@ -1,7 +1,6 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
 const checkValueSpecified = require(`../../utils/checkValueSpecified.js`);
-const currentTime = require(`../../utils/currentTime.js`);
 const streamhandler = require(`../../modules/streamhandler.js`);
 
 module.exports = {
@@ -38,7 +37,7 @@ module.exports = {
         serverQueue.effects.bass = specifiedValue;
 
         // Restart the stream at the current time.
-        streamhandler.restartStream(serverQueue, message, currentTime(serverQueue));
+        streamhandler.restartStream(serverQueue, message, serverQueue.currentTime());
 
         const bassEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)

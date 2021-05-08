@@ -1,9 +1,8 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
 const progressBar = require(`../../utils/progressBar.js`);
-const currentTime = require(`../../utils/currentTime.js`);
 const randomInt = require(`../../utils/randomInt.js`);
-const createTimestamp = require("../../utils/createTimestamp.js");
+const createTimestamp = require(`../../utils/createTimestamp.js`);
 
 module.exports = {
     name: `nowplaying`,
@@ -29,10 +28,10 @@ module.exports = {
         if (serverQueue.songs[serverQueue.currentSong].livestream) {
             description = `🔴  **LIVE**`;
         } else {
-            const completed = currentTime(serverQueue);
+            const completed = serverQueue.currentTime();
             const percentComplete = completed / serverQueue.songs[serverQueue.currentSong].videoLength;
 
-            const playingEmoji = serverQueue.paused ? `⏸`  : `▶`;
+            const playingEmoji = serverQueue.paused ? `⏸` : `▶`;
             const timestamp = serverQueue.songs[serverQueue.currentSong].livestream ? `LIVE` : createTimestamp(serverQueue.songs[serverQueue.currentSong].videoLength);
 
             description = `\`\`\`${playingEmoji} ${createTimestamp(completed)} ${progressBar(percentComplete, 25)} ${timestamp}\`\`\``;

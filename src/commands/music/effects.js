@@ -1,6 +1,5 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
-const currentTime = require(`../../utils/currentTime.js`);
 const executeCommand = require(`../../modules/executeCommand.js`);
 const streamhandler = require(`../../modules/streamhandler.js`);
 
@@ -43,7 +42,7 @@ module.exports = {
             };
 
             // Restart the stream at the current time.
-            streamhandler.restartStream(serverQueue, message, currentTime(serverQueue));
+            streamhandler.restartStream(serverQueue, message, serverQueue.currentTime());
 
             // Create embed.
             const effectsEmbed = new Discord.MessageEmbed()

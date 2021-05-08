@@ -1,7 +1,6 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
 const checkValueSpecified = require(`../../utils/checkValueSpecified.js`);
-const currentTime = require(`../../utils/currentTime.js`);
 const streamhandler = require(`../../modules/streamhandler.js`);
 
 module.exports = {
@@ -38,7 +37,7 @@ module.exports = {
         if (specifiedValue === `invalid`) return;
 
         // Get old speed.
-        const time = currentTime(serverQueue);
+        const time = serverQueue.currentTime();
 
         // Sets value.
         serverQueue.effects.speed = specifiedValue;

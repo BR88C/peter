@@ -27,6 +27,7 @@ module.exports = {
 
         if (!serverQueue.paused) { // Checks if the music isn't paused.
             serverQueue.paused = true;
+            serverQueue.pausedSince = Date.now();
             serverQueue.connection.dispatcher.pause();
 
             const pauseEmbed = new Discord.MessageEmbed()

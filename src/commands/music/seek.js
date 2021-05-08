@@ -40,7 +40,7 @@ module.exports = {
         if (specifiedTime >= serverQueue.songs[serverQueue.currentSong].videoLength) specifiedTime = serverQueue.songs[serverQueue.currentSong].videoLength - 2;
 
         // Restart the stream at the specified time.
-        streamhandler.restartStream(serverQueue, message, specifiedTime);
+        streamhandler.restartStream(serverQueue, message, specifiedTime * 1e3);
 
         const seekEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)

@@ -1,6 +1,6 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
-const createTimestamp = require("../../utils/createTimestamp.js");
+const createTimestamp = require(`../../utils/createTimestamp.js`);
 
 module.exports = {
     name: `bot`,

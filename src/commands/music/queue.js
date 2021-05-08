@@ -1,6 +1,5 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
-const currentTime = require(`../../utils/currentTime.js`);
 const createTimestamp = require(`../../utils/createTimestamp.js`);
 const randomInt = require(`../../utils/randomInt.js`);
 
@@ -27,7 +26,7 @@ module.exports = {
         let completed;
         if (serverQueue.songs[serverQueue.currentSong]) {
             currentSong = serverQueue.songs[serverQueue.currentSong];
-            completed = currentTime(serverQueue);
+            completed = serverQueue.currentTime();
         } else {
             currentSong = {
                 title: `No song playing`,
@@ -39,8 +38,8 @@ module.exports = {
         }
 
         // Gets total raw queue time.
-        let totalRawTime = 0;
-        for (const song of serverQueue.songs) totalRawTime += song.videoLength;
+        let totalQueueLength = 0;
+        for (const song of serverQueue.songs) totalQueueLength += song.videoLength;
 
         // If the user specifies a song.
         if (args.length) {
@@ -59,23 +58,14 @@ module.exports = {
             // Sets time until played based on song's position in queue relative to song currently playing.
             let timeUntilPlayed;
             if (specifiedIndex - 1 < serverQueue.currentSong) {
-                if (serverQueue.loop === `queue`) {
-                    timeUntilPlayed = createTimestamp(Math.round((totalRawTime / (serverQueue.effects.speed / 100)) - completed - serverQueue.songs[specifiedIndex - 1].videoLength));
-                } else {
-                    timeUntilPlayed = `N/A`;
-                }
+                if (serverQueue.loop === `queue`) timeUntilPlayed = createTimestamp(Math.round((totalQueueLength / (serverQueue.effects.speed / 100)) - completed - serverQueue.songs[specifiedIndex - 1].videoLength));
+                else timeUntilPlayed = `N/A`;
             } else if (specifiedIndex - 1 > serverQueue.currentSong) {
                 const songsBefore = serverQueue.songs.slice(serverQueue.currentSong, specifiedIndex - 1);
-                timeUntilPlayed = createTimestamp(Math.round((totalRawTime / (serverQueue.effects.speed / 100)) - completed));
-
                 timeUntilPlayed = 0;
-                for (const song of songsBefore) {
-                    timeUntilPlayed += song.videoLength;
-                }
+                for (const song of songsBefore) timeUntilPlayed += song.videoLength;
                 timeUntilPlayed = createTimestamp(Math.round((timeUntilPlayed / (serverQueue.effects.speed / 100)) - completed));
-            } else {
-                timeUntilPlayed = `Currently Playing`;
-            }
+            } else timeUntilPlayed = `Currently Playing`;
 
             // Creates and sends the embed.
             const queueEmbed = new Discord.MessageEmbed()
@@ -103,13 +93,11 @@ module.exports = {
         }
 
         // Gets time left in queue.
-        const totalTime = Math.round(totalRawTime / (serverQueue.effects.speed / 100));
+        const totalTime = Math.round(totalQueueLength / (serverQueue.effects.speed / 100));
         const songTimeLeft = Math.round(currentSong.videoLength - completed);
         const songsLeft = serverQueue.songs.slice(serverQueue.currentSong);
         let totalTimeLeft = 0;
-        for (const song of songsLeft) {
-            totalTimeLeft += song.videoLength;
-        }
+        for (const song of songsLeft) totalTimeLeft += song.videoLength;
         totalTimeLeft = Math.round((totalTimeLeft / (serverQueue.effects.speed / 100)) - completed);
 
         // Creates list of songs in queue.
