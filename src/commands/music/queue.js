@@ -161,7 +161,7 @@ module.exports = {
                     inline: true
                 }, {
                     name: `**Channels**`,
-                    value: `${voiceChannel}  ${serverQueue.channel.name}\n${textChannel}  ${serverQueue.textChannel.name}`,
+                    value: `${voiceChannel}  ${serverQueue.voiceChannel.name}\n${textChannel}  ${serverQueue.textChannel.name}`,
                     inline: true
                 }, {
                     name: `**Loop**`,

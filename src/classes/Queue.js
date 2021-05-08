@@ -4,20 +4,19 @@ const queuePlaylist = require(`./functions/queuePlaylist.js`);
 
 /**
  * Queue Class - Creates a queue for a server and creates functions to modify the queue.
- *
  * @class
  */
 class Queue {
     /**
      * Queue constructor.
-     *
      * @param {Object} textChannel Text channel to bind the queue to.
      * @param {Object} voiceChannel Voice channel to bind the queue to.
      * @param {Object} connection Voice connection object.
+     * @constructor
      */
     constructor (textChannel, voiceChannel, connection) {
         this.textChannel = textChannel;
-        this.channel = voiceChannel;
+        this.voiceChannel = voiceChannel;
         this.connection = connection;
         this.bitrate = voiceChannel.bitrate / 1000 || 128;
         this.songs = [];

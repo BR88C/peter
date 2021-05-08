@@ -25,7 +25,7 @@ module.exports = {
         if (!serverQueue || !serverQueue.songs[0]) return message.reply(`I can't skip to a song if there are no songs in the queue!`);
 
         // Checks if the user is in the VC.
-        if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to remove music from the queue!`);
+        if (message.member.voice.channelID !== serverQueue.voiceChannel.id) return message.reply(`you need to be in the same voice channel as me to remove music from the queue!`);
 
         // Checks to make sure the value specified is valid.
         const specifiedValue = checkValueSpecified(args[0], 1, serverQueue.songs.length, message);

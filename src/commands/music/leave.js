@@ -27,7 +27,7 @@ module.exports = {
 
         if (message.guild.voice && message.guild.voice.connection) { // If the bot is in a VC, clear the queue and leave.
             if (serverQueue) {
-                if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to make me leave!`);
+                if (message.member.voice.channelID !== serverQueue.voiceChannel.id) return message.reply(`you need to be in the same voice channel as me to make me leave!`);
 
                 if (serverQueue.songs) {
                     for (const song of serverQueue.songs) {
@@ -49,7 +49,7 @@ module.exports = {
             return message.channel.send(leaveEmbed);
         } else { // If the bot is not in a VC, make sure the queue is cleared.
             if (serverQueue) {
-                if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to make me leave!`);
+                if (message.member.voice.channelID !== serverQueue.voiceChannel.id) return message.reply(`you need to be in the same voice channel as me to make me leave!`);
 
                 if (serverQueue.songs) {
                     for (const song of serverQueue.songs) {

@@ -24,7 +24,7 @@ module.exports = {
         if (!serverQueue || !serverQueue.songs[serverQueue.currentSong]) return message.reply(`I can't add treble if there is no music playing!`);
 
         // Checks if the user is in the VC.
-        if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to add treble to the music!`);
+        if (message.member.voice.channelID !== serverQueue.voiceChannel.id) return message.reply(`you need to be in the same voice channel as me to add treble to the music!`);
 
         // Replies with the current treble value if no arguments are specified.
         if (!args[0]) return message.channel.send(`The current treble level is: **+${serverQueue.effects.treble}%**`);

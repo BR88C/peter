@@ -22,7 +22,7 @@ module.exports = {
         if (!serverQueue || !serverQueue.songs[0]) return message.reply(`I can't shuffle the queue if there are no songs in the queue!`);
 
         // Checks if the user is in the VC.
-        if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to shuffle the queue!`);
+        if (message.member.voice.channelID !== serverQueue.voiceChannel.id) return message.reply(`you need to be in the same voice channel as me to shuffle the queue!`);
 
         // Sets the starTime to 0 and hidden to false for all songs.
         for (const song of serverQueue.songs) {

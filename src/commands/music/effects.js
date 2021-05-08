@@ -25,7 +25,7 @@ module.exports = {
         if (!serverQueue || !serverQueue.songs[0]) return message.reply(`I can't manage effects if the queue is empty!`);
 
         // Checks if the user is in the VC.
-        if (message.member.voice.channelID !== serverQueue.channel.id) return message.reply(`you need to be in the same voice channel as me to manage effects!`);
+        if (message.member.voice.channelID !== serverQueue.voiceChannel.id) return message.reply(`you need to be in the same voice channel as me to manage effects!`);
 
         if (args.length && (args[0].toLowerCase() === `off` || args[0].toLowerCase() === `clear`)) {
             // Set all effects to default values.
