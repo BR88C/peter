@@ -42,46 +42,68 @@ const streamhandler = {
             }
         }
 
-        // Create ytdl stream.
-        const ytdlStream = ytdl(serverQueue.songs[serverQueue.currentSong].url, {
+        // Create ytdl options.
+        const ytdlOptions = {
+            begin: serverQueue.songs[serverQueue.currentSong].startTime,
             highWaterMark: 1 << 19,
-            quality: serverQueue.songs[serverQueue.currentSong].format,
             requestOptions: requestHeaders.checkHeaders() ? requestHeaders.getHeaders() : undefined
-        });
+        };
 
-        // Create ffmpeg encoder arguments.
-        const ffmpegArgs = [
-            `-ss`, serverQueue.songs[serverQueue.currentSong].startTime.toString(),
-            `-analyzeduration`, `0`,
-            `-loglevel`, `0`,
-            `-f`, `s16le`,
-            `-ar`, `48000`,
-            `-ac`, `2`
-        ];
+        // Get SFX args.
         const sfxArgs = serverQueue.effectsString(`ffmpeg`);
 
-        // Create ffmpeg transcoder.
-        const transcoder = new FFmpeg({
-            args: sfxArgs.length !== 0 ? ffmpegArgs.concat([`-af`, sfxArgs]) : ffmpegArgs,
-            shell: false
-        });
+        if (serverQueue.songs[serverQueue.currentSong].opusFormat && sfxArgs.length === 0) { // If the stream supports demuxing, and the queue has no effects.
+            // Create demuxer.
+            const demuxer = new opus.WebmDemuxer();
 
-        // Create opus transcoder.
-        const opusTranscoder = new opus.Encoder({
-            rate: 48000,
-            channels: 2,
-            frameSize: 960
-        });
+            // Create ytdl stream.
+            const ytdlStream = ytdl(serverQueue.songs[serverQueue.currentSong].url, {
+                ...ytdlOptions, quality: serverQueue.songs[serverQueue.currentSong].opusFormat
+            });
 
-        // Create stream.
-        const stream = pipeline(ytdlStream, transcoder, opusTranscoder, (error) => {
-            if (stream && stream.destroy === `function`) stream.destroy();
-            if (ytdlStream && typeof ytdlStream.destroy === `function`) ytdlStream.destroy();
-            if (transcoder && typeof transcoder.destroy === `function`) transcoder.destroy();
-            if (opusTranscoder && typeof opusTranscoder.destroy === `function`) opusTranscoder.destroy();
-            if (error && error.message !== `Premature close`) log(error, `red`);
-        });
-        serverQueue.songs[serverQueue.currentSong].stream = stream;
+            const stream = pipeline([ytdlStream, demuxer], (error) => {
+                if (ytdlStream && typeof ytdlStream.destroy === `function`) ytdlStream.destroy();
+                if (error && error.message !== `Premature close`) log(error, `red`);
+            });
+            serverQueue.songs[serverQueue.currentSong].stream = stream;
+        } else { // Else, create a normal ffmpeg stream.
+            // Create ffmpeg encoder arguments.
+            const ffmpegArgs = [
+                `-analyzeduration`, `0`,
+                `-loglevel`, `0`,
+                `-f`, `s16le`,
+                `-ar`, `48000`,
+                `-ac`, `2`
+            ];
+
+            // Create ytdl stream.
+            const ytdlStream = ytdl(serverQueue.songs[serverQueue.currentSong].url, {
+                ...ytdlOptions, quality: serverQueue.songs[serverQueue.currentSong].ffmpegFormat
+            });
+
+            // Create ffmpeg transcoder.
+            const transcoder = new FFmpeg({
+                args: sfxArgs.length !== 0 ? ffmpegArgs.concat([`-af`, sfxArgs], ffmpegArgs) : ffmpegArgs,
+                shell: false
+            });
+
+            // Create opus transcoder.
+            const opusTranscoder = new opus.Encoder({
+                rate: 48000,
+                channels: 2,
+                frameSize: 960
+            });
+
+            // Create stream.
+            const stream = pipeline(ytdlStream, transcoder, opusTranscoder, (error) => {
+                if (stream && stream.destroy === `function`) stream.destroy();
+                if (ytdlStream && typeof ytdlStream.destroy === `function`) ytdlStream.destroy();
+                if (transcoder && typeof transcoder.destroy === `function`) transcoder.destroy();
+                if (opusTranscoder && typeof opusTranscoder.destroy === `function`) opusTranscoder.destroy();
+                if (error && error.message !== `Premature close`) log(error, `red`);
+            });
+            serverQueue.songs[serverQueue.currentSong].stream = stream;
+        }
 
         // Play the stream.
         const dispatcher = serverQueue.connection.play(serverQueue.songs[serverQueue.currentSong].stream, {

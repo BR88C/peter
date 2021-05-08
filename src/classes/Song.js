@@ -1,6 +1,6 @@
 const time = require(`../utils/time.js`);
 const cleanseMarkdown = require(`../utils/cleanseMarkdown.js`);
-const getFormat = require(`./functions/getFormat.js`);
+const formats = require(`./functions/formats.js`);
 
 /**
  * Song classs - Used for creating song objects to be added to the queue.
@@ -17,7 +17,8 @@ class Song {
     constructor (songInfo, messageAuthorTag) {
         this.title = cleanseMarkdown(songInfo.videoDetails.title);
         this.livestream = songInfo.videoDetails.isLiveContent;
-        this.format = getFormat(songInfo);
+        this.opusFormat = formats.getOpusFormat(songInfo);
+        this.ffmpegFormat = formats.getFFmpegFormat(songInfo);
         this.url = songInfo.videoDetails.video_url;
         this.thumbnail = songInfo.videoDetails.thumbnails.pop().url;
         this.timestamp = songInfo.videoDetails.isLiveContent ? `LIVE` : time(songInfo.videoDetails.lengthSeconds);
