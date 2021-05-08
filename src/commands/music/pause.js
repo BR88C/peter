@@ -25,8 +25,8 @@ module.exports = {
         // Checks if the current song is a livestream.
         if (serverQueue.songs[serverQueue.currentSong].livestream) return message.reply(`this command does not support livestreams!`);
 
-        if (serverQueue.playing) { // Checks if the music isn't paused.
-            serverQueue.playing = false;
+        if (!serverQueue.paused) { // Checks if the music isn't paused.
+            serverQueue.paused = true;
             serverQueue.connection.dispatcher.pause();
 
             const pauseEmbed = new Discord.MessageEmbed()

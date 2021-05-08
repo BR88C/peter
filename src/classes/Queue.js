@@ -39,10 +39,10 @@ class Queue {
         this.bitrate = this.voiceChannel.bitrate / 1e3 || 128;
 
         /**
-         * If the queue is playing.
+         * If the queue is paused.
          * @type {boolean}
          */
-        this.playing = true;
+        this.paused = false;
 
         /**
          * If the queue is being looped.
@@ -86,6 +86,26 @@ class Queue {
          * @type {number}
          */
         this.currentSong = 0;
+
+        /**
+         * The time the song has been playing since.
+         * This value is reset whenever the voice dispatcher changes songs.
+         * @type {number}
+         */
+        this.songPlayingSince = null;
+
+        /**
+         * The amount of time a song has been paused for.
+         * This value is added to, and is used as a helper value for the Queue#currentTime() method.
+         * Like Queue#songPlayingSince, it resets when the voice dispatcher changes songs.
+         */
+        this.pauseTime = null;
+
+        /**
+         * A helper value for Queue#pauseTime.
+         * Used for calculating how long the queue was paused for.
+         */
+        this.pausedSince = null;
 
         // Make sure all streams are closed on a disconnect.
         this.connection.on(`disconnect`, () => {
@@ -158,6 +178,17 @@ class Queue {
         }
 
         return activeEffects;
+    }
+
+    /**
+     * Gets the progress of the current song playing, in milliseconds.
+     * This takes into account queue speed, the song's start time, as well as the amount of time the music has been paused for.
+     * Returns undefined if the current song is a livestream, or if Queue#songPlayingSince is null.
+     * @returns {number | undefined} The amount of time in milliseconds, or undefined.
+     */
+    currentTime () {
+        if (this.songs[this.currentSong].livestream || !this.songPlayingSince) return undefined;
+        return Math.round((Date.now() - (this.songPlayingSince + (this.pauseTime ? this.pauseTime : 0) + (this.pausedSince ? Date.now() - this.pausedSince : 0))) * (this.effects.speed / 100)) + this.songs[this.currentSong].startTime;
     }
 }
 

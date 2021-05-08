@@ -107,12 +107,14 @@ const streamhandler = {
         }
 
         // Play the stream.
+        serverQueue.songPlayingSince = Date.now();
         const dispatcher = serverQueue.connection.play(serverQueue.songs[serverQueue.currentSong].stream, {
             type: `opus`,
             bitrate: serverQueue.bitrate
         })
             // When the song ends.
             .on(`finish`, (reason) => {
+                serverQueue.songPlayingSince = null;
                 if (serverQueue.loop === `single` && serverQueue.songs[serverQueue.currentSong] && !serverQueue.songs[serverQueue.currentSong].livestream) {
                     serverQueue.songs[serverQueue.currentSong].startTime = 0;
                     serverQueue.songs[serverQueue.currentSong].hidden = false;
@@ -132,6 +134,7 @@ const streamhandler = {
                     .setDescription(`Link: ${message.client.config.links.supportServer}`);
 
                 if (serverQueue) {
+                    serverQueue.songPlayingSince = null;
                     serverQueue.textChannel.send(errorEmbed);
                     if (serverQueue.songs) {
                         for (const song of serverQueue.songs) {
