@@ -1,6 +1,5 @@
 /**
  * Creates a progress bar based on the percent and length specified.
- *
  * @param {number} percent Percent of progress bar to show complete.
  * @param {number} length Length of the progress bar.
  * @returns {String} Progress bar string.

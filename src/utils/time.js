@@ -1,6 +1,5 @@
 /**
  * Generates a timestamp based on the time specified in seconds.
- *
  * @param {number} time Time provided in seconds.
  * @returns {String} Timestamp string.
  */

@@ -1,6 +1,5 @@
 /**
  * Adds a backslash before all markdown formatting characters in a string.
- *
  * @param {String} string String to be cleansed.
  * @returns {String} The cleaned string.
  */

@@ -2,7 +2,6 @@ const config = require(`../config/config.js`);
 
 /**
  * Creates a header for logging.
- *
  * @returns {Void} Void.
  */
 const logHeader = () => {
