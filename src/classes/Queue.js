@@ -173,9 +173,7 @@ class Queue {
             if (this.effects.vibrato !== 0) activeEffects.push(`Vibrato = ${this.effects.vibrato}﹪`);
             if (this.effects.volume !== 100) activeEffects.push(`Volume = ${this.effects.volume}﹪`);
             activeEffects = activeEffects[0] ? `\`\`\`prolog\n${activeEffects.join(`, `)}\n\`\`\`` : `\`\`\`diff\n-= No Active effects =-\n\`\`\``;
-        } else {
-            throw new Error(`Invalid effects array type`);
-        }
+        } else throw new Error(`Invalid effects array type`);
 
         return activeEffects;
     }
