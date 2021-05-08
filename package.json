@@ -23,19 +23,19 @@
   "dependencies": {
     "@discordjs/opus": "^0.5.0",
     "dblapi.js": "^2.4.1",
-    "discord.js-light": "^3.5.9",
-    "dotenv": "^8.2.0",
-    "ffmpeg-static": "^4.2.8",
+    "discord.js-light": "^3.5.10",
+    "dotenv": "^9.0.0",
+    "ffmpeg-static": "^4.3.0",
     "mongoose": "^5.12.7",
     "prism-media": "^1.2.9",
-    "ytdl-core": "^4.5.0",
-    "ytpl": "^2.2.0",
+    "ytdl-core": "^4.7.0",
+    "ytpl": "^2.2.1",
     "ytsr": "^3.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.14.0",
     "@babel/eslint-parser": "^7.13.14",
-    "eslint": "^7.25.0",
+    "eslint": "^7.26.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0"
