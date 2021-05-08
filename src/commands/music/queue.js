@@ -84,7 +84,7 @@ module.exports = {
                 .setTitle(`**${serverQueue.songs[specifiedIndex - 1].title}**`)
                 .addFields({
                     name: `**Song Length**`,
-                    value: serverQueue.songs[specifiedIndex - 1].timestamp,
+                    value: createTimestamp(serverQueue.songs[specifiedIndex - 1].videoLength),
                     inline: true
                 }, {
                     name: `**Time until Played**`,
@@ -116,7 +116,7 @@ module.exports = {
         const queueList = [];
         for (const [i, song] of serverQueue.songs.entries()) {
             const current = i === serverQueue.currentSong ? `↳ ` : ``;
-            queueList.push(`${current}**${i + 1}.** [${song.title}](${song.url}) [${song.timestamp}]`);
+            queueList.push(`${current}**${i + 1}.** [${song.title}](${song.url}) [${createTimestamp(song.videoLength)}]`);
         }
 
         // Gets emojis.
