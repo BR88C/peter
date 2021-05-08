@@ -57,7 +57,7 @@ const getOpusFormat = (songInfo) => {
 /**
  * Gets a forat for a song for ffmpeg.
  * @param {Object} songInfo Song info from ytdl-core.
- * @returns {Object | undefined} The found format itag, or undefined if no compatable streams are found.
+ * @returns {String | undefined} The found format itag, or undefined if no compatable streams are found.
  */
 const getFFmpegFormat = (songInfo) => {
     const formats = songInfo.videoDetails.isLiveContent ? songInfo.formats.filter(liveFilter) : songInfo.formats;
