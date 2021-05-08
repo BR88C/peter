@@ -15,17 +15,55 @@ class Queue {
      * @constructor
      */
     constructor (textChannel, voiceChannel, connection) {
+        /**
+         * The text channel the queue is bound to.
+         * @type {Object}
+         */
         this.textChannel = textChannel;
+
+        /**
+         * The voice channel the queue is bound to.
+         * @type {Object}
+         */
         this.voiceChannel = voiceChannel;
+
+        /**
+         * The queue's voice connection.
+         */
         this.connection = connection;
-        this.bitrate = voiceChannel.bitrate / 1000 || 128;
-        this.songs = [];
-        this.currentSong = 0;
-        this.volume = 100;
+
+        /**
+         * The bitrate the queue uses.
+         * This is the bitrate of Queue#voiceChannel, or 128 if the bitrate cannot be found.
+         * @type {number}
+         */
+        this.bitrate = this.voiceChannel.bitrate / 1000 || 128;
+
+        /**
+         * If the queue is playing.
+         * @type {boolean}
+         */
         this.playing = true;
+
+        /**
+         * If the queue is being looped.
+         * This value is either "off", "single", or "queue".
+         * @type {String}
+         */
         this.loop = `off`;
+
+        /**
+         * If the queue is 24/7.
+         * @type {boolean}
+         */
         this.twentyFourSeven = false;
-        this.effects = {
+
+        /**
+         * SFX to be applied to the queue.
+         * These values are the default values.
+         * @type {Object}
+         */
+         this.effects = {
             bass: 0,
             flanger: 0,
             highpass: 0,
@@ -34,8 +72,21 @@ class Queue {
             pitch: 100,
             speed: 100,
             treble: 0,
-            vibrato: 0
+            vibrato: 0,
+            volume: 100
         };
+
+        /**
+         * The queue's songs.
+         * @type {Object[]}
+         */
+        this.songs = [];
+
+        /**
+         * The current song playing, represented as an index of the Queue#songs array.
+         * @type {number}
+         */
+        this.currentSong = 0;
 
         // Make sure all streams are closed on a disconnect.
         this.connection.on(`disconnect`, () => {

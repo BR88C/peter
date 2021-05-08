@@ -148,7 +148,7 @@ const streamhandler = {
             });
 
         // Setting volume.
-        dispatcher.setVolumeLogarithmic(serverQueue.volume / 250);
+        dispatcher.setVolumeLogarithmic(serverQueue.effects.volume / 250);
 
         // Get emojis.
         const emojiGuild = message.client.guilds.forge(message.client.config.emojiGuild);

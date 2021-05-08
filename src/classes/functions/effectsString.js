@@ -29,7 +29,7 @@ const effectsString = (type, serverQueue) => {
         if (serverQueue.effects.speed !== 100) activeEffects.push(`Speed = ${serverQueue.effects.speed}﹪`);
         if (serverQueue.effects.treble !== 0) activeEffects.push(`Treble = +${serverQueue.effects.treble}﹪`);
         if (serverQueue.effects.vibrato !== 0) activeEffects.push(`Vibrato = ${serverQueue.effects.vibrato}﹪`);
-        if (serverQueue.volume !== 100) activeEffects.push(`Volume = ${serverQueue.volume}﹪`);
+        if (serverQueue.effects.volume !== 100) activeEffects.push(`Volume = ${serverQueue.effects.volume}﹪`);
         activeEffects = activeEffects[0] ? `\`\`\`prolog\n${activeEffects.join(`, `)}\n\`\`\`` : `\`\`\`diff\n-= No Active effects =-\n\`\`\``;
     } else {
         throw new Error(`Invalid effects array type`);

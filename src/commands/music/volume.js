@@ -26,14 +26,14 @@ module.exports = {
         if (message.member.voice.channelID !== serverQueue.voiceChannel.id) return message.reply(`you need to be in the same voice channel as me to change the volume!`);
 
         // Replies with the current volume if no arguments are specified.
-        if (!args[0]) return message.channel.send(`The current volume is: **${serverQueue.volume}**`);
+        if (!args[0]) return message.channel.send(`The current volume is: **${serverQueue.effects.volume}**`);
 
         // Checks to make sure the value specified is valid.
         const specifiedValue = checkValueSpecified(args[0], 0, Infinity, message, `mute`);
         if (specifiedValue === `invalid`) return;
 
         // Sets the volume.
-        serverQueue.volume = specifiedValue;
+        serverQueue.effects.volume = specifiedValue;
         serverQueue.connection.dispatcher.setVolumeLogarithmic(specifiedValue / 250);
 
         const volumeEmbed = new Discord.MessageEmbed()
