@@ -201,7 +201,7 @@ module.exports = {
 
                     msg.awaitReactions(filter, {
                         max: 1,
-                        time: 30000,
+                        time: 3e4,
                         errors: [`time`]
                     }).then(async collected => {
                         const reaction = collected.first();

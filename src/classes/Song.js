@@ -36,7 +36,7 @@ class Song {
          * The song's length, in milliseconds.
          * @type {number}
          */
-        this.videoLength = parseInt(songInfo.videoDetails.lengthSeconds) * 1000;
+        this.videoLength = parseInt(songInfo.videoDetails.lengthSeconds) * 1e3;
 
         /**
          * If the song is a livestream.

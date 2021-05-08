@@ -10,7 +10,7 @@ const liveFilter = (format) => format.isHLS;
  * @param {Object} format The format to check.
  * @returns {boolean} If the format is an opus / webm stream.
  */
-const opusFilter = (format) => format.codecs === `opus` && format.audioCodec === `opus` && format.container === `webm` && format.audioSampleRate == 48000;
+const opusFilter = (format) => format.codecs === `opus` && format.audioCodec === `opus` && format.container === `webm` && format.audioSampleRate == 48e3;
 
 /**
  * Checks if a format is supported (Checks if audio bitrate is defined, and if it's HLS if it's a livestream).

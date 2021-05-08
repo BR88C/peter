@@ -16,7 +16,7 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        const uptime = time(Math.round(client.uptime / 1000));
+        const uptime = time(Math.round(client.uptime / 1e3));
 
         const botInfoEmbed = new Discord.MessageEmbed()
             .setColor(0xffd87d)

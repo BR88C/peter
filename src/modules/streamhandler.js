@@ -69,7 +69,7 @@ const streamhandler = {
         } else { // Else, create a normal ffmpeg stream.
             // Create ffmpeg encoder arguments.
             const ffmpegArgs = [
-                `-ss`, (Math.round(serverQueue.songs[serverQueue.currentSong].startTime / 1000)).toString(),
+                `-ss`, (Math.round(serverQueue.songs[serverQueue.currentSong].startTime / 1e3)).toString(),
                 `-analyzeduration`, `0`,
                 `-loglevel`, `0`,
                 `-f`, `s16le`,
@@ -90,7 +90,7 @@ const streamhandler = {
 
             // Create opus transcoder.
             const opusTranscoder = new opus.Encoder({
-                rate: 48000,
+                rate: 48e3,
                 channels: 2,
                 frameSize: 960
             });
