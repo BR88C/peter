@@ -1,9 +1,9 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
-const time = require(`../../utils/time.js`);
 const progressBar = require(`../../utils/progressBar.js`);
 const currentTime = require(`../../utils/currentTime.js`);
 const randomInt = require(`../../utils/randomInt.js`);
+const createTimestamp = require("../../utils/createTimestamp.js");
 
 module.exports = {
     name: `nowplaying`,
@@ -33,9 +33,9 @@ module.exports = {
             const percentComplete = completed / serverQueue.songs[serverQueue.currentSong].rawTime;
 
             const playingEmoji = serverQueue.playing ? `▶` : `⏸`;
-            const timestamp = serverQueue.songs[serverQueue.currentSong].livestream ? `LIVE` : time(serverQueue.songs[serverQueue.currentSong].rawTime);
+            const timestamp = serverQueue.songs[serverQueue.currentSong].livestream ? `LIVE` : createTimestamp(serverQueue.songs[serverQueue.currentSong].rawTime);
 
-            description = `\`\`\`${playingEmoji} ${time(completed)} ${progressBar(percentComplete, 25)} ${timestamp}\`\`\``;
+            description = `\`\`\`${playingEmoji} ${createTimestamp(completed)} ${progressBar(percentComplete, 25)} ${timestamp}\`\`\``;
         }
 
         // Get emojis.

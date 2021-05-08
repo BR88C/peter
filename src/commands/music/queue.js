@@ -1,7 +1,7 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
 const currentTime = require(`../../utils/currentTime.js`);
-const time = require(`../../utils/time.js`);
+const createTimestamp = require(`../../utils/createTimestamp.js`);
 const randomInt = require(`../../utils/randomInt.js`);
 
 module.exports = {
@@ -60,19 +60,19 @@ module.exports = {
             let timeUntilPlayed;
             if (specifiedIndex - 1 < serverQueue.currentSong) {
                 if (serverQueue.loop === `queue`) {
-                    timeUntilPlayed = time(Math.round((totalRawTime / (serverQueue.effects.speed / 100)) - completed - serverQueue.songs[specifiedIndex - 1].rawTime));
+                    timeUntilPlayed = createTimestamp(Math.round((totalRawTime / (serverQueue.effects.speed / 100)) - completed - serverQueue.songs[specifiedIndex - 1].rawTime));
                 } else {
                     timeUntilPlayed = `N/A`;
                 }
             } else if (specifiedIndex - 1 > serverQueue.currentSong) {
                 const songsBefore = serverQueue.songs.slice(serverQueue.currentSong, specifiedIndex - 1);
-                timeUntilPlayed = time(Math.round((totalRawTime / (serverQueue.effects.speed / 100)) - completed));
+                timeUntilPlayed = createTimestamp(Math.round((totalRawTime / (serverQueue.effects.speed / 100)) - completed));
 
                 timeUntilPlayed = 0;
                 for (const song of songsBefore) {
                     timeUntilPlayed += song.rawTime;
                 }
-                timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.effects.speed / 100)) - completed));
+                timeUntilPlayed = createTimestamp(Math.round((timeUntilPlayed / (serverQueue.effects.speed / 100)) - completed));
             } else {
                 timeUntilPlayed = `Currently Playing`;
             }
@@ -128,7 +128,7 @@ module.exports = {
 
         let title;
         if (serverQueue.songs[serverQueue.currentSong]) {
-            title = `${nowPlayingEmoji}  **Now Playing**: ${currentSong.title} [${time(songTimeLeft)} remaining]`;
+            title = `${nowPlayingEmoji}  **Now Playing**: ${currentSong.title} [${createTimestamp(songTimeLeft)} remaining]`;
         } else {
             title = `**No song playing**`;
         }
@@ -149,11 +149,11 @@ module.exports = {
                 .setDescription(queueContent)
                 .addFields({
                     name: `**Queue length**`,
-                    value: time(totalTime),
+                    value: createTimestamp(totalTime),
                     inline: true
                 }, {
                     name: `**Time left**`,
-                    value: time(totalTimeLeft),
+                    value: createTimestamp(totalTimeLeft),
                     inline: true
                 }, {
                     name: `**Bitrate**`,

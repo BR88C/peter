@@ -1,6 +1,6 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
-const time = require(`../../utils/time.js`);
+const createTimestamp = require(`../../utils/createTimestamp.js`);
 const streamhandler = require(`../../modules/streamhandler.js`);
 
 module.exports = {
@@ -44,7 +44,7 @@ module.exports = {
 
         const seekEmbed = new Discord.MessageEmbed()
             .setColor(0xbccbd1)
-            .setTitle(`⏩  Seeked to **${time(specifiedTime)}**`);
+            .setTitle(`⏩  Seeked to **${createTimestamp(specifiedTime)}**`);
 
         return message.channel.send(seekEmbed);
     }

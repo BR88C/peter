@@ -1,6 +1,6 @@
 const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
-const time = require(`../../utils/time.js`);
+const createTimestamp = require("../../utils/createTimestamp.js");
 
 module.exports = {
     name: `bot`,
@@ -16,7 +16,7 @@ module.exports = {
      * @returns {Void} Void.
      */
     execute: async (client, message, args) => {
-        const uptime = time(Math.round(client.uptime / 1e3));
+        const uptime = createTimestamp(Math.round(client.uptime / 1e3));
 
         const botInfoEmbed = new Discord.MessageEmbed()
             .setColor(0xffd87d)

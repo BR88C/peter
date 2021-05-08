@@ -1,4 +1,3 @@
-const time = require(`../utils/time.js`);
 const cleanseMarkdown = require(`../utils/cleanseMarkdown.js`);
 const formats = require(`./functions/formats.js`);
 

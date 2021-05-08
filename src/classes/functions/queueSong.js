@@ -2,7 +2,7 @@ const Discord = require(`discord.js-light`);
 const log = require(`../../modules/log.js`);
 const streamhandler = require(`../../modules/streamhandler.js`);
 const currentTime = require(`../../utils/currentTime.js`);
-const time = require(`../../utils/time.js`);
+const createTimestamp = require(`../../utils/createTimestamp.js`);
 
 /**
  * Adds a song to the queue.
@@ -28,7 +28,7 @@ const queueSong = async (song, message, hidden, serverQueue) => {
         for (const song of songsBefore) {
             timeUntilPlayed += song.rawTime;
         }
-        timeUntilPlayed = time(Math.round((timeUntilPlayed / (serverQueue.effects.speed / 100)) - completed));
+        timeUntilPlayed = createTimestamp(Math.round((timeUntilPlayed / (serverQueue.effects.speed / 100)) - completed));
     } else {
         timeUntilPlayed = `Unavailable`;
     }
