@@ -181,11 +181,11 @@ class Queue {
     /**
      * Gets the progress of the current song playing, in milliseconds.
      * This takes into account queue speed, the song's start time, as well as the amount of time the music has been paused for.
-     * Returns undefined if the current song is a livestream, or if Queue#songPlayingSince is null.
-     * @returns {number | undefined} The amount of time in milliseconds, or undefined.
+     * Returns 0 if the current song is a livestream, or if Queue#songPlayingSince is null.
+     * @returns {number} The amount of time in milliseconds, or undefined.
      */
     currentTime () {
-        if (this.songs[this.currentSong].livestream || !this.songPlayingSince) return undefined;
+        if (this.songs[this.currentSong].livestream || !this.songPlayingSince) return 0;
         return Math.round((Date.now() - (this.songPlayingSince + (this.pauseTime ? this.pauseTime : 0) + (this.pausedSince ? Date.now() - this.pausedSince : 0))) * (this.effects.speed / 100)) + this.songs[this.currentSong].startTime;
     }
 }
