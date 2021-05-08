@@ -69,6 +69,7 @@ const streamhandler = {
         } else { // Else, create a normal ffmpeg stream.
             // Create ffmpeg encoder arguments.
             const ffmpegArgs = [
+                `-ss`, serverQueue.songs[serverQueue.currentSong].startTime.toString(),
                 `-analyzeduration`, `0`,
                 `-loglevel`, `0`,
                 `-f`, `s16le`,
