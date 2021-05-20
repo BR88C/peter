@@ -10,7 +10,7 @@
  */
 const config = {
     prefix: {
-        dev: `%`,
+        dev: `;`,
         prod: `!`
     },
     developerPrefix: `sudo`,
