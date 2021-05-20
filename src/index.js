@@ -1,39 +1,17 @@
-/* Peter! by BR88C */
-
-/* Load Modules. */
-const Discord = require(`discord.js-light`);
-const dotenv = require(`dotenv`).config();
-const loader = require(`./modules/loader.js`);
-const log = require(`./modules/log.js`);
-const end = require(`./modules/end.js`);
-
-/* Create client. */
-const client = new Discord.Client({
-    cacheChannels: false,
-    cacheGuilds: true,
-    cachePresences: false,
-    cacheRoles: true,
-    cacheOverwrites: false,
-    cacheEmojis: false,
-    disabledEvents: [],
-    messageEditHistoryMaxSize: 1,
-    messageCacheMaxSize: 50,
-    messageSweepInterval: 3600,
-    disableMentions: `everyone`
-});
-
-/* Catch unhandled promise rejection errors. */
-process.on(`unhandledRejection`, (error) => log(error, `red`));
-
-/* Load all commands, events, and variables, then authenticate with Discord. */
-loader.start(client);
-client.login(process.env.BOT_TOKEN).catch((error) => {
-    log(error, `red`);
-    end(client, false, `Failed to authenticate client with application.`);
-});
-
-/* Report if there is an error with DBL. */
-if (client.dbl) client.dbl.on(`error`, (error) => log(`DBL API Warning: ${error}`, `yellow`));
-
-/* If the Bot is Stopped with Ctrl+C. */
-process.on(`SIGINT`, () => end(client, true));
+/**
+ * Peter! by BR88C.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * @license
+ */
