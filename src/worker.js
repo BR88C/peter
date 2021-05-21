@@ -1,5 +1,6 @@
 const config = require(`./config/config.js`);
 const constants = require(`./config/constants.js`);
+const presences = require(`./config/presences.js`);
 
 // Import node modules.
 const fs = require(`fs`);
@@ -9,6 +10,14 @@ const { Worker } = require(`discord-rose`);
 // Create worker.
 const worker = new Worker();
 
+// Set presence, and change it at an interval specified in config.
+const setRandomPresence = () => {
+    const presence = presences[~~(presences.length * Math.random())];
+    worker.setStatus(presence.type, presence.name, presence.status)
+};
+setRandomPresence();
+setInterval(() => setRandomPresence(), config.presenceInterval);
+
 // Set prefix.
 worker.commands.prefix(config.developerPrefix);
 worker.log(`Using developer prefix ${config.developerPrefix}`);
@@ -17,7 +26,7 @@ worker.log(`Using developer prefix ${config.developerPrefix}`);
 for (const dir of fs.readdirSync(`./src/commands`).filter((file) => fs.statSync(`${`./src/commands` + `/`}${file}`).isDirectory())) worker.commands.load(path.resolve(__dirname, `./commands/${dir}`));
 worker.log(`Loaded ${worker.commands.commands.size} commands`);
 
-// Custom error response.
+// Custom command error response.
 worker.commands.error((ctx, error) => {
     worker.log(`${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${error.message} | Command: ${ctx.command.command} | User: ${ctx.message.author.username}#${ctx.message.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id).name} | Guild ID: ${ctx.message.guild_id}`);
     ctx.embed
@@ -28,7 +37,7 @@ worker.commands.error((ctx, error) => {
         .catch((error) => worker.log(`Unable to send Error Embed${typeof error === `string` ? ` | Reason: ${error}` : (typeof error?.message === `string` ? ` | Reason: ${error.message}` : ``)}`));
 });
 
-// Create middleware.
+// Create command middleware.
 worker.commands.middleware((ctx) => {
     if (!ctx.isInteraction) { // If the received event is not an interaction.
         if (!config.devs.IDs.includes(ctx.message.author.id)) { // If the user is not a dev, return an error.
