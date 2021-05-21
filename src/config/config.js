@@ -13,7 +13,9 @@
  * @property {number | string} shards.dev The amount of shards to create when NODE_ENV is "dev". Can either be a number or "auto".
  * @property {number | string} shards.prod The amount of shards to create when NODE_ENV is "prod". Can either be a number or "auto".
  * @property {number} shards.shardsPerCluster The amount of shards to spawn per cluster.
- * @property {number} statsCheckupInterval The interval to run stats checkups at.
+ * @property {Object} statsCheckupInterval Intervals to run stats checkups at.
+ * @property {number} statsCheckupInterval.dev Interval to run stats checkups at when NODE_ENV is "dev".
+ * @property {number} statsCheckupInterval.prod Interval to run stats checkups at when NODE_ENV is "prod".
  */
 const config = {
     prefix: {
@@ -32,7 +34,10 @@ const config = {
         prod: `auto`,
         shardsPerCluster: 1
     },
-    statsCheckupInterval: 12e4
+    statsCheckupInterval: {
+        dev: 1e4,
+        prod: 12e4
+    }
 };
 
 module.exports = config;

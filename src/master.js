@@ -36,7 +36,7 @@ const createMaster = () => new Promise((resolve, reject) => {
     master.on(`READY`, () => {
         // Run stats checkups at a set interval.
         statsCheckup(master);
-        setInterval(() => statsCheckup(master), config.statsCheckupInterval);
+        setInterval(() => statsCheckup(master), config.statsCheckupInterval[process.env.NODE_ENV]);
 
         // Resolve the master Object.
         resolve(master);
