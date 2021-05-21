@@ -4,7 +4,7 @@
  * @property {string} SUPPORT_SERVER The invite link to the bot's support server.
  * @property {string} VOTE_LINK The bot's vote link.
  * @property {string} WEBSITE The bot's website.
- * 
+ *
  * @property {number} ERROR_EMBED_COLOR The color to use for the error embed.
  * @property {number} BOT_INFO_EMBED_COLOR The color to use for the botinfo embed.
  * @property {number} INVITE_EMBED_COLOR The color to use for the invite embed.
@@ -21,7 +21,7 @@ const constants = {
     BOT_INFO_EMBED_COLOR: 0xFFD87D,
     INVITE_EMBED_COLOR: 0x5EFF97,
     PING_EMBED_COLOR: 0x2100DB,
-    VOTE_EMBED_COLOR: 0xACA6FF,
+    VOTE_EMBED_COLOR: 0xACA6FF
 };
 
 module.exports = constants;
