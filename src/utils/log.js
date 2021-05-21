@@ -2,14 +2,12 @@
  * Simplified advanced logging.
  * @param {string} msg The message to log.
  * @param {Object} [cluster] The cluster Object.
- * @param {{ color: string?, timestamp: boolean? }} [options] Logging options. Color defaults to green, and timestamp defaults to true.
+ * @param {string} [color] The color to log with. Defaults to green.
+ * @param {boolean} [timestamp] If a timestamp should be added. Defaults to true.
  * @returns {Void} Void.
  */
-const log = (msg, cluster, options = { color: `green`, timestamp: true }) => {
-    if (cluster?.id) msg = `[Cluster ${cluster.id}] ${msg}`;
-    else msg = `[Master] ${msg}`;
-
-    if (options.timestamp) {
+const log = (msg, cluster, color = `green`, timestamp = true) => {
+    if (timestamp) {
         const time = new Date();
         const second = time.getSeconds().toString().padStart(2, `0`);
         const minute = time.getMinutes().toString().padStart(2, `0`);
@@ -20,8 +18,11 @@ const log = (msg, cluster, options = { color: `green`, timestamp: true }) => {
         msg = `[${month}-${day}-${year} ${hour}:${minute}:${second}] ${msg}`;
     }
 
+    if (cluster?.id) msg = `Cluster ${cluster.id}${` `.repeat(12 - `Cluster ${cluster.id}`.length)}|  ${msg}`;
+    else msg = `Master${` `.repeat(12 - `Master`.length)}|  ${msg}`;
+
     let logColor;
-    switch (options.color) {
+    switch (color) {
         case `black`:
             logColor = `\x1b[30m`;
             break;
