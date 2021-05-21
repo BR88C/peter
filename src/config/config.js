@@ -23,11 +23,11 @@ const config = {
 
     prefix: {
         dev: `;`,
-        prod: `!`,
+        prod: `!`
     },
     shards: {
         dev: 1,
-        prod: `auto`,
+        prod: `auto`
     },
     shardsPerCluster: {
         dev: 1,
