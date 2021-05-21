@@ -12,17 +12,8 @@ const path = require(`path`);
 const createMaster = () => new Promise((resolve, reject) => {
     // Create master.
     const master = new Master(path.resolve(__dirname, `./worker.js`), {
-        cache: {
-            channels: false,
-            guilds: true,
-            members: false,
-            messages: false,
-            roles: false,
-            self: true,
-            users: false,
-            voiceStates: true
-        },
-        cacheControl: { guilds: [`id`, `owner_id`, `member_count`] },
+        cache: config.cache,
+        cacheControl: config.cacheControl,
         log: log,
         shards: config.shards[process.env.NODE_ENV],
         shardsPerCluster: config.shardsPerCluster[process.env.NODE_ENV],
