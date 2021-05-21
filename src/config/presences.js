@@ -3,7 +3,7 @@
  * The interval at which the bot's presence is changed is set in config.js
  * @type {{ type: string, name: string, status: string }[]}
  */
- const presences = [
+const presences = [
     {
         type: `watching`,
         name: `a kid's guide to the Internet`,

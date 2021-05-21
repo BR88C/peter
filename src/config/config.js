@@ -7,7 +7,7 @@
  *
  * @property {string} emojiGuildID The ID of the guild that contains all emoji's the bot uses.
  * @property {Object.<string, string>} emojiIDs IDs of emojis to use.
- * 
+ *
  * @property {number} presenceInterval The interval to change the bot's presence at, in milliseconds.
  *
  * @property {Object} cache Cache options to be used when creating master.
