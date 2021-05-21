@@ -1,48 +1,69 @@
-/**
- * Peter! by BR88C.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- * @license
- */
-
-// Import node modules.
-const dotenv = require(`dotenv`).config();
-const { Master } = require (`discord-rose`);
-const path = require(`path`);
-
-// Import utils.
+const config = require(`./config/config.js`);
 const log = require(`./utils/log.js`);
 
-// Create master.
-const master = new Master(path.resolve(__dirname, `./worker.js`), {
-    cache: {
-        channels: false,
-        guilds: true,
-        members: false,
-        messages: false,
-        roles: false,
-        self: true,
-        users: false,
-        voiceStates: true
-    },
-    cacheControl: {
-        guilds: [`id`, `owner_id`, `member_count`]
-    },
-    log: log,
-    shards: process.env.NODE_ENV === `dev` ? 1 : `auto`,
-    token: process.env.BOT_TOKEN,
+// Import node modules.
+const {
+    Master
+} = require(`discord-rose`);
+const path = require(`path`);
+
+/**
+ * Creates a master process.
+ * @returns {Promise<Object>} A promise that resolves once master emits the READY event. Returns the master Object.
+ */
+const createMaster = () => new Promise((resolve, reject) => {
+    // Create master.
+    const master = new Master(path.resolve(__dirname, `./worker.js`), {
+        cache: {
+            channels: false,
+            guilds: true,
+            members: false,
+            messages: false,
+            roles: false,
+            self: true,
+            users: false,
+            voiceStates: true
+        },
+        cacheControl: {
+            guilds: [`id`, `owner_id`, `member_count`]
+        },
+        log: log,
+        shards: config.shards[process.env.NODE_ENV],
+        shardsPerCluster: config.shards.shardsPerCluster,
+        token: process.env.BOT_TOKEN
+    });
+
+    // Start master.
+    master.start();
+
+    // On ready.
+    master.on(`READY`, () => {
+        // Run stats checkups at a set interval.
+        statsCheckup(master);
+        setInterval(() => statsCheckup(master), config.statsCheckupInterval);
+
+        // Resolve the master Object.
+        resolve(master);
+    });   
 });
 
-// Start master.
-master.start();
+/**
+ * Logs a stats checkup.
+ * @param {Object} master The master Object.
+ * @returns {Void} Void.
+ */
+const statsCheckup = (master) => master.getStats().then((stats) => {
+    for (const entry of stats) {
+        let totalShardPing = 0, totalGuilds = 0;
+        for (const shard of entry.shards) {
+            totalShardPing += shard.ping;
+            totalGuilds += shard.guilds;
+        }
+
+        log(`Stats checkup | Shard count: ${entry.shards.length} | Guilds: ${totalGuilds} | Average Ping: ${totalShardPing / entry.shards.length}ms | Memory usage: ${Math.round(entry.cluster.memory / 1e4) / 100}mb`, { id: entry.cluster.id }, `yellow`);
+    }
+});
+
+module.exports = {
+    createMaster, statsCheckup
+}
