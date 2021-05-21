@@ -30,7 +30,7 @@ const createMaster = () => new Promise((resolve, reject) => {
         setInterval(() => statsCheckup(master), config.statsCheckupInterval[process.env.NODE_ENV]);
 
         // Log ready.
-        log(`Bot up since ${new Date().toLocaleString()}`, undefined, `magenta`, false);
+        master.log(`\x1b[35mBot up since ${new Date().toLocaleString()}`);
 
         // Resolve the master Object.
         resolve(master);
@@ -50,7 +50,7 @@ const statsCheckup = (master) => master.getStats().then((stats) => {
             totalShardPing += shard.ping;
             totalGuilds += shard.guilds;
         }
-        log(`Stats checkup | Shard count: ${entry.shards.length} | Guilds: ${totalGuilds} | Average Ping: ${totalShardPing / entry.shards.length}ms | Memory usage: ${Math.round(entry.cluster.memory / 1e4) / 100}mb`, { id: entry.cluster.id }, `yellow`);
+        master.log(`\x1b[35mStats checkup | Shard count: ${entry.shards.length} | Guilds: ${totalGuilds} | Average Ping: ${totalShardPing / entry.shards.length}ms | Memory usage: ${Math.round(entry.cluster.memory / 1e4) / 100}mb`);
     }
 });
 

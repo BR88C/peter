@@ -1,5 +1,7 @@
 /**
  * Constants for the bot.
+ * @property {number} MAX_CLUSTER_LOG_LENGTH The max number of characters to be used for logging the cluster a log originates from.
+ * 
  * @property {string} INVITE_LINK The bot's invite link.
  * @property {string} SUPPORT_SERVER The invite link to the bot's support server.
  * @property {string} VOTE_LINK The bot's vote link.
@@ -12,6 +14,8 @@
  * @property {number} VOTE_EMBED_COLOR The color to use for the vote embed.
  */
 const constants = {
+    MAX_CLUSTER_LOG_LENGTH: 12,
+
     INVITE_LINK: `https://discord.com/oauth2/authorize?client_id=744694015630245949&scope=bot%20applications.commands&permissions=3525696`,
     SUPPORT_SERVER: `https://discord.gg/E2JsYPPJYN`,
     VOTE_LINK: `https://top.gg/bot/744694015630245949/vote`,
