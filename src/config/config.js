@@ -7,9 +7,9 @@
  * @property {string} emojiGuildID The ID of the guild that contains all emoji's the bot uses.
  * @property {Object.<string, string>} emojiIDs IDs of emojis to use.
  * @property {{ dev: string, prod: string }} prefix The bot's prefixes.
- * @property {{ dev: string, prod: string }} shards The total amount of shards to spawn.
- * @property {{ dev: string, prod: string }} shardsPerCluster The amount of shards to spawn per cluster.
- * @property {{ dev: string, prod: string }} statsCheckupInterval Intervals to run stats checkups at.
+ * @property {{ dev: number | string, prod: number | string }} shards The total amount of shards to spawn.
+ * @property {{ dev: number, prod: number }} shardsPerCluster The amount of shards to spawn per cluster.
+ * @property {{ dev: number, prod: number }} statsCheckupInterval Intervals to run stats checkups at.
  */
 const config = {
     developerPrefix: `sudo`,
