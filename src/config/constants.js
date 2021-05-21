@@ -14,7 +14,8 @@ const constants = {
 
     BOT_INFO_EMBED_COLOR: 0xFFD87D,
     INVITE_EMBED_COLOR: 0x5EFF97,
-    PING_EMBED_COLOR: 0x2100DB
+    PING_EMBED_COLOR: 0x2100DB,
+    VOTE_EMBED_COLOR: 0xACA6FF
 };
 
 module.exports = constants;
