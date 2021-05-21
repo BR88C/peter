@@ -12,7 +12,9 @@ const constants = {
     VOTE_LINK: `https://top.gg/bot/744694015630245949/vote`,
     WEBSITE: `https://peter.badfirmware.com`,
 
-    BOT_INFO_COLOR: 0xFFD87D
+    BOT_INFO_EMBED_COLOR: 0xFFD87D,
+    INVITE_EMBED_COLOR: 0x5EFF97,
+    PING_EMBED_COLOR: 0x2100DB
 };
 
 module.exports = constants;
