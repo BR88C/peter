@@ -29,6 +29,9 @@ const createMaster = () => new Promise((resolve, reject) => {
         statsCheckup(master);
         setInterval(() => statsCheckup(master), config.statsCheckupInterval[process.env.NODE_ENV]);
 
+        // Log ready.
+        log(`Bot up since ${new Date().toLocaleString()}`, undefined, `magenta`, false);
+
         // Resolve the master Object.
         resolve(master);
     });
