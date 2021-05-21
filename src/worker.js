@@ -13,7 +13,7 @@ const worker = new Worker();
 // Set presence, and change it at an interval specified in config.
 const setRandomPresence = () => {
     const presence = presences[~~(presences.length * Math.random())];
-    worker.setStatus(presence.type, presence.name, presence.status)
+    worker.setStatus(presence.type, presence.name, presence.status);
 };
 setRandomPresence();
 setInterval(() => setRandomPresence(), config.presenceInterval);
