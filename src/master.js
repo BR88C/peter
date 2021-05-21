@@ -25,7 +25,7 @@ const createMaster = () => new Promise((resolve, reject) => {
         cacheControl: { guilds: [`id`, `owner_id`, `member_count`] },
         log: log,
         shards: config.shards[process.env.NODE_ENV],
-        shardsPerCluster: config.shards.shardsPerCluster,
+        shardsPerCluster: config.shardsPerCluster[process.env.NODE_ENV],
         token: process.env.BOT_TOKEN
     });
 
