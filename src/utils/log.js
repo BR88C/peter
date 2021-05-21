@@ -2,11 +2,11 @@
  * Simplified advanced logging.
  * @param {string} msg The message to log.
  * @param {Object} [cluster] The cluster Object.
- * @param {string} [color] The color to log with. Defaults to green.
+ * @param {string} [color] The color to log with. Defaults to white.
  * @param {boolean} [timestamp] If a timestamp should be added. Defaults to true.
  * @returns {Void} Void.
  */
-const log = (msg, cluster, color = `green`, timestamp = true) => {
+const log = (msg, cluster, color = `white`, timestamp = true) => {
     if (timestamp) {
         const time = new Date();
         const second = time.getSeconds().toString().padStart(2, `0`);
