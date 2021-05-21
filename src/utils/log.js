@@ -51,7 +51,7 @@ const log = (msg, cluster, color = `green`, timestamp = true) => {
             throw new Error(`Invalid logging color.`);
     }
 
-    console.log(logColor, msg);
+    console.log(logColor, msg.replace(`\n`, ` `));
 };
 
 module.exports = log;
