@@ -50,7 +50,7 @@ const statsCheckup = (master) => master.getStats().then((stats) => {
             totalShardPing += shard.ping;
             totalGuilds += shard.guilds;
         }
-        master.log(`\x1b[35mStats checkup | Shard count: ${entry.shards.length} | Guilds: ${totalGuilds} | Average Ping: ${totalShardPing / entry.shards.length}ms | Memory usage: ${Math.round(entry.cluster.memory / 1e4) / 100}mb`);
+        master.log(`\x1b[35mStats checkup | Shard count: ${entry.shards.length} | Guilds: ${totalGuilds} | Average Ping: ${totalShardPing / entry.shards.length}ms | Memory usage: ${Math.round(entry.cluster.memory / 1e4) / 100}mb`, { id: entry.cluster.id });
     }
 });
 
