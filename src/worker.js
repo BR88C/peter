@@ -18,6 +18,6 @@ worker.log(`Loaded ${worker.commands.commands.size} commands`);
 
 // Create middleware.
 worker.commands.middleware((ctx) => {
-    worker.log(`Command Request | Command: ${ctx.command.command} | User: ${ctx.message.author.username}#${ctx.message.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id).name} | Guild ID: ${ctx.message.guild_id}`)
+    worker.log(`Received Command | Command: ${ctx.command.command} | User: ${ctx.message.author.username}#${ctx.message.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id).name} | Guild ID: ${ctx.message.guild_id}`)
     return true;
 });
