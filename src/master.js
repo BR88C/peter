@@ -2,9 +2,7 @@ const config = require(`./config/config.js`);
 const log = require(`./utils/log.js`);
 
 // Import node modules.
-const {
-    Master
-} = require(`discord-rose`);
+const { Master } = require(`discord-rose`);
 const path = require(`path`);
 
 /**
@@ -24,9 +22,7 @@ const createMaster = () => new Promise((resolve, reject) => {
             users: false,
             voiceStates: true
         },
-        cacheControl: {
-            guilds: [`id`, `owner_id`, `member_count`]
-        },
+        cacheControl: { guilds: [`id`, `owner_id`, `member_count`] },
         log: log,
         shards: config.shards[process.env.NODE_ENV],
         shardsPerCluster: config.shards.shardsPerCluster,
@@ -44,7 +40,7 @@ const createMaster = () => new Promise((resolve, reject) => {
 
         // Resolve the master Object.
         resolve(master);
-    });   
+    });
 });
 
 /**
@@ -54,16 +50,16 @@ const createMaster = () => new Promise((resolve, reject) => {
  */
 const statsCheckup = (master) => master.getStats().then((stats) => {
     for (const entry of stats) {
-        let totalShardPing = 0, totalGuilds = 0;
+        let totalShardPing = 0;
+        let totalGuilds = 0;
         for (const shard of entry.shards) {
             totalShardPing += shard.ping;
             totalGuilds += shard.guilds;
         }
-
         log(`Stats checkup | Shard count: ${entry.shards.length} | Guilds: ${totalGuilds} | Average Ping: ${totalShardPing / entry.shards.length}ms | Memory usage: ${Math.round(entry.cluster.memory / 1e4) / 100}mb`, { id: entry.cluster.id }, `yellow`);
     }
 });
 
 module.exports = {
     createMaster, statsCheckup
-}
+};
