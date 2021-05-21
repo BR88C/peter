@@ -5,7 +5,7 @@ const timestamp = require(`../../utils/timestamp.js`);
 
 module.exports = {
     command: `botinfo`,
-    aliases: [`about`],
+    interaction: {},
     exec: async (ctx) => {
         const stats = await ctx.worker.comms.getStats();
         ctx.embed

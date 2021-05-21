@@ -2,7 +2,7 @@ const constants = require(`../../config/constants.js`);
 
 module.exports = {
     command: `vote`,
-    aliases: [`votelink`],
+    interaction: {},
     exec: (ctx) => {
         ctx.embed
             .color(constants.VOTE_EMBED_COLOR)

@@ -11,7 +11,6 @@
  * @property {Object} cache Cache options to be used when creating master.
  * @property {Object} cacheControl Cache control options to be used when creating master.
  *
- * @property {{ dev: string, prod: string }} prefix The bot's prefixes.
  * @property {{ dev: number | string, prod: number | string }} shards The total amount of shards to spawn.
  * @property {{ dev: number, prod: number }} shardsPerCluster The amount of shards to spawn per cluster.
  * @property {{ dev: number, prod: number }} statsCheckupInterval Intervals to run stats checkups at.
@@ -38,10 +37,6 @@ const config = {
     },
     cacheControl: { guilds: [`id`, `owner_id`, `member_count`, `name`] },
 
-    prefix: {
-        dev: `;`,
-        prod: `!`
-    },
     shards: {
         dev: 1,
         prod: `auto`

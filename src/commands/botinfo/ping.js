@@ -2,6 +2,7 @@ const constants = require(`../../config/constants.js`);
 
 module.exports = {
     command: `ping`,
+    interaction: {},
     exec: (ctx) => {
         ctx.embed
             .color(constants.PING_EMBED_COLOR)
