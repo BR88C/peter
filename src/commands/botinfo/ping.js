@@ -2,7 +2,10 @@ const constants = require(`../../config/constants.js`);
 
 module.exports = {
     command: `ping`,
-    interaction: {},
+    interaction: {
+        name: `ping`,
+        description: `Gets the bot's ping.`
+    },
     exec: (ctx) => {
         ctx.embed
             .color(constants.PING_EMBED_COLOR)
