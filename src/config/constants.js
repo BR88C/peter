@@ -1,7 +1,7 @@
 /**
  * Constants for the bot.
  * @property {number} MAX_CLUSTER_LOG_LENGTH The max number of characters to be used for logging the cluster a log originates from.
- * 
+ *
  * @property {string} INVITE_LINK The bot's invite link.
  * @property {string} SUPPORT_SERVER The invite link to the bot's support server.
  * @property {string} VOTE_LINK The bot's vote link.

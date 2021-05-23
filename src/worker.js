@@ -5,7 +5,9 @@ const presences = require(`./config/presences.js`);
 // Import node modules.
 const fs = require(`fs`);
 const path = require(`path`);
-const { ChannelsResource, GuildsResource, MembersResource, MessagesResource, UsersResource, Worker } = require(`discord-rose`);
+const {
+    ChannelsResource, GuildsResource, MembersResource, MessagesResource, UsersResource, Worker
+} = require(`discord-rose`);
 
 // Create worker.
 const worker = new Worker();
@@ -45,13 +47,7 @@ worker.commands.error((ctx, error) => {
         .title(`Error`)
         .description(`\`\`\`\n${error.message}\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${constants.SUPPORT_SERVER}`)
         .send()
-        .catch((error) => {
-            worker.membersResource.dm(ctx.interaction?.member.user.id ?? ctx.message?.author.id, ctx.embed
-                .color(constants.ERROR_EMBED_COLOR)
-                .title(`Error`)
-                .description(`\`\`\`\n${error.message}\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${constants.SUPPORT_SERVER}`)
-            ).catch (error => worker.log(`\x1b[31mUnable to send Error Embed${typeof error === `string` ? ` | Reason: ${error}` : (typeof error?.message === `string` ? ` | Reason: ${error.message}` : ``)}`));
-        });
+        .catch((error) => worker.log(`\x1b[31mUnable to send Error Embed${typeof error === `string` ? ` | Reason: ${error}` : (typeof error?.message === `string` ? ` | Reason: ${error.message}` : ``)}`));
 });
 
 // Create command middleware.
