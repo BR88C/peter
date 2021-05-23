@@ -5,10 +5,17 @@ const presences = require(`./config/presences.js`);
 // Import node modules.
 const fs = require(`fs`);
 const path = require(`path`);
-const { Worker } = require(`discord-rose`);
+const { ChannelsResource, GuildsResource, MembersResource, MessagesResource, UsersResource, Worker } = require(`discord-rose`);
 
 // Create worker.
 const worker = new Worker();
+
+// Create resources.
+worker.channelsResource = new ChannelsResource(worker.api);
+worker.guildsResource = new GuildsResource(worker.api);
+worker.membersResource = new MembersResource(worker.api);
+worker.messagesResource = new MessagesResource(worker.api);
+worker.usersResource = new UsersResource(worker.api);
 
 // Set presence, and change it at an interval specified in config.
 const setRandomPresence = () => {
@@ -18,8 +25,11 @@ const setRandomPresence = () => {
 setRandomPresence();
 setInterval(() => setRandomPresence(), config.presenceInterval);
 
-// Set prefix.
-worker.commands.prefix(config.developerPrefix);
+// Set command handler options.
+worker.commands.options({
+    prefix: config.developerPrefix,
+    reuseInteractions: true
+});
 worker.log(`Using developer prefix ${config.developerPrefix}`);
 
 // Push all commands to the worker.
@@ -28,13 +38,20 @@ worker.log(`Loaded ${worker.commands.commands.size} commands`);
 
 // Custom command error response.
 worker.commands.error((ctx, error) => {
-    worker.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${error.message} | Command: ${ctx.command.command} | User: ${ctx.message.author.username}#${ctx.message.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id).name} | Guild ID: ${ctx.message.guild_id}`);
+    worker.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${error.message} | Command: ${ctx.ran ?? ctx.command?.command} | User: ${ctx.interaction?.member.user.username ?? ctx.message?.author.username}#${ctx.interaction?.member.user.discriminator ?? ctx.message?.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.interaction?.guild_id ?? ctx.message?.guild_id).name} | Guild ID: ${ctx.interaction?.guild_id ?? ctx.message?.guild_id}`);
+
     ctx.embed
         .color(constants.ERROR_EMBED_COLOR)
         .title(`Error`)
         .description(`\`\`\`\n${error.message}\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${constants.SUPPORT_SERVER}`)
         .send()
-        .catch((error) => worker.log(`\x1b[31mUnable to send Error Embed${typeof error === `string` ? ` | Reason: ${error}` : (typeof error?.message === `string` ? ` | Reason: ${error.message}` : ``)}`));
+        .catch((error) => {
+            worker.membersResource.dm(ctx.interaction?.member.user.id ?? ctx.message?.author.id, ctx.embed
+                .color(constants.ERROR_EMBED_COLOR)
+                .title(`Error`)
+                .description(`\`\`\`\n${error.message}\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${constants.SUPPORT_SERVER}`)
+            ).catch (error => worker.log(`\x1b[31mUnable to send Error Embed${typeof error === `string` ? ` | Reason: ${error}` : (typeof error?.message === `string` ? ` | Reason: ${error.message}` : ``)}`));
+        });
 });
 
 // Create command middleware.
@@ -54,7 +71,7 @@ worker.commands.middleware((ctx) => {
             }
         }
     } else { // If the received event is an interaction.
-        worker.log(`\x1b[32mReceived Interaction | Command: ${ctx.command.command} | User: ${ctx.message.author.username}#${ctx.message.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id).name} | Guild ID: ${ctx.message.guild_id}`);
+        worker.log(`\x1b[32mReceived Interaction | Command: ${ctx.ran} | User: ${ctx.interaction.member.user.username}#${ctx.interaction.member.user.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.interaction.guild_id).name} | Guild ID: ${ctx.interaction.guild_id}`);
         return true;
     }
 });
