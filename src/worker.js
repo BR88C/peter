@@ -60,6 +60,7 @@ worker.commands.middleware((ctx) => {
             return false;
         } else { // If the user is a dev.
             if (ctx.command.interaction) { // If the command is a slash command, return.
+                worker.log(`\x1b[33mReceived Depreciated Prefix Command | User: ${ctx.message.author.username}#${ctx.message.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id).name} | Guild ID: ${ctx.message.guild_id}`);
                 ctx.reply(`That's an interaction command, not a developer command silly!`);
                 return false;
             } else { // If the command is not a slash command, execute it.
