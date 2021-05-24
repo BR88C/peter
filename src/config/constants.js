@@ -7,6 +7,7 @@
  * @property {string} VOTE_LINK The bot's vote link.
  * @property {string} WEBSITE The bot's website.
  *
+ * @property {string} DISCORD_CDN The Discord CDN URL to use.
  * @property {string[]} STATUS_TYPES Allowed status types.
  *
  * @property {number} ERROR_EMBED_COLOR The color to use for the error embed.
@@ -16,6 +17,7 @@
  * @property {number} VOTE_EMBED_COLOR The color to use for the vote embed.
  * @property {number} COIN_TOSS_EMBED_COLOR The color to use for the coin toss embed.
  * @property {number} STATUS_EMBED_COLOR The color to use for the status embed.
+ * @property {number} AVATAR_EMBED_COLOR The color to use for the avatar embed.
  */
 const constants = {
     MAX_CLUSTER_LOG_LENGTH: 12,
@@ -25,6 +27,7 @@ const constants = {
     VOTE_LINK: `https://top.gg/bot/744694015630245949/vote`,
     WEBSITE: `https://peter.badfirmware.com`,
 
+    DISCORD_CDN: `https://cdn.discordapp.com`,
     STATUS_TYPES: [`playing`, `streaming`, `listening`, `watching`, `competing`],
 
     ERROR_EMBED_COLOR: 0xFF0000,
@@ -33,7 +36,8 @@ const constants = {
     PING_EMBED_COLOR: 0x2100DB,
     VOTE_EMBED_COLOR: 0xACA6FF,
     COIN_TOSS_EMBED_COLOR: 0xD4D4D4,
-    STATUS_EMBED_COLOR: 0x25F536
+    STATUS_EMBED_COLOR: 0x25F536,
+    AVATAR_EMBED_COLOR: 0xEB6134
 };
 
 module.exports = constants;
