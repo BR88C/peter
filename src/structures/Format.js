@@ -7,8 +7,8 @@ class Format {
      * Format constructor.
      * @param {object[]} availableFormats The available formats.
      * @param {number} videoLength The video length, in milliseconds.
-     * @param {boolean} [opusEncoding] If the format should be opus supported.
-     * @param {boolean} [livestreamSupport] If the format should support livestreams.
+     * @param {boolean} [opusEncoding] If the format should support only opus encoding.
+     * @param {boolean} [livestreamSupport] If the format should support only livestreams.
      * @constructor
      */
     constructor (availableFormats, videoLength, opusEncoding = false, livestreamSupport = false) {
@@ -37,13 +37,13 @@ class Format {
         this.bitrate = format.audioBitrate;
 
         /**
-         * If the format supports opus encoding.
+         * If the format supports only opus encoding.
          * @type {boolean}
          */
         this.opusEncoding = opusEncoding;
 
         /**
-         * If the format supports livestreams.
+         * If the format supports only livestreams.
          * @type {boolean}
          */
         this.livestreamSupport = livestreamSupport;
