@@ -1,4 +1,6 @@
 const constants = require(`../../config/constants.js`);
+
+// Import modules.
 const {
     GuildsResource, UsersResource
 } = require(`discord-rose`);
