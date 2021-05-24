@@ -28,10 +28,10 @@ setRandomPresence();
 setInterval(() => setRandomPresence(), config.presenceInterval);
 
 // Set command handler options.
-worker.commands.options({
-    prefix: config.developerPrefix,
-    reuseInteractions: true
-});
+worker.commands.options({ reuseInteractions: true });
+
+// Set prefix.
+worker.commands.prefix(config.developerPrefix);
 worker.log(`Using developer prefix ${config.developerPrefix}`);
 
 // Push all commands to the worker.
@@ -40,7 +40,8 @@ worker.log(`Loaded ${worker.commands.commands.size} commands`);
 
 // Custom command error response.
 worker.commands.error((ctx, error) => {
-    worker.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${error.message} | Command: ${ctx.ran ?? ctx.command?.command} | User: ${ctx.interaction?.member.user.username ?? ctx.message?.author.username}#${ctx.interaction?.member.user.discriminator ?? ctx.message?.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.interaction?.guild_id ?? ctx.message?.guild_id).name} | Guild ID: ${ctx.interaction?.guild_id ?? ctx.message?.guild_id}`);
+    if (ctx.isInteraction) worker.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${error.message} | Command: ${ctx.ran} | User: ${ctx.interaction?.member.user.username}#${ctx.interaction?.member.user.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.interaction?.guild_id).name} | Guild ID: ${ctx.interaction?.guild_id}`);
+    else worker.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${error.message} | Command: ${ctx.command?.command} | User: ${ctx.message?.author.username}#${ctx.message?.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.message?.guild_id).name} | Guild ID: ${ctx.message?.guild_id}`);
 
     ctx.embed
         .color(constants.ERROR_EMBED_COLOR)
