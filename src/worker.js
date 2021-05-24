@@ -5,19 +5,10 @@ const presences = require(`./config/presences.js`);
 // Import node modules.
 const fs = require(`fs`);
 const path = require(`path`);
-const {
-    ChannelsResource, GuildsResource, MembersResource, MessagesResource, UsersResource, Worker
-} = require(`discord-rose`);
+const { Worker } = require(`discord-rose`);
 
 // Create worker.
 const worker = new Worker();
-
-// Create resources.
-worker.channelsResource = new ChannelsResource(worker.api);
-worker.guildsResource = new GuildsResource(worker.api);
-worker.membersResource = new MembersResource(worker.api);
-worker.messagesResource = new MessagesResource(worker.api);
-worker.usersResource = new UsersResource(worker.api);
 
 // Set presence, and change it at an interval specified in config.
 const setRandomPresence = () => {
@@ -40,8 +31,8 @@ worker.log(`Loaded ${worker.commands.commands.size} commands`);
 
 // Custom command error response.
 worker.commands.error((ctx, error) => {
-    if (ctx.isInteraction) worker.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${error.message} | Command: ${ctx.ran} | User: ${ctx.interaction?.member.user.username}#${ctx.interaction?.member.user.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.interaction?.guild_id).name} | Guild ID: ${ctx.interaction?.guild_id}`);
-    else worker.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${error.message} | Command: ${ctx.command?.command} | User: ${ctx.message?.author.username}#${ctx.message?.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.message?.guild_id).name} | Guild ID: ${ctx.message?.guild_id}`);
+    if (ctx.isInteraction) worker.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${error.message} | Command: ${ctx.ran} | User: ${ctx.interaction?.member.user.username}#${ctx.interaction?.member.user.discriminator}${ctx.interaction?.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.interaction?.guild_id).name} | Guild ID: ${ctx.interaction?.guild_id}` : ``}`);
+    else worker.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${error.message} | Command: ${ctx.command?.command} | User: ${ctx.message?.author.username}#${ctx.message?.author.discriminator}${ctx.message?.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message?.guild_id).name} | Guild ID: ${ctx.message?.guild_id}` : ``}`);
 
     ctx.embed
         .color(constants.ERROR_EMBED_COLOR)
@@ -55,21 +46,21 @@ worker.commands.error((ctx, error) => {
 worker.commands.middleware((ctx) => {
     if (!ctx.isInteraction) { // If the received event is not an interaction.
         if (!config.devs.IDs.includes(ctx.message.author.id)) { // If the user is not a dev, return an error.
-            worker.log(`\x1b[33mReceived Depreciated Prefix Command | User: ${ctx.message.author.username}#${ctx.message.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id).name} | Guild ID: ${ctx.message.guild_id}`);
+            worker.log(`\x1b[33mReceived Depreciated Prefix Command | User: ${ctx.message.author.username}#${ctx.message.author.discriminator}${ctx.message.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id).name} | Guild ID: ${ctx.message.guild_id}` : ``}`);
             ctx.error(`Prefix commands are now depreciated. Please use slash commands instead!`);
             return false;
         } else { // If the user is a dev.
             if (ctx.command.interaction) { // If the command is a slash command, return.
-                worker.log(`\x1b[33mReceived Depreciated Prefix Command | User: ${ctx.message.author.username}#${ctx.message.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id).name} | Guild ID: ${ctx.message.guild_id}`);
-                ctx.reply(`That's an interaction command, not a developer command silly!`);
+                worker.log(`\x1b[33mReceived Depreciated Prefix Command | User: ${ctx.message.author.username}#${ctx.message.author.discriminator}${ctx.message.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id).name} | Guild ID: ${ctx.message.guild_id}` : ``}`);
+                ctx.error(`That's an interaction command, not a developer command silly!`);
                 return false;
             } else { // If the command is not a slash command, execute it.
-                worker.log(`\x1b[32mReceived Dev Command | Command: ${ctx.command.command} | User: ${ctx.message.author.username}#${ctx.message.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id).name} | Guild ID: ${ctx.message.guild_id}`);
+                worker.log(`\x1b[32mReceived Dev Command | Command: ${ctx.command.command} | User: ${ctx.message.author.username}#${ctx.message.author.discriminator}${ctx.message.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id).name} | Guild ID: ${ctx.message.guild_id}` : ``}`);
                 return true;
             }
         }
     } else { // If the received event is an interaction.
-        worker.log(`\x1b[32mReceived Interaction | Command: ${ctx.ran} | User: ${ctx.interaction.member.user.username}#${ctx.interaction.member.user.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.interaction.guild_id).name} | Guild ID: ${ctx.interaction.guild_id}`);
+        worker.log(`\x1b[32mReceived Interaction | Command: ${ctx.ran} | User: ${ctx.interaction.member.user.username}#${ctx.interaction.member.user.discriminator}${ctx.interaction.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.interaction.guild_id).name} | Guild ID: ${ctx.interaction.guild_id}` : ``}`);
         return true;
     }
 });
