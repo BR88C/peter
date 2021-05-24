@@ -7,7 +7,7 @@ const path = require(`path`);
 
 /**
  * Creates a master process.
- * @returns {Promise<Object>} A promise that resolves once master emits the READY event. Returns the master Object.
+ * @returns {Promise<object>} A promise that resolves once master emits the READY event. Returns the master object.
  */
 const createMaster = () => new Promise((resolve, reject) => {
     // Create master.
@@ -32,14 +32,14 @@ const createMaster = () => new Promise((resolve, reject) => {
         // Log ready.
         master.log(`\x1b[35mBot up since ${new Date().toLocaleString()}`);
 
-        // Resolve the master Object.
+        // Resolve the master object.
         resolve(master);
     });
 });
 
 /**
  * Logs a stats checkup.
- * @param {Object} master The master Object.
+ * @param {object} master The master object.
  * @returns {Void} Void.
  */
 const statsCheckup = (master) => master.getStats().then((stats) => {

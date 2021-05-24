@@ -3,7 +3,7 @@ const constants = require(`../config/constants.js`);
 /**
  * Simplified advanced logging.
  * @param {string} msg The message to log.
- * @param {Object} [cluster] The cluster Object.
+ * @param {object} [cluster] The cluster object.
  * @returns {Void} Void.
  */
 const log = (msg, cluster) => {

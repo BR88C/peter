@@ -1,17 +1,17 @@
 /**
  * The bot's main config.
  * @property {string} developerPrefix The prefix to be used when attempting to run dev only commands.
- * @property {Object} devs Config for the bot's devs.
+ * @property {object} devs Config for the bot's devs.
  * @property {string[]} devs.IDs An array of dev IDs. Their indexes should match with devs.tags.
  * @property {string[]} devs.tags An array of dev tags. Their indexes should match with devs.IDs.
  *
  * @property {string} emojiGuildID The ID of the guild that contains all emoji's the bot uses.
- * @property {Object.<string, string>} emojiIDs IDs of emojis to use.
+ * @property {object.<string, string>} emojiIDs IDs of emojis to use.
  *
  * @property {number} presenceInterval The interval to change the bot's presence at, in milliseconds.
  *
- * @property {Object} cache Cache options to be used when creating master.
- * @property {Object} cacheControl Cache control options to be used when creating master.
+ * @property {object} cache Cache options to be used when creating master.
+ * @property {object} cacheControl Cache control options to be used when creating master.
  *
  * @property {{ dev: number | string, prod: number | string }} shards The total amount of shards to spawn.
  * @property {{ dev: number, prod: number }} shardsPerCluster The amount of shards to spawn per cluster.
