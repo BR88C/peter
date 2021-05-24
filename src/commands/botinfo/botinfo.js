@@ -13,7 +13,7 @@ module.exports = {
         const stats = await ctx.worker.comms.getStats();
         ctx.embed
             .color(constants.BOT_INFO_EMBED_COLOR)
-            .thumbnail(`https://cdn.discordapp.com/avatars/${ctx.worker.user.id}/${ctx.worker.user.avatar}.png`)
+            .thumbnail(`${constants.DISCORD_CDN}/avatars/${ctx.worker.user.id}/${ctx.worker.user.avatar}.png`)
             .title(`Bot Information`)
             .field(`**Tag**`, `${ctx.worker.user.username}#${ctx.worker.user.discriminator}`, true)
             .field(`**Number of Commands**`, ctx.worker.commands.commands.size, true)
