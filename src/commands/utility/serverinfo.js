@@ -1,5 +1,7 @@
 const constants = require(`../../config/constants.js`);
-const { GuildsResource, UsersResource } = require(`discord-rose`);
+const {
+    GuildsResource, UsersResource
+} = require(`discord-rose`);
 
 module.exports = {
     command: `serverinfo`,
