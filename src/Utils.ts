@@ -1,8 +1,9 @@
 import { Constants } from './config/Constants';
+import { Presences } from './config/Presences';
 
 // Import modules.
 import {
-    Cluster, ClusterStats, Master
+    Cluster, ClusterStats, Master, Worker
 } from 'discord-rose';
 
 /**
@@ -21,11 +22,10 @@ export const cleanseMarkdown = (str: string): string => str
  * Simplified advanced logging.
  * @param msg The message to log.
  * @param cluster The cluster object.
- * @returns Void.
  */
-export const log = (msg: string, cluster: Cluster): void => {
-    const clusterName = cluster.id ? `Cluster ${cluster.id}` : `Master`;
-    msg = `\x1b[${cluster.id ? `36` : `34`}m${` `.repeat(Math.floor((Constants.MAX_CLUSTER_LOG_LENGTH - clusterName.length) / 2))}${clusterName}${` `.repeat(Math.ceil((Constants.MAX_CLUSTER_LOG_LENGTH - clusterName.length) / 2))}\x1b[37m|  ${msg}`;
+export const log = (msg: string, cluster: Cluster | undefined): void => {
+    const clusterName = cluster?.id ? `Cluster ${cluster.id}` : `Master`;
+    msg = `\x1b[${cluster?.id ? `36` : `34`}m${` `.repeat(Math.floor((Constants.MAX_CLUSTER_LOG_LENGTH - clusterName.length) / 2))}${clusterName}${` `.repeat(Math.ceil((Constants.MAX_CLUSTER_LOG_LENGTH - clusterName.length) / 2))}\x1b[37m|  ${msg}`;
 
     const time = new Date();
     const second = time.getSeconds().toString().padStart(2, `0`);
@@ -40,9 +40,17 @@ export const log = (msg: string, cluster: Cluster): void => {
 };
 
 /**
+ * Sets a random presence on the Worker.
+ * @param worker The Worker object.
+ */
+export const setRandomPresence = (worker: Worker): void => {
+    const presence = Presences[~~(Presences.length * Math.random())];
+    worker.setStatus(presence.type, presence.name, presence.status);
+};
+
+/**
  * Logs a stats checkup.
  * @param master The Master object.
- * @returns Void.
  */
 export const statsCheckup = async (master: Master): Promise<void> => await master.getStats().then((stats: ClusterStats[]) => {
     for (const entry of stats) {

@@ -1,6 +1,6 @@
 import { Config } from './config/Config';
 import { Constants } from './config/Constants';
-import { Presences } from './config/Presences';
+import { setRandomPresence } from './Utils';
 
 // Import node modules.
 import * as fs from 'fs';
@@ -11,12 +11,8 @@ import { Worker } from 'discord-rose';
 const worker = new Worker();
 
 // Set presence, and change it at an interval specified in config.
-const setRandomPresence = (): void => {
-    const presence = Presences[~~(Presences.length * Math.random())];
-    worker.setStatus(presence.type, presence.name, presence.status);
-};
-setRandomPresence();
-setInterval(() => setRandomPresence(), Config.presenceInterval);
+setRandomPresence(worker);
+setInterval(() => setRandomPresence(worker), Config.presenceInterval);
 
 // Set command handler options.
 worker.commands.options({ reuseInteractions: true });
