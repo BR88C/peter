@@ -1,9 +1,9 @@
 
-import { cleanseMarkdown } from '../Utils'
-import { Format } from './Format'
+import { cleanseMarkdown } from '../Utils';
+import { Format } from './Format';
 
 // Import node modules.
-import { videoInfo } from 'ytdl-core'
+import { videoInfo } from 'ytdl-core';
 
 /**
  * Song classs - Used for creating song objects to be added to the queue.
@@ -56,15 +56,15 @@ export class Song {
      * @constructor
      */
     constructor (songInfo: videoInfo, messageAuthorTag: string) {
-        this.title = cleanseMarkdown(songInfo.videoDetails.title)
-        this.url = songInfo.videoDetails.video_url
-        this.thumbnail = songInfo.videoDetails.thumbnails.pop()?.url
-        this.videoLength = parseInt(songInfo.videoDetails.lengthSeconds) * 1e3
-        this.livestream = songInfo.videoDetails.isLiveContent
+        this.title = cleanseMarkdown(songInfo.videoDetails.title);
+        this.url = songInfo.videoDetails.video_url;
+        this.thumbnail = songInfo.videoDetails.thumbnails.pop()?.url;
+        this.videoLength = parseInt(songInfo.videoDetails.lengthSeconds) * 1e3;
+        this.livestream = songInfo.videoDetails.isLiveContent;
         this.formats = {
             opus: new Format(songInfo.formats, this.videoLength, true, this.livestream),
             nonOpus: new Format(songInfo.formats, this.videoLength, false, this.livestream)
         };
-        this.requestedBy = messageAuthorTag
+        this.requestedBy = messageAuthorTag;
     }
 }

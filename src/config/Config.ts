@@ -1,7 +1,7 @@
 // Import modules.
 import {
     CacheControlOptions, CacheOptions, Snowflake
-} from 'discord-rose'
+} from 'discord-rose';
 
 export interface Config {
     /**

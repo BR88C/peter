@@ -1,7 +1,7 @@
-import { Constants } from '../../config/Constants'
+import { Constants } from '../../config/Constants';
 
 // Import node modules.
-import { CommandOptions } from 'discord-rose'
+import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `invite`,

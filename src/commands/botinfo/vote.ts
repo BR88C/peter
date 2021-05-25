@@ -1,7 +1,7 @@
-import { Constants } from '../../config/Constants'
+import { Constants } from '../../config/Constants';
 
 // Import node modules.
-import { CommandOptions } from 'discord-rose'
+import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `vote`,
@@ -14,6 +14,6 @@ export default {
             .color(Constants.VOTE_EMBED_COLOR)
             .title(`Vote Link:`)
             .description(Constants.VOTE_LINK)
-            .send()
+            .send();
     }
-} as CommandOptions
+} as CommandOptions;

@@ -1,49 +1,49 @@
 // Import modules.
-import { PresenceUpdateStatus } from 'discord-api-types'
+import { PresenceUpdateStatus } from 'discord-api-types';
 
 /**
  * An array of presences for the bot to randomly use.
  * The interval at which the bot's presence is changed is set in config.js
  */
-export const Presences: Array<{type: `playing` | `streaming` | `listening` | `watching` | `competing`, name: string, status: `online` | `idle` | `dnd` | `offline` | `invisible` }> = [
+export const Presences: Array<{type: `playing` | `streaming` | `listening` | `watching` | `competing`, name: string, status: PresenceUpdateStatus }> = [
     {
         type: `watching`,
         name: `a kid's guide to the Internet`,
-        status: `online`
+        status: `online` as PresenceUpdateStatus
     },
     {
         type: `listening`,
         name: `sick jams`,
-        status: `online`
+        status: `online` as PresenceUpdateStatus
     },
     {
         type: `listening`,
         name: `smooth jazz`,
-        status: `online`
+        status: `online` as PresenceUpdateStatus
     },
     {
         type: `listening`,
         name: `lofi hip hop radio - beats to relax/study to`,
-        status: `online`
+        status: `online` as PresenceUpdateStatus
     },
     {
         type: `playing`,
         name: `sudo help`,
-        status: `online`
+        status: `online` as PresenceUpdateStatus
     },
     {
         type: `playing`,
         name: `on the internet`,
-        status: `online`
+        status: `online` as PresenceUpdateStatus
     },
     {
         type: `playing`,
         name: `lol watch this`,
-        status: `online`
+        status: `online` as PresenceUpdateStatus
     },
     {
         type: `playing`,
         name: `with Andrew!`,
-        status: `online`
+        status: `online` as PresenceUpdateStatus
     }
 ];

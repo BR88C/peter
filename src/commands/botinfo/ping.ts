@@ -1,7 +1,7 @@
-import { Constants } from '../../config/Constants'
+import { Constants } from '../../config/Constants';
 
 // Import node modules.
-import { CommandOptions } from 'discord-rose'
+import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `ping`,
@@ -14,6 +14,6 @@ export default {
             .color(Constants.PING_EMBED_COLOR)
             .title(`Pong!`)
             .description(`\`\`\`js\n${ctx.worker.shards.find((shard) => shard.worker.guilds.has(ctx.interaction.guild_id))?.ping} ms\n\`\`\``)
-            .send()
+            .send();
     }
-} as CommandOptions
+} as CommandOptions;

@@ -14,18 +14,18 @@
  * @license
  */
 
-import { Config } from './config/Config'
+import { Config } from './config/Config';
 import {
     log, statsCheckup
-} from './Utils'
+} from './Utils';
 
 // Import modules.
-import { Master } from 'discord-rose'
-import * as dotenv from 'dotenv'
-import * as path from 'path'
+import { Master } from 'discord-rose';
+import * as dotenv from 'dotenv';
+import * as path from 'path';
 
 // Configure dotenv.
-dotenv.config()
+dotenv.config();
 
 // Create master.
 const master = new Master(path.resolve(__dirname, `./Worker.js`), {
@@ -35,17 +35,17 @@ const master = new Master(path.resolve(__dirname, `./Worker.js`), {
     shards: Config.shards[process.env.NODE_ENV ?? `dev`],
     shardsPerCluster: Config.shardsPerCluster[process.env.NODE_ENV ?? `dev`],
     token: process.env.BOT_TOKEN ?? ``
-})
+});
 
 // Start master.
-master.start()
+master.start();
 
 // On ready.
 master.on(`READY`, () => {
     // Run stats checkups at a set interval.
-    statsCheckup(master)
-    setInterval(async () => await statsCheckup(master), Config.statsCheckupInterval[process.env.NODE_ENV ?? `dev`])
+    statsCheckup(master);
+    setInterval(async () => await statsCheckup(master), Config.statsCheckupInterval[process.env.NODE_ENV ?? `dev`]);
 
     // Log ready.
-    master.log(`\x1b[35mBot up since ${new Date().toLocaleString()}`)
-})
+    master.log(`\x1b[35mBot up since ${new Date().toLocaleString()}`);
+});

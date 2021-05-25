@@ -1,10 +1,10 @@
-import { Config } from '../../config/Config'
-import { Constants } from '../../config/Constants'
-import * as pjson from '../../../package.json'
-import { timestamp } from '../../Utils'
+import { Config } from '../../config/Config';
+import { Constants } from '../../config/Constants';
+import * as pjson from '../../../package.json';
+import { timestamp } from '../../Utils';
 
 // Import node modules.
-import { CommandOptions } from 'discord-rose'
+import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `botinfo`,
@@ -13,7 +13,7 @@ export default {
         description: `Gets information about the bot.`
     },
     exec: async (ctx) => {
-        const stats = await ctx.worker.comms.getStats()
+        const stats = await ctx.worker.comms.getStats();
         ctx.embed
             .color(Constants.BOT_INFO_EMBED_COLOR)
             .thumbnail(`${Constants.DISCORD_CDN}/avatars/${ctx.worker.user.id}/${ctx.worker.user.avatar}.png`)

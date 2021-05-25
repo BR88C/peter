@@ -1,9 +1,9 @@
-import { Constants } from '../../config/Constants'
+import { Constants } from '../../config/Constants';
 
 // Import modules.
 import {
     CommandOptions, GuildsResource, UsersResource
-} from 'discord-rose'
+} from 'discord-rose';
 
 export default {
     command: `serverinfo`,
@@ -12,8 +12,8 @@ export default {
         description: `Get information about the server.`
     },
     exec: async (ctx) => {
-        const guild = await new GuildsResource(ctx.worker.api).get(ctx.interaction.guild_id, true)
-        const owner = await new UsersResource(ctx.worker.api).get(guild.owner_id)
+        const guild = await new GuildsResource(ctx.worker.api).get(ctx.interaction.guild_id, true);
+        const owner = await new UsersResource(ctx.worker.api).get(guild.owner_id);
         const iconURL = `${Constants.DISCORD_CDN}/icons/${guild.id}/${guild.icon}.${guild.icon?.startsWith(`a_`) ? `gif` : `png`}`;
         ctx.embed
             .color(Constants.SERVER_INFO_EMBED_COLOR)
@@ -26,6 +26,6 @@ export default {
             .field(`Roles`, `Number of roles: ${guild.roles.length}`, true)
             .field(`Boosts`, `Number of boosts: ${guild.premium_subscription_count}\nServer Level: ${guild.premium_tier}`, true)
             .thumbnail(iconURL)
-            .send()
+            .send();
     }
-} as CommandOptions
+} as CommandOptions;

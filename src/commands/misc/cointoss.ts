@@ -1,7 +1,7 @@
-import { Constants } from '../../config/Constants'
+import { Constants } from '../../config/Constants';
 
 // Import node modules.
-import { CommandOptions } from 'discord-rose'
+import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `cointoss`,
@@ -13,6 +13,6 @@ export default {
         ctx.embed
             .color(Constants.COIN_TOSS_EMBED_COLOR)
             .title(`The coin landed on ${Math.random() >= 0.5 ? `heads` : `tails`}!`)
-            .send()
+            .send();
     }
-} as CommandOptions
+} as CommandOptions;
