@@ -12,10 +12,13 @@
     },
     "extends": "standard-with-typescript",
     "rules": {
+        "@typescript-eslint/consistent-type-assertions": "off",
         "@typescript-eslint/indent": "off",
+        "@typescript-eslint/no-unnecessary-type-assertion": "off",
         "@typescript-eslint/quotes": "off",
         "@typescript-eslint/restrict-template-expressions": "off",
         "@typescript-eslint/semi": "off",
+        "@typescript-eslint/strict-boolean-expressions": "off",
         "array-bracket-newline": "warn",
         "brace-style": "off",
         "camelcase": "warn",
