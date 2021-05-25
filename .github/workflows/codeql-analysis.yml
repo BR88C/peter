@@ -1,0 +1,36 @@
+name: CodeQL Analysis
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '30 1 * * 0'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript' ]
+
+    steps:
+      # Checkout repository.
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: ${{ matrix.language }}
+
+      # Autobuild.
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v1
+
+      # Run analysis.
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
