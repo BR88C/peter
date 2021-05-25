@@ -14,6 +14,7 @@ export default {
             .color(Constants.INVITE_EMBED_COLOR)
             .title(`Invite link:`)
             .description(Constants.INVITE_LINK)
-            .send();
+            .send()
+            .catch(async (error) => await ctx.error(error));
     }
 } as CommandOptions;

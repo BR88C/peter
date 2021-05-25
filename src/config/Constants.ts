@@ -1,4 +1,4 @@
-export interface Constants {
+export interface BotConstants {
     /**
      * The max number of characters to be used for logging the cluster a log originates from.
      */
@@ -72,7 +72,7 @@ export interface Constants {
     VOTE_EMBED_COLOR: number
 };
 
-export const Constants: Constants = {
+export const Constants: BotConstants = {
     MAX_CLUSTER_LOG_LENGTH: 12,
 
     INVITE_LINK: `https://discord.com/oauth2/authorize?client_id=744694015630245949&scope=bot%20applications.commands&permissions=3525696`,

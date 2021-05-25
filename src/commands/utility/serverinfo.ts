@@ -26,6 +26,7 @@ export default {
             .field(`Roles`, `Number of roles: ${guild.roles.length}`, true)
             .field(`Boosts`, `Number of boosts: ${guild.premium_subscription_count}\nServer Level: ${guild.premium_tier}`, true)
             .thumbnail(iconURL)
-            .send();
+            .send()
+            .catch(async (error) => await ctx.error(error));
     }
 } as CommandOptions;

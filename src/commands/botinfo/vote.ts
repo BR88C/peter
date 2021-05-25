@@ -14,6 +14,7 @@ export default {
             .color(Constants.VOTE_EMBED_COLOR)
             .title(`Vote Link:`)
             .description(Constants.VOTE_LINK)
-            .send();
+            .send()
+            .catch(async (error) => await ctx.error(error));
     }
 } as CommandOptions;

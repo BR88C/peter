@@ -13,6 +13,7 @@ export default {
         ctx.embed
             .color(Constants.COIN_TOSS_EMBED_COLOR)
             .title(`The coin landed on ${Math.random() >= 0.5 ? `heads` : `tails`}!`)
-            .send();
+            .send()
+            .catch(async (error) => await ctx.error(error));
     }
 } as CommandOptions;

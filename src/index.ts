@@ -38,13 +38,13 @@ const master = new Master(path.resolve(__dirname, `./Worker.js`), {
 });
 
 // Start master.
-master.start();
+master.start().catch((error) => master.log(error));
 
 // On ready.
 master.on(`READY`, () => {
     // Run stats checkups at a set interval.
-    statsCheckup(master);
-    setInterval(async () => await statsCheckup(master), Config.statsCheckupInterval[process.env.NODE_ENV ?? `dev`]);
+    statsCheckup(master).catch((error) => master.log(error));
+    setInterval(() => void (async () => await statsCheckup(master).catch((error) => master.log(error)))(), Config.statsCheckupInterval[process.env.NODE_ENV ?? `dev`]);
 
     // Log ready.
     master.log(`\x1b[35mBot up since ${new Date().toLocaleString()}`);

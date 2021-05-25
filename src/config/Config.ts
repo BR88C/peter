@@ -3,7 +3,7 @@ import {
     CacheControlOptions, CacheOptions, Snowflake
 } from 'discord-rose';
 
-export interface Config {
+export interface BotConfig {
     /**
      * The prefix to be used when attempting to run dev only commands.
      */
@@ -69,7 +69,7 @@ export interface Config {
     }
 };
 
-export const Config: Config = {
+export const Config: BotConfig = {
     developerPrefix: `sudo`,
     devs: {
         IDs: [`342275771546599425`],

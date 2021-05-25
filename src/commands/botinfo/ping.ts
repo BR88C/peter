@@ -14,6 +14,7 @@ export default {
             .color(Constants.PING_EMBED_COLOR)
             .title(`Pong!`)
             .description(`\`\`\`js\n${ctx.worker.shards.find((shard) => shard.worker.guilds.has(ctx.interaction.guild_id))?.ping} ms\n\`\`\``)
-            .send();
+            .send()
+            .catch(async (error) => await ctx.error(error));
     }
 } as CommandOptions;

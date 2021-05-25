@@ -11,7 +11,7 @@ import { Worker } from 'discord-rose';
 const worker = new Worker();
 
 // Set presence, and change it at an interval specified in config.
-const setRandomPresence = () => {
+const setRandomPresence = (): void => {
     const presence = Presences[~~(Presences.length * Math.random())];
     worker.setStatus(presence.type, presence.name, presence.status);
 };
@@ -47,12 +47,12 @@ worker.commands.middleware((ctx) => {
     if (!ctx.isInteraction) { // If the received event is not an interaction.
         if (!Config.devs.IDs.includes(ctx.message.author.id)) { // If the user is not a dev, return an error.
             worker.log(`\x1b[33mReceived Depreciated Prefix Command | User: ${ctx.message.author.username}#${ctx.message.author.discriminator}${ctx.message.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id)?.name} | Guild ID: ${ctx.message.guild_id}` : ``}`);
-            ctx.error(`Prefix commands are now depreciated. Please use slash commands instead!`);
+            void ctx.error(`Prefix commands are now depreciated. Please use slash commands instead!`);
             return false;
         } else { // If the user is a dev.
             if (ctx.command.interaction != null) { // If the command is a slash command, return.
                 worker.log(`\x1b[33mReceived Depreciated Prefix Command | User: ${ctx.message.author.username}#${ctx.message.author.discriminator}${ctx.message.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id)?.name} | Guild ID: ${ctx.message.guild_id}` : ``}`);
-                ctx.error(`That's an interaction command, not a developer command silly!`);
+                void ctx.error(`That's an interaction command, not a developer command silly!`);
                 return false;
             } else { // If the command is not a slash command, execute it.
                 worker.log(`\x1b[32mReceived Dev Command | Command: ${ctx.command.command} | User: ${ctx.message.author.username}#${ctx.message.author.discriminator}${ctx.message.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id)?.name} | Guild ID: ${ctx.message.guild_id}` : ``}`);
