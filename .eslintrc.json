@@ -37,7 +37,7 @@
         "no-useless-escape": 1,
         "no-var": 1,
         "no-void": "off",
-        "object-curly-newline": [1, { "minProperties": 3 }],
+        "object-curly-newline": [1, { "minProperties": 2 }],
         "prefer-arrow-callback": 1,
         "prefer-const": 1,
         "prefer-template": 1,

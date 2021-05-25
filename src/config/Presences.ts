@@ -5,7 +5,7 @@ import { PresenceUpdateStatus } from 'discord-api-types'
  * An array of presences for the bot to randomly use.
  * The interval at which the bot's presence is changed is set in config.js
  */
-export const Presences: Array<{type: `playing` | `streaming` | `listening` | `watching` | `competing`; name: string, status: `online` | `idle` | `dnd` | `offline` | `invisible`; }> = [
+export const Presences: Array<{type: `playing` | `streaming` | `listening` | `watching` | `competing`, name: string, status: `online` | `idle` | `dnd` | `offline` | `invisible` }> = [
     {
         type: `watching`,
         name: `a kid's guide to the Internet`,

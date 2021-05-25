@@ -1,6 +1,6 @@
 // Import modules.
 import {
-   CacheControlOptions, CacheOptions, Snowflake
+    CacheControlOptions, CacheOptions, Snowflake
 } from 'discord-rose'
 
 export interface Config {
@@ -50,7 +50,7 @@ export interface Config {
      * The total amount of shards to spawn.
      */
     shards: {
-        dev: number | `auto`,
+        dev: number | `auto`
         prod: number | `auto`
     }
     /**

@@ -43,6 +43,7 @@ export class Song {
          */
         nonOpus: Format | undefined
     }
+
     /**
      * The tag of the person who requested the song.
      */
@@ -54,7 +55,7 @@ export class Song {
      * @param messageAuthorTag Author of the song request.
      * @constructor
      */
-    constructor(songInfo: videoInfo, messageAuthorTag: string) {
+    constructor (songInfo: videoInfo, messageAuthorTag: string) {
         this.title = cleanseMarkdown(songInfo.videoDetails.title)
         this.url = songInfo.videoDetails.video_url
         this.thumbnail = songInfo.videoDetails.thumbnails.pop()?.url
