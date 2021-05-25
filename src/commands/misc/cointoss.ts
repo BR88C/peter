@@ -1,6 +1,9 @@
-const constants = require(`../../config/constants.js`);
+import { Constants } from '../../config/Constants'
 
-module.exports = {
+// Import node modules.
+import { CommandOptions } from 'discord-rose'
+
+export default {
     command: `cointoss`,
     interaction: {
         name: `cointoss`,
@@ -8,8 +11,8 @@ module.exports = {
     },
     exec: async (ctx) => {
         ctx.embed
-            .color(constants.COIN_TOSS_EMBED_COLOR)
+            .color(Constants.COIN_TOSS_EMBED_COLOR)
             .title(`The coin landed on ${Math.random() >= 0.5 ? `heads` : `tails`}!`)
-            .send();
+            .send()
     }
-};
+} as CommandOptions

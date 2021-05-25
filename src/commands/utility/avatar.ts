@@ -1,9 +1,11 @@
-const constants = require(`../../config/constants.js`);
+import { Constants } from '../../config/Constants'
 
 // Import modules.
-const { UsersResource } = require(`discord-rose`);
+import {
+    CommandOptions, UsersResource
+} from 'discord-rose'
 
-module.exports = {
+export default {
     command: `avatar`,
     interaction: {
         name: `avatar`,
@@ -18,13 +20,13 @@ module.exports = {
         ]
     },
     exec: async (ctx) => {
-        const user = await new UsersResource(ctx.worker.api).get(ctx.options.user ?? ctx.interaction.member.user.id);
-        const avatarURL = `${constants.DISCORD_CDN}/avatars/${user.id}/${user.avatar}.${user.avatar.startsWith(`a_`) ? `gif` : `png`}`;
+        const user = await new UsersResource(ctx.worker.api).get(ctx.options.user ?? ctx.interaction.member.user.id)
+        const avatarURL = `${Constants.DISCORD_CDN}/avatars/${user.id}/${user.avatar}.${user.avatar?.startsWith(`a_`) ? `gif` : `png`}`;
         ctx.embed
-            .color(constants.AVATAR_EMBED_COLOR)
+            .color(Constants.AVATAR_EMBED_COLOR)
             .title(`\`${user.username}#${user.discriminator}\`'s Avatar`)
             .description(`[64](${avatarURL}?size=64) | [128](${avatarURL}?size=128) | [256](${avatarURL}?size=256) | [512](${avatarURL}?size=512) | [1024](${avatarURL}?size=1024) | [2048](${avatarURL}?size=2048) | [4096](${avatarURL}?size=4096)`)
             .image(`${avatarURL}?size=1024`)
-            .send();
+            .send()
     }
-};
+} as CommandOptions

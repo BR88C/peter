@@ -1,9 +1,11 @@
+// Import modules.
+import { PresenceUpdateStatus } from 'discord-api-types'
+
 /**
  * An array of presences for the bot to randomly use.
  * The interval at which the bot's presence is changed is set in config.js
- * @type {{ type: string, name: string, status: string }[]}
  */
-const presences = [
+export const Presences: Array<{type: `playing` | `streaming` | `listening` | `watching` | `competing`; name: string, status: `online` | `idle` | `dnd` | `offline` | `invisible`; }> = [
     {
         type: `watching`,
         name: `a kid's guide to the Internet`,
@@ -15,7 +17,6 @@ const presences = [
         status: `online`
     },
     {
-
         type: `listening`,
         name: `smooth jazz`,
         status: `online`
@@ -46,5 +47,3 @@ const presences = [
         status: `online`
     }
 ];
-
-module.exports = presences;
