@@ -2,7 +2,6 @@
     "include": ["./src/**/*"],
     "exclude": [],
     "compilerOptions": {
-        "declaration": true,
         "diagnostics": true,
         "esModuleInterop": true,
         "lib": ["ES2020"],
