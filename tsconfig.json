@@ -2,15 +2,16 @@
     "include": ["./src/**/*"],
     "exclude": [],
     "compilerOptions": {
+        "declaration": true,
+        "diagnostics": true,
+        "esModuleInterop": true,
         "lib": ["ES2020"],
-        "target": "ES2020",
         "module": "commonjs",
         "moduleResolution": "node",
-        "esModuleInterop": true,
-        "strictNullChecks": true,
-        "declaration": true,
-        "strict": false,
         "outDir": "dist",
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "strict": false,
+        "strictNullChecks": true,
+        "target": "ES2020"
     }
 }
