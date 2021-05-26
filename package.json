@@ -28,7 +28,7 @@
     "cross-env": "^7.0.3",
     "dblapi.js": "^2.4.1",
     "discord-api-types": "latest",
-    "discord-rose": "^1.4.0",
+    "discord-rose": "github:discord-rose/discord-rose#build",
     "dotenv": "^9.0.2",
     "ffmpeg-static": "^4.3.0",
     "mongoose": "^5.12.10",
