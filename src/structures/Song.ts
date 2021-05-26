@@ -37,11 +37,11 @@ export class Song {
         /**
          * An opus encoded supported format.
          */
-        opus: Format | undefined
+        opus: Format
         /**
          * An ffmpef supported format.
          */
-        nonOpus: Format | undefined
+        nonOpus: Format
     }
 
     /**
