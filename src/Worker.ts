@@ -15,7 +15,7 @@ setRandomPresence(worker);
 setInterval(() => setRandomPresence(worker), Config.presenceInterval);
 
 // Set command handler options.
-worker.commands.options({ reuseInteractions: true });
+worker.commands.options({});
 
 // Set prefix.
 worker.commands.prefix(Config.developerPrefix);
