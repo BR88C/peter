@@ -1,5 +1,7 @@
+import { Config } from './config/Config';
 import { Constants } from './config/Constants';
 import { Presences } from './config/Presences';
+import { TextArt } from './config/TextArt';
 
 // Import modules.
 import {
@@ -38,6 +40,11 @@ export const log = (msg: string, cluster: Cluster | undefined): void => {
 
     console.log(msg.replace(`\n`, ` `));
 };
+
+/**
+ * Creates and logs a logging header.
+ */
+export const logHeader = (): void => console.log(`\n\x1b[35m${TextArt}\n\nBy ${Config.devs.tags.join(`, `)}\n`);
 
 /**
  * Sets a random presence on the Worker.

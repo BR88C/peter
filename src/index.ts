@@ -16,7 +16,7 @@
 
 import { Config } from './config/Config';
 import {
-    log, statsCheckup
+    log, logHeader, statsCheckup
 } from './Utils';
 
 // Import modules.
@@ -26,6 +26,9 @@ import * as path from 'path';
 
 // Configure dotenv.
 dotenv.config();
+
+// Log header.
+logHeader();
 
 // Create master.
 const master = new Master(path.resolve(__dirname, `./Worker.js`), {
