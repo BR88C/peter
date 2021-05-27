@@ -9,19 +9,19 @@ export class Format {
     /**
      * The format's itag.
      */
-    itag: string | undefined
+    public itag: string | undefined
     /**
      * The format's bitrate.
      */
-    bitrate: number | undefined
+    public bitrate: number | undefined
     /**
      * If the format supports only opus encoding.
      */
-    opusEncoding: boolean | undefined
+    public opusEncoding: boolean | undefined
     /**
      * If the format supports only livestreams.
      */
-    livestreamSupport: boolean | undefined
+    public livestreamSupport: boolean | undefined
 
     /**
      * Format constructor.
