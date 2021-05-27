@@ -3,7 +3,7 @@ import { Song } from './Song';
 // Import modules.
 import { Snowflake } from 'discord-api-types';
 
-class Queue {
+export class Queue {
     /**
      * The ID of the text channel the queue is bound to.
      */
@@ -24,6 +24,72 @@ class Queue {
      * The current song playing, represented as an index of Queue#songs.
      */
     public playing: number
+    /**
+     * The queue's effects.
+     */
+    public effects: {
+        /**
+         * Bassboost.
+         * Default = 0.
+         * Min = 0, Max = 100.
+         */
+        bass: number,
+        /**
+         * Flanger.
+         * Default = 0.
+         * Min = 0, Max = 100.
+         */
+        flanger: number,
+        /**
+         * Highpass.
+         * Default = 0.
+         * Min = 0, Max = 100.
+         */
+        highpass: number,
+        /**
+         * Lowpass.
+         * Default = 0.
+         * Min = 0, Max = 100.
+         */
+        lowpass: number,
+        /**
+         * Phaser.
+         * Default = 0.
+         * Min = 0, Max = 100.
+         */
+        phaser: number,
+        /**
+         * Pitch.
+         * Default = 100.
+         * Min = 25, Max = 250.
+         */
+        pitch: number,
+        /**
+         * Speed.
+         * Default = 100.
+         * Min = 50, Max = 500.
+         * This effect is not applied on livestreams.
+         */
+        speed: number,
+        /**
+         * Treble.
+         * Default = 0.
+         * Min = 0, Max = 100.
+         */
+        treble: number,
+        /**
+         * Vibrato.
+         * Default = 0.
+         * Min = 0, Max = 100.
+         */
+        vibrato: number,
+        /**
+         * Volume.
+         * Default = 100.
+         * Min = 0, Max = Number.MAX_SAFE_INTEGER
+         */
+        volume: number
+    }
 
 
     /**
@@ -39,5 +105,18 @@ class Queue {
 
         this.songs = [];
         this.playing = 0;
+
+        this.effects = {
+            bass: 0,
+            flanger: 0,
+            highpass: 0,
+            lowpass: 0,
+            phaser: 0,
+            pitch: 100,
+            speed: 100,
+            treble: 0,
+            vibrato: 0,
+            volume: 100
+        };
     }
 }
