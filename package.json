@@ -25,13 +25,13 @@
   "dependencies": {
     "@discordjs/opus": "^0.5.0",
     "@discordjs/voice": "^0.2.0",
+    "@top-gg/sdk": "^3.1.1",
     "cross-env": "^7.0.3",
-    "dblapi.js": "^2.4.1",
     "discord-api-types": "latest",
     "discord-rose": "github:discord-rose/discord-rose#build",
-    "dotenv": "^9.0.2",
+    "dotenv": "^10.0.0",
     "ffmpeg-static": "^4.3.0",
-    "mongoose": "^5.12.10",
+    "mongoose": "^5.12.11",
     "path": "^0.12.7",
     "prism-media": "^1.2.9",
     "ytdl-core": "^4.8.0",
@@ -41,11 +41,11 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@typescript-eslint/parser": "^4.25.0",
-    "eslint": "^7.26.0",
+    "eslint": "^7.27.0",
     "eslint-config-standard-with-typescript": "^20.0.0",
-    "eslint-plugin-import": "^2.23.2",
+    "eslint-plugin-import": "^2.23.3",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.3.1",
-    "typescript": "^4.2.4"
+    "eslint-plugin-promise": "^5.1.0",
+    "typescript": "^4.3.2"
   }
 }
