@@ -173,6 +173,21 @@ export class Queue {
     }
 
     /**
+     * The progress through the queue.
+     * Returns time in milliseconds. If no song is playing, it returns 0.
+     * 
+     * This is raw progress, meaning that the returned value is the time through the queue, not scaled to the queue's speed.
+     */
+    public get queueProgress (): number {
+        if (this.playing === -1) return 0;
+
+        let progress = this.songProgress;
+        const completedSongs = this.songs.slice(0, this.playing);
+        for (const song of completedSongs) progress += song.videoLength;
+        return progress;
+    }
+
+    /**
      * Changes the speed of the queue, and adds a segment to the queue's playback activity.
      * @param newSpeed The new speed to set the queue to.
      */
