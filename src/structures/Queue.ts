@@ -188,6 +188,16 @@ export class Queue {
     }
 
     /**
+     * The queue's total length in milliseconds.
+     * This value is not scaled to the queue's speed.
+     */
+    public get queueLength () {
+        let length = 0;
+        for (const song of this.songs) length += song.videoLength;
+        return length;
+    }
+
+    /**
      * Changes the speed of the queue, and adds a segment to the queue's playback activity.
      * @param newSpeed The new speed to set the queue to.
      */
