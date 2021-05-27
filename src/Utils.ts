@@ -38,7 +38,7 @@ export const log = (msg: string, cluster: Cluster | undefined): void => {
     const year = time.getFullYear().toString();
     msg = `\x1b[37m${month}-${day}-${year} ${hour}:${minute}:${second} | ${msg}`;
 
-    console.log(msg.replace(`\n`, ` `));
+    console.log(msg.replace(/\n/g, ` `));
 };
 
 /**
