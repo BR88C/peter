@@ -153,6 +153,26 @@ export class Queue {
     }
 
     /**
+     * The progress through a song.
+     * Returns time in milliseconds. If a song is not playing, it returns 0.
+     *
+     * This is raw progress, meaning that the returned value is the time through the song, not scaled to the queue's speed.
+     * For example, a returned value of 10,000 would represent that the song is at it's 10 second mark, NOT that it has been playing for 10 seconds.
+     */
+    public get songProgress (): number {
+        if (!this.playbackActivity) return 0;
+
+        let progress = this.playbackActivity.startPosition;
+        if (this.playbackActivity.segments.length > 1) {
+            for (let i = 1; i < this.playbackActivity.segments.length; i++) {
+                progress += (this.playbackActivity.segments[i].startedAt - this.playbackActivity.segments[i - 1].startedAt) * (this.playbackActivity.segments[i - 1].speed / 100);
+            }
+        }
+        progress += (Date.now() - this.playbackActivity.segments[this.playbackActivity.segments.length - 1].startedAt) * (this.effects.speed / 100);
+        return progress;
+    }
+
+    /**
      * Changes the speed of the queue, and adds a segment to the queue's playback activity.
      * @param newSpeed The new speed to set the queue to.
      */
