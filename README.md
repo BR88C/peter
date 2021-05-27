@@ -9,6 +9,7 @@
 <p align="center">
     <img src="https://img.shields.io/github/v/release/BR88C/peter?include_prereleases&style=for-the-badge&color=d65cff">
     <img src="https://img.shields.io/github/license/BR88C/peter?style=for-the-badge&color=fbedff">
+    <img src="https://img.shields.io/github/checks-status/BR88C/peter/master?style=for-the-badge">
 </p>
 
 ---
