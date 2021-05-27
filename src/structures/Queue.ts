@@ -191,10 +191,23 @@ export class Queue {
      * The queue's total length in milliseconds.
      * This value is not scaled to the queue's speed.
      */
-    public get queueLength () {
+    public get queueLength (): number {
         let length = 0;
         for (const song of this.songs) length += song.videoLength;
         return length;
+    }
+
+    /**
+     * Gets the time left in the queue or in the song currently playing.
+     * @param type If queue or song time left should be retrieved. Defaults to queue.
+     * @param includeSpeed If queue speed should be included in the estimation. If false, it returns the raw time left.
+     * @returns The time left in milliseconds.
+     */
+    public getTimeLeft (type: `queue` | `song` = `queue`, includeSpeed: boolean = false): number {
+        let timeLeft = 0;
+        if (type === `queue`) timeLeft = this.queueLength - this.queueProgress;
+        else if (type === `song`) timeLeft = this.songs[this.playing].videoLength - this.songProgress;
+        return timeLeft * (includeSpeed ? this.effects.speed / 100 : 1);
     }
 
     /**
