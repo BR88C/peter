@@ -3,7 +3,7 @@ import { Constants } from '../../config/Constants';
 import * as pjson from '../../../package.json';
 import { timestamp } from '../../Utils';
 
-// Import node modules.
+// Import modules.
 import {
     ClusterStats, CommandOptions
 } from 'discord-rose';

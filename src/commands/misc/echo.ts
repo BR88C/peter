@@ -1,4 +1,4 @@
-// Import node modules.
+// Import modules.
 import { CommandOptions } from 'discord-rose';
 
 export default {

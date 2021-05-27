@@ -1,7 +1,7 @@
 import { Constants } from '../../config/Constants';
 import { PresenceUpdateStatus } from 'discord-api-types';
 
-// Import node modules.
+// Import modules.
 import { CommandOptions } from 'discord-rose';
 
 export default {

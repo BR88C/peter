@@ -2,7 +2,7 @@
 import { cleanseMarkdown } from '../Utils';
 import { Format } from './Format';
 
-// Import node modules.
+// Import modules.
 import { videoInfo } from 'ytdl-core';
 
 /**

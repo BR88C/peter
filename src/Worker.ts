@@ -2,7 +2,7 @@ import { Config } from './config/Config';
 import { Constants } from './config/Constants';
 import { setRandomPresence } from './Utils';
 
-// Import node modules.
+// Import modules.
 import * as fs from 'fs';
 import * as path from 'path';
 import { Worker } from 'discord-rose';

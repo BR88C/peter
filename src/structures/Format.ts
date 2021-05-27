@@ -1,4 +1,4 @@
-// Import node modules.
+// Import modules.
 import { videoFormat } from 'ytdl-core';
 
 /**

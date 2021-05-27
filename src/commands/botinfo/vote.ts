@@ -1,6 +1,6 @@
 import { Constants } from '../../config/Constants';
 
-// Import node modules.
+// Import modules.
 import { CommandOptions } from 'discord-rose';
 
 export default {
