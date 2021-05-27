@@ -33,56 +33,56 @@ export class Queue {
          * Default = 0.
          * Min = 0, Max = 100.
          */
-        bass: number,
+        bass: number
         /**
          * Flanger.
          * Default = 0.
          * Min = 0, Max = 100.
          */
-        flanger: number,
+        flanger: number
         /**
          * Highpass.
          * Default = 0.
          * Min = 0, Max = 100.
          */
-        highpass: number,
+        highpass: number
         /**
          * Lowpass.
          * Default = 0.
          * Min = 0, Max = 100.
          */
-        lowpass: number,
+        lowpass: number
         /**
          * Phaser.
          * Default = 0.
          * Min = 0, Max = 100.
          */
-        phaser: number,
+        phaser: number
         /**
          * Pitch.
          * Default = 100.
          * Min = 25, Max = 250.
          */
-        pitch: number,
+        pitch: number
         /**
          * Speed.
          * Default = 100.
          * Min = 50, Max = 500.
          * This effect is not applied on livestreams.
          */
-        speed: number,
+        speed: number
         /**
          * Treble.
          * Default = 0.
          * Min = 0, Max = 100.
          */
-        treble: number,
+        treble: number
         /**
          * Vibrato.
          * Default = 0.
          * Min = 0, Max = 100.
          */
-        vibrato: number,
+        vibrato: number
         /**
          * Volume.
          * Default = 100.
@@ -90,7 +90,6 @@ export class Queue {
          */
         volume: number
     }
-
 
     /**
      * Creates a Queue.
