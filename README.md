@@ -1,7 +1,7 @@
 <h1 align="center">Peter!</h1>
 
 <h1 align="center">
-    <img src="https://raw.githubusercontent.com/BR88C/peter/master/src/assets/images/peter%20cropped.png" align="center" width="256" height="256" />
+    <img src="https://raw.githubusercontent.com/BR88C/peter/master/assets/avatar/peter.png" align="center" width="256" height="256" style="border-radius: 50%;">
 </h1>
 
 <h3 align="center">A 24/7 music bot with free audio effects/filters (SFX)</h3>
