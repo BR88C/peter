@@ -175,7 +175,7 @@ export class Queue {
     /**
      * The progress through the queue.
      * Returns time in milliseconds. If no song is playing, it returns 0.
-     * 
+     *
      * This is raw progress, meaning that the returned value is the time through the queue, not scaled to the queue's speed.
      */
     public get queueProgress (): number {
