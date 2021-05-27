@@ -1,36 +1,42 @@
 <h1 align="center">Peter!</h1>
 
-<h1 align="center">
+<div align="center">
     <img src="https://raw.githubusercontent.com/BR88C/peter/master/assets/avatar/peter.png" align="center" width="256" height="256" style="border-radius: 50%;">
-</h1>
+</div>
 
 <h3 align="center">A 24/7 music bot with free audio effects/filters (SFX)</h3>
 
 <p align="center">
-    <img src="https://img.shields.io/github/v/release/BR88C/peter?include_prereleases&style=for-the-badge&color=d65cff">
-    <img src="https://img.shields.io/github/license/BR88C/peter?style=for-the-badge&color=fbedff">
-    <img src="https://img.shields.io/github/checks-status/BR88C/peter/master?style=for-the-badge">
+    <a href="https://github.com/BR88C/peter/releases"><img src="https://img.shields.io/github/v/release/BR88C/peter?include_prereleases&style=for-the-badge&color=d65cff"></a>
+    <a href="https://github.com/BR88C/peter/blob/master/LICENSE"><img src="https://img.shields.io/github/license/BR88C/peter?style=for-the-badge&color=fbedff"></a>
+    <a href="https://github.com/BR88C/peter/actions"><img src="https://img.shields.io/github/workflow/status/BR88C/peter/Build%20Test/master?style=for-the-badge"></a>
 </p>
 
 ---
 
-## Contribute
-Make sure you have NodeJS and npm installed before continuing.
+## Prerequisites
+You must have the following installed to test your changes.
+- [Node.js](https://nodejs.org/en/download/) `v14+`
+- [NPM](https://www.npmjs.com/get-npm) `v7.x` (Normally bundled with Node)
 
+
+## Contribute
 Fork the repository and clone it.
+
 Navigate to the directory with `package.json` and install your node modules:
 ```
 npm install
 ```
-The bot also requires a Discord Bot token. In the same directory as `package.json`, create a file with the following text:
+
+The bot also requires a Discord Bot token, stored in a `.env` file. In the same directory as `package.json`, create a file named `.env` with the following text:
 ```
-BOT_TOKEN="Your bot token"
+BOT_TOKEN="Your Discord API Bot Token"
 DBL_TOKEN="Your DBL token"  // Optional
-COOKIE=["Array of YouTube cookie strings"]  // Optional
-YOUTUBE_IDENTITY_TOKEN=["Array of YouTube identity tokens"]  // Optional
+COOKIE=["Array of YouTube Cookie Strings"]  // Optional
+YOUTUBE_IDENTITY_TOKEN=["Array of YouTube Identity Tokens"]  // Optional
 ```
-and save the file as ".env"
-You can then run the bot with:
+
+You can then run the bot in development mode with this command.
 ```
-npm start
+npm run dev
 ```
