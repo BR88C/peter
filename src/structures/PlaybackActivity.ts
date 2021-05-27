@@ -38,7 +38,7 @@ export class PlaybackActivitySegment {
     /**
      * When the playback segment started.
      */
-    public startedAt: Date
+    public startedAt: number
     /**
      * The queue's speed during the segment.
      */
@@ -50,7 +50,7 @@ export class PlaybackActivitySegment {
      * @constructor
      */
     constructor (queueSpeed: number) {
-        this.startedAt = new Date();
+        this.startedAt = Date.now();
         this.speed = queueSpeed;
     }
 }
