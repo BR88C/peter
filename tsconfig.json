@@ -1,0 +1,15 @@
+{
+    "include": ["./src/**/*"],
+    "exclude": [],
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "lib": ["ES2020"],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "outDir": "dist",
+        "resolveJsonModule": true,
+        "strict": false,
+        "strictNullChecks": true,
+        "target": "ES2020"
+    }
+}
