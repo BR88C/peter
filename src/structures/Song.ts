@@ -6,7 +6,7 @@ import { Format } from './Format';
 import { videoInfo } from 'ytdl-core';
 
 /**
- * Song classs - Used for creating song objects to be added to the queue.
+ * Song class - Used for creating song objects to be added to the queue.
  * @class
  */
 export class Song {
