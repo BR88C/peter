@@ -2,7 +2,7 @@ import {
     model, Schema
 } from 'mongoose';
 
-const GuildSchema = new Schema({
+const GuildSchema: Schema = new Schema({
     /**
      * The Guild's ID.
      */
