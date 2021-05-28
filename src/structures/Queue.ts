@@ -2,7 +2,9 @@ import { PlaybackActivity } from './PlaybackActivity';
 import { Song } from './Song';
 
 // Import modules.
-import { Snowflake } from 'discord-api-types';
+import { AudioPlayerStatus, createAudioPlayer, createAudioResource, DiscordGatewayAdapterImplementerMethods, DiscordGatewayAdapterLibraryMethods, entersState, joinVoiceChannel, StreamType, VoiceConnection, VoiceConnectionStatus } from '@discordjs/voice';
+import { GatewayVoiceServerUpdateDispatchData, GatewayVoiceState, Snowflake } from 'discord-api-types';
+import { Worker } from 'discord-rose';
 
 /**
  * Queue class - Manages all music / audio for a guild.
@@ -21,6 +23,11 @@ export class Queue {
      * The ID of the guild the queue is bound to.
      */
     public guildID: Snowflake
+    /**
+     * The queue's voice connection.
+     * This is undefined if the bot is not connected to a voice channel.
+     */
+    public connection: VoiceConnection | undefined
 
     /**
      * The queue's songs.
@@ -116,19 +123,25 @@ export class Queue {
      * Used for determining the progress through a song.
      * This is undefined if no song is playing.
      */
-    private readonly playbackActivity: PlaybackActivity | undefined
+    private playbackActivity: PlaybackActivity | undefined
+    /**
+     * The Worker object the queue is spawned on.
+     */
+    private worker: Worker
 
     /**
      * Creates a Queue.
      * @param textID The text channel ID to bind to.
      * @param voiceID The voice channel ID to bind to.
      * @param guildID The guild the queue is bound to.
+     * @param worker The Worker object the queue is being spawned on.
      * @constructor
      */
-    constructor (textID: Snowflake, voiceID: Snowflake, guildID: Snowflake) {
+    constructor (textID: Snowflake, voiceID: Snowflake, guildID: Snowflake, worker: Worker) {
         this.textID = textID;
         this.voiceID = voiceID;
         this.guildID = guildID;
+        this.connection = undefined;
 
         this.songs = [];
         this.playing = -1;
@@ -150,6 +163,7 @@ export class Queue {
         };
 
         this.playbackActivity = undefined;
+        this.worker = worker;
     }
 
     /**
@@ -253,5 +267,62 @@ export class Queue {
     public changeSpeed (newSpeed: number): void {
         this.effects.speed = newSpeed;
         if (this.playbackActivity) this.playbackActivity.addSegment(newSpeed);
+    }
+
+    /**
+     * Creates a connection to a voice channel.
+     */
+    public async createConnection (): Promise<void> {
+        this.connection = joinVoiceChannel({
+            channelId: this.voiceID,
+            guildId: this.guildID,
+            adapterCreator: (methods: DiscordGatewayAdapterLibraryMethods): DiscordGatewayAdapterImplementerMethods => {
+                const voiceServerUpdate = (data: GatewayVoiceServerUpdateDispatchData): void => methods.onVoiceServerUpdate(data);
+                const voiceStateUpdate = (data: GatewayVoiceState): void => methods.onVoiceStateUpdate(data);
+
+                this.worker.on(`VOICE_SERVER_UPDATE`, voiceServerUpdate);
+                this.worker.on(`VOICE_STATE_UPDATE`, voiceStateUpdate);
+
+                return {
+                    sendPayload: (data): void => {
+                        // @ts-expect-error ws is a private property
+                        return this.worker.guildShard(this.guildID).ws._send(data);
+                    },
+                    destroy: (): void => {
+                        this.worker.off(`VOICE_SERVER_UPDATE`, voiceServerUpdate);
+                        this.worker.off(`VOICE_STATE_UPDATE`, voiceStateUpdate);
+                    }
+                };
+            }
+        });
+
+        try {
+            await entersState(this.connection, VoiceConnectionStatus.Ready, 30e3);
+        } catch (error) {
+            this.connection.destroy();
+            this.worker.log(`\x1b[31mError connecting to Voice Channel | Reason: ${JSON.stringify(error)} | Guild Name: ${this.worker.guilds.get(this.guildID)?.name} | Guild ID: ${this.guildID}`);
+            throw new Error(`Error connecting to Voice Channel`);
+        }
+    }
+
+    /**
+     * Plays a song from the queue.
+     * @param index The index of Queue#songs to play. This also sets Queue#playing. If it is undefined, it will play the next song based off of Queue#loop.
+     */
+    public async playSong (index?: number): Promise<void> {
+        // --------------- TEMPORARY ---------------
+        if (!this.connection) return;
+
+        const resource = createAudioResource(`https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3`, { inputType: StreamType.Arbitrary });
+
+        const player = createAudioPlayer();
+
+        player.play(resource);
+
+        await entersState(player, AudioPlayerStatus.Playing, 5e3).catch((error) => {
+            this.worker.log(`\x1b[31mError playing audio | Reason: ${JSON.stringify(error)} | Guild Name: ${this.worker.guilds.get(this.guildID)?.name} | Guild ID: ${this.guildID}`);
+            throw new Error(`Error playing music`);
+        });
+        this.connection?.subscribe(player);
     }
 }
