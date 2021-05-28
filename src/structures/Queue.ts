@@ -298,6 +298,7 @@ export class Queue {
 
         try {
             await entersState(this.connection, VoiceConnectionStatus.Ready, 30e3);
+            this.worker.log(`\x1b[32mConnected to Voice Channel | Channel ID: ${this.voiceID} | Guild Name: ${this.worker.guilds.get(this.guildID)?.name} | Guild ID: ${this.guildID}`)
         } catch (error) {
             this.connection.destroy();
             this.worker.log(`\x1b[31mError connecting to Voice Channel | Reason: ${JSON.stringify(error)} | Guild Name: ${this.worker.guilds.get(this.guildID)?.name} | Guild ID: ${this.guildID}`);
@@ -314,15 +315,13 @@ export class Queue {
         if (!this.connection) return;
 
         const resource = createAudioResource(`https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3`, { inputType: StreamType.Arbitrary });
-
         const player = createAudioPlayer();
-
         player.play(resource);
 
         await entersState(player, AudioPlayerStatus.Playing, 5e3).catch((error) => {
             this.worker.log(`\x1b[31mError playing audio | Reason: ${JSON.stringify(error)} | Guild Name: ${this.worker.guilds.get(this.guildID)?.name} | Guild ID: ${this.guildID}`);
             throw new Error(`Error playing music`);
         });
-        this.connection?.subscribe(player);
+        this.connection.subscribe(player);
     }
 }
