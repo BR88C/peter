@@ -7,7 +7,15 @@ export default {
     command: `play`,
     interaction: {
         name: `play`,
-        description: `Plays a specified song.`
+        description: `Plays a specified song.`,
+        options: [
+            {
+                type: 6,
+                name: `query`,
+                description: `A YouTube link, or the name of a song / video.`,
+                required: true
+            }
+        ]
     },
     exec: async (ctx) => {
         let queue: Queue;
