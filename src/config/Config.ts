@@ -28,7 +28,20 @@ export interface BotConfig {
     /**
      * IDs of emojis to use.
      */
-    emojiIDs: object
+    emojis: Array<{
+        /**
+         * The emoji's name.
+         */
+        name: string
+        /**
+         * If the emoji is animated.
+         */
+        animated: boolean
+        /**
+         * The emoji's ID.
+         */
+        ID: Snowflake
+    }>
 
     /**
      * The interval to change the bot's presence at, in milliseconds.
@@ -75,7 +88,13 @@ export const Config: BotConfig = {
     },
 
     emojiGuildID: `844990450763169792`,
-    emojiIDs: {},
+    emojis: [
+        {
+            name: `typing`,
+            animated: true,
+            ID: `847902687328469011`
+        }
+    ],
 
     presenceInterval: 6e5,
 
