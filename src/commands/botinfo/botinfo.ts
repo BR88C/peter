@@ -1,6 +1,6 @@
 import { Config } from '../../config/Config';
 import { Constants } from '../../config/Constants';
-import * as pjson from '../../../package.json';
+import { version } from '../../../package.json';
 import { timestamp } from '../../Utils';
 
 // Import modules.
@@ -20,7 +20,7 @@ export default {
             .title(`Bot Information`)
             .field(`Tag`, `${ctx.worker.user.username}#${ctx.worker.user.discriminator}`, true)
             .field(`Number of Commands`, ctx.worker.commands.commands?.size.toString() ?? `0`, true)
-            .field(`Version`, pjson.version, true)
+            .field(`Version`, version, true)
             .field(`Developer${Config.devs.IDs.length > 1 ? `s` : ``}`, Config.devs.tags.join(`, `), true)
             .field(`Ping`, `\`${ctx.worker.shards.find((shard) => shard.worker.guilds.has(ctx.interaction.guild_id))?.ping} ms\``, true)
             .field(`Uptime`, (stats ? timestamp(stats[ctx.worker.comms.id].cluster.uptime * 1e3) : `N/A`), true)
