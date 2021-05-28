@@ -38,7 +38,12 @@
         "no-useless-escape": "warn",
         "no-var": "error",
         "no-void": "off",
-        "object-curly-newline": ["warn", { "minProperties": 2 }],
+        "object-curly-newline": ["warn", {
+            "ObjectExpression": { "minProperties": 2 },
+            "ObjectPattern": { "minProperties": 2 },
+            "ImportDeclaration": "never",
+            "ExportDeclaration": { "minProperties": 2 }
+        }],
         "prefer-arrow-callback": "warn",
         "prefer-const": "warn",
         "prefer-template": "error",
