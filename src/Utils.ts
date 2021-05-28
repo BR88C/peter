@@ -26,16 +26,16 @@ export const cleanseMarkdown = (str: string): string => str
  * @param cluster The cluster object.
  */
 export const log = (msg: string, cluster: Cluster | undefined): void => {
-    const clusterName = cluster?.id ? `Cluster ${cluster.id}` : `Master`;
+    const clusterName: string = cluster?.id ? `Cluster ${cluster.id}` : `Master`;
     msg = `\x1b[${cluster?.id ? `36` : `34`}m${` `.repeat(Math.floor((Constants.MAX_CLUSTER_LOG_LENGTH - clusterName.length) / 2))}${clusterName}${` `.repeat(Math.ceil((Constants.MAX_CLUSTER_LOG_LENGTH - clusterName.length) / 2))}\x1b[37m|  ${msg}`;
 
-    const time = new Date();
-    const second = time.getSeconds().toString().padStart(2, `0`);
-    const minute = time.getMinutes().toString().padStart(2, `0`);
-    const hour = time.getHours().toString().padStart(2, `0`);
-    const day = time.getDate().toString().padStart(2, `0`);
-    const month = (time.getMonth() + 1).toString().padStart(2, `0`);
-    const year = time.getFullYear().toString();
+    const time: Date = new Date();
+    const second: string = time.getSeconds().toString().padStart(2, `0`);
+    const minute: string = time.getMinutes().toString().padStart(2, `0`);
+    const hour: string = time.getHours().toString().padStart(2, `0`);
+    const day: string = time.getDate().toString().padStart(2, `0`);
+    const month: string = (time.getMonth() + 1).toString().padStart(2, `0`);
+    const year: string = time.getFullYear().toString();
     msg = `\x1b[37m${month}-${day}-${year} ${hour}:${minute}:${second} | ${msg}`;
 
     console.log(msg.replace(/\n/g, ` `));
@@ -61,8 +61,8 @@ export const setRandomPresence = (worker: Worker): void => {
  */
 export const statsCheckup = async (master: Master): Promise<void> => await master.getStats().then((stats: ClusterStats[]) => {
     for (const entry of stats) {
-        let totalShardPing = 0;
-        let totalGuilds = 0;
+        let totalShardPing: number = 0;
+        let totalGuilds: number = 0;
         for (const shard of entry.shards) {
             totalShardPing += shard.ping;
             totalGuilds += shard.guilds;
@@ -78,8 +78,8 @@ export const statsCheckup = async (master: Master): Promise<void> => await maste
  */
 export const timestamp = (time: number): string => {
     time = Math.round(time / 1e3);
-    const hours = Math.floor(time / 60 / 60);
-    const minutes = Math.floor(time / 60) - (hours * 60);
-    const seconds = time % 60;
+    const hours: number = Math.floor(time / 60 / 60);
+    const minutes: number = Math.floor(time / 60) - (hours * 60);
+    const seconds: number = time % 60;
     return hours > 0 ? `${hours.toString()}:${minutes.toString().padStart(2, `0`)}:${seconds.toString().padStart(2, `0`)}` : `${minutes.toString()}:${seconds.toString().padStart(2, `0`)}`;
 };

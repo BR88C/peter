@@ -41,8 +41,8 @@ export class Format {
             option.container === `webm` &&
             parseInt(option.audioSampleRate ?? `0`) === 48e3
         );
-        const audioOnlyFormats = availableFormats?.filter((option) => option.hasAudio && !option.hasVideo);
-        const format = audioOnlyFormats.length !== 0 ? audioOnlyFormats[0] : (availableFormats.length !== 0 ? availableFormats[0] : undefined);
+        const audioOnlyFormats: videoFormat[] | undefined = availableFormats?.filter((option) => option.hasAudio && !option.hasVideo);
+        const format: videoFormat | undefined = audioOnlyFormats.length !== 0 ? audioOnlyFormats[0] : (availableFormats.length !== 0 ? availableFormats[0] : undefined);
 
         if (format != null) {
             this.itag = format.itag.toString();

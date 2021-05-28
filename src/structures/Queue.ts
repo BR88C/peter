@@ -162,7 +162,7 @@ export class Queue {
     public get songProgress (): number {
         if (!this.playbackActivity) return 0;
 
-        let progress = this.playbackActivity.startPosition;
+        let progress: number = this.playbackActivity.startPosition;
         if (this.playbackActivity.segments.length > 1) {
             for (let i = 1; i < this.playbackActivity.segments.length; i++) {
                 progress += (this.playbackActivity.segments[i].startedAt - this.playbackActivity.segments[i - 1].startedAt) * (this.playbackActivity.segments[i - 1].speed / 100);
@@ -181,8 +181,8 @@ export class Queue {
     public get queueProgress (): number {
         if (this.playing === -1) return 0;
 
-        let progress = this.songProgress;
-        const completedSongs = this.songs.slice(0, this.playing);
+        let progress: number = this.songProgress;
+        const completedSongs: Song[] = this.songs.slice(0, this.playing);
         for (const song of completedSongs) progress += song.videoLength;
         return progress;
     }
@@ -192,7 +192,7 @@ export class Queue {
      * This value is not scaled to the queue's speed.
      */
     public get queueLength (): number {
-        let length = 0;
+        let length: number = 0;
         for (const song of this.songs) length += song.videoLength;
         return length;
     }
@@ -240,7 +240,7 @@ export class Queue {
      * @returns The time left in milliseconds.
      */
     public getTimeLeft (type: `queue` | `song` = `queue`, includeSpeed: boolean = false): number {
-        let timeLeft = 0;
+        let timeLeft: number = 0;
         if (type === `queue`) timeLeft = this.queueLength - this.queueProgress;
         else if (type === `song`) timeLeft = this.songs[this.playing].videoLength - this.songProgress;
         return timeLeft * (includeSpeed ? this.effects.speed / 100 : 1);
