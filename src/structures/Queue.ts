@@ -50,63 +50,63 @@ export class Queue {
     public effects: {
         /**
          * Bassboost.
-         * Default = 0.
          * Min = 0, Max = 100.
+         * @default 0
          */
         bass: number
         /**
          * Flanger.
-         * Default = 0.
          * Min = 0, Max = 100.
+         * @default 0
          */
         flanger: number
         /**
          * Highpass.
-         * Default = 0.
          * Min = 0, Max = 100.
+         * @default 0
          */
         highpass: number
         /**
          * Lowpass.
-         * Default = 0.
          * Min = 0, Max = 100.
+         * @default 0
          */
         lowpass: number
         /**
          * Phaser.
-         * Default = 0.
          * Min = 0, Max = 100.
+         * @default 0
          */
         phaser: number
         /**
          * Pitch.
-         * Default = 100.
          * Min = 25, Max = 250.
+         * @default 100
          */
         pitch: number
         /**
          * Speed.
-         * Default = 100.
          * Min = 50, Max = 500.
          * This effect is not applied on livestreams.
+         * @default 100
          */
         speed: number
         /**
          * Treble.
-         * Default = 0.
          * Min = 0, Max = 100.
+         * @default 0
          */
         treble: number
         /**
          * Vibrato.
-         * Default = 0.
          * Min = 0, Max = 100.
+         * @default 0
          */
         vibrato: number
         /**
          * Volume.
-         * Default = 100.
          * Min = 0, Max = Number.MAX_SAFE_INTEGER
+         * @default 100
          */
         volume: number
     }
