@@ -1,7 +1,9 @@
 import { Constants } from '../../config/Constants';
 
 // Import modules.
-import { APIGuild, APIUser } from 'discord-api-types';
+import {
+    APIGuild, APIUser
+} from 'discord-api-types';
 import {
     CommandOptions, GuildsResource, UsersResource
 } from 'discord-rose';
