@@ -198,6 +198,42 @@ export class Queue {
     }
 
     /**
+     * FFMPEG arguments generated from Queue#effects.
+     * Returns undefined if there are no active effects to be pushed to FFMPEG.
+     */
+    public get ffmpegArgs (): string | undefined {
+        const activeEffects: string[] = [];
+        if (this.effects.bass !== 0) activeEffects.push(`bass=g=${this.effects.bass / 2}`);
+        if (this.effects.flanger !== 0) activeEffects.push(`flanger=depth=${this.effects.flanger / 10}`);
+        if (this.effects.highpass !== 0) activeEffects.push(`highpass=f=${this.effects.highpass * 25}`);
+        if (this.effects.lowpass !== 0) activeEffects.push(`lowpass=f=${2e3 - this.effects.lowpass * 16}`);
+        if (this.effects.phaser !== 0) activeEffects.push(`aphaser=decay=${this.effects.phaser / 200}`);
+        if (this.effects.pitch !== 100) activeEffects.push(`rubberband=pitch=${this.effects.pitch / 100}`);
+        if (this.effects.speed !== 100 && !this.songs[this.playing].livestream) activeEffects.push(`atempo=${this.effects.speed / 100}`);
+        if (this.effects.treble !== 0) activeEffects.push(`treble=g=${this.effects.treble / 3}`);
+        if (this.effects.vibrato !== 0) activeEffects.push(`vibrato=d=${this.effects.vibrato / 100}`);
+        return activeEffects.length > 0 ? activeEffects.join(`, `) : undefined;
+    }
+
+    /**
+     * A pretty codeblock string generated from Queue#effects.
+     */
+    public get formattedEffectsString (): string {
+        const activeEffects: string[] = [];
+        if (this.effects.bass !== 0) activeEffects.push(`Bass = +${this.effects.bass}﹪`);
+        if (this.effects.flanger !== 0) activeEffects.push(`Flanger = ${this.effects.flanger}﹪`);
+        if (this.effects.lowpass !== 0) activeEffects.push(`Lowpass = +${this.effects.lowpass}﹪`);
+        if (this.effects.highpass !== 0) activeEffects.push(`Highpass = +${this.effects.highpass}﹪`);
+        if (this.effects.phaser !== 0) activeEffects.push(`Phaser = ${this.effects.phaser}﹪`);
+        if (this.effects.pitch !== 100) activeEffects.push(`Pitch = ${this.effects.pitch}﹪`);
+        if (this.effects.speed !== 100) activeEffects.push(`Speed = ${this.effects.speed}﹪`);
+        if (this.effects.treble !== 0) activeEffects.push(`Treble = +${this.effects.treble}﹪`);
+        if (this.effects.vibrato !== 0) activeEffects.push(`Vibrato = ${this.effects.vibrato}﹪`);
+        if (this.effects.volume !== 100) activeEffects.push(`Volume = ${this.effects.volume}﹪`);
+        return activeEffects.length > 0 ? `\`\`\`prolog\n${activeEffects.join(`, `)}\n\`\`\`` : `\`\`\`diff\n-= No Active effects =-\n\`\`\``;
+    }
+
+    /**
      * Gets the time left in the queue or in the song currently playing.
      * @param type If queue or song time left should be retrieved. Defaults to queue.
      * @param includeSpeed If queue speed should be included in the estimation. If false, it returns the raw time left.
