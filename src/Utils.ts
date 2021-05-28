@@ -4,9 +4,7 @@ import { Presences } from './config/Presences';
 import { TextArt } from './config/TextArt';
 
 // Import modules.
-import {
-    Cluster, ClusterStats, Master, Worker
-} from 'discord-rose';
+import { Cluster, ClusterStats, Master, Worker } from 'discord-rose';
 
 /**
  * Cleanses a string from markdown formatting, adding back slashes to do so.

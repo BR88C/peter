@@ -2,9 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { APIUser } from 'discord-api-types';
-import {
-    CommandOptions, UsersResource
-} from 'discord-rose';
+import { CommandOptions, UsersResource } from 'discord-rose';
 
 export default {
     command: `avatar`,

@@ -4,9 +4,7 @@ import * as pjson from '../../../package.json';
 import { timestamp } from '../../Utils';
 
 // Import modules.
-import {
-    ClusterStats, CommandOptions
-} from 'discord-rose';
+import { ClusterStats, CommandOptions } from 'discord-rose';
 
 export default {
     command: `botinfo`,

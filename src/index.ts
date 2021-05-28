@@ -15,9 +15,7 @@
  */
 
 import { Config } from './config/Config';
-import {
-    log, logHeader, statsCheckup
-} from './Utils';
+import { log, logHeader, statsCheckup } from './Utils';
 
 // Import modules.
 import { Master } from 'discord-rose';

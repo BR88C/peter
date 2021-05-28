@@ -1,6 +1,4 @@
-import {
-    model, Schema
-} from 'mongoose';
+import { model, Schema } from 'mongoose';
 
 const GuildSchema: Schema = new Schema({
     /**
