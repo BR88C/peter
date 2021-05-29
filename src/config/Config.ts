@@ -60,7 +60,7 @@ export interface BotConfig {
     /**
      * The amount of bytes to buffer when creating a stream with ytdl.
      */
-    ytdlBuffer: number,
+    ytdlBuffer: number
 
     /**
      * The total amount of shards to spawn.
