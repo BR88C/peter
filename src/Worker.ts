@@ -49,7 +49,7 @@ worker.commands.middleware((ctx) => {
     if (!ctx.isInteraction) { // If the received event is not an interaction.
         if (!Config.devs.IDs.includes(ctx.message.author.id)) { // If the user is not a dev, return an error.
             worker.log(`\x1b[33mReceived Depreciated Prefix Command | User: ${ctx.message.author.username}#${ctx.message.author.discriminator}${ctx.message.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id)?.name} | Guild ID: ${ctx.message.guild_id}` : ``}`);
-            void ctx.error(`Prefix commands are now depreciated. Please use slash commands instead!`);
+            void ctx.error(`Prefix commands are now depreciated, please use slash commands instead.`);
             return false;
         } else { // If the user is a dev.
             if (ctx.command.interaction != null) { // If the command is a slash command, return.
