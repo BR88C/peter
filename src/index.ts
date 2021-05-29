@@ -14,6 +14,7 @@
  * @license
  */
 
+import { checkEnvHeaders } from './resources/Headers';
 import { Config } from './config/Config';
 import { log, logHeader, statsCheckup } from './Utils';
 
@@ -37,6 +38,9 @@ const master = new Master(path.resolve(__dirname, `./Worker.js`), {
     shardsPerCluster: Config.shardsPerCluster[process.env.NODE_ENV ?? `dev`],
     token: process.env.BOT_TOKEN ?? ``
 });
+
+// Check headers.
+checkEnvHeaders(master);
 
 // Start master.
 master.start().catch((error) => master.log(error));
