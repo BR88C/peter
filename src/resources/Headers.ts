@@ -1,11 +1,15 @@
 // Import modules.
 import { Master } from 'discord-rose';
 
-export type Header = {
-    cookie: string,
-    'x-youtube-identity-token': string
-};
+export interface Header {
+    cookie: string
+    'x-youtube-identity-token': string // eslint-disable-line quotes
+}
 
+/**
+ * Gets a random Header from .env.
+ * @returns The random Header object.
+ */
 export const getEnvHeaders = (): Header => {
     if (!checkEnvHeaders()) throw new Error(`Headers are not properly defined.`);
 
@@ -15,7 +19,7 @@ export const getEnvHeaders = (): Header => {
     return {
         cookie: cookies[~~(cookies.length * Math.random())],
         'x-youtube-identity-token': identityTokens[~~(identityTokens.length * Math.random())]
-    }
+    };
 };
 
 /**
@@ -23,7 +27,7 @@ export const getEnvHeaders = (): Header => {
  * @param master The Master object. If provided, it will log if headers are defined properly, and if not, what the issue is.
  * @returns If the headers are defined properly.
  */
- export const checkEnvHeaders = (master?: Master): boolean => {
+export const checkEnvHeaders = (master?: Master): boolean => {
     if (!process.env.COOKIES) {
         if (master) master.log(`\x1b[33mWARNING: Cookies request header is undefined.`);
         return false;
