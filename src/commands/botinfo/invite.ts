@@ -15,6 +15,6 @@ export default {
             .title(`Invite link:`)
             .description(Constants.INVITE_LINK)
             .send()
-            .catch(async (error) => await ctx.error(error));
+            .catch((error) => void ctx.error(error));
     }
 } as CommandOptions;

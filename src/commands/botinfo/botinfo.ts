@@ -27,6 +27,6 @@ export default {
             .field(`Support Server`, Constants.SUPPORT_SERVER, true)
             .field(`Website`, Constants.WEBSITE, true)
             .send()
-            .catch(async (error) => await ctx.error(error));
+            .catch((error) => void ctx.error(error));
     }
 } as CommandOptions;

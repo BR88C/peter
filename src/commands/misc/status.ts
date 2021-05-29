@@ -14,7 +14,7 @@ export default {
                 .color(Constants.STATUS_EMBED_COLOR)
                 .title(`Updated status successfully`)
                 .send()
-                .catch(async (error) => await ctx.error(error));
+                .catch((error) => void ctx.error(error));
         }
     }
 } as CommandOptions;
