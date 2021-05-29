@@ -25,8 +25,8 @@ export const cleanseMarkdown = (str: string): string => str
  */
 export const forgeEmoji = (emojiName: string): string => {
     const foundEmoji = Config.emojis.find((emoji) => emoji.name === emojiName);
-    if (!foundEmoji) throw new Error(`Invalid emoji name`);
-    else return `<${foundEmoji.animated ? `a:` : ``}${foundEmoji.name}:${foundEmoji.ID}>`;
+    if (!foundEmoji) throw new Error(`Invalid emoji name.`);
+    else return `<${foundEmoji.animated ? `a` : ``}:${foundEmoji.name}:${foundEmoji.ID}>`;
 };
 
 /**
