@@ -16,7 +16,7 @@ export default {
 
         if (ctx.args.length === 0) return void ctx.error(`You must supply an expression to eval.`);
 
-        let evalResponse;
+        let evalResponse: any;
         try {
             evalResponse = eval(ctx.args.join(` `)); // eslint-disable-line no-eval
         } catch (error) {
