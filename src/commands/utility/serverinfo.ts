@@ -2,7 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { APIGuild, APIUser } from 'discord-api-types';
-import { CommandOptions, GuildsResource, UsersResource } from 'discord-rose';
+import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `serverinfo`,
@@ -11,8 +11,8 @@ export default {
         description: `Get information about the server.`
     },
     exec: async (ctx) => {
-        const guild: APIGuild = await new GuildsResource(ctx.worker.api).get(ctx.interaction.guild_id, true);
-        const owner: APIUser = await new UsersResource(ctx.worker.api).get(guild.owner_id);
+        const guild: APIGuild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id, true);
+        const owner: APIUser = await ctx.worker.api.users.get(guild.owner_id);
         const iconURL: string = `${Constants.DISCORD_CDN}/icons/${guild.id}/${guild.icon}.${guild.icon?.startsWith(`a_`) ? `gif` : `png`}`;
         ctx.embed
             .color(Constants.SERVER_INFO_EMBED_COLOR)

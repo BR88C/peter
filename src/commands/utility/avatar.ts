@@ -2,7 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { APIUser } from 'discord-api-types';
-import { CommandOptions, UsersResource } from 'discord-rose';
+import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `avatar`,
@@ -19,7 +19,7 @@ export default {
         ]
     },
     exec: async (ctx) => {
-        const user: APIUser = await new UsersResource(ctx.worker.api).get(ctx.options.user ?? ctx.interaction.member.user.id);
+        const user: APIUser = await ctx.worker.api.users.get(ctx.options.user ?? ctx.interaction.member.user.id);
         const avatarURL: string = `${Constants.DISCORD_CDN}/avatars/${user.id}/${user.avatar}.${user.avatar?.startsWith(`a_`) ? `gif` : `png`}`;
         ctx.embed
             .color(Constants.AVATAR_EMBED_COLOR)
