@@ -11,7 +11,7 @@ export interface Header {
  * @returns The random Header object.
  */
 export const getEnvHeaders = (): Header => {
-    if (!checkEnvHeaders()) throw new Error(`Headers are not properly defined.`);
+    if (!checkEnvHeaders()) throw new Error(`Internal Error: Headers are not properly defined.`);
 
     const cookies: string[] = JSON.parse(process.env.COOKIES ?? `[]`);
     const identityTokens: string[] = JSON.parse(process.env.YOUTUBE_IDENTITY_TOKENS ?? `[]`);
