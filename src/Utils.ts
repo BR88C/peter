@@ -19,17 +19,6 @@ export const cleanseMarkdown = (str: string): string => str
     .replace(/\|/g, `\\|`); // Vertical bars
 
 /**
- * Forges an emoji string from Config.emojis.
- * @param emojiName The name of the emoji.
- * @returns The forged emoji string.
- */
-export const forgeEmoji = (emojiName: string): string => {
-    const foundEmoji = Config.emojis.find((emoji) => emoji.name === emojiName);
-    if (!foundEmoji) throw new Error(`Invalid emoji name.`);
-    else return `<${foundEmoji.animated ? `a` : ``}:${foundEmoji.name}:${foundEmoji.ID}>`;
-};
-
-/**
  * Simplified advanced logging.
  * @param msg The message to log.
  * @param cluster The cluster object.
