@@ -52,10 +52,10 @@ export class Song {
     /**
      * Song constructor.
      * @param songInfo Song info from ytdl-core.
-     * @param messageAuthorTag Author of the song request.
+     * @param requestedBy The tag of the person who requested the song.
      * @constructor
      */
-    constructor (songInfo: videoInfo, messageAuthorTag: string) {
+    constructor (songInfo: videoInfo, requestedBy: string) {
         this.title = cleanseMarkdown(songInfo.videoDetails.title);
         this.url = songInfo.videoDetails.video_url;
         this.thumbnail = songInfo.videoDetails.thumbnails.pop()?.url;
@@ -65,6 +65,6 @@ export class Song {
             opus: new Format(songInfo.formats, this.videoLength, true, this.livestream),
             nonOpus: new Format(songInfo.formats, this.videoLength, false, this.livestream)
         };
-        this.requestedBy = messageAuthorTag;
+        this.requestedBy = requestedBy;
     }
 }
