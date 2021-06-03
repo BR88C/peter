@@ -35,6 +35,11 @@ export interface BotConstants {
     PRESENCE_STATUSES: string[]
 
     /**
+     * The regex to use to detect a playlist URL.
+     */
+    PLAYLIST_REGEX: RegExp
+
+    /**
      * The color to use for the avatar embed.
      */
     AVATAR_EMBED_COLOR: number
@@ -91,6 +96,8 @@ export const Constants: BotConstants = {
     DISCORD_CDN: `https://cdn.discordapp.com`,
     PRESENCE_TYPES: [`playing`, `streaming`, `listening`, `watching`, `competing`],
     PRESENCE_STATUSES: [`online`, `idle`, `dnd`, `offline`, `invisible`],
+
+    PLAYLIST_REGEX: /^.*(youtu.be\/|list=)([^#&?]*).*/,
 
     AVATAR_EMBED_COLOR: 0xEB6134,
     BOT_INFO_EMBED_COLOR: 0xFFD87D,
