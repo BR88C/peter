@@ -380,6 +380,7 @@ export class Queue {
         try {
             await entersState(this.connection, VoiceConnectionStatus.Ready, 30e3);
             this.worker.log(`\x1b[32mConnected to Voice Channel | Channel ID: ${this.voiceID} | Guild Name: ${this.worker.guilds.get(this.guildID)?.name} | Guild ID: ${this.guildID}`);
+            return;
         } catch (error) {
             this.connection.destroy();
             console.log(`\x1b[31m`);
@@ -407,7 +408,7 @@ export class Queue {
         if (!song) throw new CommandError(`Internal failure: No song available to play.`);
         if (startingPosition < 0 || startingPosition > song.videoLength) throw new CommandError(`Internal failure: Invalid song starting position.`);
 
-        const useOpus: boolean = !startingPosition && !!song.formats.opus.itag && !!this.ffmpegArgs;
+        const useOpus: boolean = !startingPosition && !!song.formats.opus.itag && !this.ffmpegArgs;
 
         this.streams.ytdl = ytdl(song.url, {
             highWaterMark: 1 << 19,
@@ -451,19 +452,21 @@ export class Queue {
 
         try {
             const resource = createAudioResource(this.streams.pipeline, {
-                inputType: StreamType.Opus, inlineVolume: true
+                inputType: StreamType.Opus, inlineVolume: false
             });
             const player = createAudioPlayer();
             player.play(resource);
 
-            await entersState(player, AudioPlayerStatus.Playing, 5e3);
-            this.connection.subscribe(player);
-            this.playbackActivity = new PlaybackActivity(startingPosition);
+            entersState(player, AudioPlayerStatus.Playing, 5e3).then((audioPlayer) => {
+                if (!this.connection) throw new CommandError(`Internal failure: The bot is not connected to a Voice Channel.`);
+                this.connection.subscribe(audioPlayer);
+                this.playbackActivity = new PlaybackActivity(startingPosition);
+            });
         } catch (error) {
             console.log(`\x1b[31m`);
             console.error(error);
             console.log(`\x1b[37m`);
-            throw new CommandError(`Internal failure: Error playing music`);
+            throw new CommandError(`Internal failure: Error playing audio.`);
         }
     }
 }
