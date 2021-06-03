@@ -14,9 +14,10 @@
  * @license
  */
 
-import { checkEnvHeaders } from './resources/Headers';
+import { checkEnvHeaders } from './utils/Headers';
 import { Config } from './config/Config';
-import { log, logHeader, statsCheckup } from './Utils';
+import { log, logHeader } from './utils/Log';
+import { statsCheckup } from './utils/ProcessUtils';
 
 // Import modules.
 import { Master } from 'discord-rose';
