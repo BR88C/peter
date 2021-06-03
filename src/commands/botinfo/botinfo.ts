@@ -1,7 +1,7 @@
 import { Config } from '../../config/Config';
 import { Constants } from '../../config/Constants';
 import { version } from '../../../package.json';
-import { timestamp } from '../../Utils';
+import { timestamp } from '../../utils/Time';
 
 // Import modules.
 import { ClusterStats, CommandOptions } from 'discord-rose';

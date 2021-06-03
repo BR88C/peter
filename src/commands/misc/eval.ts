@@ -4,6 +4,7 @@ import { Constants } from '../../config/Constants';
 // Import modules.
 import { CommandOptions } from 'discord-rose';
 import { inspect } from 'util';
+import { removeToken } from '../../utils/Cleanse';
 
 export default {
     command: `eval`,
@@ -24,12 +25,9 @@ export default {
         }
 
         // Format.
-        evalResponse = typeof evalResponse !== `string` && typeof evalResponse !== `number` ? inspect(evalResponse, false, 1) : evalResponse;
+        evalResponse = removeToken((typeof evalResponse !== `string` && typeof evalResponse !== `number` ? inspect(evalResponse, false, 1) : evalResponse).toString());
 
-        // Remove bot token if found.
-        evalResponse = evalResponse.split(process.env.BOT_TOKEN).join(`%bot_token%`);
-
-        // Post an embed for ever 2000 characters.
+        // Post an embed for every 2000 characters.
         for (let i = 0; i < Math.ceil(evalResponse.length / 2e3); i++) {
             await ctx.embed
                 .color(Constants.EVAL_EMBED_COLOR)

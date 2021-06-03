@@ -1,5 +1,5 @@
 
-import { cleanseMarkdown } from '../Utils';
+import { cleanseMarkdown } from '../utils/Cleanse';
 import { Format } from './Format';
 
 // Import modules.
