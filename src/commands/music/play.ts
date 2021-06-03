@@ -51,7 +51,7 @@ export default {
             .send()
             .catch((error) => void ctx.error(error));
 
-        queue.createConnection().catch((error) => void ctx.error(error)).then(() => {
+        queue.createConnection().then(() => {
             queue.playSong().then(() => {
                 ctx.embed
                     .color(Constants.STARTED_PLAYING_EMBED_COLOR)
@@ -63,6 +63,6 @@ export default {
                     .send()
                     .catch((error) => void ctx.error(error));
             }).catch((error) => void ctx.error(error));
-        });
+        }).catch((error) => void ctx.error(error));
     }
 } as CommandOptions;
