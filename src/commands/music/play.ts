@@ -1,8 +1,8 @@
 import { Queue } from '../../structures/Queue';
 
 // Import modules.
-import { APIGuild } from 'discord-api-types';
-import { CommandOptions, GuildsResource } from 'discord-rose';
+import { CommandOptions } from 'discord-rose';
+import { Constants } from '../../config/Constants';
 
 export default {
     command: `play`,
@@ -19,16 +19,20 @@ export default {
         ]
     },
     exec: async (ctx) => {
-        const guild: APIGuild = await new GuildsResource(ctx.worker.api).get(ctx.interaction.guild_id, false);
-        if (guild.voice_states) console.log(guild.voice_states)
+        if (!ctx.interaction.channel_id || !ctx.interaction.guild_id) return void ctx.error(`An unknown error occured when trying to connect to the voice channel.`);
 
-        let queue: Queue;
-        if (ctx.interaction.channel_id && ctx.interaction.guild_id) queue = new Queue(ctx.interaction.channel_id, `738892661150187544`, ctx.interaction.guild_id, ctx.worker);
-        else return await ctx.error(`An unknown error occured when trying to connect to the voice channel.`);
+        const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.interaction.member.user.id));
+        if (!foundVoiceState) return void ctx.error(`You must be in a voice channel to play music.`);
 
+        const queue = new Queue(ctx.interaction.channel_id, foundVoiceState.channel_id, ctx.interaction.guild_id, ctx.worker);
         queue.createConnection().then(() => {
-            ctx.send(`lets go`)
-            queue.playSong().then(async () => await ctx.send(`epic`)).catch(async (error) => await ctx.error(error));
-        }).catch(async (error) => await ctx.error(error));
+            ctx.embed
+                .color(Constants.CONNECTING_EMBED_COLOR)
+                .title(`Connecting...`)
+                .send()
+                .catch((error) => void ctx.error(error));
+
+            queue.playSong().then(async () => await ctx.send(`epic`)).catch((error) => void ctx.error(error));
+        }).catch((error) => void ctx.error(error));
     }
 } as CommandOptions;
