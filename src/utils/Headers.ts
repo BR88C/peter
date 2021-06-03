@@ -1,5 +1,5 @@
 // Import modules.
-import { Master } from 'discord-rose';
+import { CommandError, Master } from 'discord-rose';
 
 /**
  * A request header.
@@ -14,7 +14,7 @@ export interface Header {
  * @returns The random Header object.
  */
 export const getEnvHeaders = (): Header => {
-    if (!checkEnvHeaders()) throw new Error(`Internal Error: Headers are not properly defined.`);
+    if (!checkEnvHeaders()) throw new CommandError(`Internal Error: Headers are not properly defined.`);
 
     const cookies: string[] = JSON.parse(process.env.COOKIES ?? `[]`);
     const identityTokens: string[] = JSON.parse(process.env.YOUTUBE_IDENTITY_TOKENS ?? `[]`);
