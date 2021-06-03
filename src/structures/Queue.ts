@@ -7,8 +7,8 @@ import { AudioPlayerStatus, createAudioPlayer, createAudioResource, DiscordGatew
 import { FFmpeg, opus } from 'prism-media';
 import { GatewayVoiceServerUpdateDispatchData, GatewayVoiceState, Snowflake } from 'discord-api-types';
 import { pipeline, Readable } from 'stream';
-import { Worker } from 'discord-rose';
-import ytdl from 'ytdl-core';
+import { CommandError, Worker } from 'discord-rose';
+import ytdl, { getInfo } from 'ytdl-core';
 
 /**
  * Queue class - Manages all music / audio for a guild.
@@ -286,6 +286,7 @@ export class Queue {
     /**
      * Changes the speed of the queue, and adds a segment to the queue's playback activity.
      * @param newSpeed The new speed to set the queue to.
+     * @returns Void.
      */
     public changeSpeed (newSpeed: number): void {
         this.effects.speed = newSpeed;
@@ -294,14 +295,62 @@ export class Queue {
 
     /**
      * Adds a song to the queue.
-     * @param song The song to add.
+     * @param url The URL of the song.
+     * @param requestedBy The tag of the person who requested the song.
+     * @returns A promise that resolves once the song is added. Returns the created song object.
      */
-    public addSong (song: Song): void {
+    public async addSong (url: string, requestedBy: string): Promise<Song | undefined> {
+        const songInfo: ytdl.videoInfo = await getInfo(url, { requestOptions: checkEnvHeaders() ? { headers: getEnvHeaders() } : undefined }).catch((error) => {
+            throw new CommandError(error?.message.replace(`Error: `, ``));
+        });
+        if (!songInfo) throw new CommandError(`Unable to get song info from "${url}".`);
+
+        const song: Song = new Song(songInfo, requestedBy);
+        if (!song.formats.opus.itag && !song.formats.nonOpus.itag) throw new CommandError(`Unable to find a supported audio stream from "${url}".`);
+
         this.songs.push(song);
+        return song;
+    }
+
+    /**
+     * Adds a playlist to the queue.
+     * @param urls An array of video URls in the playlist.
+     * @param requestedBy The tag of the person who requested the song.
+     * @param added A callback that fires every time a song is added to the queue. It will also fire if an error occurs. A boolean must be returned; true will continue queing the playlist, false will stop the playlist from being queued.
+     * @returns The number of songs queued, or undefined if the added callback recieves false.
+     */
+    public async addPlaylist (urls: string[], requestedBy: string, added: (song: Song | CommandError) => boolean): Promise<number | undefined> {
+        let songsAdded: number = 0;
+        for (const url of urls) {
+            const songInfo: ytdl.videoInfo | undefined = await getInfo(url, { requestOptions: checkEnvHeaders() ? { headers: getEnvHeaders() } : undefined }).catch((error) => {
+                console.log(`\x1b[31m`);
+                console.error(error);
+                console.log(`\x1b[37m`);
+            }) as ytdl.videoInfo | undefined;
+            if (!songInfo) {
+                const addedResponse = added(new CommandError(`Unable to get song info from "${url}".`));
+                if (!addedResponse) return;
+                else continue;
+            }
+
+            const song: Song = new Song(songInfo, requestedBy);
+            if (!song.formats.opus.itag && !song.formats.nonOpus.itag) {
+                const addedResponse = added(new CommandError(`Unable to find a supported audio stream from "${url}".`));
+                if (!addedResponse) return;
+                else continue;
+            }
+
+            this.songs.push(song);
+            const addedResponse = added(song);
+            if (!addedResponse) return;
+            songsAdded++;
+        }
+        return songsAdded;
     }
 
     /**
      * Creates a connection to a voice channel.
+     * @returns A promise that resolves once the bot is connected to the VC.
      */
     public async createConnection (): Promise<void> {
         this.connection = joinVoiceChannel({
@@ -333,28 +382,32 @@ export class Queue {
             this.worker.log(`\x1b[32mConnected to Voice Channel | Channel ID: ${this.voiceID} | Guild Name: ${this.worker.guilds.get(this.guildID)?.name} | Guild ID: ${this.guildID}`);
         } catch (error) {
             this.connection.destroy();
-            this.worker.log(`\x1b[31mError connecting to Voice Channel | Reason: ${JSON.stringify(error)} | Guild Name: ${this.worker.guilds.get(this.guildID)?.name} | Guild ID: ${this.guildID}`);
-            throw new Error(`Error connecting to Voice Channel.`);
+            console.log(`\x1b[31m`);
+            console.error(error);
+            console.log(`\x1b[37m`);
+            throw new CommandError(`Error connecting to Voice Channel.`);
         }
     }
 
     /**
      * Plays a song from the queue.
      * @param index The index of Queue#songs to play. This also sets Queue#playing. If it is undefined, it will play the next song based off of Queue#loop.
-     * @param startingPosition The position to start at in milliseconds.
+     * @param startingPosition The position to start at in milliseconds. Does not scale to speed.
+     * @returns A promise that resolves once the song has started playing.
      */
     public async playSong (index?: number, startingPosition: number = 0): Promise<void> {
-        if (!this.connection) throw new Error(`Internal failure: The bot is not connected to a Voice Channel.`);
+        if (!this.connection) throw new CommandError(`Internal failure: The bot is not connected to a Voice Channel.`);
 
         let song: Song;
         if (typeof index === `number`) song = this.songs[index];
         else {
-            this.playing = this.loop === `queue` ? (this.playing > this.songs.length - 1 ? 0 : this.playing + 1) : (this.loop === `single` ? this.playing : this.playing + 1);
+            this.playing = this.loop === `queue` ? (this.playing >= this.songs.length ? 0 : this.playing + 1) : (this.loop === `single` ? this.playing : this.playing + 1);
             song = this.songs[this.playing];
         }
-        if (!song) throw new Error(`Internal failure: No song available to play.`);
+        if (!song) throw new CommandError(`Internal failure: No song available to play.`);
+        if (startingPosition < 0 || startingPosition > song.videoLength) throw new CommandError(`Internal failure: Invalid song starting position.`);
 
-        const useOpus: boolean = !!startingPosition && !!song.formats.opus.itag && !!this.ffmpegArgs;
+        const useOpus: boolean = !startingPosition && !!song.formats.opus.itag && !!this.ffmpegArgs;
 
         this.streams.ytdl = ytdl(song.url, {
             highWaterMark: 1 << 19,
@@ -366,7 +419,7 @@ export class Queue {
             this.streams.pipeline = pipeline([this.streams.ytdl, new opus.WebmDemuxer()], (error) => {
                 if (this.streams.pipeline && typeof this.streams.pipeline.destroy === `function`) this.streams.pipeline.destroy();
                 if (this.streams.ytdl && typeof this.streams.ytdl.destroy === `function`) this.streams.ytdl.destroy();
-                if (error?.message !== `Premature close`) throw new Error(`Internal error: ${error?.message.replace(`Error: `, ``)}`);
+                if (error?.message !== `Premature close`) throw new CommandError(`Internal error: ${error?.message.replace(`Error: `, ``)}`);
             });
         } else {
             const ffmpegTranscoder: FFmpeg = new FFmpeg({
@@ -377,7 +430,7 @@ export class Queue {
                     `-f`, `s16le`,
                     `-ar`, `48000`,
                     `-ac`, `2`
-                ].concat(this.ffmpegArgs?.length ? [`-af`, this.ffmpegArgs] : []),
+                ].concat(this.ffmpegArgs ? [`-af`, this.ffmpegArgs] : []),
                 shell: false
             });
 
@@ -392,13 +445,13 @@ export class Queue {
                 if (this.streams.ytdl && typeof this.streams.ytdl.destroy === `function`) this.streams.ytdl.destroy();
                 if (ffmpegTranscoder && typeof ffmpegTranscoder.destroy === `function`) ffmpegTranscoder.destroy();
                 if (opusTranscoder && typeof opusTranscoder.destroy === `function`) opusTranscoder.destroy();
-                if (error?.message !== `Premature close`) throw new Error(`Internal error: ${error?.message.replace(`Error: `, ``)}`);
+                if (error?.message !== `Premature close`) throw new CommandError(`Internal error: ${error?.message.replace(`Error: `, ``)}`);
             });
         }
 
         try {
             const resource = createAudioResource(this.streams.pipeline, {
-                inputType: StreamType.Arbitrary, inlineVolume: true
+                inputType: StreamType.Opus, inlineVolume: true
             });
             const player = createAudioPlayer();
             player.play(resource);
@@ -407,8 +460,10 @@ export class Queue {
             this.connection.subscribe(player);
             this.playbackActivity = new PlaybackActivity(startingPosition);
         } catch (error) {
-            this.worker.log(`\x1b[31mError playing audio | Reason: ${JSON.stringify(error)} | Guild Name: ${this.worker.guilds.get(this.guildID)?.name} | Guild ID: ${this.guildID}`);
-            throw new Error(`Internal failure: Error playing music`);
+            console.log(`\x1b[31m`);
+            console.error(error);
+            console.log(`\x1b[37m`);
+            throw new CommandError(`Internal failure: Error playing music`);
         }
     }
 }
