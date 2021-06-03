@@ -34,11 +34,13 @@
     "mongoose": "^5.12.11",
     "path": "^0.12.7",
     "prism-media": "^1.2.9",
+    "tweetnacl": "^1.0.3",
     "ytdl-core": "^4.8.2",
     "ytpl": "^2.2.1",
     "ytsr": "^3.5.0"
   },
   "devDependencies": {
+    "@types/node": "^10.17.60",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@typescript-eslint/parser": "^4.25.0",
     "eslint": "^7.27.0",
