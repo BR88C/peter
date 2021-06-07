@@ -1,13 +1,14 @@
 import { checkEnvHeaders, getEnvHeaders } from '../utils/Headers';
+import { Constants } from '../config/Constants';
 import { PlaybackActivity } from './PlaybackActivity';
 import { Song } from './Song';
 
 // Import modules.
+import { APIMessage, GatewayVoiceServerUpdateDispatchData, GatewayVoiceState, Snowflake } from 'discord-api-types';
 import { AudioPlayerStatus, createAudioPlayer, createAudioResource, DiscordGatewayAdapterImplementerMethods, DiscordGatewayAdapterLibraryMethods, entersState, joinVoiceChannel, StreamType, VoiceConnection, VoiceConnectionStatus } from '@discordjs/voice';
+import { CommandError, Embed, Worker } from 'discord-rose';
 import { FFmpeg, opus } from 'prism-media';
-import { GatewayVoiceServerUpdateDispatchData, GatewayVoiceState, Snowflake } from 'discord-api-types';
 import { pipeline, Readable } from 'stream';
-import { CommandError, Worker } from 'discord-rose';
 import ytdl, { getInfo } from 'ytdl-core';
 
 /**
@@ -418,9 +419,10 @@ export class Queue {
 
         if (useOpus) {
             this.streams.pipeline = pipeline([this.streams.ytdl, new opus.WebmDemuxer()], (error) => {
+                if (!error) return;
                 if (this.streams.pipeline && typeof this.streams.pipeline.destroy === `function`) this.streams.pipeline.destroy();
                 if (this.streams.ytdl && typeof this.streams.ytdl.destroy === `function`) this.streams.ytdl.destroy();
-                if (error?.message !== `Premature close`) throw new CommandError(`Internal error: ${error?.message.replace(`Error: `, ``)}`);
+                if (error.message !== `Premature close`) throw new CommandError(`Internal error: ${error?.message.replace(`Error: `, ``)}`);
             });
         } else {
             const ffmpegTranscoder: FFmpeg = new FFmpeg({
@@ -442,11 +444,12 @@ export class Queue {
             });
 
             this.streams.pipeline = pipeline(this.streams.ytdl, ffmpegTranscoder, opusTranscoder, (error) => {
+                if (!error) return;
                 if (this.streams.pipeline && typeof this.streams.pipeline.destroy === `function`) this.streams.pipeline.destroy();
                 if (this.streams.ytdl && typeof this.streams.ytdl.destroy === `function`) this.streams.ytdl.destroy();
                 if (ffmpegTranscoder && typeof ffmpegTranscoder.destroy === `function`) ffmpegTranscoder.destroy();
                 if (opusTranscoder && typeof opusTranscoder.destroy === `function`) opusTranscoder.destroy();
-                if (error?.message !== `Premature close`) throw new CommandError(`Internal error: ${error?.message.replace(`Error: `, ``)}`);
+                if (error.message !== `Premature close`) throw new CommandError(`Internal error: ${error?.message.replace(`Error: `, ``)}`);
             });
         }
 
@@ -463,11 +466,60 @@ export class Queue {
                     this.playbackActivity = new PlaybackActivity(startingPosition);
                 }).catch((error) => { throw new CommandError(error); });
             });
+
+            const onStop = () => {
+                if(!this.songs[this.loop === `queue` ? (this.playing >= this.songs.length ? 0 : this.playing + 1) : (this.loop === `single` ? this.playing : this.playing + 1)]) return;
+                this.playSong().then(() => {
+                    this.sendPlayingEmbed().catch(async (error) => await this.sendErrorEmbed(error));
+                }).catch(async (error) => await this.sendErrorEmbed(error));
+            }
+
+            resource.playStream.on(`end`, () => onStop());
+            resource.playStream.on(`close`, () => onStop());
+            resource.playStream.on(`error`, () => onStop());
         } catch (error) {
             console.log(`\x1b[31m`);
             console.error(error);
             console.log(`\x1b[37m`);
             throw new CommandError(`Internal failure: Error playing audio.`);
         }
+    }
+
+    /**
+     * Send an error embed in the queue's text channel.
+     * @returns The sent message.
+     */
+    async sendErrorEmbed (error: CommandError): Promise<APIMessage | undefined> {
+        this.worker.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Queue Error | Reason: ${error.message.replace(`Error: `, ``)} | Guild Name: ${this.worker.guilds.get(this.guildID)?.name} | Guild ID: ${this.guildID}`);
+
+        if (!error.nonFatal) {
+            console.log(`\x1b[31m`);
+            console.error(error);
+            console.log(`\x1b[37m`);
+        }
+
+        const embed = new Embed()
+            .color(Constants.ERROR_EMBED_COLOR)
+            .title(`Error`)
+            .description(`\`\`\`\n${error.message.replace(`Error: `, ``)}\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`);
+
+        const message = await this.worker.api.messages.send(this.textID, embed).catch((error) => this.worker.log(`\x1b[31mUnable to send Error Embed${typeof error === `string` ? ` | Reason: ${error}` : (typeof error?.message === `string` ? ` | Reason: ${error.message}` : ``)}`));
+        return message || undefined;
+    }
+
+    /**
+     * Send the now playing embed in the queue's text channel.
+     * @returns The sent message.
+     */
+    async sendPlayingEmbed (): Promise<APIMessage> {
+        const embed = new Embed()
+            .color(Constants.STARTED_PLAYING_EMBED_COLOR)
+            .title(`Started playing: ${this.songs[this.playing].title}`)
+            .description(`**Link:** ${this.songs[this.playing].url}`)
+            .image(this.songs[this.playing].thumbnail ?? ``)
+            .footer(`Requested by: ${this.songs[this.playing].requestedBy}`)
+            .timestamp();
+
+        return await this.worker.api.messages.send(this.textID, embed).catch((error) => { throw new CommandError(error); });
     }
 }
