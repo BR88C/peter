@@ -14,44 +14,17 @@
  * @license
  */
 
-import { checkEnvHeaders } from './utils/Headers';
-import { Config } from './config/Config';
-import { log, logHeader } from './utils/Log';
-import { statsCheckup } from './utils/ProcessUtils';
+import { logHeader } from './utils/Log';
+import runMaster from './managers/run/runMaster';
 
 // Import modules.
-import { Master } from 'discord-rose';
-import * as dotenv from 'dotenv';
-import * as path from 'path';
+import { config } from 'dotenv';
 
 // Configure dotenv.
-dotenv.config();
+config();
 
 // Log header.
 logHeader();
 
-// Create master.
-const master = new Master(path.resolve(__dirname, `./Worker.js`), {
-    cache: Config.cache,
-    cacheControl: Config.cacheControl,
-    log: log,
-    shards: Config.shards[process.env.NODE_ENV ?? `dev`],
-    shardsPerCluster: Config.shardsPerCluster[process.env.NODE_ENV ?? `dev`],
-    token: process.env.BOT_TOKEN ?? ``
-});
-
-// Check headers.
-checkEnvHeaders(master);
-
-// Start master.
-master.start().catch((error) => master.log(error));
-
-// On ready.
-master.on(`READY`, () => {
-    // Run stats checkups at a set interval.
-    statsCheckup(master).catch((error) => master.log(error));
-    setInterval(() => void (async () => await statsCheckup(master).catch((error) => master.log(error)))(), Config.statsCheckupInterval[process.env.NODE_ENV ?? `dev`]);
-
-    // Log ready.
-    master.log(`\x1b[35mBot up since ${new Date().toLocaleString()}`);
-});
+// Start the bot by creating the master process.
+runMaster();
