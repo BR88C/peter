@@ -86,8 +86,5 @@ export class WorkerManager extends Worker {
                 return true;
             }
         });
-
     }
 }
-
-
