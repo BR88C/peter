@@ -35,14 +35,16 @@ export default {
 
         const search = new Search(ctx.options.query);
         if (search.queryType === `playlistURL`) {
-            const urls = await search.getPlaylistURLs();
+            const urls: string[] | undefined = await search.getPlaylistURLs().catch((error) => void ctx.error(error));
+            if (!urls) return;
             await queue.addPlaylist(urls, `${ctx.interaction.member.user.username}#${ctx.interaction.member.user.discriminator}`, (song) => {
-                if (song instanceof CommandError) ctx.send(song.message).catch((error) => void ctx.error(error)); ;
+                if (song instanceof CommandError) ctx.send(song.message).catch((error) => void ctx.error(error));
                 return true;
             });
         } else {
-            const url = await search.getURL();
-            await queue.addSong(url, `${ctx.interaction.member.user.username}#${ctx.interaction.member.user.discriminator}`).catch((error) => void ctx.error(error)); ;
+            const url: string | undefined = await search.getURL().catch((error) => void ctx.error(error));
+            if (!url) return;
+            await queue.addSong(url, `${ctx.interaction.member.user.username}#${ctx.interaction.member.user.discriminator}`).catch((error) => void ctx.error(error));
         }
 
         await ctx.embed
