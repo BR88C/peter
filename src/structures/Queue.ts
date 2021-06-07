@@ -455,13 +455,14 @@ export class Queue {
                 inputType: StreamType.Opus, inlineVolume: false
             });
             const player = createAudioPlayer();
-            player.play(resource);
-
-            entersState(player, AudioPlayerStatus.Playing, 5e3).then((audioPlayer) => {
-                if (!this.connection) throw new CommandError(`Internal failure: The bot is not connected to a Voice Channel.`);
-                this.connection.subscribe(audioPlayer);
-                this.playbackActivity = new PlaybackActivity(startingPosition);
-            }).catch((error) => { throw new CommandError(error); });
+            resource.playStream.once(`readable`, () => {
+                player.play(resource);
+                entersState(player, AudioPlayerStatus.Playing, 5e3).then((audioPlayer) => {
+                    if (!this.connection) throw new CommandError(`Internal failure: The bot is not connected to a Voice Channel.`);
+                    this.connection.subscribe(audioPlayer);
+                    this.playbackActivity = new PlaybackActivity(startingPosition);
+                }).catch((error) => { throw new CommandError(error); });
+            });
         } catch (error) {
             console.log(`\x1b[31m`);
             console.error(error);
