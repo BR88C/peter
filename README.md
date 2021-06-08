@@ -1,7 +1,7 @@
 <h1 align="center">Peter!</h1>
 
 <div align="center">
-    <img src="https://raw.githubusercontent.com/BR88C/peter/master/assets/avatar/peter.png" align="center" width="256" height="256" style="border-radius: 50%;">
+    <img src="https://raw.githubusercontent.com/BR88C/peter/master/assets/avatar/peter.png" align="center" width="256" height="256">
 </div>
 
 <h3 align="center">A 24/7 music bot with free audio effects/filters (SFX)</h3>
@@ -30,13 +30,12 @@ npm install
 
 The bot also requires a Discord Bot token, stored in a `.env` file. In the same directory as `package.json`, create a file named `.env` with the following text:
 ```
-BOT_TOKEN="Your Discord API Bot Token"
-DBL_TOKEN="Your DBL token"  // Optional
-COOKIE=["Array of YouTube Cookie Strings"]  // Optional
-YOUTUBE_IDENTITY_TOKEN=["Array of YouTube Identity Tokens"]  // Optional
+BOT_TOKEN="<Your Discord API Bot Token>"
+NODE_ENV="<prod or dev>" // Optional; use this if you aren't setting your environment via a different method. The bot will default to "dev" if NODE_ENV isn't found.
+DBL_TOKEN="<Your DBL token>"  // Optional.
 ```
 
-You can then run the bot in development mode with this command.
+You can then run the bot with this command.
 ```
-npm run dev
+npm run start
 ```
