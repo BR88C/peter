@@ -13,7 +13,7 @@ export default {
         if (!Config.devs.IDs.includes(ctx.message.author.id)) return void ctx.error(`You do not have permission to run this command.`);
 
         // Return if not in development.
-        if (process.env.NODE_ENV !== `dev`) return void ctx.error(`This command is only available when the bot is in development mode.`);
+        if ((process.env.NODE_ENV ?? `dev`) !== `dev`) return void ctx.error(`This command is only available when the bot is in development mode.`);
 
         if (ctx.args.length === 0) return void ctx.error(`You must supply an expression to eval.`);
 
