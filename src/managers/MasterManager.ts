@@ -33,7 +33,7 @@ export class MasterManager extends Master {
         this.start().catch((error) => this.log(error));
 
         // On ready.
-        this.on(`READY`, () => {
+        this.once(`READY`, () => {
             // Run stats checkups at a set interval.
             statsCheckup(this).catch((error) => this.log(error));
             setInterval(() => void (async () => await statsCheckup(this).catch((error) => this.log(error)))(), Config.statsCheckupInterval[process.env.NODE_ENV ?? `dev`]);
