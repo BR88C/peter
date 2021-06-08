@@ -91,7 +91,7 @@ export const Config: BotConfig = {
 
     shards: {
         dev: 1,
-        prod: 4
+        prod: 2
     },
     shardsPerCluster: {
         dev: 1,
