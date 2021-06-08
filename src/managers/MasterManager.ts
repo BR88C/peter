@@ -1,4 +1,3 @@
-import { checkEnvHeaders } from '../utils/Headers';
 import { Config } from '../config/Config';
 import { log } from '../utils/Log';
 import { statsCheckup } from '../utils/ProcessUtils';
@@ -25,9 +24,6 @@ export class MasterManager extends Master {
             shardsPerCluster: Config.shardsPerCluster[process.env.NODE_ENV ?? `dev`],
             token: process.env.BOT_TOKEN ?? ``
         });
-
-        // Check headers.
-        checkEnvHeaders(this);
 
         // Start master.
         this.start().catch((error) => this.log(error));
