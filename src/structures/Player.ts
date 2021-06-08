@@ -61,7 +61,7 @@ export class Player {
             pipeline: undefined,
             playerResource: undefined,
             player: undefined
-        }
+        };
     }
 
     /**
