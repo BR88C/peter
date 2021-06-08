@@ -25,13 +25,15 @@ export class MasterManager extends Master {
             token: process.env.BOT_TOKEN ?? ``
         });
 
+        // Log mode.
+        this.log(`\x1b[35mRunning in \x1b[33m${process.env.NODE_ENV ?? `dev`}\x1b[35m mode.`)
+
         // Start master.
         this.start().catch((error) => this.log(error));
 
         // On ready.
         this.once(`READY`, () => {
             // Run stats checkups at a set interval.
-            statsCheckup(this).catch((error) => this.log(error));
             setInterval(() => void (async () => await statsCheckup(this).catch((error) => this.log(error)))(), Config.statsCheckupInterval[process.env.NODE_ENV ?? `dev`]);
 
             // Log ready.
