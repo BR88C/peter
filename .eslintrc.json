@@ -35,7 +35,6 @@
         "no-unexpected-multiline": "warn",
         "no-unreachable-loop": "error",
         "no-unused-expressions": "warn",
-        "no-unused-vars": "warn",
         "no-useless-escape": "warn",
         "no-var": "error",
         "no-void": "off",
