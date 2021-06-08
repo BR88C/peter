@@ -26,7 +26,7 @@ export class MasterManager extends Master {
         });
 
         // Log mode.
-        this.log(`\x1b[35mRunning in \x1b[33m${process.env.NODE_ENV ?? `dev`}\x1b[35m mode.`)
+        this.log(`\x1b[35mRunning in \x1b[33m${process.env.NODE_ENV ?? `dev`}\x1b[35m mode.`);
 
         // Start master.
         this.start().catch((error) => this.log(error));
