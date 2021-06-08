@@ -4,7 +4,7 @@ import { Search } from '../../structures/Search';
 import { Song } from '../../structures/Song';
 
 // Import modules.
-import { CommandError, CommandOptions } from 'discord-rose';
+import { CommandError, CommandOptions, Embed } from 'discord-rose';
 
 export default {
     command: `play`,
@@ -34,42 +34,53 @@ export default {
 
         const queue = ctx.worker.queue.get(ctx.interaction.guild_id) ?? new Queue(ctx.interaction.channel_id, foundVoiceState.channel_id, ctx.interaction.guild_id, ctx.worker);
 
-        const search = new Search(ctx.options.query);
-        let newSong: Song | undefined;
-        if (search.queryType === `playlistURL`) {
-            const urls: string[] | undefined = await search.getPlaylistURLs().catch((error) => void ctx.error(error));
-            if (!urls) return;
-            await queue.addPlaylist(urls, `${ctx.interaction.member.user.username}#${ctx.interaction.member.user.discriminator}`, (song) => {
-                if (song instanceof CommandError) ctx.send(song.message).catch((error) => void ctx.error(error));
-                return true;
-            });
-        } else {
-            const url: string | undefined = await search.getURL().catch((error) => void ctx.error(error));
-            if (!url) return;
-            newSong = await queue.addSong(url, `${ctx.interaction.member.user.username}#${ctx.interaction.member.user.discriminator}`).catch((error) => void ctx.error(error));
-        }
+        try {
+            const search = new Search(ctx.options.query);
+            let newSong: Song | undefined;
+            if (search.queryType === `playlistURL`) {
+                const urls: string[] | undefined = await search.getPlaylistURLs();
+                if (!urls) return;
+                await queue.addPlaylist(urls, `${ctx.interaction.member.user.username}#${ctx.interaction.member.user.discriminator}`, (song) => {
+                    if (song instanceof CommandError) ctx.send(song.message).catch((error) => void ctx.error(error));
+                    return true;
+                });
+            } else {
+                const url: string | undefined = await search.getURL();
+                if (!url) return;
+                newSong = await queue.addSong(url, `${ctx.interaction.member.user.username}#${ctx.interaction.member.user.discriminator}`);
+            }
 
-        await ctx.embed
-            .color(Constants.CONNECTING_EMBED_COLOR)
-            .title(`Connecting...`)
-            .send()
-            .catch((error) => void ctx.error(error));
-
-        if (!queue.connection) await queue.createConnection().catch((error) => void ctx.error(error));
-
-        if (!queue.songs[queue.playing]) queue.playSong().then(async () => {
-            await queue.sendPlayingEmbed().catch((error) => void ctx.error(error));
-        }).catch((error) => void ctx.error(error));
-        else if (newSong) {
-            ctx.embed
-                .color(Constants.STARTED_PLAYING_EMBED_COLOR)
-                .title(`Added "${newSong.title}" to the queue`)
-                .description(`**Link:** ${newSong.url}`)
-                .image(newSong.thumbnail ?? ``)
-                .footer(`Requested by: ${newSong.requestedBy}`)
-                .timestamp()
+            await ctx.embed
+                .color(Constants.CONNECTING_EMBED_COLOR)
+                .title(`Connecting...`)
                 .send()
                 .catch((error) => void ctx.error(error));
+
+            if (!queue.player.connection) await queue.player.createConnection();
+
+            if (!queue.songs[queue.playing]) {
+                await queue.player.playSong();
+                await queue.sendEmbed(new Embed()
+                    .color(Constants.STARTED_PLAYING_EMBED_COLOR)
+                    .title(`Started playing: ${queue.songs[queue.playing].title}`)
+                    .description(`**Link:** ${queue.songs[queue.playing].url}`)
+                    .image(queue.songs[queue.playing].thumbnail ?? ``)
+                    .footer(`Requested by: ${queue.songs[queue.playing].requestedBy}`)
+                    .timestamp()
+                );
+            } else if (newSong) {
+                ctx.embed
+                    .color(Constants.STARTED_PLAYING_EMBED_COLOR)
+                    .title(`Added "${newSong.title}" to the queue`)
+                    .description(`**Link:** ${newSong.url}`)
+                    .image(newSong.thumbnail ?? ``)
+                    .footer(`Requested by: ${newSong.requestedBy}`)
+                    .timestamp()
+                    .send()
+                    .catch((error) => void ctx.error(error));
+            }
+        } catch (error) {
+            void queue.sendErrorEmbed(error);
         }
     }
 } as CommandOptions;

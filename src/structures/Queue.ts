@@ -1,14 +1,12 @@
 import { checkEnvHeaders, getEnvHeaders } from '../utils/Headers';
 import { Constants } from '../config/Constants';
 import { PlaybackActivity } from './PlaybackActivity';
+import { Player } from './Player';
 import { Song } from './Song';
 
 // Import modules.
-import { APIMessage, GatewayVoiceServerUpdateDispatchData, GatewayVoiceState, Snowflake } from 'discord-api-types';
-import { AudioPlayerStatus, createAudioPlayer, createAudioResource, DiscordGatewayAdapterImplementerMethods, DiscordGatewayAdapterLibraryMethods, entersState, joinVoiceChannel, StreamType, VoiceConnection, VoiceConnectionStatus } from '@discordjs/voice';
+import { APIMessage, Snowflake } from 'discord-api-types';
 import { CommandError, Embed, Worker } from 'discord-rose';
-import { FFmpeg, opus } from 'prism-media';
-import { pipeline, Readable } from 'stream';
 import ytdl, { getInfo } from 'ytdl-core';
 
 /**
@@ -28,11 +26,6 @@ export class Queue {
      * The ID of the guild the queue is bound to.
      */
     public guildID: Snowflake
-    /**
-     * The queue's voice connection.
-     * This is undefined if the bot is not connected to a voice channel.
-     */
-    public connection: VoiceConnection | undefined
 
     /**
      * The queue's songs.
@@ -124,29 +117,20 @@ export class Queue {
     }
 
     /**
-     * Audio streams used by the queue.
+     * The queue's audio player.
      */
-    private streams: {
-        /**
-         * The ytdl read stream.
-         */
-        ytdl: Readable | undefined
-        /**
-         * The pipeline stream.
-         */
-        pipeline: any
-    }
+    public player: Player
 
     /**
      * Playback data.
      * Used for determining the progress through a song.
      * This is undefined if no song is playing.
      */
-    private playbackActivity: PlaybackActivity | undefined
+    public playbackActivity: PlaybackActivity | undefined
     /**
      * The Worker object the queue is spawned on.
      */
-    private worker: Worker
+    public worker: Worker
 
     /**
      * Creates a Queue.
@@ -160,7 +144,6 @@ export class Queue {
         this.textID = textID;
         this.voiceID = voiceID;
         this.guildID = guildID;
-        this.connection = undefined;
 
         this.songs = [];
         this.playing = -1;
@@ -181,10 +164,7 @@ export class Queue {
             volume: 100
         };
 
-        this.streams = {
-            ytdl: undefined,
-            pipeline: undefined
-        };
+        this.player = new Player(this);
 
         this.playbackActivity = undefined;
         this.worker = worker;
@@ -295,7 +275,7 @@ export class Queue {
     }
 
     /**
-     * Adds a song to the queue.
+     * Adds a song to the queue. This DOES NOT play the song.
      * @param url The URL of the song.
      * @param requestedBy The tag of the person who requested the song.
      * @returns A promise that resolves once the song is added. Returns the created song object.
@@ -314,7 +294,7 @@ export class Queue {
     }
 
     /**
-     * Adds a playlist to the queue.
+     * Adds a playlist to the queue. This DOES NOT play any of the songs.
      * @param urls An array of video URls in the playlist.
      * @param requestedBy The tag of the person who requested the song.
      * @param added A callback that fires every time a song is added to the queue. It will also fire if an error occurs. A boolean must be returned; true will continue queing the playlist, false will stop the playlist from being queued.
@@ -350,144 +330,32 @@ export class Queue {
     }
 
     /**
-     * Creates a connection to a voice channel.
-     * @returns A promise that resolves once the bot is connected to the VC.
+     * Advances the queue based on Queue#loop.
+     * It will run Queue#playSong() if possible, if not Queue#playing will be set to -1.
+     * @returns If a new song is starting to play.
      */
-    public async createConnection (): Promise<void> {
-        this.connection = joinVoiceChannel({
-            channelId: this.voiceID,
-            guildId: this.guildID,
-            selfDeaf: true,
-            adapterCreator: (methods: DiscordGatewayAdapterLibraryMethods): DiscordGatewayAdapterImplementerMethods => {
-                const voiceServerUpdate = (data: GatewayVoiceServerUpdateDispatchData): void => methods.onVoiceServerUpdate(data);
-                const voiceStateUpdate = (data: GatewayVoiceState): void => methods.onVoiceStateUpdate(data);
-
-                this.worker.on(`VOICE_SERVER_UPDATE`, voiceServerUpdate);
-                this.worker.on(`VOICE_STATE_UPDATE`, voiceStateUpdate);
-
-                return {
-                    sendPayload: (data): void => {
-                        // @ts-expect-error ws is a private property
-                        return this.worker.guildShard(this.guildID).ws._send(data);
-                    },
-                    destroy: (): void => {
-                        this.worker.off(`VOICE_SERVER_UPDATE`, voiceServerUpdate);
-                        this.worker.off(`VOICE_STATE_UPDATE`, voiceStateUpdate);
-                    }
-                };
-            }
-        });
-
-        try {
-            await entersState(this.connection, VoiceConnectionStatus.Ready, 30e3);
-            this.worker.log(`\x1b[32mConnected to Voice Channel | Channel ID: ${this.voiceID} | Guild Name: ${this.worker.guilds.get(this.guildID)?.name} | Guild ID: ${this.guildID}`);
-            return;
-        } catch (error) {
-            this.connection.destroy();
-            console.log(`\x1b[31m`);
-            console.error(error);
-            console.log(`\x1b[37m`);
-            throw new CommandError(`Error connecting to Voice Channel.`);
+    advanceQueue (): boolean {
+        this.playing = this.loop === `queue` ? (this.playing >= this.songs.length ? 0 : this.playing + 1) : (this.loop === `single` ? this.playing : this.playing + 1);
+        if (!this.songs[this.playing]) {
+            this.player.cleanupStreams();
+            this.playing = -1;
+            return false;
+        } else {
+            this.player.playSong().catch(async (error) => await this.sendErrorEmbed(error));
+            return true;
         }
     }
 
     /**
-     * Plays a song from the queue.
-     * @param index The index of Queue#songs to play. This also sets Queue#playing. If it is undefined, it will play the next song based off of Queue#loop.
-     * @param startingPosition The position to start at in milliseconds. Does not scale to speed.
-     * @returns A promise that resolves once the song has started playing.
+     * Send the now playing embed in the queue's text channel.
+     * @returns The sent message.
      */
-    public async playSong (index?: number, startingPosition: number = 0): Promise<void> {
-        if (!this.connection) throw new CommandError(`Internal failure: The bot is not connected to a Voice Channel.`);
-
-        let song: Song;
-        if (typeof index === `number`) song = this.songs[index];
-        else {
-            this.playing = this.loop === `queue` ? (this.playing >= this.songs.length ? 0 : this.playing + 1) : (this.loop === `single` ? this.playing : this.playing + 1);
-            song = this.songs[this.playing];
-        }
-        if (!song) throw new CommandError(`Internal failure: No song available to play.`);
-        if (startingPosition < 0 || startingPosition > song.videoLength) throw new CommandError(`Internal failure: Invalid song starting position.`);
-
-        const useOpus: boolean = !startingPosition && !!song.formats.opus.itag && !this.ffmpegArgs;
-
-        this.streams.ytdl = ytdl(song.url, {
-            highWaterMark: 1 << 19,
-            quality: useOpus ? song.formats.opus.itag : song.formats.nonOpus.itag,
-            requestOptions: checkEnvHeaders() ? { headers: getEnvHeaders() } : undefined
-        });
-
-        if (useOpus) {
-            this.streams.pipeline = pipeline([this.streams.ytdl, new opus.WebmDemuxer()], (error) => {
-                if (!error) return;
-                if (this.streams.pipeline && typeof this.streams.pipeline.destroy === `function`) this.streams.pipeline.destroy();
-                if (this.streams.ytdl && typeof this.streams.ytdl.destroy === `function`) this.streams.ytdl.destroy();
-                if (error.message !== `Premature close`) throw new CommandError(`Internal error: ${error?.message.replace(`Error: `, ``)}`);
-            });
-        } else {
-            const ffmpegTranscoder: FFmpeg = new FFmpeg({
-                args: [
-                    `-ss`, (Math.round(startingPosition / 1e3)).toString(),
-                    `-analyzeduration`, `0`,
-                    `-loglevel`, `0`,
-                    `-f`, `s16le`,
-                    `-ar`, `48000`,
-                    `-ac`, `2`
-                ].concat(this.ffmpegArgs ? [`-af`, this.ffmpegArgs] : []),
-                shell: false
-            });
-
-            const opusTranscoder: opus.Encoder = new opus.Encoder({
-                rate: 48e3,
-                channels: 2,
-                frameSize: 960
-            });
-
-            this.streams.pipeline = pipeline(this.streams.ytdl, ffmpegTranscoder, opusTranscoder, (error) => {
-                if (!error) return;
-                if (this.streams.pipeline && typeof this.streams.pipeline.destroy === `function`) this.streams.pipeline.destroy();
-                if (this.streams.ytdl && typeof this.streams.ytdl.destroy === `function`) this.streams.ytdl.destroy();
-                if (ffmpegTranscoder && typeof ffmpegTranscoder.destroy === `function`) ffmpegTranscoder.destroy();
-                if (opusTranscoder && typeof opusTranscoder.destroy === `function`) opusTranscoder.destroy();
-                if (error.message !== `Premature close`) throw new CommandError(`Internal error: ${error?.message.replace(`Error: `, ``)}`);
-            });
-        }
-
-        try {
-            const resource = createAudioResource(this.streams.pipeline, {
-                inputType: StreamType.Opus, inlineVolume: false
-            });
-            const player = createAudioPlayer();
-            resource.playStream.once(`readable`, () => {
-                player.play(resource);
-                entersState(player, AudioPlayerStatus.Playing, 5e3).then((audioPlayer) => {
-                    if (!this.connection) throw new CommandError(`Internal failure: The bot is not connected to a Voice Channel.`);
-                    this.connection.subscribe(audioPlayer);
-                    this.playbackActivity = new PlaybackActivity(startingPosition);
-                }).catch((error) => { throw new CommandError(error); });
-            });
-
-            const onStop = () => {
-                if(!this.songs[this.loop === `queue` ? (this.playing >= this.songs.length ? 0 : this.playing + 1) : (this.loop === `single` ? this.playing : this.playing + 1)]) return;
-                this.playSong().then(() => {
-                    this.sendPlayingEmbed().catch(async (error) => await this.sendErrorEmbed(error));
-                }).catch(async (error) => await this.sendErrorEmbed(error));
-            }
-
-            resource.playStream.on(`end`, () => onStop());
-            resource.playStream.on(`close`, () => onStop());
-            resource.playStream.on(`error`, () => onStop());
-        } catch (error) {
-            console.log(`\x1b[31m`);
-            console.error(error);
-            console.log(`\x1b[37m`);
-            throw new CommandError(`Internal failure: Error playing audio.`);
-        }
+    async sendEmbed (embed: Embed): Promise<APIMessage> {
+        return await this.worker.api.messages.send(this.textID, embed).catch((error) => { throw new CommandError(error); });
     }
 
     /**
      * Send an error embed in the queue's text channel.
-     * @returns The sent message.
      */
     async sendErrorEmbed (error: CommandError): Promise<APIMessage | undefined> {
         this.worker.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Queue Error | Reason: ${error.message.replace(`Error: `, ``)} | Guild Name: ${this.worker.guilds.get(this.guildID)?.name} | Guild ID: ${this.guildID}`);
@@ -500,26 +368,13 @@ export class Queue {
 
         const embed = new Embed()
             .color(Constants.ERROR_EMBED_COLOR)
-            .title(`Error`)
+            .title(`Queue Error`)
             .description(`\`\`\`\n${error.message.replace(`Error: `, ``)}\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`);
 
-        const message = await this.worker.api.messages.send(this.textID, embed).catch((error) => this.worker.log(`\x1b[31mUnable to send Error Embed${typeof error === `string` ? ` | Reason: ${error}` : (typeof error?.message === `string` ? ` | Reason: ${error.message}` : ``)}`));
-        return message || undefined;
-    }
-
-    /**
-     * Send the now playing embed in the queue's text channel.
-     * @returns The sent message.
-     */
-    async sendPlayingEmbed (): Promise<APIMessage> {
-        const embed = new Embed()
-            .color(Constants.STARTED_PLAYING_EMBED_COLOR)
-            .title(`Started playing: ${this.songs[this.playing].title}`)
-            .description(`**Link:** ${this.songs[this.playing].url}`)
-            .image(this.songs[this.playing].thumbnail ?? ``)
-            .footer(`Requested by: ${this.songs[this.playing].requestedBy}`)
-            .timestamp();
-
-        return await this.worker.api.messages.send(this.textID, embed).catch((error) => { throw new CommandError(error); });
+        const message = await this.sendEmbed(embed).catch((error) => {
+            this.worker.log(`\x1b[31mUnable to send Error Embed${typeof error === `string` ? ` | Reason: ${error}` : (typeof error?.message === `string` ? ` | Reason: ${error.message}` : ``)}`);
+        });
+        if (!message) return undefined;
+        else return message;
     }
 }
