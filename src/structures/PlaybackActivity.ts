@@ -6,7 +6,7 @@ export class PlaybackActivity {
     /**
      * The starting position of the playback.
      */
-    public startPosition: number
+    public readonly startPosition: number
     /**
      * Playback segments.
      */
@@ -38,11 +38,11 @@ export class PlaybackActivitySegment {
     /**
      * When the playback segment started.
      */
-    public startedAt: number
+    public readonly startedAt: number
     /**
      * The queue's speed during the segment.
      */
-    public speed: number
+    public readonly speed: number
 
     /**
      * Creates a playback activity segment.

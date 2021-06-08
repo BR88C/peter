@@ -25,7 +25,7 @@ export class Queue {
     /**
      * The ID of the guild the queue is bound to.
      */
-    public guildID: Snowflake
+    public readonly guildID: Snowflake
 
     /**
      * The queue's songs.
@@ -130,7 +130,7 @@ export class Queue {
     /**
      * The Worker object the queue is spawned on.
      */
-    public worker: Worker
+    public readonly worker: Worker
 
     /**
      * Creates a Queue.

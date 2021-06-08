@@ -13,27 +13,27 @@ export class Song {
     /**
      * The song's title.
      */
-    public title: string
+    public readonly title: string
     /**
      * The song's URL.
      */
-    public url: string
+    public readonly url: string
     /**
      * The video's thumbnail. Expressed as a URL.
      */
-    public thumbnail: string | undefined
+    public readonly thumbnail: string | undefined
     /**
      * The song's length, in milliseconds.
      */
-    public videoLength: number
+    public readonly videoLength: number
     /**
      * If the song is a livestream.
      */
-    public livestream: boolean
+    public readonly livestream: boolean
     /**
      * Available formats.
      */
-    public formats: {
+    public readonly formats: {
         /**
          * An opus encoded supported format.
          */
@@ -47,7 +47,7 @@ export class Song {
     /**
      * The tag of the person who requested the song.
      */
-    public requestedBy: string
+    public readonly requestedBy: string
 
     /**
      * Song constructor.
