@@ -59,6 +59,7 @@ export default {
             if (!queue.player.connection) await queue.player.createConnection();
 
             if (!queue.songs[queue.playing]) {
+                queue.playing = queue.songs.length - 1;
                 await queue.player.playSong();
                 await queue.sendEmbed(new Embed()
                     .color(Constants.STARTED_PLAYING_EMBED_COLOR)

@@ -56,6 +56,12 @@ export class Player {
      */
     constructor (queue: Queue) {
         this.queue = queue;
+        this.streams = {
+            ytdl: undefined,
+            pipeline: undefined,
+            playerResource: undefined,
+            player: undefined
+        }
     }
 
     /**
