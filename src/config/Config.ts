@@ -42,11 +42,6 @@ export interface BotConfig {
     cacheControl: CacheControlOptions
 
     /**
-     * The amount of bytes to buffer when creating a stream with ytdl.
-     */
-    ytdlBuffer: number
-
-    /**
      * The total amount of shards to spawn.
      */
     shards: {
@@ -86,17 +81,17 @@ export const Config: BotConfig = {
         members: false,
         messages: false,
         roles: false,
-        self: true,
+        self: false,
         users: false,
         voiceStates: true
     },
-    cacheControl: { guilds: [`id`, `owner_id`, `member_count`, `name`] },
-
-    ytdlBuffer: 1 << 19,
+    cacheControl: {
+        guilds: [`id`, `member_count`, `name`], voiceStates: []
+    },
 
     shards: {
         dev: 1,
-        prod: `auto`
+        prod: 4
     },
     shardsPerCluster: {
         dev: 1,

@@ -1,13 +1,10 @@
 import { Config } from '../config/Config';
 import { Constants } from '../config/Constants';
-import { Queue } from '../structures/Queue';
 import { setRandomPresence } from '../utils/ProcessUtils';
 
 // Import modules.
-import Collection from '@discordjs/collection';
 import { readdirSync, statSync } from 'fs';
 import { resolve } from 'path';
-import { Snowflake } from 'discord-api-types';
 import { Worker } from 'discord-rose';
 
 /**
@@ -15,12 +12,6 @@ import { Worker } from 'discord-rose';
  * @class
  */
 export class WorkerManager extends Worker {
-    /**
-     * The worker's queue.
-     * This is a collection of Queue objects, accessable by the guild IDs they are bound to.
-     */
-    public queue: Collection<Snowflake, Queue> = new Collection()
-
     /**
      * Create the Worker manager.
      * @constructor

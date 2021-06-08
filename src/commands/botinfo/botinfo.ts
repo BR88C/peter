@@ -22,7 +22,7 @@ export default {
             .field(`Number of Commands`, ctx.worker.commands.commands?.size.toString() ?? `0`, true)
             .field(`Version`, version, true)
             .field(`Developer${Config.devs.IDs.length > 1 ? `s` : ``}`, Config.devs.tags.join(`, `), true)
-            .field(`Ping`, `\`${ctx.worker.shards.find((shard) => shard.worker.guilds.has(ctx.interaction.guild_id))?.ping} ms\``, true)
+            .field(`Ping`, `\`${ctx.worker.guildShard(ctx.interaction.guild_id).ping} ms\``, true)
             .field(`Uptime`, (stats ? timestamp(stats[ctx.worker.comms.id].cluster.uptime * 1e3) : `N/A`), true)
             .field(`Support Server`, Constants.SUPPORT_SERVER, true)
             .field(`Website`, Constants.WEBSITE, true)
