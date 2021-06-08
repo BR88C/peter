@@ -44,4 +44,4 @@ jobs:
 
       # Run linters.
       - name: Run linters
-        run: npm run dev:lint
+        run: npm run lint

@@ -5,9 +5,8 @@
   "main": "./dist/src/index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "npm run build && NODE_ENV=dev node ./dist/src/index.js",
-    "dev:lint": "eslint ./src --fix",
-    "prod": "npm run build && NODE_ENV=prod node ./dist/src/index.js"
+    "lint": "eslint ./src --fix",
+    "start": "npm run build && node ./dist/src/index.js"
   },
   "repository": {
     "type": "git",
