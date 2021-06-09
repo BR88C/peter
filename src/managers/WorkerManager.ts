@@ -23,9 +23,6 @@ export class WorkerManager extends Worker {
         setRandomPresence(this);
         setInterval(() => setRandomPresence(this), Config.presenceInterval);
 
-        // Set command handler options.
-        this.commands.options({});
-
         // Set prefix.
         this.commands.prefix(Config.developerPrefix);
         this.log(`Using developer prefix ${Config.developerPrefix}`);
