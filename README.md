@@ -25,7 +25,7 @@ Fork the repository and clone it.
 
 Navigate to the directory with `package.json` and install your node modules:
 ```
-npm install
+npm i --also=dev
 ```
 
 The bot also requires a Discord Bot token, stored in a `.env` file. In the same directory as `package.json`, create a file named `.env` with the following text:
@@ -35,7 +35,7 @@ NODE_ENV="<prod or dev>" // Optional; use this if you aren't setting your enviro
 DBL_TOKEN="<Your DBL token>"  // Optional.
 ```
 
-You can then run the bot with this command.
+You can then build and run the bot with this command.
 ```
-npm run start
+npm run start:withbuild
 ```
