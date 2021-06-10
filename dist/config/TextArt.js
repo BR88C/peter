@@ -1,9 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TextArt = void 0;
-/**
- * Text art to be used for the logging header.
- */
 exports.TextArt = [
     `                                                                      `,
     `                            .:/+oooo+/--//:::.                        `,

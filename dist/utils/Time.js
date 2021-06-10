@@ -1,11 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dateTimestamp = exports.timestamp = void 0;
-/**
- * Creates a timestamp.
- * @param time Time in milliseconds.
- * @returns The timestamp string.
- */
 const timestamp = (time) => {
     time = Math.round(time / 1e3);
     const hours = Math.floor(time / 60 / 60);
@@ -14,11 +9,6 @@ const timestamp = (time) => {
     return hours > 0 ? `${hours.toString()}:${minutes.toString().padStart(2, `0`)}:${seconds.toString().padStart(2, `0`)}` : `${minutes.toString()}:${seconds.toString().padStart(2, `0`)}`;
 };
 exports.timestamp = timestamp;
-/**
- * Creates a date timestamp.
- * @param time A date class to create the timestamp from.
- * @returns The date timestamp string.
- */
 const dateTimestamp = (time) => {
     const second = time.getSeconds().toString().padStart(2, `0`);
     const minute = time.getMinutes().toString().padStart(2, `0`);

@@ -7,24 +7,20 @@ const StringUtils_1 = require("../../utils/StringUtils");
 exports.default = {
     command: `eval`,
     exec: async (ctx) => {
-        // Extra security layer.
         if (!Config_1.Config.devs.IDs.includes(ctx.message.author.id))
             return void ctx.error(`You do not have permission to run this command.`);
-        // Return if not in development.
         if ((process.env.NODE_ENV ?? `dev`) !== `dev`)
             return void ctx.error(`This command is only available when the bot is in development mode.`);
         if (ctx.args.length === 0)
             return void ctx.error(`You must supply an expression to eval.`);
         let evalResponse;
         try {
-            evalResponse = eval(ctx.args.join(` `)); // eslint-disable-line no-eval
+            evalResponse = eval(ctx.args.join(` `));
         }
         catch (error) {
             evalResponse = error;
         }
-        // Format.
         evalResponse = StringUtils_1.removeToken((typeof evalResponse !== `string` && typeof evalResponse !== `number` ? util_1.inspect(evalResponse, false, 1) : evalResponse).toString());
-        // Post an embed for every 2000 characters.
         for (let i = 0; i < Math.ceil(evalResponse.length / 2e3); i++) {
             await ctx.embed
                 .color(Constants_1.Constants.EVAL_EMBED_COLOR)

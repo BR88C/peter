@@ -1,10 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Presences = void 0;
-/**
- * An array of presences for the bot to randomly use.
- * The interval at which the bot's presence is changed is set in config.js
- */
 exports.Presences = [
     {
         type: `watching`,
