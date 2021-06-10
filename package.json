@@ -6,8 +6,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint ./src",
-    "start": "node ./dist/index.js",
-    "start:withbuild": "npm run build && node ./dist/index.js"
+    "start": "node ./dist/index.js"
   },
   "repository": {
     "type": "git",
