@@ -106,4 +106,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_ACTOR: br88c
-          GITHUB_EMAIL: br88c@badfirmware.com
+          GITHUB_EMAIL: bcroethel88@gmail.com
