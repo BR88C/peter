@@ -1,7 +1,7 @@
+import { centerString } from './StringUtils';
 import { Config } from '../config/Config';
 import { Constants } from '../config/Constants';
 import { dateTimestamp } from './Time';
-import { centerString } from './StringUtils';
 import { TextArt } from '../config/TextArt';
 
 // Import modules.
