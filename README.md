@@ -35,7 +35,12 @@ NODE_ENV="<prod or dev>" // Optional; use this if you aren't setting your enviro
 DBL_TOKEN="<Your DBL token>"  // Optional.
 ```
 
-You can then build and run the bot with this command.
+Then build the bot:
 ```
-npm run start:withbuild
+npm run build
+```
+
+You can now start the bot with the following command:
+```
+npm run start
 ```
