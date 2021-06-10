@@ -4,7 +4,7 @@ import { timestamp } from '../../utils/Time';
 import { version } from '../../../package.json';
 
 // Import modules.
-import { ClusterStats, CommandOptions, ShardStats, State } from 'discord-rose';
+import { ClusterStats, CommandOptions, ShardStats } from 'discord-rose';
 
 export default {
     command: `devstats`,
