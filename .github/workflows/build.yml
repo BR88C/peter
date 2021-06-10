@@ -105,5 +105,5 @@ jobs:
           git push origin $TARGET_BRANCH
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_ACTOR: BR88C
-          GITHUB_EMAIL: bcroethel88@gmail.com
+          GITHUB_ACTOR: br88c
+          GITHUB_EMAIL: br88c@badfirmware.com
