@@ -1,6 +1,7 @@
 import { Config } from '../config/Config';
 import { Constants } from '../config/Constants';
 import { dateTimestamp } from './Time';
+import { centerString } from './StringUtils';
 import { TextArt } from '../config/TextArt';
 
 // Import modules.
@@ -13,8 +14,7 @@ import { Cluster } from 'discord-rose';
  */
 export const log = (msg: string, cluster: Cluster | undefined): void => {
     const clusterName: string = cluster?.id ? `Cluster ${cluster.id}` : `Master`;
-    msg = `\x1b[${cluster?.id ? `36` : `34`}m${` `.repeat(Math.floor((Constants.MAX_CLUSTER_LOG_LENGTH - clusterName.length) / 2))}${clusterName}${` `.repeat(Math.ceil((Constants.MAX_CLUSTER_LOG_LENGTH - clusterName.length) / 2))}\x1b[37m|  ${msg}`;
-    console.log(`\x1b[37m${dateTimestamp(new Date())} | ${msg}`.replace(/\n/g, ` `));
+    console.log(`\x1b[37m${dateTimestamp(new Date())} | \x1b[${cluster?.id ? `36` : `34`}m${centerString(clusterName, Constants.MAX_CLUSTER_LOG_LENGTH)}\x1b[37m|  ${msg}`.replace(/\n/g, ` `));
 };
 
 /**
