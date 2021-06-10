@@ -17,13 +17,5 @@ export const setRandomPresence = (worker: Worker): void => {
  * @param master The Master object.
  */
 export const statsCheckup = async (master: Master): Promise<void> => await master.getStats().then((stats: ClusterStats[]) => {
-    for (const entry of stats) {
-        let totalShardPing: number = 0;
-        let totalGuilds: number = 0;
-        for (const shard of entry.shards) {
-            totalShardPing += shard.ping;
-            totalGuilds += shard.guilds;
-        }
-        master.log(`\x1b[35mStats checkup | Shard count: ${entry.shards.length} | Guilds: ${totalGuilds} | Average Ping: ${totalShardPing / entry.shards.length}ms | Memory usage: ${Math.round(entry.cluster.memory / 1e4) / 100}mb`, master.clusters.get(entry.cluster.id));
-    }
+    for (const entry of stats) master.log(`\x1b[35mStats checkup | Shard count: ${entry.shards.length} | Guilds: ${entry.shards.reduce((p, c) => p + c.guilds, 0)} | Average Ping: ${Math.round(entry.shards.reduce((p, c) => p + c.ping, 0) / entry.shards.length)}ms | Memory usage: ${Math.round(entry.cluster.memory / 1e4) / 100}mb`, master.clusters.get(entry.cluster.id));
 });
