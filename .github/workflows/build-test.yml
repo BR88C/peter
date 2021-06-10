@@ -1,20 +1,19 @@
 name: Build Test
 
 on:
-  push:
   pull_request:
 
 jobs:
-  build:
-    name: Build
+  build-test:
+    name: TSC Build Test
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node: [14]
-    
+
     steps:
-       # Checkout repository.
+      # Checkout repository.
       - name: Checkout repository
         uses: actions/checkout@v2
 
