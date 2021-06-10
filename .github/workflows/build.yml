@@ -46,6 +46,7 @@ jobs:
         run: npm run build
 
   build:
+    name: Build
     needs: build-test
     runs-on: ubuntu-latest
 
@@ -105,4 +106,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_ACTOR: BR88C
-          GITHUB_EMAIL: br88c@badfirmware.com
+          GITHUB_EMAIL: bcroethel88@gmail.com
