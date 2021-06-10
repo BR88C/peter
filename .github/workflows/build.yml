@@ -104,6 +104,6 @@ jobs:
           git commit -m "build: tsc build for ${GITHUB_SHA}" || true
           git push origin $TARGET_BRANCH
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BUILD_TOKEN }}
           GITHUB_ACTOR: br88c
-          GITHUB_EMAIL: bcroethel88@gmail.com
+          GITHUB_EMAIL: br88c@badfirmware.com
