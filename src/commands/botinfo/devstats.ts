@@ -1,7 +1,6 @@
 import { centerString } from '../../utils/StringUtils';
 import { Constants } from '../../config/Constants';
 import { timestamp } from '../../utils/Time';
-import { version } from '../../../package.json';
 
 // Import modules.
 import { ClusterStats, CommandOptions, ShardStats } from 'discord-rose';
@@ -15,7 +14,7 @@ export default {
         ctx.embed
             .color(Constants.DEV_STATS_EMBED_COLOR)
             .title(`Dev Stats`)
-            .field(`Version`, `\`${version}\``, true)
+            .field(`Version`, `\`${process.env.npm_package_version ?? `Unavailable`}\``, true)
             .field(`Uptime`, (stats ? `\`${timestamp(stats[ctx.worker.comms.id].cluster.uptime * 1e3)}\`` : `N/A`), true)
             .field(`Total Guilds`, `\`${shards?.reduce((p, c) => p + c.guilds, 0)}\``, true)
             .field(`Average Ping`, `\`${Math.round((shards?.reduce((p, c) => p + c.ping, 0) ?? 0) / (shards?.length ?? 1))}ms\``, true)
