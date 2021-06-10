@@ -86,7 +86,7 @@ export const Config: BotConfig = {
         voiceStates: true
     },
     cacheControl: {
-        guilds: [`id`, `member_count`, `name`], voiceStates: []
+        guilds: [`id`, `name`], voiceStates: []
     },
 
     shards: {
