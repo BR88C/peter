@@ -14,10 +14,7 @@ import { Cluster } from 'discord-rose';
 export const log = (msg: string, cluster: Cluster | undefined): void => {
     const clusterName: string = cluster?.id ? `Cluster ${cluster.id}` : `Master`;
     msg = `\x1b[${cluster?.id ? `36` : `34`}m${` `.repeat(Math.floor((Constants.MAX_CLUSTER_LOG_LENGTH - clusterName.length) / 2))}${clusterName}${` `.repeat(Math.ceil((Constants.MAX_CLUSTER_LOG_LENGTH - clusterName.length) / 2))}\x1b[37m|  ${msg}`;
-
-    msg = `\x1b[37m${dateTimestamp(new Date())} | ${msg}`;
-
-    console.log(msg.replace(/\n/g, ` `));
+    console.log(`\x1b[37m${dateTimestamp(new Date())} | ${msg}`.replace(/\n/g, ` `));
 };
 
 /**
