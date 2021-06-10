@@ -94,6 +94,7 @@ jobs:
           TARGET_BRANCH="build"
           git clone $REPO out -b $TARGET_BRANCH
           rm -rfv out/dist/*
+          rsync -vaI LICENSE out/
           rsync -vaI package.json out/
           rsync -vaI package-lock.json out/
           rsync -vaI README.md out/
