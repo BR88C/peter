@@ -101,7 +101,7 @@ jobs:
           git add --all .
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_EMAIL}"
-          git commit -m "build: tsc build for ${GITHUB_SHA}" || true
+          git commit -m "build: TSC build for ${GITHUB_SHA}" || true
           git push origin $TARGET_BRANCH
         env:
           GITHUB_TOKEN: ${{ secrets.BUILD_TOKEN }}
