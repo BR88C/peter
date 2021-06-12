@@ -1,10 +1,10 @@
 import { Config } from '../../config/Config';
 import { Constants } from '../../config/Constants';
+import { removeToken } from '../../utils/StringUtils';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
 import { inspect } from 'util';
-import { removeToken } from '../../utils/StringUtils';
 
 export default {
     command: `eval`,
