@@ -22,20 +22,20 @@
   "license": "GPL-3.0",
   "homepage": "https://peter.badfirmware.com",
   "dependencies": {
-    "@top-gg/sdk": "^3.1.1",
+    "@top-gg/sdk": "^3.1.2",
     "discord-api-types": "latest",
-    "discord-rose": "github:discord-rose/discord-rose#build",
+    "discord-rose": "1.4.4",
     "dotenv": "^10.0.0",
-    "mongoose": "^5.12.13"
+    "mongoose": "^5.13.2"
   },
   "devDependencies": {
-    "@types/node": "^15.12.2",
-    "@typescript-eslint/eslint-plugin": "^4.26.1",
-    "eslint": "^7.28.0",
+    "@types/node": "^16.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "eslint": "^7.30.0",
     "eslint-config-standard-with-typescript": "^20.0.0",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.5"
   }
 }
