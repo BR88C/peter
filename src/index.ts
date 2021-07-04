@@ -23,6 +23,9 @@ import { config } from 'dotenv';
 // Configure dotenv.
 config();
 
+// Check that NODE_ENV is properly set.
+if (process.env.NODE_ENV !== `dev` && process.env.NODE_ENV !== `prod`) throw new Error(`NODE_ENV is not properly set.`)
+
 // Log header.
 logHeader();
 
