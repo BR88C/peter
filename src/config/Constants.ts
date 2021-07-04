@@ -52,6 +52,10 @@ export interface BotConstants {
      */
     COIN_TOSS_EMBED_COLOR: number
     /**
+     * The color to use for the config embed.
+     */
+    CONFIG_EMBED_COLOR: number
+    /**
      * The color to use for the connecting embed.
      */
     CONNECTING_EMBED_COLOR: number
@@ -114,6 +118,7 @@ export const Constants: BotConstants = {
     AVATAR_EMBED_COLOR: 0xEB6134,
     BOT_INFO_EMBED_COLOR: 0xFFD87D,
     COIN_TOSS_EMBED_COLOR: 0xD4D4D4,
+    CONFIG_EMBED_COLOR: 0x8C57FF,
     CONNECTING_EMBED_COLOR: 0xB5FF21,
     DEV_STATS_EMBED_COLOR: 0x000020,
     ERROR_EMBED_COLOR: 0xFF0000,
