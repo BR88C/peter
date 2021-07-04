@@ -15,7 +15,7 @@ const GuildSchema: Schema = new Schema({
      * 1 = Non-DJs can only add songs, voteskip, and view the queue and the current song playing.
      * 2 = Non-DJs cannot do anything except view the queue and the current song playing.
      */
-    DJMode: Number,
+    DJMode: Number
 });
 
 export const Guild = model(`Guild`, GuildSchema);
