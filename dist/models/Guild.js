@@ -5,6 +5,6 @@ const mongoose_1 = require("mongoose");
 const GuildSchema = new mongoose_1.Schema({
     id: String,
     premium: Boolean,
-    DJMode: Number,
+    DJMode: Number
 });
 exports.Guild = mongoose_1.model(`Guild`, GuildSchema);
