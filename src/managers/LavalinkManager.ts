@@ -44,6 +44,15 @@ export class LavalinkManager extends Manager {
             .on(`nodeReconnect`, (node) => this.worker.log(`\x1b[33mLavalink Node Reconnected | Node: ${node.options.host}:${node.options.port}`))
             .on(`playerCreate`, (player) => this.worker.log(`\x1b[32mLavalink Player Created | Node: ${player.node.options.host}:${player.node.options.port} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`))
             .on(`playerDestroy`, (player) => this.worker.log(`\x1b[31mLavalink Player Destroyed | Node: ${player.node.options.host}:${player.node.options.port} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`))
+            .on(`playerMove`, (player, initChannel, newChannel) => {
+                this.worker.log(`\x1b[33mBot Manually Moved => Destroying Player | Node: ${player.node.options.host}:${player.node.options.port} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`);
+                const playerMoveErrorEmbed = new Embed()
+                    .color(Constants.ERROR_EMBED_COLOR)
+                    .title(`Error`)
+                    .description(`\`\`\`\nDisconnected due to being moved out of the VC.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`);
+                this.worker.api.messages.send(player.textChannel as any, playerMoveErrorEmbed).catch((error) => this.worker.log(`\x1b[31mLavalink Node Error | Error: Unable to send player move error embed => ${error.message} | Node: ${player.node.options.host}:${player.node.options.port} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`));
+                player.destroy();
+            })
             .on(`trackEnd`, (player, track, payload) => this.worker.log(`\x1b[33mTrack ended | Reason: ${payload.reason} | Track identifier: ${track.identifier} | Node: ${player.node.options.host}:${player.node.options.port} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`))
             .on(`trackError`, (player, track) => {
                 this.worker.log(`\x1b[31mLavalink Node Error | Error: Track error => Track identifier: ${track.identifier} | Node: ${player.node.options.host}:${player.node.options.port} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`);
@@ -58,8 +67,8 @@ export class LavalinkManager extends Manager {
                 const trackStartEmbed = new Embed()
                     .color(Constants.STARTED_PLAYING_EMBED_COLOR)
                     .title(`Started playing: ${cleanseMarkdown(track.title)}`)
-                    .thumbnail(`${track.displayThumbnail()}`)
                     .description(`**Link:** https://youtu.be/${track.identifier}`)
+                    .image(`${track.displayThumbnail(`mqdefault`)}`)
                     .footer(`Requested by ${track.requester}`)
                     .timestamp();
                 this.worker.api.messages.send(player.textChannel as any, trackStartEmbed).catch((error) => this.worker.log(`\x1b[31mLavalink Node Error | Error: Unable to send track start embed => ${error.message} | Node: ${player.node.options.host}:${player.node.options.port} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`));
@@ -70,7 +79,8 @@ export class LavalinkManager extends Manager {
                     .color(Constants.ERROR_EMBED_COLOR)
                     .title(`Error`)
                     .description(`\`\`\`\nCurrent track stuck. Skipping to next track.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`);
-                this.worker.api.messages.send(player.textChannel as any, trackStuckEmbed).catch((error) => this.worker.log(`\x1b[31mLavalink Node Error | Error: Unable to send track error embed => ${error.message} | Node: ${player.node.options.host}:${player.node.options.port} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`));
+                this.worker.api.messages.send(player.textChannel as any, trackStuckEmbed).catch((error) => this.worker.log(`\x1b[31mLavalink Node Error | Error: Unable to send track stuck embed => ${error.message} | Node: ${player.node.options.host}:${player.node.options.port} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`));
+                player.stop();
             });
 
         // Forward voice events from the Worker to Lavalink.
