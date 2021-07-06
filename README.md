@@ -18,17 +18,19 @@
 You must have the following installed to test your changes.
 - [Node.js](https://nodejs.org/en/download/) `v14+`
 - [NPM](https://www.npmjs.com/get-npm) `v7.x` (Normally bundled with Node)
-
+- [Lavalink](https://github.com/freyacodes/Lavalink) Dev branch
 
 ## Contribute
 Fork the repository and clone it.
+
+Copy your `Lavalink.jar` and paste it into the `lavalink` directory. Then, create an `application.yml` and set it's appropriate values (Example [here](https://github.com/freyacodes/Lavalink/blob/dev/LavalinkServer/application.yml.example)). The bot will automatically read `application.yml`, so you will not have to set any configuration values.
 
 Navigate to the directory with `package.json` and install your node modules:
 ```
 npm i --also=dev
 ```
 
-The bot also requires a Discord Bot token, stored in a `.env` file. In the same directory as `package.json`, create a file named `.env` with the following text:
+The bot also requires some sensitive variables, stored in a `.env` file. In the same directory as `package.json`, create a file named `.env` with the following text:
 ```
 BOT_TOKEN="<Your Discord API Bot Token>"
 LAVALINK_AUTH="["<Lavalink node passwords>"...]"
