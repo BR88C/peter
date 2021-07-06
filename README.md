@@ -18,6 +18,7 @@
 You must have the following installed to test your changes.
 - [Node.js](https://nodejs.org/en/download/) `v14+`
 - [NPM](https://www.npmjs.com/get-npm) `v7.x` (Normally bundled with Node)
+- [Java](https://adoptopenjdk.net/) `v13`
 - [Lavalink](https://github.com/freyacodes/Lavalink) Dev branch
 
 ## Contribute
