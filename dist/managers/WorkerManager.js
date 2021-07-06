@@ -3,13 +3,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.WorkerManager = void 0;
 const Config_1 = require("../config/Config");
 const Constants_1 = require("../config/Constants");
+const LavalinkManager_1 = require("./LavalinkManager");
 const ProcessUtils_1 = require("../utils/ProcessUtils");
+const yaml_1 = require("yaml");
 const fs_1 = require("fs");
 const path_1 = require("path");
 const discord_rose_1 = require("discord-rose");
 class WorkerManager extends discord_rose_1.Worker {
     constructor() {
         super();
+        const lavalinkConfig = yaml_1.parse(fs_1.readFileSync(`./lavalink/application.yml`, 'utf8'));
+        this.lavalink = new LavalinkManager_1.LavalinkManager([
+            {
+                host: (lavalinkConfig.server?.address === `0.0.0.0` ? `localhost` : lavalinkConfig.server?.address) ?? `localhost`,
+                port: lavalinkConfig.server?.port ?? 2333,
+                password: lavalinkConfig.lavalink?.server?.password ?? `youshallnotpass`
+            }
+        ], this);
         ProcessUtils_1.setRandomPresence(this);
         setInterval(() => ProcessUtils_1.setRandomPresence(this), Config_1.Config.presenceInterval);
         this.commands.prefix(Config_1.Config.developerPrefix);
@@ -59,6 +69,11 @@ class WorkerManager extends discord_rose_1.Worker {
                 return true;
             }
         });
+        this.on(`READY`, () => {
+            this.lavalink.init(this.user.id);
+        });
+        this.on(`VOICE_SERVER_UPDATE`, (data) => this.lavalink.updateVoiceState(data));
+        this.on(`VOICE_STATE_UPDATE`, (data) => this.lavalink.updateVoiceState(data));
     }
 }
 exports.WorkerManager = WorkerManager;
