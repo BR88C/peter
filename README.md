@@ -23,8 +23,6 @@ You must have the following installed to test your changes.
 ## Contribute
 Fork the repository and clone it.
 
-Copy your `Lavalink.jar` and paste it into the `lavalink` directory. Then, create an `application.yml` and set it's appropriate values (Example [here](https://github.com/freyacodes/Lavalink/blob/dev/LavalinkServer/application.yml.example)). The bot will automatically read `application.yml`, so you will not have to set any configuration values.
-
 Navigate to the directory with `package.json` and install your node modules:
 ```
 npm i --also=dev
@@ -37,6 +35,8 @@ LAVALINK_AUTH="["<Lavalink node passwords>"...]"
 NODE_ENV="<prod or dev>" // Optional; use this if you aren't setting your environment via a different method. The bot will default to "dev" if NODE_ENV isn't found.
 DBL_TOKEN="<Your DBL token>"  // Optional.
 ```
+
+Create a directory called `lavalink`. Copy your `Lavalink.jar` and paste it into the `lavalink` directory. Then, create an `application.yml` and set it's appropriate values (Example [here](https://github.com/freyacodes/Lavalink/blob/dev/LavalinkServer/application.yml.example)). The bot will automatically read `application.yml`, so you will not have to set any configuration values.
 
 Then build the bot:
 ```
