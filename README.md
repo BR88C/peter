@@ -36,12 +36,12 @@ NODE_ENV="<prod or dev>" // Optional; use this if you aren't setting your enviro
 DBL_TOKEN="<Your DBL token>"  // Optional.
 ```
 
-Create a directory called `lavalink`. Copy your `Lavalink.jar` and paste it into the `lavalink` directory. Then, create an `application.yml` and set it's appropriate values (Example [here](https://github.com/freyacodes/Lavalink/blob/dev/LavalinkServer/application.yml.example)). The bot will automatically read `application.yml`, so you will not have to set any configuration values.
-
 Then build the bot:
 ```
 npm run build
 ```
+
+Create a directory called `lavalink`. Copy your `Lavalink.jar` and paste it into the `lavalink` directory. Then, create an `application.yml` and set it's appropriate values (Example [here](https://github.com/freyacodes/Lavalink/blob/dev/LavalinkServer/application.yml.example)). The bot will automatically read `application.yml`, so you will not have to set any configuration values.
 
 Start the Lavalink server by running this command:
 ```
