@@ -12,7 +12,7 @@ const discord_rose_1 = require("discord-rose");
 class WorkerManager extends discord_rose_1.Worker {
     constructor() {
         super();
-        const lavalinkConfig = yaml_1.parse(fs_1.readFileSync(`./lavalink/application.yml`, 'utf8'));
+        const lavalinkConfig = yaml_1.parse(fs_1.readFileSync(`./lavalink/application.yml`, `utf8`));
         this.lavalink = new LavalinkManager_1.LavalinkManager([
             {
                 host: (lavalinkConfig.server?.address === `0.0.0.0` ? `localhost` : lavalinkConfig.server?.address) ?? `localhost`,
