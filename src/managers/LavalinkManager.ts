@@ -27,7 +27,7 @@ export class LavalinkManager extends Manager {
             nodes: nodes,
             send: (id, payload) => {
                 // @ts-expect-error ws is a private property
-                this.guildShard(id as any).ws._send(payload);
+                this.worker.guildShard(id as any).ws._send(payload);
             }
         });
 
@@ -44,8 +44,8 @@ export class LavalinkManager extends Manager {
                 const trackStartEmbed = new Embed()
                     .color(Constants.STARTED_PLAYING_EMBED_COLOR)
                     .title(`Started playing: ${cleanseMarkdown(track.title)}`)
-                    .description(`**Link:** ${track.identifier}`)
-                    .image(`${track.displayThumbnail(`maxresdefault`)}`)
+                    .thumbnail(`${track.displayThumbnail()}`)
+                    .description(`**Link:** https://youtu.be/${track.identifier}`)
                     .footer(`Requested by ${track.requester}`)
                     .timestamp();
                 this.worker.api.messages.send(player.textChannel as any, trackStartEmbed).catch((error) => this.worker.log(`\x1b[31mLavalink Node Error | Error: Unable to send track start embed => ${error.message} | Node ID: ${player.node.options.identifier} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`));
@@ -60,7 +60,6 @@ export class LavalinkManager extends Manager {
             });
 
         // Forward voice events from the Worker to Lavalink.
-        this.worker.on(`VOICE_SERVER_UPDATE`, (data) => this.updateVoiceState(data as any));
-        this.worker.on(`VOICE_STATE_UPDATE`, (data) => this.updateVoiceState(data as any));
+        this.worker.on(`*`, (data) => this.updateVoiceState(data as any));
     }
 }
