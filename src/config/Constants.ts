@@ -60,7 +60,7 @@ export interface BotConstants {
     /**
      * The color to use for the added to queue embed.
      */
-    ADDED_TO_QUEUE_EMBED: number
+    ADDED_TO_QUEUE_EMBED_COLOR: number
     /**
      * The color to use for the avatar embed.
      */
@@ -141,7 +141,7 @@ export const Constants: BotConstants = {
     POKER_ACTIVITY_ID: `755827207812677713`,
     YOUTUBE_ACTIVITY_ID: `755600276941176913`,
 
-    ADDED_TO_QUEUE_EMBED: 0x9AF522,
+    ADDED_TO_QUEUE_EMBED_COLOR: 0x9AF522,
     AVATAR_EMBED_COLOR: 0xEB6134,
     BOT_INFO_EMBED_COLOR: 0xFFD87D,
     COIN_TOSS_EMBED_COLOR: 0xD4D4D4,
