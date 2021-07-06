@@ -37,6 +37,8 @@ class LavalinkManager extends erela_js_1.Manager {
                 .description(`\`\`\`\nAn unknown track error occured.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants_1.Constants.SUPPORT_SERVER}`);
             this.worker.api.messages.send(player.textChannel, trackErrorEmbed).catch((error) => this.worker.log(`\x1b[31mLavalink Node Error | Error: Unable to send track error embed => ${error.message} | Node ID: ${player.node.options.identifier} | Guild Name: ${this.worker.guilds.get(player.guild)?.name} | Guild ID: ${player.guild}`));
         });
+        this.worker.on(`VOICE_SERVER_UPDATE`, (data) => this.updateVoiceState(data));
+        this.worker.on(`VOICE_STATE_UPDATE`, (data) => this.updateVoiceState(data));
     }
 }
 exports.LavalinkManager = LavalinkManager;

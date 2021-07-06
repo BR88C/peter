@@ -71,9 +71,8 @@ class WorkerManager extends discord_rose_1.Worker {
         });
         this.on(`READY`, () => {
             this.lavalink.init(this.user.id);
+            this.log(`\x1b[32mInitiated Lavalink`);
         });
-        this.on(`VOICE_SERVER_UPDATE`, (data) => this.lavalink.updateVoiceState(data));
-        this.on(`VOICE_STATE_UPDATE`, (data) => this.lavalink.updateVoiceState(data));
     }
 }
 exports.WorkerManager = WorkerManager;
