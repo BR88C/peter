@@ -43,6 +43,11 @@ Then build the bot:
 npm run build
 ```
 
+Start the Lavalink server by running this command:
+```
+java -jar ./lavalink/Lavalink.jar
+```
+
 You can now start the bot with the following command:
 ```
 npm run start
