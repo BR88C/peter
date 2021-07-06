@@ -1,4 +1,5 @@
 dist
+lavalink
 node_modules
 .env
 .jsbeautifyrc
