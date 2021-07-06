@@ -1,3 +1,5 @@
+import { Snowflake } from "discord-api-types";
+
 export interface BotConstants {
     /**
      * The max number of characters to be used for logging the cluster a log originates from.
@@ -38,6 +40,27 @@ export interface BotConstants {
      * The regex to use to detect a playlist URL.
      */
     PLAYLIST_REGEX: RegExp
+
+    /**
+     * The betrayal activity application ID.
+     */
+    BETRAYAL_ACTIVITY_ID: Snowflake
+    /**
+     * The chess activity application ID.
+     */
+    CHESS_ACTIVITY_ID: Snowflake
+    /**
+     * The poker activity application ID.
+     */
+    FISHING_ACTIVITY_ID: Snowflake
+    /**
+     * The poker activity application ID.
+     */
+    POKER_ACTIVITY_ID: Snowflake
+    /**
+     * The YouTube Together activity application ID.
+     */
+    YOUTUBE_ACTIVITY_ID: Snowflake
 
     /**
      * The color to use for the avatar embed.
@@ -114,6 +137,12 @@ export const Constants: BotConstants = {
     PRESENCE_STATUSES: [`online`, `idle`, `dnd`, `offline`, `invisible`],
 
     PLAYLIST_REGEX: /^.*(youtu.be\/|list=)([^#&?]*).*/,
+
+    BETRAYAL_ACTIVITY_ID: `773336526917861400`,
+    CHESS_ACTIVITY_ID: `832012586023256104`,
+    FISHING_ACTIVITY_ID: `814288819477020702`,
+    POKER_ACTIVITY_ID: `755827207812677713`,
+    YOUTUBE_ACTIVITY_ID: `755600276941176913`,
 
     AVATAR_EMBED_COLOR: 0xEB6134,
     BOT_INFO_EMBED_COLOR: 0xFFD87D,
