@@ -99,6 +99,6 @@ export const Config: BotConfig = {
     },
     statsCheckupInterval: {
         dev: 3e4,
-        prod: 12e4
+        prod: 3e5
     }
 };
