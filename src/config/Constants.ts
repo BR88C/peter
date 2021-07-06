@@ -37,11 +37,6 @@ export interface BotConstants {
     PRESENCE_STATUSES: string[]
 
     /**
-     * The regex to use to detect a playlist URL.
-     */
-    PLAYLIST_REGEX: RegExp
-
-    /**
      * The betrayal activity application ID.
      */
     BETRAYAL_ACTIVITY_ID: Snowflake
@@ -62,6 +57,10 @@ export interface BotConstants {
      */
     YOUTUBE_ACTIVITY_ID: Snowflake
 
+    /**
+     * The color to use for the added to queue embed.
+     */
+    ADDED_TO_QUEUE_EMBED: number
     /**
      * The color to use for the avatar embed.
      */
@@ -136,14 +135,13 @@ export const Constants: BotConstants = {
     PRESENCE_TYPES: [`playing`, `streaming`, `listening`, `watching`, `competing`],
     PRESENCE_STATUSES: [`online`, `idle`, `dnd`, `offline`, `invisible`],
 
-    PLAYLIST_REGEX: /^.*(youtu.be\/|list=)([^#&?]*).*/,
-
     BETRAYAL_ACTIVITY_ID: `773336526917861400`,
     CHESS_ACTIVITY_ID: `832012586023256104`,
     FISHING_ACTIVITY_ID: `814288819477020702`,
     POKER_ACTIVITY_ID: `755827207812677713`,
     YOUTUBE_ACTIVITY_ID: `755600276941176913`,
 
+    ADDED_TO_QUEUE_EMBED: 0x9AF522,
     AVATAR_EMBED_COLOR: 0xEB6134,
     BOT_INFO_EMBED_COLOR: 0xFFD87D,
     COIN_TOSS_EMBED_COLOR: 0xD4D4D4,
