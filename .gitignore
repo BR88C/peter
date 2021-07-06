@@ -4,3 +4,4 @@ node_modules
 .jsbeautifyrc
 .vscode
 .VSCodeCounter
+package-lock.json
