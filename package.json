@@ -27,11 +27,12 @@
     "discord-api-types": "latest",
     "discord-rose": "1.4.4",
     "dotenv": "^10.0.0",
+    "lavaclient": "^3.3.0",
     "mongoose": "^5.13.2"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
     "eslint": "^7.30.0",
     "eslint-config-standard-with-typescript": "^20.0.0",
     "eslint-plugin-import": "^2.23.4",
