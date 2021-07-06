@@ -58,5 +58,9 @@ export class LavalinkManager extends Manager {
                     .description(`\`\`\`\nAn unknown track error occured.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`);
                 this.worker.api.messages.send(player.textChannel as any, trackErrorEmbed).catch((error) => this.worker.log(`\x1b[31mLavalink Node Error | Error: Unable to send track error embed => ${error.message} | Node ID: ${player.node.options.identifier} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`));
             });
+
+        // Forward voice events from the Worker to Lavalink.
+        this.worker.on(`VOICE_SERVER_UPDATE`, (data) => this.updateVoiceState(data as any));
+        this.worker.on(`VOICE_STATE_UPDATE`, (data) => this.updateVoiceState(data as any));
     }
 }

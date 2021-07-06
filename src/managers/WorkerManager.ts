@@ -95,10 +95,7 @@ export class WorkerManager extends Worker {
         // On ready.
         this.on(`READY`, () => {
             this.lavalink.init(this.user.id);
+            this.log(`\x1b[32mInitiated Lavalink`);
         });
-
-        // Forward voice events to Lavalink.
-        this.on(`VOICE_SERVER_UPDATE`, (data) => this.lavalink.updateVoiceState(data as any));
-        this.on(`VOICE_STATE_UPDATE`, (data) => this.lavalink.updateVoiceState(data as any));
     }
 }
