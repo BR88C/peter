@@ -40,14 +40,14 @@ export class LavalinkManager extends Manager {
             .on(`nodeError`, (node, error) => this.worker.log(`\x1b[31mLavalink Node Error | Error: ${error.message} | Node ID: ${node.options.identifier}`))
             .on(`playerCreate`, (player) => this.worker.log(`Created new Player | Node ID: ${player.node.options.identifier} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`))
             .on(`trackStart`, (player, track) => {
-                this.worker.log(`\x1b[32mStarted Track | Track identifier: ${track.identifier} | Node ID: ${player.node.options.identifier} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`)
+                this.worker.log(`\x1b[32mStarted Track | Track identifier: ${track.identifier} | Node ID: ${player.node.options.identifier} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`);
                 const trackStartEmbed = new Embed()
                     .color(Constants.STARTED_PLAYING_EMBED_COLOR)
                     .title(`Started playing: ${cleanseMarkdown(track.title)}`)
                     .description(`**Link:** ${track.identifier}`)
                     .image(`${track.displayThumbnail(`maxresdefault`)}`)
                     .footer(`Requested by ${track.requester}`)
-                    .timestamp()
+                    .timestamp();
                 this.worker.api.messages.send(player.textChannel as any, trackStartEmbed).catch((error) => this.worker.log(`\x1b[31mLavalink Node Error | Error: Unable to send track start embed => ${error.message} | Node ID: ${player.node.options.identifier} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`));
             })
             .on(`trackError`, (player, track) => {
@@ -55,8 +55,8 @@ export class LavalinkManager extends Manager {
                 const trackErrorEmbed = new Embed()
                     .color(Constants.ERROR_EMBED_COLOR)
                     .title(`Error`)
-                    .description(`\`\`\`\nAn unknown track error occured.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
+                    .description(`\`\`\`\nAn unknown track error occured.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`);
                 this.worker.api.messages.send(player.textChannel as any, trackErrorEmbed).catch((error) => this.worker.log(`\x1b[31mLavalink Node Error | Error: Unable to send track error embed => ${error.message} | Node ID: ${player.node.options.identifier} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`));
-            })
+            });
     }
 }

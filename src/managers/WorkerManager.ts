@@ -25,7 +25,7 @@ export class WorkerManager extends Worker {
         super();
 
         // Get Lavalink config.
-        const lavalinkConfig = parse(readFileSync(`./lavalink/application.yml`, 'utf8'));
+        const lavalinkConfig = parse(readFileSync(`./lavalink/application.yml`, `utf8`));
 
         // Create the Lavalink manager.
         this.lavalink = new LavalinkManager([
@@ -94,8 +94,8 @@ export class WorkerManager extends Worker {
 
         // On ready.
         this.on(`READY`, () => {
-            this.lavalink.init(this.user.id)
-        })
+            this.lavalink.init(this.user.id);
+        });
 
         // Forward voice events to Lavalink.
         this.on(`VOICE_SERVER_UPDATE`, (data) => this.lavalink.updateVoiceState(data as any));
