@@ -24,7 +24,7 @@ exports.Presences = [
     },
     {
         type: `playing`,
-        name: `sudo help`,
+        name: `/help`,
         status: `online`
     },
     {
