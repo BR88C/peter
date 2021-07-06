@@ -1,9 +1,11 @@
 import { Config } from '../config/Config';
 import { Constants } from '../config/Constants';
+import { LavalinkManager } from './LavalinkManager';
 import { setRandomPresence } from '../utils/ProcessUtils';
 
 // Import modules.
-import { readdirSync, statSync } from 'fs';
+import { parse } from 'yaml';
+import { readdirSync, readFileSync, statSync } from 'fs';
 import { resolve } from 'path';
 import { Worker } from 'discord-rose';
 
@@ -13,12 +15,26 @@ import { Worker } from 'discord-rose';
  * @extends Worker
  */
 export class WorkerManager extends Worker {
+    lavalink: LavalinkManager
+
     /**
      * Create the Worker manager.
      * @constructor
      */
     constructor () {
         super();
+
+        // Get Lavalink config.
+        const lavalinkConfig = parse(readFileSync(`./lavalink/application.yml`, 'utf8'));
+
+        // Create the Lavalink manager.
+        this.lavalink = new LavalinkManager([
+            {
+                host: (lavalinkConfig.server?.address === `0.0.0.0` ? `localhost` : lavalinkConfig.server?.address) ?? `localhost`,
+                port: lavalinkConfig.server?.port ?? 2333,
+                password: lavalinkConfig.lavalink?.server?.password ?? `youshallnotpass`
+            }
+        ], this);
 
         // Set presence, and change it at an interval specified in config.
         setRandomPresence(this);
@@ -75,5 +91,14 @@ export class WorkerManager extends Worker {
                 return true;
             }
         });
+
+        // On ready.
+        this.on(`READY`, () => {
+            this.lavalink.init(this.user.id)
+        })
+
+        // Forward voice events to Lavalink.
+        this.on(`VOICE_SERVER_UPDATE`, (data) => this.lavalink.updateVoiceState(data as any));
+        this.on(`VOICE_STATE_UPDATE`, (data) => this.lavalink.updateVoiceState(data as any));
     }
 }
