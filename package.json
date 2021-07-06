@@ -27,8 +27,9 @@
     "discord-api-types": "0.18.1",
     "discord-rose": "1.4.4",
     "dotenv": "^10.0.0",
-    "lavaclient": "^3.3.0",
-    "mongoose": "^5.13.2"
+    "erela.js": "^2.3.3",
+    "mongoose": "^5.13.2",
+    "yaml": "^1.10.2"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
