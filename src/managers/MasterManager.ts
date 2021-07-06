@@ -9,6 +9,7 @@ import { resolve } from 'path';
 /**
  * The Master manager class.
  * @class
+ * @extends Master
  */
 export class MasterManager extends Master {
     /**

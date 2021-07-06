@@ -10,6 +10,7 @@ import { Worker } from 'discord-rose';
 /**
  * The Worker manager class.
  * @class
+ * @extends Worker
  */
 export class WorkerManager extends Worker {
     /**
