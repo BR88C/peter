@@ -40,10 +40,5 @@ export const Presences: Array<{type: `playing` | `streaming` | `listening` | `wa
         type: `playing`,
         name: `lol watch this`,
         status: `online` as PresenceUpdateStatus
-    },
-    {
-        type: `playing`,
-        name: `with Andrew!`,
-        status: `online` as PresenceUpdateStatus
     }
 ];
