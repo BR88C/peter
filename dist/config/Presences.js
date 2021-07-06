@@ -36,10 +36,5 @@ exports.Presences = [
         type: `playing`,
         name: `lol watch this`,
         status: `online`
-    },
-    {
-        type: `playing`,
-        name: `with Andrew!`,
-        status: `online`
     }
 ];
