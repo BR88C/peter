@@ -49,7 +49,7 @@ export class LavalinkManager extends Manager {
                 const playerMoveErrorEmbed = new Embed()
                     .color(Constants.ERROR_EMBED_COLOR)
                     .title(`Error`)
-                    .description(`\`\`\`\nDisconnected due to being moved out of the VC.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`);
+                    .description(`\`\`\`\nDestroyed the queue due to being moved out of the VC.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`);
                 this.worker.api.messages.send(player.textChannel as any, playerMoveErrorEmbed).catch((error) => this.worker.log(`\x1b[31mLavalink Node Error | Error: Unable to send player move error embed => ${error.message} | Node: ${player.node.options.host}:${player.node.options.port} | Guild Name: ${this.worker.guilds.get(player.guild as any)?.name} | Guild ID: ${player.guild}`));
                 player.destroy();
             })
