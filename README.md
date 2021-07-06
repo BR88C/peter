@@ -31,7 +31,6 @@ npm i --also=dev
 The bot also requires some sensitive variables, stored in a `.env` file. In the same directory as `package.json`, create a file named `.env` with the following text:
 ```
 BOT_TOKEN="<Your Discord API Bot Token>"
-LAVALINK_AUTH=["<Lavalink node passwords>"...]
 NODE_ENV="<prod or dev>" // Optional; use this if you aren't setting your environment via a different method. The bot will default to "dev" if NODE_ENV isn't found.
 DBL_TOKEN="<Your DBL token>"  // Optional.
 ```
