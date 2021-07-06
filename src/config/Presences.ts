@@ -28,7 +28,7 @@ export const Presences: Array<{type: `playing` | `streaming` | `listening` | `wa
     },
     {
         type: `playing`,
-        name: `sudo help`,
+        name: `/help`,
         status: `online` as PresenceUpdateStatus
     },
     {
