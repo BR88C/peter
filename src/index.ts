@@ -23,6 +23,12 @@ import { config } from 'dotenv';
 // Configure dotenv.
 config();
 
+// Check that a bot token is set.
+if (!process.env.BOT_TOKEN) throw new Error(`A bot token has not been set.`);
+
+// Check that Spotify environment variables are properly set.
+if (!process.env.SPOTIFY_ID || !process.env.SPOTIFY_SECRET) throw new Error(`Spotify App credentials have not been set.`);
+
 // Check that NODE_ENV is properly set.
 if (process.env.NODE_ENV !== `dev` && process.env.NODE_ENV !== `prod`) throw new Error(`NODE_ENV is not properly set.`);
 
