@@ -1,5 +1,6 @@
 import { cleanseMarkdown } from '../../utils/StringUtils';
 import { Constants } from '../../config/Constants';
+import { ExtendedPlayer } from '../../managers/LavalinkManager';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
@@ -35,11 +36,12 @@ export default {
         if (!search.tracks.length) return void ctx.error(`Unable to find any results based on the provided query.`);
         console.log(search.tracks.length);
 
-        const player: Player = ctx.worker.lavalink.create({
+        const player: ExtendedPlayer = ctx.worker.lavalink.create({
             guild: ctx.interaction.guild_id,
             voiceChannel: foundVoiceState.channel_id,
             textChannel: ctx.interaction.channel_id
-        });
+        }) as any;
+        player.effects = {};
         player.connect();
 
         if (!search.playlist) {
