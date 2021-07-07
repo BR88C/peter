@@ -4,6 +4,7 @@ import { Constants } from '../config/Constants';
 // Import modules.
 import { Embed, Worker } from 'discord-rose';
 import { Manager, NodeOptions } from 'erela.js';
+import Spotify from 'erela.js-spotify'
 
 /**
  * The Lavalink manager class.
@@ -28,7 +29,13 @@ export class LavalinkManager extends Manager {
             send: (id, payload) => {
                 // @ts-expect-error ws is a private property
                 this.worker.guildShard(id as any).ws._send(payload);
-            }
+            },
+            plugins: [
+                new Spotify({
+                    clientID: process.env.SPOTIFY_ID ?? ``,
+                    clientSecret: process.env.SPOTIFY_SECRET ?? ``
+                })
+            ]
         });
 
         // Set worker.
@@ -67,7 +74,7 @@ export class LavalinkManager extends Manager {
                 const trackStartEmbed = new Embed()
                     .color(Constants.STARTED_PLAYING_EMBED_COLOR)
                     .title(`Started playing: ${cleanseMarkdown(track.title)}`)
-                    .description(`**Link:** https://youtu.be/${track.identifier}`)
+                    .description(`**Link:** ${track.uri}`)
                     .image(`${track.displayThumbnail(`mqdefault`)}`)
                     .footer(`Requested by ${track.requester}`)
                     .timestamp();
