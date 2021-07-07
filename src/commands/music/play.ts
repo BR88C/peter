@@ -4,7 +4,7 @@ import { ExtendedPlayer } from '../../managers/LavalinkManager';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { Player, SearchResult } from 'erela.js';
+import { SearchResult } from 'erela.js';
 
 export default {
     command: `play`,
