@@ -58,6 +58,11 @@ export interface BotConstants {
     YOUTUBE_ACTIVITY_ID: Snowflake
 
     /**
+     * The maximum safe integer for Java.
+     */
+    MAX_SAFE_JAVA_INTEGER: number
+
+    /**
      * The color to use for the added to queue embed.
      */
     ADDED_TO_QUEUE_EMBED_COLOR: number
@@ -145,6 +150,8 @@ export const Constants: BotConstants = {
     POKER_ACTIVITY_ID: `755827207812677713`,
     YOUTUBE_ACTIVITY_ID: `755600276941176913`,
 
+    MAX_SAFE_JAVA_INTEGER: 2147483647,
+
     ADDED_TO_QUEUE_EMBED_COLOR: 0x9AF522,
     AVATAR_EMBED_COLOR: 0xEB6134,
     BOT_INFO_EMBED_COLOR: 0xFFD87D,
@@ -158,7 +165,7 @@ export const Constants: BotConstants = {
     PING_EMBED_COLOR: 0x2100DB,
     PROCESSING_QUERY_EMBED_COLOR: 0xF5B056,
     SERVER_INFO_EMBED_COLOR: 0xC0FF96,
-    SET_SFX_EMBED_COLOR: 0x000000,
+    SET_SFX_EMBED_COLOR: 0x40FFC2,
     STARTED_PLAYING_EMBED_COLOR: 0x21FF9E,
     STATUS_EMBED_COLOR: 0x25F536,
     VOTE_EMBED_COLOR: 0xACA6FF
