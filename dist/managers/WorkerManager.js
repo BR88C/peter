@@ -49,7 +49,7 @@ class WorkerManager extends discord_rose_1.Worker {
             if (!ctx.isInteraction) {
                 if (!Config_1.Config.devs.IDs.includes(ctx.message.author.id)) {
                     this.log(`\x1b[33mReceived Depreciated Prefix Command | User: ${ctx.message.author.username}#${ctx.message.author.discriminator}${ctx.message.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id)?.name} | Guild ID: ${ctx.message.guild_id}` : ``}`);
-                    void ctx.error(`Prefix commands are now depreciated, please use slash commands instead.`);
+                    void ctx.error(`Prefix commands are now depreciated, please use slash commands instead. For more information, join our support server!`);
                     return false;
                 }
                 else {
@@ -65,7 +65,7 @@ class WorkerManager extends discord_rose_1.Worker {
                 }
             }
             else {
-                this.log(`\x1b[32mReceived Interaction | Command: ${ctx.ran} | User: ${ctx.interaction.member.user.username}#${ctx.interaction.member.user.discriminator}${ctx.interaction.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.interaction.guild_id)?.name} | Guild ID: ${ctx.interaction.guild_id}` : ``}`);
+                this.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.interaction.member.user.username}#${ctx.interaction.member.user.discriminator}${ctx.interaction.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.interaction.guild_id)?.name} | Guild ID: ${ctx.interaction.guild_id}` : ``}`);
                 return true;
             }
         });
