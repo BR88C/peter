@@ -3,7 +3,7 @@ import { Constants } from '../config/Constants';
 
 // Import modules.
 import { Embed, Worker } from 'discord-rose';
-import { Manager, NodeOptions } from 'erela.js';
+import { Manager, NodeOptions, Player } from 'erela.js';
 import Spotify from 'erela.js-spotify';
 
 /**
@@ -93,4 +93,16 @@ export class LavalinkManager extends Manager {
         // Forward voice events from the Worker to Lavalink.
         this.worker.on(`*`, (data) => this.updateVoiceState(data as any));
     }
+}
+
+/**
+ * The extended Player class; used for saving effects.
+ * @class
+ * @extends Player
+ */
+export class ExtendedPlayer extends Player {
+    /**
+     * The Player's SFX.
+     */
+    public effects: { [key: string]: any }
 }
