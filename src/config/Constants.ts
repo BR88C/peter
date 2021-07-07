@@ -61,6 +61,10 @@ export interface BotConstants {
      * The maximum safe integer for Java.
      */
     MAX_SAFE_JAVA_INTEGER: number
+    /**
+     * The smoothing level to use when enabling the lowpass filter.
+     */
+    LOWPASS_SMOOTHING_LEVEL: number
 
     /**
      * The color to use for the added to queue embed.
@@ -151,6 +155,7 @@ export const Constants: BotConstants = {
     YOUTUBE_ACTIVITY_ID: `755600276941176913`,
 
     MAX_SAFE_JAVA_INTEGER: 2147483647,
+    LOWPASS_SMOOTHING_LEVEL: 20,
 
     ADDED_TO_QUEUE_EMBED_COLOR: 0x9AF522,
     AVATAR_EMBED_COLOR: 0xEB6134,
