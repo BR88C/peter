@@ -36,6 +36,7 @@ exports.default = {
             voiceChannel: foundVoiceState.channel_id,
             textChannel: ctx.interaction.channel_id
         });
+        player.effects = {};
         player.connect();
         if (!search.playlist) {
             player.queue.add(search.tracks[0]);
