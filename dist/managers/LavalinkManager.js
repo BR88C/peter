@@ -1,17 +1,27 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LavalinkManager = void 0;
 const StringUtils_1 = require("../utils/StringUtils");
 const Constants_1 = require("../config/Constants");
 const discord_rose_1 = require("discord-rose");
 const erela_js_1 = require("erela.js");
+const erela_js_spotify_1 = __importDefault(require("erela.js-spotify"));
 class LavalinkManager extends erela_js_1.Manager {
     constructor(nodes, worker) {
         super({
             nodes: nodes,
             send: (id, payload) => {
                 this.worker.guildShard(id).ws._send(payload);
-            }
+            },
+            plugins: [
+                new erela_js_spotify_1.default({
+                    clientID: process.env.SPOTIFY_ID ?? ``,
+                    clientSecret: process.env.SPOTIFY_SECRET ?? ``
+                })
+            ]
         });
         this.worker = worker;
         this
@@ -46,7 +56,7 @@ class LavalinkManager extends erela_js_1.Manager {
             const trackStartEmbed = new discord_rose_1.Embed()
                 .color(Constants_1.Constants.STARTED_PLAYING_EMBED_COLOR)
                 .title(`Started playing: ${StringUtils_1.cleanseMarkdown(track.title)}`)
-                .description(`**Link:** https://youtu.be/${track.identifier}`)
+                .description(`**Link:** ${track.uri}`)
                 .image(`${track.displayThumbnail(`mqdefault`)}`)
                 .footer(`Requested by ${track.requester}`)
                 .timestamp();
