@@ -110,9 +110,13 @@ export interface BotConstants {
      */
     SERVER_INFO_EMBED_COLOR: number
     /**
+     * The color to use for the set SFX embed.
+     */
+    SET_SFX_EMBED_COLOR
+    /**
      * The color to use for the now playing embed.
      */
-     STARTED_PLAYING_EMBED_COLOR: number
+    STARTED_PLAYING_EMBED_COLOR: number
     /**
      * The color to use for the status embed.
      */
@@ -154,6 +158,7 @@ export const Constants: BotConstants = {
     PING_EMBED_COLOR: 0x2100DB,
     PROCESSING_QUERY_EMBED_COLOR: 0xF5B056,
     SERVER_INFO_EMBED_COLOR: 0xC0FF96,
+    SET_SFX_EMBED_COLOR: 0x000000,
     STARTED_PLAYING_EMBED_COLOR: 0x21FF9E,
     STATUS_EMBED_COLOR: 0x25F536,
     VOTE_EMBED_COLOR: 0xACA6FF
