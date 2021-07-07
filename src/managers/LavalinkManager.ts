@@ -4,7 +4,7 @@ import { Constants } from '../config/Constants';
 // Import modules.
 import { Embed, Worker } from 'discord-rose';
 import { Manager, NodeOptions } from 'erela.js';
-import Spotify from 'erela.js-spotify'
+import Spotify from 'erela.js-spotify';
 
 /**
  * The Lavalink manager class.
