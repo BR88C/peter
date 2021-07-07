@@ -27,7 +27,7 @@ export class LavalinkManager extends Manager {
         super({
             nodes: nodes,
             send: (id, payload) => {
-                // @ts-expect-error ws is a private property
+                // @ts-expect-error Property 'ws' is private and only accessible within class 'Shard'.
                 this.worker.guildShard(id as any).ws._send(payload);
             },
             plugins: [
