@@ -40,7 +40,7 @@ export default {
             voiceChannel: foundVoiceState.channel_id,
             textChannel: ctx.interaction.channel_id,
             selfDeafen: true,
-            volume: 10
+            volume: 100 * Constants.VOLUME_MULTIPLIER
         }) as any;
         player.effects = {};
         player.connect();

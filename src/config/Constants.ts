@@ -58,6 +58,10 @@ export interface BotConstants {
     YOUTUBE_ACTIVITY_ID: Snowflake
 
     /**
+     * The amount to multiply specified bassboost values by.
+     */
+    BASSBOOST_INTENSITY_MULTIPLIER: number,
+    /**
      * The number of EQ bands Lavalink has.
      */
     EQ_BAND_COUNT: number
@@ -66,9 +70,17 @@ export interface BotConstants {
      */
     MAX_SAFE_JAVA_INTEGER: number
     /**
+     * The amount to multiply specified treble values by.
+     */
+    TREBLE_INTENSITY_MULTIPLIER: number,
+    /**
      * The frequency to use for the vibrato and tremolo effect.
      */
     TREMOLO_VIBRATO_FREQUENCY: number
+    /**
+     * The amount to multiply specified volumes by.
+     */
+    VOLUME_MULTIPLIER: number
 
     /**
      * The color to use for the added to queue embed.
@@ -178,9 +190,12 @@ export const Constants: BotConstants = {
     POKER_ACTIVITY_ID: `755827207812677713`,
     YOUTUBE_ACTIVITY_ID: `755600276941176913`,
 
+    BASSBOOST_INTENSITY_MULTIPLIER: 0.25,
     EQ_BAND_COUNT: 15,
     MAX_SAFE_JAVA_INTEGER: 2147483647,
+    TREBLE_INTENSITY_MULTIPLIER: 0.25,
     TREMOLO_VIBRATO_FREQUENCY: 5,
+    VOLUME_MULTIPLIER: 0.1,
 
     ADDED_TO_QUEUE_EMBED_COLOR: 0x9AF522,
     AVATAR_EMBED_COLOR: 0xEB6134,
