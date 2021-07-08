@@ -114,7 +114,7 @@ export default {
                     {
                         type: 4,
                         name: `value`,
-                        description: `The value to set the volume to. 100 is normal volume, 200 is 2x volume, etc. Max is 1000.`,
+                        description: `The value to set the volume to. 100 is normal volume, 200 is 2x volume, etc. Max is 10,000.`,
                         required: true
                     }
                 ]
@@ -222,9 +222,9 @@ export default {
                 .catch((error) => void ctx.error(error));
         } else if (ctx.options.volume) {
             if (ctx.options.volume.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-            if (ctx.options.volume.value > 1000) return void ctx.error(`Invalid value. Please specify a value lower than or equal to 1000.`);
+            if (ctx.options.volume.value > 1e4) return void ctx.error(`Invalid value. Please specify a value lower than or equal to 10,000.`);
 
-            player.setVolume(ctx.options.volume.value);
+            player.setVolume(ctx.options.volume.value / 10);
 
             ctx.embed
                 .color(Constants.SET_SFX_EMBED_COLOR)
