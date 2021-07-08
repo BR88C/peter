@@ -4,6 +4,7 @@ import { ExtendedPlayer } from '../../managers/LavalinkManager';
 // Import modules.
 import { CommandOptions } from 'discord-rose';
 import { progressBar, timestamp } from '../../utils/Time';
+import { cleanseMarkdown } from '../../utils/StringUtils';
 
 export default {
     command: `nowplaying`,
@@ -22,7 +23,7 @@ export default {
         ctx.embed
             .color(Constants.NOW_PLAYING_EMBED_COLOR)
             .author(`Currently playing:`)
-            .title(player.queue.current.title, player.queue.current.uri)
+            .title(cleanseMarkdown(player.queue.current.title), player.queue.current.uri)
             .thumbnail(player.queue.current.displayThumbnail ? (player.queue.current.displayThumbnail(`mqdefault`) ?? ``) : ``)
             .description(description)
             .footer(`Requested by ${player.queue.current.requester}`)
