@@ -123,6 +123,10 @@ export interface BotConstants {
      */
     NOW_PLAYING_EMBED_COLOR: number
     /**
+     * The color to use for the pause embed.
+     */
+    PAUSE_EMBED_COLOR: number
+    /**
      * The color to use for the ping embed.
      */
     PING_EMBED_COLOR: number
@@ -191,6 +195,7 @@ export const Constants: BotConstants = {
     LEAVE_EMBED_COLOR: 0xFF4F42,
     LOOP_EMBED_COLOR: 0x00,
     NOW_PLAYING_EMBED_COLOR: 0xB0FFE2,
+    PAUSE_EMBED_COLOR: 0x4581F7,
     PING_EMBED_COLOR: 0x2100DB,
     PROCESSING_QUERY_EMBED_COLOR: 0xF5B056,
     QUEUE_CLEARED_EMBED_COLOR: 0xFF8F2E,
