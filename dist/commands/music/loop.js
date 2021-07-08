@@ -32,7 +32,7 @@ exports.default = {
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player)
-            return void ctx.error(`Unable to disconnect the bot; no music is playing.`);
+            return void ctx.error(`Unable to change the loop behavior; no music is playing.`);
         if (ctx.options.type.value === `queue`) {
             player.setTrackRepeat(false);
             player.setQueueRepeat(true);
