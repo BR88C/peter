@@ -35,7 +35,7 @@ class WorkerManager extends discord_rose_1.Worker {
                 .color(Constants_1.Constants.ERROR_EMBED_COLOR)
                 .title(`Error`)
                 .description(`\`\`\`\n${StringUtils_1.removeToken(error.message.replace(/^(Error: )/, ``))}\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants_1.Constants.SUPPORT_SERVER}`)
-                .send()
+                .send(true, false, true)
                 .catch((error) => this.log(`\x1b[31mUnable to send Error Embed${typeof error === `string` ? ` | Reason: ${error}` : (typeof error?.message === `string` ? ` | Reason: ${error.message}` : ``)}`));
         });
         this.commands.middleware((ctx) => {
