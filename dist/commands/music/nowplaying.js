@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
 const Time_1 = require("../../utils/Time");
+const StringUtils_1 = require("../../utils/StringUtils");
 exports.default = {
     command: `nowplaying`,
     interaction: {
@@ -20,7 +21,7 @@ exports.default = {
         ctx.embed
             .color(Constants_1.Constants.NOW_PLAYING_EMBED_COLOR)
             .author(`Currently playing:`)
-            .title(player.queue.current.title, player.queue.current.uri)
+            .title(StringUtils_1.cleanseMarkdown(player.queue.current.title), player.queue.current.uri)
             .thumbnail(player.queue.current.displayThumbnail ? (player.queue.current.displayThumbnail(`mqdefault`) ?? ``) : ``)
             .description(description)
             .footer(`Requested by ${player.queue.current.requester}`)
