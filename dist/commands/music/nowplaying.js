@@ -16,7 +16,7 @@ exports.default = {
         if (player.queue.current.isStream)
             description = `🔴  **LIVE**`;
         else
-            description = `\`\`\`\n${player.paused ? `⏸` : `▶`} ${Time_1.timestamp(player.position)} ${Time_1.progressBar(player.position / (player.queue.current.duration ?? player.position), 25)} ${Time_1.timestamp(player.queue.current.duration ?? player.position)}`;
+            description = `\`\`\`\n${player.paused ? `⏸` : `▶`} ${Time_1.timestamp(player.position)} ${Time_1.progressBar(player.position / (player.queue.current.duration ?? player.position), 25)} ${Time_1.timestamp(player.queue.current.duration ?? player.position)}\n\`\`\``;
         ctx.embed
             .color(Constants_1.Constants.NOW_PLAYING_EMBED_COLOR)
             .author(`Currently playing:`)
