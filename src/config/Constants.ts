@@ -119,6 +119,10 @@ export interface BotConstants {
      */
     PROCESSING_QUERY_EMBED_COLOR: number
     /**
+     * The color to use for the queue cleared embed.
+     */
+    QUEUE_CLEARED_EMBED_COLOR: number
+    /**
      * The color to use for the server info embed.
      */
     SERVER_INFO_EMBED_COLOR: number
@@ -174,6 +178,7 @@ export const Constants: BotConstants = {
     INVITE_EMBED_COLOR: 0x5EFF97,
     PING_EMBED_COLOR: 0x2100DB,
     PROCESSING_QUERY_EMBED_COLOR: 0xF5B056,
+    QUEUE_CLEARED_EMBED_COLOR: 0xFF8F2E,
     SERVER_INFO_EMBED_COLOR: 0xC0FF96,
     SET_SFX_EMBED_COLOR: 0x40FFC2,
     STARTED_PLAYING_EMBED_COLOR: 0x21FF9E,
