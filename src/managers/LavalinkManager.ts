@@ -3,8 +3,30 @@ import { Constants } from '../config/Constants';
 
 // Import modules.
 import { Embed, Worker } from 'discord-rose';
-import { Manager, NodeOptions, Player } from 'erela.js';
+import { Manager, NodeOptions, Player, Structure } from 'erela.js';
 import Spotify from 'erela.js-spotify';
+
+Structure.extend(`Player`, (player) => class Player extends player {
+    /**
+     * The Player's SFX.
+     */
+    public effects: { [key: string]: any }
+    /**
+     * A pretty string that lists the current SFX.
+     */
+    public get formattedEffects (): string {
+        let str: string[] | string = [];
+        if (this.effects.bassboost) str.push(`Bassboost = +${this.effects.bassboost}`);
+        if (this.effects.pitch) str.push(`Pitch = ${this.effects.pitch}﹪`);
+        if (this.effects.rotation) str.push(`Rotation = ${this.effects.rotation} Hz`);
+        if (this.effects.speed) str.push(`Speed = ${this.effects.speed}﹪`);
+        if (this.effects.treble) str.push(`Treble = +${this.effects.treble}`);
+        if (this.effects.tremolo) str.push(`Tremolo = ${this.effects.tremolo}﹪`);
+        if (this.effects.vibrato) str.push(`Vibrato = ${this.effects.vibrato}﹪`);
+        if (this.volume !== 10) str.push(`Volume = ${this.volume * 10}﹪`)
+        return str.length ? `\`\`\`prolog\n${str.join(`, `)}\n\`\`\`` : `\`\`\`diff\n-= No active effects =-\n\`\`\``;
+    }
+});
 
 /**
  * The Lavalink manager class.
@@ -105,4 +127,8 @@ export class ExtendedPlayer extends Player {
      * The Player's SFX.
      */
     public effects: { [key: string]: any }
+    /**
+     * A pretty string that lists the current SFX.
+     */
+    public formattedEffects: string
 }
