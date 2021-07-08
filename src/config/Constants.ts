@@ -58,13 +58,17 @@ export interface BotConstants {
     YOUTUBE_ACTIVITY_ID: Snowflake
 
     /**
+     * The number of EQ bands Lavalink has.
+     */
+    EQ_BAND_COUNT: number
+    /**
      * The maximum safe integer for Java.
      */
     MAX_SAFE_JAVA_INTEGER: number
     /**
-     * The smoothing level to use when enabling the lowpass filter.
+     * The frequency to use for the vibrato and tremolo effect.
      */
-    LOWPASS_SMOOTHING_LEVEL: number
+    TREMOLO_VIBRATO_FREQUENCY: number
 
     /**
      * The color to use for the added to queue embed.
@@ -154,8 +158,9 @@ export const Constants: BotConstants = {
     POKER_ACTIVITY_ID: `755827207812677713`,
     YOUTUBE_ACTIVITY_ID: `755600276941176913`,
 
+    EQ_BAND_COUNT: 15,
     MAX_SAFE_JAVA_INTEGER: 2147483647,
-    LOWPASS_SMOOTHING_LEVEL: 20,
+    TREMOLO_VIBRATO_FREQUENCY: 5,
 
     ADDED_TO_QUEUE_EMBED_COLOR: 0x9AF522,
     AVATAR_EMBED_COLOR: 0xEB6134,
