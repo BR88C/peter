@@ -1,10 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeToken = exports.cleanseMarkdown = exports.centerString = void 0;
-const discord_rose_1 = require("discord-rose");
 const centerString = (str, length) => {
     if (str.length > length)
-        throw new discord_rose_1.CommandError(`Invalid length to center string on.`);
+        throw Error(`Invalid length to center string on.`);
     else
         return `${` `.repeat(Math.floor((length - str.length) / 2))}${str}${` `.repeat(Math.ceil((length - str.length) / 2))}`;
 };
