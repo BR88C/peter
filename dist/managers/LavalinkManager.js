@@ -27,7 +27,7 @@ erela_js_1.Structure.extend(`Player`, (player) => class Player extends player {
         if (this.effects.vibrato)
             str.push(`Vibrato = ${this.effects.vibrato}﹪`);
         if (this.volume !== 10)
-            str.push(`Volume = ${this.volume * 10}﹪`);
+            str.push(`Volume = ${this.volume / Constants_1.Constants.VOLUME_MULTIPLIER}﹪`);
         return str.length ? `\`\`\`prolog\n${str.join(`, `)}\n\`\`\`` : `\`\`\`diff\n-= No active effects =-\n\`\`\``;
     }
 });

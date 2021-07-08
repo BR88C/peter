@@ -116,7 +116,7 @@ exports.default = {
                     {
                         type: 4,
                         name: `value`,
-                        description: `The value to set the volume to. 100 is normal volume, 200 is 2x volume, etc. Max is 10,000.`,
+                        description: `The value to set the volume to. 100 is normal volume, 200 is 2x volume, etc. Max is ${1e3 / Constants_1.Constants.VOLUME_MULTIPLIER}.`,
                         required: true
                     }
                 ]
@@ -147,6 +147,7 @@ exports.default = {
         }
         else if (ctx.options.clear) {
             player.effects = {};
+            player.setVolume(100 * Constants_1.Constants.VOLUME_MULTIPLIER);
             ctx.embed
                 .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
                 .title(`Cleared all effects`)
@@ -254,12 +255,12 @@ exports.default = {
         else if (ctx.options.volume) {
             if (ctx.options.volume.value < 0)
                 return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-            if (ctx.options.volume.value > 1e4)
-                return void ctx.error(`Invalid value. Please specify a value lower than or equal to 10,000.`);
-            player.setVolume(ctx.options.volume.value / 10);
+            if (ctx.options.volume.value > 1e3 / Constants_1.Constants.VOLUME_MULTIPLIER)
+                return void ctx.error(`Invalid value. Please specify a value lower than or equal to ${1e3 / Constants_1.Constants.VOLUME_MULTIPLIER}.`);
+            player.setVolume(ctx.options.volume.value * Constants_1.Constants.VOLUME_MULTIPLIER);
             ctx.embed
                 .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
-                .title(`Set the volume to \`${player.volume}%\``)
+                .title(`Set the volume to \`${player.volume / Constants_1.Constants.VOLUME_MULTIPLIER}%\``)
                 .send()
                 .catch((error) => void ctx.error(error));
         }
@@ -269,7 +270,7 @@ exports.default = {
         };
         if (player.effects.bassboost)
             sendObj.equalizer = (sendObj.equalizer ?? []).concat(new Array(3).fill(null).map((value, i) => ({
-                band: i, gain: player.effects.bassboost / 4
+                band: i, gain: player.effects.bassboost * Constants_1.Constants.BASSBOOST_INTENSITY_MULTIPLIER
             })));
         if (player.effects.pitch)
             sendObj.timescale = Object.assign(sendObj.timescale ?? {}, { pitch: player.effects.pitch / 100 });
@@ -279,7 +280,7 @@ exports.default = {
             sendObj.timescale = Object.assign(sendObj.timescale ?? {}, { speed: player.effects.speed / 100 });
         if (player.effects.treble)
             sendObj.equalizer = (sendObj.equalizer ?? []).concat(new Array(3).fill(null).map((value, i) => ({
-                band: Constants_1.Constants.EQ_BAND_COUNT - (i + 1), gain: player.effects.treble / 4
+                band: Constants_1.Constants.EQ_BAND_COUNT - (i + 1), gain: player.effects.treble * Constants_1.Constants.TREBLE_INTENSITY_MULTIPLIER
             })));
         if (player.effects.tremolo)
             sendObj.tremolo = {
