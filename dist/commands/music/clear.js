@@ -9,7 +9,7 @@ exports.default = {
     },
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
-        if (!player)
+        if (!player || !player.queue.length)
             return void ctx.error(`Unable to clear the queue; there is no music in the queue.`);
         player.queue.clear();
         ctx.embed

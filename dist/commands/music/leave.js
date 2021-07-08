@@ -10,7 +10,7 @@ exports.default = {
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player)
-            return void ctx.error(`Unable to disconnect the bot; there is no music in the queue.`);
+            return void ctx.error(`Unable to disconnect the bot; the bot is not connected to a VC.`);
         player.destroy();
         ctx.embed
             .color(Constants_1.Constants.LEAVE_EMBED_COLOR)

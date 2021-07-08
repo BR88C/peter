@@ -9,8 +9,10 @@ exports.default = {
     },
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
-        if (!player || !player.queue?.current)
-            return void ctx.error(`Unable to resume the music; there is no music in the queue.`);
+        if (!player || !player.queue.length)
+            return void ctx.error(`Unable to resume; there is no music in the queue.`);
+        if (!player.queue.current)
+            return void ctx.error(`Unable to resume; there is no music playing.`);
         if (!player.paused)
             return void ctx.error(`The music is already resumed.`);
         player.pause(true);
