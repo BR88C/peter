@@ -17,7 +17,7 @@ export default {
 
         let description: string;
         if (player.queue.current.isStream) description = `🔴  **LIVE**`;
-        else description = `\`\`\`\n${player.paused ? `⏸` : `▶`} ${timestamp(player.position)} ${progressBar(player.position / (player.queue.current.duration ?? player.position), 25)} ${timestamp(player.queue.current.duration ?? player.position)}`;
+        else description = `\`\`\`\n${player.paused ? `⏸` : `▶`} ${timestamp(player.position)} ${progressBar(player.position / (player.queue.current.duration ?? player.position), 25)} ${timestamp(player.queue.current.duration ?? player.position)}\n\`\`\``;
 
         ctx.embed
             .color(Constants.NOW_PLAYING_EMBED_COLOR)
