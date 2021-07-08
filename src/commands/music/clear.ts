@@ -18,7 +18,7 @@ export default {
 
         ctx.embed
             .color(Constants.QUEUE_CLEARED_EMBED_COLOR)
-            .title(`:broom:  Cleared the queue.`)
+            .title(`:broom:  Cleared the queue`)
             .send()
             .catch((error) => void ctx.error(error));
     }
