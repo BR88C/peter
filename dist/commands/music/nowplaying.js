@@ -12,7 +12,7 @@ exports.default = {
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player || !player.queue?.current)
-            return void ctx.error(`Unable to get the current song; no music is playing.`);
+            return void ctx.error(`Unable to get the current song; there is no music in the queue.`);
         let description;
         if (player.queue.current.isStream)
             description = `🔴  **LIVE**`;

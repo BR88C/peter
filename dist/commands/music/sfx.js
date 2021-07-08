@@ -126,7 +126,7 @@ exports.default = {
     exec: async (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player)
-            return void ctx.error(`Unable to change SFX; no music is playing.`);
+            return void ctx.error(`Unable to change SFX; there is no music in the queue.`);
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.interaction.member.user.id));
         if (!foundVoiceState || foundVoiceState.channel_id !== player.voiceChannel)
             return void ctx.error(`You must be in the VC to change SFX.`);
