@@ -119,6 +119,10 @@ export interface BotConstants {
      */
     LOOP_EMBED_COLOR: number
     /**
+     * The color to use for the now playing embed.
+     */
+    NOW_PLAYING_EMBED_COLOR: number
+    /**
      * The color to use for the ping embed.
      */
     PING_EMBED_COLOR: number
@@ -186,6 +190,7 @@ export const Constants: BotConstants = {
     INVITE_EMBED_COLOR: 0x5EFF97,
     LEAVE_EMBED_COLOR: 0xFF4F42,
     LOOP_EMBED_COLOR: 0x00,
+    NOW_PLAYING_EMBED_COLOR: 0xB0FFE2,
     PING_EMBED_COLOR: 0x2100DB,
     PROCESSING_QUERY_EMBED_COLOR: 0xF5B056,
     QUEUE_CLEARED_EMBED_COLOR: 0xFF8F2E,
