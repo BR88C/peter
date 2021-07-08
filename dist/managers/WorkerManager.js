@@ -5,21 +5,13 @@ const Config_1 = require("../config/Config");
 const Constants_1 = require("../config/Constants");
 const LavalinkManager_1 = require("./LavalinkManager");
 const ProcessUtils_1 = require("../utils/ProcessUtils");
-const yaml_1 = require("yaml");
 const fs_1 = require("fs");
 const path_1 = require("path");
 const discord_rose_1 = require("discord-rose");
 class WorkerManager extends discord_rose_1.Worker {
     constructor() {
         super();
-        const lavalinkConfig = yaml_1.parse(fs_1.readFileSync(`./lavalink/application.yml`, `utf8`));
-        this.lavalink = new LavalinkManager_1.LavalinkManager([
-            {
-                host: (lavalinkConfig.server?.address === `0.0.0.0` ? `localhost` : lavalinkConfig.server?.address) ?? `localhost`,
-                port: lavalinkConfig.server?.port ?? 2333,
-                password: lavalinkConfig.lavalink?.server?.password ?? `youshallnotpass`
-            }
-        ], this);
+        this.lavalink = new LavalinkManager_1.LavalinkManager(Config_1.Config.lavalinkNodes.map((n, i) => Object.assign(n, JSON.parse(process.env.LAVALINK_PASSWORD ?? `[]`)[i])), this);
         ProcessUtils_1.setRandomPresence(this);
         setInterval(() => ProcessUtils_1.setRandomPresence(this), Config_1.Config.presenceInterval);
         this.commands.prefix(Config_1.Config.developerPrefix);

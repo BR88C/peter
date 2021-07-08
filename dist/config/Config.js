@@ -23,6 +23,12 @@ exports.Config = {
     cacheControl: {
         guilds: [`id`, `name`], voiceStates: []
     },
+    lavalinkNodes: [
+        {
+            host: `localhost`,
+            port: 2333
+        }
+    ],
     shards: {
         dev: 1,
         prod: 2

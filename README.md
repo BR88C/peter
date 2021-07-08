@@ -32,6 +32,7 @@ npm i --also=dev
 The bot also requires some sensitive variables, stored in a `.env` file. In the same directory as `package.json`, create a file named `.env` with the following text:
 ```
 BOT_TOKEN="<Your Discord API Bot Token>"
+LAVALINK_PASSWORDS=["<Lavalink server passwords"...]
 SPOTIFY_ID="<Your Spotify App ID>"
 SPOTIFY_SECRET="<Your Spotify App Secret>"
 NODE_ENV="<prod or dev>" // Optional; use this if you aren't setting your environment via a different method. The bot will default to "dev" if NODE_ENV isn't found.
@@ -43,14 +44,7 @@ Then build the bot:
 npm run build
 ```
 
-Create a directory called `lavalink`. Copy your `Lavalink.jar` and paste it into the `lavalink` directory. Then, create an `application.yml` and set it's appropriate values (Example [here](https://github.com/freyacodes/Lavalink/blob/dev/LavalinkServer/application.yml.example)). The bot will automatically read `application.yml`, so you will not have to set any configuration values.
-
-Start the Lavalink server by running this command:
-```
-java -jar ./lavalink/Lavalink.jar
-```
-
-You can now start the bot with the following command:
+Make sure to start the Lavalink server. You can then start the bot with the following command:
 ```
 npm run start
 ```
