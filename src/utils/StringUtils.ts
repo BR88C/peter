@@ -1,6 +1,3 @@
-// Import modules.
-import { CommandError } from 'discord-rose';
-
 /**
  * Centers a string on a specified length using spaces.
  * @param str The string to center.
@@ -8,7 +5,7 @@ import { CommandError } from 'discord-rose';
  * @returns The centered string.
  */
  export const centerString = (str: string, length: number): string => {
-    if (str.length > length) throw new CommandError(`Invalid length to center string on.`);
+    if (str.length > length) throw Error(`Invalid length to center string on.`);
     else return `${` `.repeat(Math.floor((length - str.length) / 2))}${str}${` `.repeat(Math.ceil((length - str.length) / 2))}`;
 };
 
