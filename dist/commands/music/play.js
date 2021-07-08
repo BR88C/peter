@@ -34,7 +34,8 @@ exports.default = {
         const player = ctx.worker.lavalink.create({
             guild: ctx.interaction.guild_id,
             voiceChannel: foundVoiceState.channel_id,
-            textChannel: ctx.interaction.channel_id
+            textChannel: ctx.interaction.channel_id,
+            volume: 10
         });
         player.effects = {};
         player.connect();
