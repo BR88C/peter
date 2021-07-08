@@ -34,7 +34,7 @@ export default {
     },
     exec: (ctx) => {
         const player: ExtendedPlayer | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id) as any;
-        if (!player) return void ctx.error(`Unable to change the loop behavior; no music is playing.`);
+        if (!player) return void ctx.error(`Unable to change the loop behavior; there is no music in the queue.`);
 
         if (ctx.options.type.value === `queue`) {
             player.setTrackRepeat(false);

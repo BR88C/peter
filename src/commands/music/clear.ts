@@ -12,7 +12,7 @@ export default {
     },
     exec: (ctx) => {
         const player: ExtendedPlayer | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id) as any;
-        if (!player) return void ctx.error(`Unable to clear the queue; no music is playing.`);
+        if (!player) return void ctx.error(`Unable to clear the queue; there is no music in the queue.`);
 
         player.queue.clear();
 
