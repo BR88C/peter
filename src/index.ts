@@ -14,6 +14,7 @@
  * @license
  */
 
+import { Config } from './config/Config';
 import { logHeader } from './utils/Log';
 import runMaster from './managers/run/runMaster';
 
@@ -25,6 +26,9 @@ config();
 
 // Check that a bot token is set.
 if (!process.env.BOT_TOKEN) throw new Error(`A bot token has not been set.`);
+
+// Check that there are as many Lavalink passwords set as there are node configs.
+if (!JSON.parse(process.env.LAVALINK_PASSWORDS ?? `[]`).length || Config.lavalinkNodes.length !== JSON.parse(process.env.LAVALINK_PASSWORDS ?? `[]`).length) throw new Error(`Lavalink configuration is not properly set.`);
 
 // Check that Spotify environment variables are properly set.
 if (!process.env.SPOTIFY_ID || !process.env.SPOTIFY_SECRET) throw new Error(`Spotify App credentials have not been set.`);

@@ -1,5 +1,6 @@
 // Import modules.
 import { CacheControlOptions, CacheOptions, Snowflake } from 'discord-rose';
+import { NodeOptions } from 'erela.js';
 
 export interface BotConfig {
     /**
@@ -40,6 +41,11 @@ export interface BotConfig {
      * Cache control options to be used when creating master.
      */
     cacheControl: CacheControlOptions
+
+    /**
+     * Lavalink nodes. Passwords should be defined in .env, and should coorelate with the index of the nodes here.
+     */
+    lavalinkNodes: Array<Omit<NodeOptions, `password`>>
 
     /**
      * The total amount of shards to spawn.
@@ -88,6 +94,13 @@ export const Config: BotConfig = {
     cacheControl: {
         guilds: [`id`, `name`], voiceStates: []
     },
+
+    lavalinkNodes: [
+        {
+            host: `localhost`,
+            port: 2333
+        }
+    ],
 
     shards: {
         dev: 1,
