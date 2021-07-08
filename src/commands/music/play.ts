@@ -40,6 +40,7 @@ export default {
             guild: ctx.interaction.guild_id,
             voiceChannel: foundVoiceState.channel_id,
             textChannel: ctx.interaction.channel_id,
+            selfDeafen: true,
             volume: 10
         }) as any;
         player.effects = {};
