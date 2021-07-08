@@ -56,7 +56,7 @@ export class WorkerManager extends Worker {
                 .color(Constants.ERROR_EMBED_COLOR)
                 .title(`Error`)
                 .description(`\`\`\`\n${removeToken(error.message.replace(/^(Error: )/, ``))}\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
-                .send()
+                .send(true, false, true)
                 .catch((error) => this.log(`\x1b[31mUnable to send Error Embed${typeof error === `string` ? ` | Reason: ${error}` : (typeof error?.message === `string` ? ` | Reason: ${error.message}` : ``)}`));
         });
 
