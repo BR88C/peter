@@ -111,6 +111,14 @@ export interface BotConstants {
      */
     INVITE_EMBED_COLOR: number
     /**
+     * The color to use for the leave embed.
+     */
+    LEAVE_EMBED_COLOR: number
+    /**
+     * The color to use for the loop embed.
+     */
+    LOOP_EMBED_COLOR: number
+    /**
      * The color to use for the ping embed.
      */
     PING_EMBED_COLOR: number
@@ -176,6 +184,8 @@ export const Constants: BotConstants = {
     ERROR_EMBED_COLOR: 0xFF0000,
     EVAL_EMBED_COLOR: 0x000020,
     INVITE_EMBED_COLOR: 0x5EFF97,
+    LEAVE_EMBED_COLOR: 0xFF4F42,
+    LOOP_EMBED_COLOR: 0x00,
     PING_EMBED_COLOR: 0x2100DB,
     PROCESSING_QUERY_EMBED_COLOR: 0xF5B056,
     QUEUE_CLEARED_EMBED_COLOR: 0xFF8F2E,
