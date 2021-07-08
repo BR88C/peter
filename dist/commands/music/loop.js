@@ -38,6 +38,8 @@ exports.default = {
             player.setQueueRepeat(true);
         }
         else if (ctx.options.type.value === `track`) {
+            if (player.queue.current?.isSeekable)
+                return void ctx.error(`The current track does not support looping.`);
             player.setQueueRepeat(false);
             player.setTrackRepeat(true);
         }
