@@ -15,7 +15,7 @@ Structure.extend(`Player`, (player) => class Player extends player {
      * A pretty string that lists the current SFX.
      */
     public get formattedEffects (): string {
-        let str: string[] | string = [];
+        const str: string[] = [];
         if (this.effects.bassboost) str.push(`Bassboost = +${this.effects.bassboost}`);
         if (this.effects.pitch) str.push(`Pitch = ${this.effects.pitch}﹪`);
         if (this.effects.rotation) str.push(`Rotation = ${this.effects.rotation} Hz`);
@@ -23,7 +23,7 @@ Structure.extend(`Player`, (player) => class Player extends player {
         if (this.effects.treble) str.push(`Treble = +${this.effects.treble}`);
         if (this.effects.tremolo) str.push(`Tremolo = ${this.effects.tremolo}﹪`);
         if (this.effects.vibrato) str.push(`Vibrato = ${this.effects.vibrato}﹪`);
-        if (this.volume !== 10) str.push(`Volume = ${this.volume * 10}﹪`)
+        if (this.volume !== 10) str.push(`Volume = ${this.volume * 10}﹪`);
         return str.length ? `\`\`\`prolog\n${str.join(`, `)}\n\`\`\`` : `\`\`\`diff\n-= No active effects =-\n\`\`\``;
     }
 });
