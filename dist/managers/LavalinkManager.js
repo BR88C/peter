@@ -11,7 +11,7 @@ const erela_js_1 = require("erela.js");
 const erela_js_spotify_1 = __importDefault(require("erela.js-spotify"));
 erela_js_1.Structure.extend(`Player`, (player) => class Player extends player {
     get formattedEffects() {
-        let str = [];
+        const str = [];
         if (this.effects.bassboost)
             str.push(`Bassboost = +${this.effects.bassboost}`);
         if (this.effects.pitch)

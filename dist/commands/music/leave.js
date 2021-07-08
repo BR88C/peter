@@ -2,19 +2,19 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
 exports.default = {
-    command: `clear`,
+    command: `leave`,
     interaction: {
-        name: `clear`,
-        description: `Clears the queue.`
+        name: `leave`,
+        description: `Disconnect the bot and destroy the queue.`
     },
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player)
-            return void ctx.error(`Unable to clear the queue; no music is playing.`);
-        player.queue.clear();
+            return void ctx.error(`Unable to disconnect the bot; no music is playing.`);
+        player.destroy();
         ctx.embed
-            .color(Constants_1.Constants.QUEUE_CLEARED_EMBED_COLOR)
-            .title(`:broom:  Cleared the queue`)
+            .color(Constants_1.Constants.LEAVE_EMBED_COLOR)
+            .title(`:wave:  Left the VC`)
             .send()
             .catch((error) => void ctx.error(error));
     }
