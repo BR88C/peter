@@ -15,7 +15,7 @@ export default {
         const player: ExtendedPlayer | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id) as any;
         if (!player || !player.queue?.current) return void ctx.error(`Unable to get the current song; no music is playing.`);
 
-        let description;
+        let description: string;
         if (player.queue.current.isStream) description = `🔴  **LIVE**`;
         else description = `\`\`\`\n${player.paused ? `⏸` : `▶`} ${timestamp(player.position)} ${progressBar(player.position / (player.queue.current.duration ?? player.position), 25)} ${timestamp(player.queue.current.duration ?? player.position)}`;
 
