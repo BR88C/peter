@@ -60,7 +60,7 @@ export interface BotConstants {
     /**
      * The amount to multiply specified bassboost values by.
      */
-    BASSBOOST_INTENSITY_MULTIPLIER: number,
+    BASSBOOST_INTENSITY_MULTIPLIER: number
     /**
      * The number of EQ bands Lavalink has.
      */
@@ -72,7 +72,7 @@ export interface BotConstants {
     /**
      * The amount to multiply specified treble values by.
      */
-    TREBLE_INTENSITY_MULTIPLIER: number,
+    TREBLE_INTENSITY_MULTIPLIER: number
     /**
      * The frequency to use for the vibrato and tremolo effect.
      */
