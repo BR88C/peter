@@ -34,7 +34,6 @@ export default {
 
         const search: SearchResult = await ctx.worker.lavalink.search(ctx.options.query, `${ctx.interaction.member.user.username}#${ctx.interaction.member.user.discriminator}`);
         if (!search.tracks.length) return void ctx.error(`Unable to find any results based on the provided query.`);
-        console.log(search.tracks.length);
 
         const player: ExtendedPlayer = ctx.worker.lavalink.create({
             guild: ctx.interaction.guild_id,
