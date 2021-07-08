@@ -4,7 +4,7 @@
  * @param length The length of the new string.
  * @returns The centered string.
  */
- export const centerString = (str: string, length: number): string => {
+export const centerString = (str: string, length: number): string => {
     if (str.length > length) throw Error(`Invalid length to center string on.`);
     else return `${` `.repeat(Math.floor((length - str.length) / 2))}${str}${` `.repeat(Math.ceil((length - str.length) / 2))}`;
 };
