@@ -27,6 +27,11 @@ exports.default = {
             },
             {
                 type: 1,
+                name: `list`,
+                description: `List all SFX.`
+            },
+            {
+                type: 1,
                 name: `pitch`,
                 description: `Set the pitch of the music.`,
                 options: [
@@ -145,6 +150,14 @@ exports.default = {
             ctx.embed
                 .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
                 .title(`Cleared all effects`)
+                .send()
+                .catch((error) => void ctx.error(error));
+        }
+        else if (ctx.options.list) {
+            ctx.embed
+                .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
+                .title(`Active SFX`)
+                .description(player.formattedEffects)
                 .send()
                 .catch((error) => void ctx.error(error));
         }

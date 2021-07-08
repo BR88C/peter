@@ -9,6 +9,28 @@ const Constants_1 = require("../config/Constants");
 const discord_rose_1 = require("discord-rose");
 const erela_js_1 = require("erela.js");
 const erela_js_spotify_1 = __importDefault(require("erela.js-spotify"));
+erela_js_1.Structure.extend(`Player`, (player) => class Player extends player {
+    get formattedEffects() {
+        let str = [];
+        if (this.effects.bassboost)
+            str.push(`Bassboost = +${this.effects.bassboost}`);
+        if (this.effects.pitch)
+            str.push(`Pitch = ${this.effects.pitch}﹪`);
+        if (this.effects.rotation)
+            str.push(`Rotation = ${this.effects.rotation} Hz`);
+        if (this.effects.speed)
+            str.push(`Speed = ${this.effects.speed}﹪`);
+        if (this.effects.treble)
+            str.push(`Treble = +${this.effects.treble}`);
+        if (this.effects.tremolo)
+            str.push(`Tremolo = ${this.effects.tremolo}﹪`);
+        if (this.effects.vibrato)
+            str.push(`Vibrato = ${this.effects.vibrato}﹪`);
+        if (this.volume !== 10)
+            str.push(`Volume = ${this.volume * 10}﹪`);
+        return str.length ? `\`\`\`prolog\n${str.join(`, `)}\n\`\`\`` : `\`\`\`diff\n-= No active effects =-\n\`\`\``;
+    }
+});
 class LavalinkManager extends erela_js_1.Manager {
     constructor(nodes, worker) {
         super({
