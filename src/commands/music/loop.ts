@@ -11,7 +11,7 @@ export default {
         description: `Modify looping behavior.`,
         options: [
             {
-                type: 4,
+                type: 3,
                 name: `type`,
                 description: `The type of looping to use.`,
                 choices: [
