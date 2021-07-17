@@ -1,6 +1,5 @@
 import { Config } from '../config/Config';
 import { Constants } from '../config/Constants';
-import { LavalinkManager } from './LavalinkManager';
 import { removeToken } from '../utils/StringUtils';
 import { setRandomPresence } from '../utils/ProcessUtils';
 
@@ -15,17 +14,12 @@ import { Worker } from 'discord-rose';
  * @extends Worker
  */
 export class WorkerManager extends Worker {
-    lavalink: LavalinkManager
-
     /**
      * Create the Worker manager.
      * @constructor
      */
     constructor () {
         super();
-
-        // Create the Lavalink manager.
-        this.lavalink = new LavalinkManager(Config.lavalinkNodes.map((n, i) => Object.assign(n, JSON.parse(process.env.LAVALINK_PASSWORD ?? `[]`)[i])), this);
 
         // Set presence, and change it at an interval specified in config.
         setRandomPresence(this);
@@ -85,7 +79,6 @@ export class WorkerManager extends Worker {
 
         // On ready.
         this.on(`READY`, () => {
-            this.lavalink.init(this.user.id);
             this.log(`\x1b[32mInitiated Lavalink`);
         });
     }

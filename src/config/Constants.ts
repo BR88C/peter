@@ -1,4 +1,4 @@
-import { Snowflake } from "discord-api-types";
+import { Snowflake } from "discord-rose";
 
 export interface BotConstants {
     /**
@@ -157,7 +157,11 @@ export interface BotConstants {
     /**
      * The color to use for the set SFX embed.
      */
-    SET_SFX_EMBED_COLOR
+    SET_SFX_EMBED_COLOR: number
+    /**
+     * The color to use for the skip embed.
+     */
+    SKIP_EMBED_COLOR: number
     /**
      * The color to use for the now playing embed.
      */
@@ -175,10 +179,10 @@ export interface BotConstants {
 export const Constants: BotConstants = {
     MAX_CLUSTER_LOG_LENGTH: 12,
 
-    INVITE_LINK: `https://discord.com/oauth2/authorize?client_id=744694015630245949&scope=bot%20applications.commands&permissions=3525696`,
-    SUPPORT_SERVER: `https://discord.gg/E2JsYPPJYN`,
-    VOTE_LINK: `https://top.gg/bot/744694015630245949/vote`,
-    WEBSITE: `https://peter.badfirmware.com`,
+    INVITE_LINK: `https://discord.com/oauth2/authorize?client_id=744694015630245949&scope=bot%20applications.commands&permissions=3525696&redirect_uri=https%3A%2F%2Fdiscord.gg%2FE2JsYPPJYN&response_type=code`,
+    SUPPORT_SERVER: `https://peters.guidetothe.net/support`,
+    VOTE_LINK: `https://peters.guidetothe.net/vote`,
+    WEBSITE: `https://peters.guidetothe.net`,
 
     DISCORD_CDN: `https://cdn.discordapp.com`,
     PRESENCE_TYPES: [`playing`, `streaming`, `listening`, `watching`, `competing`],
@@ -216,6 +220,7 @@ export const Constants: BotConstants = {
     QUEUE_CLEARED_EMBED_COLOR: 0xFF8F2E,
     SERVER_INFO_EMBED_COLOR: 0xC0FF96,
     SET_SFX_EMBED_COLOR: 0x40FFC2,
+    SKIP_EMBED_COLOR: 0x00,
     STARTED_PLAYING_EMBED_COLOR: 0x21FF9E,
     STATUS_EMBED_COLOR: 0x25F536,
     VOTE_EMBED_COLOR: 0xACA6FF
