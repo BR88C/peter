@@ -1,8 +1,8 @@
 import { Constants } from '../../config/Constants';
-import { ExtendedPlayer } from '../../managers/LavalinkManager';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
+import { Player } from '@discord-rose/lavalink'
 
 export default {
     command: `sfx`,
@@ -127,146 +127,146 @@ export default {
         ]
     },
     exec: async (ctx) => {
-        const player: ExtendedPlayer | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id) as any;
-        if (!player || !player.queue.length) return void ctx.error(`Unable to change SFX; there is no music in the queue.`);
+        const player: Player | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
+        // if (!player || !player.queue.length) return void ctx.error(`Unable to change SFX; there is no music in the queue.`);
 
-        const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.interaction.member.user.id));
-        if (!foundVoiceState || foundVoiceState.channel_id !== player.voiceChannel) return void ctx.error(`You must be in the VC to change SFX.`);
+        // const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.interaction.member.user.id));
+        // if (!foundVoiceState || foundVoiceState.channel_id !== player.voiceChannel) return void ctx.error(`You must be in the VC to change SFX.`);
 
-        if (ctx.options.bassboost) {
-            if (ctx.options.bassboost.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-            if (ctx.options.bassboost.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
+        // if (ctx.options.bassboost) {
+        //     if (ctx.options.bassboost.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
+        //     if (ctx.options.bassboost.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
 
-            if (ctx.options.bassboost.value === 0) delete player.effects.bassboost;
-            else player.effects.bassboost = ctx.options.bassboost.value;
+        //     if (ctx.options.bassboost.value === 0) delete player.effects.bassboost;
+        //     else player.effects.bassboost = ctx.options.bassboost.value;
 
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(player.effects.bassboost ? `Set the bassboost effect to \`+${player.effects.bassboost}\`` : `Turned off the bassboost effect.`)
-                .send()
-                .catch((error) => void ctx.error(error));
-        } else if (ctx.options.clear) {
-            player.effects = {};
-            player.setVolume(100 * Constants.VOLUME_MULTIPLIER);
+        //     ctx.embed
+        //         .color(Constants.SET_SFX_EMBED_COLOR)
+        //         .title(player.effects.bassboost ? `Set the bassboost effect to \`+${player.effects.bassboost}\`` : `Turned off the bassboost effect.`)
+        //         .send()
+        //         .catch((error) => void ctx.error(error));
+        // } else if (ctx.options.clear) {
+        //     player.effects = {};
+        //     player.setVolume(100 * Constants.VOLUME_MULTIPLIER);
 
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(`Cleared all effects`)
-                .send()
-                .catch((error) => void ctx.error(error));
-        } else if (ctx.options.list) {
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(`Active SFX`)
-                .description(player.formattedEffects)
-                .send()
-                .catch((error) => void ctx.error(error));
-        } else if (ctx.options.pitch) {
-            if (ctx.options.pitch.value <= 0) return void ctx.error(`Invalid value. Please specify a value greater than 0.`);
-            if (ctx.options.pitch.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
+        //     ctx.embed
+        //         .color(Constants.SET_SFX_EMBED_COLOR)
+        //         .title(`Cleared all effects`)
+        //         .send()
+        //         .catch((error) => void ctx.error(error));
+        // } else if (ctx.options.list) {
+        //     ctx.embed
+        //         .color(Constants.SET_SFX_EMBED_COLOR)
+        //         .title(`Active SFX`)
+        //         .description(player.formattedEffects)
+        //         .send()
+        //         .catch((error) => void ctx.error(error));
+        // } else if (ctx.options.pitch) {
+        //     if (ctx.options.pitch.value <= 0) return void ctx.error(`Invalid value. Please specify a value greater than 0.`);
+        //     if (ctx.options.pitch.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
 
-            if (ctx.options.pitch.value === 100) delete player.effects.pitch;
-            else player.effects.pitch = ctx.options.pitch.value;
+        //     if (ctx.options.pitch.value === 100) delete player.effects.pitch;
+        //     else player.effects.pitch = ctx.options.pitch.value;
 
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(player.effects.pitch ? `Set the pitch to \`${player.effects.pitch}%\`` : `Turned off the pitch effect.`)
-                .send()
-                .catch((error) => void ctx.error(error));
-        } else if (ctx.options.rotation) {
-            if (ctx.options.rotation.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-            if (ctx.options.rotation.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
+        //     ctx.embed
+        //         .color(Constants.SET_SFX_EMBED_COLOR)
+        //         .title(player.effects.pitch ? `Set the pitch to \`${player.effects.pitch}%\`` : `Turned off the pitch effect.`)
+        //         .send()
+        //         .catch((error) => void ctx.error(error));
+        // } else if (ctx.options.rotation) {
+        //     if (ctx.options.rotation.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
+        //     if (ctx.options.rotation.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
 
-            if (ctx.options.rotation.value === 0) delete player.effects.rotation;
-            else player.effects.rotation = ctx.options.rotation.value;
+        //     if (ctx.options.rotation.value === 0) delete player.effects.rotation;
+        //     else player.effects.rotation = ctx.options.rotation.value;
 
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(player.effects.rotation ? `Set the rotation frequency to \`${player.effects.rotation} Hz\`` : `Turned off the rotation effect.`)
-                .send()
-                .catch((error) => void ctx.error(error));
-        } else if (ctx.options.speed) {
-            if (ctx.options.speed.value <= 0) return void ctx.error(`Invalid value. Please specify a value greater than 0.`);
-            if (ctx.options.speed.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
+        //     ctx.embed
+        //         .color(Constants.SET_SFX_EMBED_COLOR)
+        //         .title(player.effects.rotation ? `Set the rotation frequency to \`${player.effects.rotation} Hz\`` : `Turned off the rotation effect.`)
+        //         .send()
+        //         .catch((error) => void ctx.error(error));
+        // } else if (ctx.options.speed) {
+        //     if (ctx.options.speed.value <= 0) return void ctx.error(`Invalid value. Please specify a value greater than 0.`);
+        //     if (ctx.options.speed.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
 
-            if (ctx.options.speed.value === 100) delete player.effects.speed;
-            else player.effects.speed = ctx.options.speed.value;
+        //     if (ctx.options.speed.value === 100) delete player.effects.speed;
+        //     else player.effects.speed = ctx.options.speed.value;
 
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(player.effects.speed ? `Set the speed to \`${player.effects.speed}%\`` : `Turned off the speed effect.`)
-                .send()
-                .catch((error) => void ctx.error(error));
-        } else if (ctx.options.treble) {
-            if (ctx.options.treble.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-            if (ctx.options.treble.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
+        //     ctx.embed
+        //         .color(Constants.SET_SFX_EMBED_COLOR)
+        //         .title(player.effects.speed ? `Set the speed to \`${player.effects.speed}%\`` : `Turned off the speed effect.`)
+        //         .send()
+        //         .catch((error) => void ctx.error(error));
+        // } else if (ctx.options.treble) {
+        //     if (ctx.options.treble.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
+        //     if (ctx.options.treble.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
 
-            if (ctx.options.treble.value === 0) delete player.effects.treble;
-            else player.effects.treble = ctx.options.treble.value;
+        //     if (ctx.options.treble.value === 0) delete player.effects.treble;
+        //     else player.effects.treble = ctx.options.treble.value;
 
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(player.effects.treble ? `Set the treble to \`+${player.effects.treble}\`` : `Turned off the treble effect.`)
-                .send()
-                .catch((error) => void ctx.error(error));
-        } else if (ctx.options.tremolo) {
-            if (ctx.options.tremolo.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-            if (ctx.options.tremolo.value > 100) return void ctx.error(`Invalid value. Please specify a value lower than or equal to 100.`);
+        //     ctx.embed
+        //         .color(Constants.SET_SFX_EMBED_COLOR)
+        //         .title(player.effects.treble ? `Set the treble to \`+${player.effects.treble}\`` : `Turned off the treble effect.`)
+        //         .send()
+        //         .catch((error) => void ctx.error(error));
+        // } else if (ctx.options.tremolo) {
+        //     if (ctx.options.tremolo.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
+        //     if (ctx.options.tremolo.value > 100) return void ctx.error(`Invalid value. Please specify a value lower than or equal to 100.`);
 
-            if (ctx.options.tremolo.value === 0) delete player.effects.tremolo;
-            else player.effects.tremolo = ctx.options.tremolo.value;
+        //     if (ctx.options.tremolo.value === 0) delete player.effects.tremolo;
+        //     else player.effects.tremolo = ctx.options.tremolo.value;
 
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(player.effects.tremelo ? `Set the tremolo to \`${player.effects.tremelo}%\`` : `Turned off the tremolo effect.`)
-                .send()
-                .catch((error) => void ctx.error(error));
-        } else if (ctx.options.vibrato) {
-            if (ctx.options.vibrato.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-            if (ctx.options.vibrato.value > 100) return void ctx.error(`Invalid value. Please specify a value lower than or equal to 100.`);
+        //     ctx.embed
+        //         .color(Constants.SET_SFX_EMBED_COLOR)
+        //         .title(player.effects.tremelo ? `Set the tremolo to \`${player.effects.tremelo}%\`` : `Turned off the tremolo effect.`)
+        //         .send()
+        //         .catch((error) => void ctx.error(error));
+        // } else if (ctx.options.vibrato) {
+        //     if (ctx.options.vibrato.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
+        //     if (ctx.options.vibrato.value > 100) return void ctx.error(`Invalid value. Please specify a value lower than or equal to 100.`);
 
-            if (ctx.options.vibrato.value === 0) delete player.effects.vibrato;
-            else player.effects.vibrato = ctx.options.vibrato.value;
+        //     if (ctx.options.vibrato.value === 0) delete player.effects.vibrato;
+        //     else player.effects.vibrato = ctx.options.vibrato.value;
 
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(player.effects.vibrato ? `Set the vibrato to \`${player.effects.vibrato}%\`` : `Turned off the vibrato effect.`)
-                .send()
-                .catch((error) => void ctx.error(error));
-        } else if (ctx.options.volume) {
-            if (ctx.options.volume.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-            if (ctx.options.volume.value > 1e3 / Constants.VOLUME_MULTIPLIER) return void ctx.error(`Invalid value. Please specify a value lower than or equal to ${1e3 / Constants.VOLUME_MULTIPLIER}.`);
+        //     ctx.embed
+        //         .color(Constants.SET_SFX_EMBED_COLOR)
+        //         .title(player.effects.vibrato ? `Set the vibrato to \`${player.effects.vibrato}%\`` : `Turned off the vibrato effect.`)
+        //         .send()
+        //         .catch((error) => void ctx.error(error));
+        // } else if (ctx.options.volume) {
+        //     if (ctx.options.volume.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
+        //     if (ctx.options.volume.value > 1e3 / Constants.VOLUME_MULTIPLIER) return void ctx.error(`Invalid value. Please specify a value lower than or equal to ${1e3 / Constants.VOLUME_MULTIPLIER}.`);
 
-            player.setVolume(ctx.options.volume.value * Constants.VOLUME_MULTIPLIER);
+        //     player.setVolume(ctx.options.volume.value * Constants.VOLUME_MULTIPLIER);
 
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(`Set the volume to \`${player.volume / Constants.VOLUME_MULTIPLIER}%\``)
-                .send()
-                .catch((error) => void ctx.error(error));
-        }
+        //     ctx.embed
+        //         .color(Constants.SET_SFX_EMBED_COLOR)
+        //         .title(`Set the volume to \`${player.volume / Constants.VOLUME_MULTIPLIER}%\``)
+        //         .send()
+        //         .catch((error) => void ctx.error(error));
+        // }
 
-        const sendObj: { [key: string]: any } = {
-            op: `filters`,
-            guildId: ctx.interaction.guild_id
-        };
+        // const sendObj: { [key: string]: any } = {
+        //     op: `filters`,
+        //     guildId: ctx.interaction.guild_id
+        // };
 
-        if (player.effects.bassboost) sendObj.equalizer = (sendObj.equalizer ?? []).concat(new Array(3).fill(null).map((value, i) => ({
-            band: i, gain: player.effects.bassboost * Constants.BASSBOOST_INTENSITY_MULTIPLIER
-        })));
-        if (player.effects.pitch) sendObj.timescale = Object.assign(sendObj.timescale ?? {}, { pitch: player.effects.pitch / 100 });
-        if (player.effects.rotation) sendObj.rotation = { rotationHz: player.effects.rotation };
-        if (player.effects.speed) sendObj.timescale = Object.assign(sendObj.timescale ?? {}, { speed: player.effects.speed / 100 });
-        if (player.effects.treble) sendObj.equalizer = (sendObj.equalizer ?? []).concat(new Array(3).fill(null).map((value, i) => ({
-            band: Constants.EQ_BAND_COUNT - (i + 1), gain: player.effects.treble * Constants.TREBLE_INTENSITY_MULTIPLIER
-        })));
-        if (player.effects.tremolo) sendObj.tremolo = {
-            frequency: Constants.TREMOLO_VIBRATO_FREQUENCY, depth: player.effects.tremolo / 100
-        };
-        if (player.effects.vibrato) sendObj.vibrato = {
-            frequency: Constants.TREMOLO_VIBRATO_FREQUENCY, depth: player.effects.vibrato / 100
-        };
+        // if (player.effects.bassboost) sendObj.equalizer = (sendObj.equalizer ?? []).concat(new Array(3).fill(null).map((value, i) => ({
+        //     band: i, gain: player.effects.bassboost * Constants.BASSBOOST_INTENSITY_MULTIPLIER
+        // })));
+        // if (player.effects.pitch) sendObj.timescale = Object.assign(sendObj.timescale ?? {}, { pitch: player.effects.pitch / 100 });
+        // if (player.effects.rotation) sendObj.rotation = { rotationHz: player.effects.rotation };
+        // if (player.effects.speed) sendObj.timescale = Object.assign(sendObj.timescale ?? {}, { speed: player.effects.speed / 100 });
+        // if (player.effects.treble) sendObj.equalizer = (sendObj.equalizer ?? []).concat(new Array(3).fill(null).map((value, i) => ({
+        //     band: Constants.EQ_BAND_COUNT - (i + 1), gain: player.effects.treble * Constants.TREBLE_INTENSITY_MULTIPLIER
+        // })));
+        // if (player.effects.tremolo) sendObj.tremolo = {
+        //     frequency: Constants.TREMOLO_VIBRATO_FREQUENCY, depth: player.effects.tremolo / 100
+        // };
+        // if (player.effects.vibrato) sendObj.vibrato = {
+        //     frequency: Constants.TREMOLO_VIBRATO_FREQUENCY, depth: player.effects.vibrato / 100
+        // };
 
-        player.node.send(sendObj).catch(() => void ctx.error(`An unknown error occurred when setting SFX.`));
+        // player.node.send(sendObj).catch(() => void ctx.error(`An unknown error occurred when setting SFX.`));
     }
 } as CommandOptions;

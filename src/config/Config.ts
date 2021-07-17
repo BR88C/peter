@@ -1,6 +1,6 @@
 // Import modules.
 import { CacheControlOptions, CacheOptions, Snowflake } from 'discord-rose';
-import { NodeOptions } from 'erela.js';
+import { NodeOptions } from '@discord-rose/lavalink';
 
 export interface BotConfig {
     /**

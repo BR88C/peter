@@ -1,8 +1,8 @@
 import { Constants } from '../../config/Constants';
-import { ExtendedPlayer } from '../../managers/LavalinkManager';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
+import { Player } from '@discord-rose/lavalink'
 
 export default {
     command: `pause`,
@@ -11,13 +11,13 @@ export default {
         description: `Pause the music.`
     },
     exec: (ctx) => {
-        const player: ExtendedPlayer | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id) as any;
-        if (!player || !player.queue.length) return void ctx.error(`Unable to pause; there is no music in the queue.`);
-        if (!player.queue.current) return void ctx.error(`Unable to pause; there is no music playing.`);
+        const player: Player | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
+        if (!player) return void ctx.error(`Unable to pause; there is no music in the queue.`); // || !player.queue.length
+        // if (!player.queue.current) return void ctx.error(`Unable to pause; there is no music playing.`);
 
-        if (player.paused) return void ctx.error(`The music is already paused.`);
+        // if (player.paused) return void ctx.error(`The music is already paused.`);
 
-        player.pause(true);
+        // player.pause(true);
 
         ctx.embed
             .color(Constants.PAUSE_EMBED_COLOR)

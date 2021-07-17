@@ -1,8 +1,8 @@
 import { Constants } from '../../config/Constants';
-import { ExtendedPlayer } from '../../managers/LavalinkManager';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
+import { Player } from '@discord-rose/lavalink'
 
 export default {
     command: `leave`,
@@ -11,7 +11,7 @@ export default {
         description: `Disconnect the bot and destroy the queue.`
     },
     exec: (ctx) => {
-        const player: ExtendedPlayer | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id) as any;
+        const player: Player | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player) return void ctx.error(`Unable to disconnect the bot; the bot is not connected to a VC.`);
 
         player.destroy();
