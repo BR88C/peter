@@ -88,8 +88,12 @@ export class WorkerManager extends Worker {
         });
 
         // On ready.
-        this.on(`READY`, () => {
-            this.log(`\x1b[32mInitiated Lavalink`);
+        this.on(`READY`, async () => {
+            this.log(`Spawning Lavalink Nodes`)
+            const lavalinkStart = Date.now()
+            const lavalinkSpawnResult = await this.lavalink.connectNodes()
+            this.log(`Spawned ${lavalinkSpawnResult.filter((r) => r.status === `fulfilled`).length} Lavalink Nodes after ${Math.round((Date.now() - lavalinkStart) / 10) / 100}s`);
+            this.log(`\x1b[35mWorker up since ${new Date().toLocaleString()}`)
         });
     }
 }
