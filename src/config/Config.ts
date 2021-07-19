@@ -92,7 +92,7 @@ export const Config: BotConfig = {
         voiceStates: true
     },
     cacheControl: {
-        guilds: [`id`, `name`], voiceStates: []
+        guilds: [`id`, `name`], voiceStates: [`session_id`]
     },
 
     lavalinkNodes: [
