@@ -4,7 +4,7 @@ import { removeToken } from '../utils/StringUtils';
 import { setRandomPresence } from '../utils/ProcessUtils';
 
 // Import modules.
-import { LavalinkManager } from '@discord-rose/lavalink'
+import { LavalinkManager } from '@discord-rose/lavalink';
 import { readdirSync, statSync } from 'fs';
 import { resolve } from 'path';
 import { Worker } from 'discord-rose';
@@ -29,7 +29,11 @@ export class WorkerManager extends Worker {
 
         this.lavalink = new LavalinkManager({
             nodeOptions: Config.lavalinkNodes.map((n, i) => Object.assign(n, JSON.parse(process.env.LAVALINK_PASSWORD ?? `[]`)[i])),
-        }, this)
+            spotifyAuth: {
+                clientId: process.env.SPOTIFY_ID ?? ``,
+                clientSecret: process.env.SPOTIFY_SECRET ?? ``
+            }
+        }, this);
 
         // Set presence, and change it at an interval specified in config.
         setRandomPresence(this);
@@ -89,11 +93,11 @@ export class WorkerManager extends Worker {
 
         // On ready.
         this.on(`READY`, async () => {
-            this.log(`Spawning Lavalink Nodes`)
-            const lavalinkStart = Date.now()
-            const lavalinkSpawnResult = await this.lavalink.connectNodes()
+            this.log(`Spawning Lavalink Nodes`);
+            const lavalinkStart = Date.now();
+            const lavalinkSpawnResult = await this.lavalink.connectNodes();
             this.log(`Spawned ${lavalinkSpawnResult.filter((r) => r.status === `fulfilled`).length} Lavalink Nodes after ${Math.round((Date.now() - lavalinkStart) / 10) / 100}s`);
-            this.log(`\x1b[35mWorker up since ${new Date().toLocaleString()}`)
+            this.log(`\x1b[35mWorker up since ${new Date().toLocaleString()}`);
         });
     }
 }
