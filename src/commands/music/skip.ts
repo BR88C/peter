@@ -22,12 +22,13 @@ export default {
         const player: Player | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id) as any;
         if (!player || !player.queue.length) return void ctx.error(`Unable to skip; there is no music in the queue.`);
 
-        const index = typeof ctx.options.index?.value === `number` ? ctx.options.index.value - 1 : undefined;
+        const index = typeof ctx.options.index === `number` ? ctx.options.index - 1 : undefined;
+        if (index && (index < 0 || index >= player.queue.length)) return void ctx.error(`Invalid index`);
         await player.skip(index);
 
         ctx.embed
             .color(Constants.SKIP_EMBED_COLOR)
-            .title(`:track_next:  Skipped to the next track`)
+            .title(`:track_next:  Skipped to ${typeof index === `number` ? `track \`${index + 1}\`` : `the next track`}`)
             .send()
             .catch((error) => void ctx.error(error));
     }

@@ -36,11 +36,11 @@ export default {
         const player: Player | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player || !player.queue.length) return void ctx.error(`Unable to change the loop behavior; there is no music in the queue.`);
 
-        player.setLoop(ctx.options.type.value);
+        player.setLoop(ctx.options.type);
 
         ctx.embed
             .color(Constants.LOOP_EMBED_COLOR)
-            .title(`:repeat:  Looping is now set to \`${ctx.options.type.value}\``)
+            .title(`:repeat:  Looping is now set to \`${ctx.options.type}\``)
             .send()
             .catch((error) => void ctx.error(error));
     }
