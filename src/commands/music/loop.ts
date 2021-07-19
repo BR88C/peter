@@ -2,7 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { Player } from '@discord-rose/lavalink'
+import { Player } from '@discord-rose/lavalink';
 
 export default {
     command: `loop`,
@@ -34,19 +34,9 @@ export default {
     },
     exec: (ctx) => {
         const player: Player | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
-        if (!player) return void ctx.error(`Unable to change the loop behavior; there is no music in the queue.`); // || !player.queue.length
+        if (!player || !player.queue.length) return void ctx.error(`Unable to change the loop behavior; there is no music in the queue.`);
 
-        // if (ctx.options.type.value === `queue`) {
-        //     player.setTrackRepeat(false);
-        //     player.setQueueRepeat(true);
-        // } else if (ctx.options.type.value === `track`) {
-        //     if (player.queue.current?.isSeekable) return void ctx.error(`The current track does not support looping.`);
-        //     player.setQueueRepeat(false);
-        //     player.setTrackRepeat(true);
-        // } else {
-        //     player.setQueueRepeat(false);
-        //     player.setTrackRepeat(false);
-        // }
+        player.setLoop(ctx.options.type.value);
 
         ctx.embed
             .color(Constants.LOOP_EMBED_COLOR)

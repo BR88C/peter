@@ -2,7 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { Player } from '@discord-rose/lavalink'
+import { Player } from '@discord-rose/lavalink';
 
 export default {
     command: `sfx`,

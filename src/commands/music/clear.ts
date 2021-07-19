@@ -2,7 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { Player } from '@discord-rose/lavalink'
+import { Player } from '@discord-rose/lavalink';
 
 export default {
     command: `clear`,
@@ -12,9 +12,9 @@ export default {
     },
     exec: (ctx) => {
         const player: Player | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
-        if (!player) return void ctx.error(`Unable to clear the queue; there is no music in the queue.`); // || !player.queue.length
+        if (!player || !player.queue.length) return void ctx.error(`Unable to clear the queue; there is no music in the queue.`);
 
-        // player.queue.clear();
+        player.queue = player.queuePosition !== null && player.queue[player.queuePosition] ? [player.queue[player.queuePosition]] : [];
 
         ctx.embed
             .color(Constants.QUEUE_CLEARED_EMBED_COLOR)

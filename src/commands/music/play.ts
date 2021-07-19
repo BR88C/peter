@@ -3,7 +3,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { Player, PlayerState } from '@discord-rose/lavalink'
+import { Player, PlayerState } from '@discord-rose/lavalink';
 
 export default {
     command: `play`,
@@ -27,12 +27,13 @@ export default {
 
         await ctx.embed
             .color(Constants.PROCESSING_QUERY_EMBED_COLOR)
-            .title(`Processing query...`)
-            .send()
+            .title(`:mag_right:  Searching...`)
+            .send(true, false, true)
             .catch((error) => void ctx.error(error));
 
-        const search = await ctx.worker.lavalink.search(ctx.options.query);
-        if (!search.tracks.length) return void ctx.error(`Unable to find any results based on the provided query.`);
+        const requesterTag = `${ctx.interaction.member.user.username}#${ctx.interaction.member.user.discriminator}`;
+        const search = await ctx.worker.lavalink.search(ctx.options.query, ctx.interaction.member.nick ? `${ctx.interaction.member.nick} (${requesterTag})` : requesterTag);
+        if (!search.tracks[0] || search.loadType === `LOAD_FAILED` || search.loadType === `NO_MATCHES`) return void ctx.error(`Unable to find any results based on the provided query.`);
 
         const player: Player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id) ?? ctx.worker.lavalink.createPlayer({
             guildId: ctx.interaction.guild_id,
@@ -41,27 +42,24 @@ export default {
         });
         if (player.state === PlayerState.DISCONNECTED) await player.connect();
 
-        // if (!search.playlistInfo) {
-        //     player.queue.add(search.tracks[0]);
-        //     await ctx.embed
-        //         .color(Constants.ADDED_TO_QUEUE_EMBED_COLOR)
-        //         .title(`Added "${cleanseMarkdown(search.tracks[0].title)}" to the queue`)
-        //         .footer(`Requested by ${search.tracks[0].requester}`)
-        //         .timestamp()
-        //         .send()
-        //         .catch((error) => void ctx.error(error));
-        // } else {
-        //     for (const track of search.tracks) player.queue.add(track);
-        //     await ctx.embed
-        //         .color(Constants.ADDED_TO_QUEUE_EMBED_COLOR)
-        //         .title(`Successfully queued ${search.tracks.length} song${search.tracks.length > 1 ? `s` : ``}`)
-        //         .footer(`Requested by ${search.tracks[0].requester}`)
-        //         .timestamp()
-        //         .send()
-        //         .catch((error) => void ctx.error(error));
-        // }
+        if (search.loadType !== `PLAYLIST_LOADED`) {
+            await ctx.embed
+                .color(Constants.ADDED_TO_QUEUE_EMBED_COLOR)
+                .title(`Added "${cleanseMarkdown(search.tracks[0].title)}" to the queue`)
+                .footer(`Requested by ${search.tracks[0].requester}`)
+                .timestamp()
+                .send()
+                .catch((error) => void ctx.error(error));
+        } else {
+            await ctx.embed
+                .color(Constants.ADDED_TO_QUEUE_EMBED_COLOR)
+                .title(`Successfully queued ${search.tracks.length} song${search.tracks.length > 1 ? `s` : ``}`)
+                .footer(`Requested by ${search.tracks[0].requester}`)
+                .timestamp()
+                .send()
+                .catch((error) => void ctx.error(error));
+        }
 
-        // if (!player.playing && !player.paused) player.play().catch((error) => void ctx.error(error));
-        await player.play(search.tracks[0])
+        await player.play(search.loadType !== `PLAYLIST_LOADED` ? search.tracks[0] : search.tracks);
     }
 } as CommandOptions;

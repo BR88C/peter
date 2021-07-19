@@ -3,7 +3,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { Player } from '@discord-rose/lavalink'
+import { Player, PlayerState, Track } from '@discord-rose/lavalink';
 import { progressBar, timestamp } from '../../utils/Time';
 
 export default {
@@ -14,21 +14,21 @@ export default {
     },
     exec: (ctx) => {
         const player: Player | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
-        if (!player) return void ctx.error(`Unable to get the current song; there is no music in the queue.`); // || !player.queue.length
-        // if (!player.queue.current) return void ctx.error(`Unable to get the current song; there is no music playing.`);
+        if (!player || !player.queue.length) return void ctx.error(`Unable to get the current song; there is no music in the queue.`);
+        if (player.queuePosition === null) return void ctx.error(`Unable to get the current song; there is no music playing.`);
 
-        // let description: string;
-        // if (player.queue.current.isStream) description = `🔴  **LIVE**`;
-        // else description = `\`\`\`\n${player.paused ? `⏸` : `▶`} ${timestamp(player.position)} ${progressBar(player.position / (player.queue.current.duration ?? player.position), 25)} ${timestamp(player.queue.current.duration ?? player.position)}\n\`\`\``;
+        let description: string;
+        if ((player.queue[player.queuePosition] as Track).isStream) description = `🔴  **LIVE**`;
+        else description = `\`\`\`\n${player.state === PlayerState.PAUSED ? `⏸` : `▶`} ${timestamp(player.position ?? 0)} ${progressBar((player.position ?? 0) / (player.queue[player.queuePosition].length ?? (player.position ?? 0)), 25)} ${timestamp(player.queue[player.queuePosition].length ?? (player.position ?? 0))}\n\`\`\``;
 
-        // ctx.embed
-        //     .color(Constants.NOW_PLAYING_EMBED_COLOR)
-        //     .author(`Currently playing:`)
-        //     .title(cleanseMarkdown(player.queue.current.title), player.queue.current.uri)
-        //     .thumbnail(player.queue.current.displayThumbnail ? (player.queue.current.displayThumbnail(`mqdefault`) ?? ``) : ``)
-        //     .description(description)
-        //     .footer(`Requested by ${player.queue.current.requester}`)
-        //     .send()
-        //     .catch((error) => void ctx.error(error));
+        ctx.embed
+            .color(Constants.NOW_PLAYING_EMBED_COLOR)
+            .author(`Currently playing:`)
+            .title(cleanseMarkdown((player.queue[player.queuePosition] as Track).title), (player.queue[player.queuePosition] as Track).uri)
+            .thumbnail((player.queue[player.queuePosition] as Track).thumbnail(`mqdefault`) ?? ``)
+            .description(description)
+            .footer(`Requested by ${player.queue[player.queuePosition].requester}`)
+            .send()
+            .catch((error) => void ctx.error(error));
     }
 } as CommandOptions;
