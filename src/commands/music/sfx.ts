@@ -212,10 +212,10 @@ export default {
             if (ctx.options.treble.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
             if (ctx.options.treble.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
 
-            const newFilters: Filters = Object.assign(player.filters, { equalizer: (player.filters.equalizer?.filter((v) => v.band > 2) ?? []).concat(ctx.options.treble.value === 0
+            const newFilters: Filters = Object.assign(player.filters, { equalizer: (player.filters.equalizer?.filter((v) => v.band < Constants.EQ_BAND_COUNT - 3) ?? []).concat(ctx.options.treble.value === 0
                 ? []
                 : new Array(3).fill(null).map((v, i) => ({
-                    band: Constants.EQ_BAND_COUNT - (i + 1), gain: ctx.options.treble * Constants.TREBLE_INTENSITY_MULTIPLIER
+                    band: Constants.EQ_BAND_COUNT - (i + 1), gain: ctx.options.treble.value * Constants.TREBLE_INTENSITY_MULTIPLIER
                 }))) });
             if (!newFilters.equalizer?.length) delete newFilters.equalizer;
             await player.setFilters(newFilters);
