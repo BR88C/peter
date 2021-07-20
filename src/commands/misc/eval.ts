@@ -18,7 +18,7 @@ export default {
         try {
             const multiLine = ctx.args[0] === `-m`;
             evalResponse = await new Promise(async (resolve, reject) => { // eslint-disable-line
-                eval(`(async () => ${multiLine ? `{ ` : ``}${ctx.args.join(` `).replace(`-m `, ``)}${multiLine ? ` }` : ``})().then((a) => resolve(a));`); // eslint-disable-line no-eval
+                eval(`(async () => ${multiLine ? `{ ` : ``}${ctx.args.join(` `).replace(`-m `, ``)}${multiLine ? ` }` : ``})().then((a) => resolve(a)).catch((error) => resolve(error));`); // eslint-disable-line no-eval
             });
         } catch (error) {
             evalResponse = error;
