@@ -71,6 +71,6 @@ export default {
             );
         }
 
-        await player.play(search.loadType !== `PLAYLIST_LOADED` ? search.tracks[0] : search.tracks);
+        await player.play(search.loadType === `PLAYLIST_LOADED` ? search.tracks : search.tracks[0]);
     }
 } as CommandOptions;
