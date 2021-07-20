@@ -28,7 +28,7 @@ export default {
 
         ctx.embed
             .color(Constants.SKIP_EMBED_COLOR)
-            .title(`:track_next:  Skipped to ${typeof index === `number` ? `track \`${index + 1}\`` : `the next track`}`)
+            .title(`:track_next:  Skipped to ${typeof index === `number` ? `track ${index + 1}` : `the next track`}`)
             .send()
             .catch((error) => void ctx.error(error));
     }
