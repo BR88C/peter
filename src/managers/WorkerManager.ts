@@ -5,7 +5,7 @@ import { Constants } from '../config/Constants';
 import { setRandomPresence } from '../utils/ProcessUtils';
 
 // Import modules.
-import { LavalinkManager } from '@discord-rose/lavalink';
+import { LavalinkManager, Track } from '@discord-rose/lavalink';
 import { readdirSync, statSync } from 'fs';
 import { resolve } from 'path';
 import { Embed, Worker } from 'discord-rose';
@@ -65,6 +65,7 @@ export class WorkerManager extends Worker {
                 .color(Constants.ERROR_EMBED_COLOR)
                 .title(`Error`)
                 .description(`\`\`\`\n${removeToken(error.message.replace(/^(Error: )/, ``))}\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
+                .timestamp()
                 .send(true, false, true)
                 .catch((error) => this.log(`\x1b[31mUnable to send Error Embed${typeof error === `string` ? ` | Reason: ${error}` : (typeof error?.message === `string` ? ` | Reason: ${error.message}` : ``)}`));
         });
@@ -130,6 +131,7 @@ export class WorkerManager extends Worker {
                     .color(Constants.ERROR_EMBED_COLOR)
                     .title(`Error`)
                     .description(`\`\`\`\nPlayer destroyed: ${reason}${reason.endsWith(`.`) ? `` : `.`}\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
+                    .timestamp()
                 );
             });
 
@@ -141,6 +143,7 @@ export class WorkerManager extends Worker {
                     .color(Constants.ERROR_EMBED_COLOR)
                     .title(`Error`)
                     .description(`\`\`\`\nAn unknown player error occurred\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
+                    .timestamp()
                 );
             });
 
@@ -163,11 +166,12 @@ export class WorkerManager extends Worker {
             this.lavalink.on(`PLAYER_TRACK_EXCEPTION`, ({
                 player, track, message, severity, cause
             }) => {
-                this.log(`\x1b[31mTrack Exception | Track Identifier: ${track.identifier} | Severity: ${severity} | Cause: ${cause} | Message: ${message} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
+                this.log(`\x1b[31mTrack Exception | Track Identifier: ${track instanceof Track ? track.identifier : `N/A`} | Severity: ${severity} | Cause: ${cause} | Message: ${message} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
                 void this.api.messages.send(player.options.textChannelId, new Embed()
                     .color(Constants.ERROR_EMBED_COLOR)
                     .title(`Error`)
                     .description(`\`\`\`\nAn unknown track exception occurred\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
+                    .timestamp()
                 );
             });
 
@@ -193,6 +197,7 @@ export class WorkerManager extends Worker {
                     .color(Constants.ERROR_EMBED_COLOR)
                     .title(`Error`)
                     .description(`\`\`\`\nTrack stuck, skipping to the next queued track.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
+                    .timestamp()
                 );
             });
         });
