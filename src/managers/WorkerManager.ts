@@ -101,32 +101,57 @@ export class WorkerManager extends Worker {
             this.log(`\x1b[35mWorker up since ${new Date().toLocaleString()}`);
 
             this.lavalink.on(`NODE_CONNECTED`, (node) => this.log(`Node Connected | Node ID: ${node.identifier}`));
+
             this.lavalink.on(`NODE_CREATED`, (node) => this.log(`Node Created | Node ID: ${node.identifier}`));
+
             this.lavalink.on(`NODE_DESTROYED`, ({
                 node, reason
             }) => this.log(`\x1b[31mNode Destroyed | Node ID: ${node.identifier} | Reason: ${reason}`));
+
             this.lavalink.on(`NODE_DISCONNECTED`, ({
                 node, code, reason
             }) => this.log(`\x1b[31mNode Disconnected | Node ID: ${node.identifier} | Code: ${code} | Reason: ${reason}`));
+
             this.lavalink.on(`NODE_ERROR`, ({
                 node, error
             }) => this.log(`\x1b[31mNode Error | Node ID: ${node.identifier} | Error: ${error?.message ?? error}`));
+
             this.lavalink.on(`NODE_RECONNECTING`, (node) => this.log(`\x1b[33mNode Reconnecting | Node ID: ${node.identifier}`));
 
             this.lavalink.on(`PLAYER_CONNECTED`, (player) => this.log(`Player Connected | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
+
             this.lavalink.on(`PLAYER_CREATED`, (player) => this.log(`Player Created | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
+
             this.lavalink.on(`PLAYER_DESTROYED`, ({
                 player, reason
-            }) => this.log(`\x1b[31mPlayer Destroyed | Reason: ${reason} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
+            }) => {
+                this.log(`\x1b[31mPlayer Destroyed | Reason: ${reason} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
+                if (reason !== `Manual destroy`) void this.api.messages.send(player.options.textChannelId, new Embed()
+                    .color(Constants.ERROR_EMBED_COLOR)
+                    .title(`Error`)
+                    .description(`\`\`\`\nPlayer destroyed: ${reason}${reason.endsWith(`.`) ? `` : `.`}\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
+                );
+            });
+
             this.lavalink.on(`PLAYER_ERROR`, ({
                 player, error
-            }) => this.log(`\x1b[31mPlayer Error | Error: ${error?.message ?? error} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
+            }) => {
+                this.log(`\x1b[31mPlayer Error | Error: ${error?.message ?? error} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
+                void this.api.messages.send(player.options.textChannelId, new Embed()
+                    .color(Constants.ERROR_EMBED_COLOR)
+                    .title(`Error`)
+                    .description(`\`\`\`\nAn unknown player error occurred\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
+                );
+            });
+
             this.lavalink.on(`PLAYER_MOVED`, ({
                 player, newChannel
             }) => this.log(`Player Moved | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
+
             this.lavalink.on(`PLAYER_PAUSED`, ({
                 player, reason
             }) => this.log(`Player Paused | Reason: ${reason} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
+
             this.lavalink.on(`PLAYER_RESUMED`, ({
                 player, reason
             }) => this.log(`Player Resumed | Reason: ${reason} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
@@ -134,9 +159,18 @@ export class WorkerManager extends Worker {
             this.lavalink.on(`PLAYER_TRACK_END`, ({
                 player, track, reason
             }) => this.log(`Track Ended | Track Identifier: ${track.identifier} | Reason: ${reason} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
+
             this.lavalink.on(`PLAYER_TRACK_EXCEPTION`, ({
                 player, track, message, severity, cause
-            }) => this.log(`\x1b[31mTrack Ended | Track Identifier: ${track.identifier} | Severity: ${severity} | Cause: ${cause} | Message: ${message} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
+            }) => {
+                this.log(`\x1b[31mTrack Exception | Track Identifier: ${track.identifier} | Severity: ${severity} | Cause: ${cause} | Message: ${message} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
+                void this.api.messages.send(player.options.textChannelId, new Embed()
+                    .color(Constants.ERROR_EMBED_COLOR)
+                    .title(`Error`)
+                    .description(`\`\`\`\nAn unknown track exception occurred\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
+                );
+            });
+
             this.lavalink.on(`PLAYER_TRACK_START`, ({
                 player, track
             }) => {
@@ -150,9 +184,17 @@ export class WorkerManager extends Worker {
                     .timestamp()
                 );
             });
+
             this.lavalink.on(`PLAYER_TRACK_STUCK`, ({
                 player, track, thresholdMs
-            }) => this.log(`\x1b[33mTrack Stuck | Track Identifier: ${track.identifier} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
+            }) => {
+                this.log(`\x1b[33mTrack Stuck | Track Identifier: ${track.identifier} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
+                void this.api.messages.send(player.options.textChannelId, new Embed()
+                    .color(Constants.ERROR_EMBED_COLOR)
+                    .title(`Error`)
+                    .description(`\`\`\`\nTrack stuck, skipping to the next queued track.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
+                );
+            });
         });
     }
 }
