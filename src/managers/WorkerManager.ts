@@ -1,13 +1,14 @@
+import { cleanseMarkdown, removeToken } from '../utils/StringUtils';
 import { Config } from '../config/Config';
 import { Constants } from '../config/Constants';
-import { removeToken } from '../utils/StringUtils';
+
 import { setRandomPresence } from '../utils/ProcessUtils';
 
 // Import modules.
 import { LavalinkManager } from '@discord-rose/lavalink';
 import { readdirSync, statSync } from 'fs';
 import { resolve } from 'path';
-import { Worker } from 'discord-rose';
+import { Embed, Worker } from 'discord-rose';
 
 /**
  * The Worker manager class.
@@ -138,7 +139,17 @@ export class WorkerManager extends Worker {
             }) => this.log(`\x1b[31mTrack Ended | Track Identifier: ${track?.identifier} | Severity: ${severity} | Cause: ${cause} | Message: ${message} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
             this.lavalink.on(`PLAYER_TRACK_START`, ({
                 player, track
-            }) => this.log(`Track Started | Track Identifier: ${track?.identifier} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
+            }) => {
+                this.log(`Track Started | Track Identifier: ${track?.identifier} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
+                void this.api.messages.send(player.options.textChannelId, new Embed()
+                    .color(Constants.STARTED_PLAYING_EMBED_COLOR)
+                    .title(`Started playing: ${cleanseMarkdown(track!.title)}`)
+                    .description(`**Link:** ${track!.uri}`)
+                    .image(`${track!.thumbnail(`mqdefault`)}`)
+                    .footer(`Requested by ${track!.requester}`)
+                    .timestamp()
+                );
+            });
             this.lavalink.on(`PLAYER_TRACK_STUCK`, ({
                 player, track, thresholdMs
             }) => this.log(`\x1b[33mTrack Stuck | Track Identifier: ${track?.identifier} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
