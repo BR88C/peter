@@ -2,7 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { Player } from '@discord-rose/lavalink';
+import { Filters, Player } from '@discord-rose/lavalink';
 
 export default {
     command: `sfx`,
@@ -119,7 +119,7 @@ export default {
                     {
                         type: 4,
                         name: `value`,
-                        description: `The value to set the volume to. 100 is normal volume, 200 is 2x volume, etc. Max is ${1e3 / Constants.VOLUME_MULTIPLIER}.`,
+                        description: `The value to set the volume to. 100 is normal volume, 200 is 2x volume, etc. Max is 1000.`,
                         required: true
                     }
                 ]
@@ -128,145 +128,144 @@ export default {
     },
     exec: async (ctx) => {
         const player: Player | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
-        // if (!player || !player.queue.length) return void ctx.error(`Unable to change SFX; there is no music in the queue.`);
+        if (!player || !player.queue.length) return void ctx.error(`Unable to change SFX; there is no music in the queue.`);
 
-        // const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.interaction.member.user.id));
-        // if (!foundVoiceState || foundVoiceState.channel_id !== player.voiceChannel) return void ctx.error(`You must be in the VC to change SFX.`);
+        const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.interaction.member.user.id));
+        if (!foundVoiceState || foundVoiceState.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to change SFX.`);
 
-        // if (ctx.options.bassboost) {
-        //     if (ctx.options.bassboost.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-        //     if (ctx.options.bassboost.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
+        if (ctx.options.bassboost) {
+            if (ctx.options.bassboost.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
+            if (ctx.options.bassboost.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
 
-        //     if (ctx.options.bassboost.value === 0) delete player.effects.bassboost;
-        //     else player.effects.bassboost = ctx.options.bassboost.value;
+            const newFilters: Filters = Object.assign(player.filters, { equalizer: (player.filters.equalizer?.filter((v) => v.band > 2) ?? []).concat(ctx.options.bassboost.value === 0
+                ? []
+                : new Array(3).fill(null).map((v, i) => ({
+                    band: i, gain: ctx.options.bassboost.value * Constants.BASSBOOST_INTENSITY_MULTIPLIER
+                }))) });
+            if (!newFilters.equalizer?.length) delete newFilters.equalizer;
+            await player.setFilters(newFilters);
 
-        //     ctx.embed
-        //         .color(Constants.SET_SFX_EMBED_COLOR)
-        //         .title(player.effects.bassboost ? `Set the bassboost effect to \`+${player.effects.bassboost}\`` : `Turned off the bassboost effect.`)
-        //         .send()
-        //         .catch((error) => void ctx.error(error));
-        // } else if (ctx.options.clear) {
-        //     player.effects = {};
-        //     player.setVolume(100 * Constants.VOLUME_MULTIPLIER);
+            ctx.embed
+                .color(Constants.SET_SFX_EMBED_COLOR)
+                .title(player.filters.equalizer?.find((v) => v.band === 0) ? `Set the bassboost effect to \`+${(player.filters.equalizer?.find((v) => v.band === 0)?.gain ?? 0) / Constants.BASSBOOST_INTENSITY_MULTIPLIER}\`` : `Turned off the bassboost effect.`)
+                .send()
+                .catch((error) => void ctx.error(error));
+        } else if (ctx.options.clear) {
+            await player.setFilters({});
+            await player.setVolume(100);
 
-        //     ctx.embed
-        //         .color(Constants.SET_SFX_EMBED_COLOR)
-        //         .title(`Cleared all effects`)
-        //         .send()
-        //         .catch((error) => void ctx.error(error));
-        // } else if (ctx.options.list) {
-        //     ctx.embed
-        //         .color(Constants.SET_SFX_EMBED_COLOR)
-        //         .title(`Active SFX`)
-        //         .description(player.formattedEffects)
-        //         .send()
-        //         .catch((error) => void ctx.error(error));
-        // } else if (ctx.options.pitch) {
-        //     if (ctx.options.pitch.value <= 0) return void ctx.error(`Invalid value. Please specify a value greater than 0.`);
-        //     if (ctx.options.pitch.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
+            ctx.embed
+                .color(Constants.SET_SFX_EMBED_COLOR)
+                .title(`Cleared all effects`)
+                .send()
+                .catch((error) => void ctx.error(error));
+        } else if (ctx.options.list) {
+            const formattedEffects = ``;
+            ctx.embed
+                .color(Constants.SET_SFX_EMBED_COLOR)
+                .title(`Active SFX`)
+                .description(formattedEffects)
+                .send()
+                .catch((error) => void ctx.error(error));
+        } else if (ctx.options.pitch) {
+            if (ctx.options.pitch.value <= 0) return void ctx.error(`Invalid value. Please specify a value greater than 0.`);
+            if (ctx.options.pitch.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
 
-        //     if (ctx.options.pitch.value === 100) delete player.effects.pitch;
-        //     else player.effects.pitch = ctx.options.pitch.value;
+            const newFilters: Filters = Object.assign(player.filters, { timescale: Object.assign(player.filters.timescale ?? {}, { pitch: ctx.options.pitch.value / 100 }) });
+            if (newFilters.timescale?.pitch === 1) delete newFilters.timescale.pitch;
+            if (!Object.keys(newFilters.timescale ?? {}).length) delete newFilters.timescale;
+            await player.setFilters(newFilters);
 
-        //     ctx.embed
-        //         .color(Constants.SET_SFX_EMBED_COLOR)
-        //         .title(player.effects.pitch ? `Set the pitch to \`${player.effects.pitch}%\`` : `Turned off the pitch effect.`)
-        //         .send()
-        //         .catch((error) => void ctx.error(error));
-        // } else if (ctx.options.rotation) {
-        //     if (ctx.options.rotation.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-        //     if (ctx.options.rotation.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
+            ctx.embed
+                .color(Constants.SET_SFX_EMBED_COLOR)
+                .title(player.filters.timescale?.pitch ? `Set the pitch to \`${player.filters.timescale.pitch * 100}%\`` : `Turned off the pitch effect.`)
+                .send()
+                .catch((error) => void ctx.error(error));
+        } else if (ctx.options.rotation) {
+            if (ctx.options.rotation.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
+            if (ctx.options.rotation.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
 
-        //     if (ctx.options.rotation.value === 0) delete player.effects.rotation;
-        //     else player.effects.rotation = ctx.options.rotation.value;
+            const newFilters: Filters = Object.assign(player.filters, { rotation: { rotationHz: ctx.options.rotation.value } });
+            if (newFilters.rotation?.rotationHz === 0) delete newFilters.rotation;
+            await player.setFilters(newFilters);
 
-        //     ctx.embed
-        //         .color(Constants.SET_SFX_EMBED_COLOR)
-        //         .title(player.effects.rotation ? `Set the rotation frequency to \`${player.effects.rotation} Hz\`` : `Turned off the rotation effect.`)
-        //         .send()
-        //         .catch((error) => void ctx.error(error));
-        // } else if (ctx.options.speed) {
-        //     if (ctx.options.speed.value <= 0) return void ctx.error(`Invalid value. Please specify a value greater than 0.`);
-        //     if (ctx.options.speed.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
+            ctx.embed
+                .color(Constants.SET_SFX_EMBED_COLOR)
+                .title(typeof newFilters.rotation?.rotationHz === `number` ? `Set the rotation frequency to \`${newFilters.rotation.rotationHz} Hz\`` : `Turned off the rotation effect.`)
+                .send()
+                .catch((error) => void ctx.error(error));
+        } else if (ctx.options.speed) {
+            if (ctx.options.speed.value <= 0) return void ctx.error(`Invalid value. Please specify a value greater than 0.`);
+            if (ctx.options.speed.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
 
-        //     if (ctx.options.speed.value === 100) delete player.effects.speed;
-        //     else player.effects.speed = ctx.options.speed.value;
+            const newFilters: Filters = Object.assign(player.filters, { timescale: Object.assign(player.filters.timescale ?? {}, { speed: ctx.options.speed.value / 100 }) });
+            if (newFilters.timescale?.speed === 1) delete newFilters.timescale.speed;
+            if (!Object.keys(newFilters.timescale ?? {}).length) delete newFilters.timescale;
+            await player.setFilters(newFilters);
 
-        //     ctx.embed
-        //         .color(Constants.SET_SFX_EMBED_COLOR)
-        //         .title(player.effects.speed ? `Set the speed to \`${player.effects.speed}%\`` : `Turned off the speed effect.`)
-        //         .send()
-        //         .catch((error) => void ctx.error(error));
-        // } else if (ctx.options.treble) {
-        //     if (ctx.options.treble.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-        //     if (ctx.options.treble.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
+            ctx.embed
+                .color(Constants.SET_SFX_EMBED_COLOR)
+                .title(player.filters.timescale?.speed ? `Set the speed to \`${player.filters.timescale.speed}%\`` : `Turned off the speed effect.`)
+                .send()
+                .catch((error) => void ctx.error(error));
+        } else if (ctx.options.treble) {
+            if (ctx.options.treble.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
+            if (ctx.options.treble.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
 
-        //     if (ctx.options.treble.value === 0) delete player.effects.treble;
-        //     else player.effects.treble = ctx.options.treble.value;
+            const newFilters: Filters = Object.assign(player.filters, { equalizer: (player.filters.equalizer?.filter((v) => v.band > 2) ?? []).concat(ctx.options.treble.value === 0
+                ? []
+                : new Array(3).fill(null).map((v, i) => ({
+                    band: Constants.EQ_BAND_COUNT - (i + 1), gain: ctx.options.treble * Constants.TREBLE_INTENSITY_MULTIPLIER
+                }))) });
+            if (!newFilters.equalizer?.length) delete newFilters.equalizer;
+            await player.setFilters(newFilters);
 
-        //     ctx.embed
-        //         .color(Constants.SET_SFX_EMBED_COLOR)
-        //         .title(player.effects.treble ? `Set the treble to \`+${player.effects.treble}\`` : `Turned off the treble effect.`)
-        //         .send()
-        //         .catch((error) => void ctx.error(error));
-        // } else if (ctx.options.tremolo) {
-        //     if (ctx.options.tremolo.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-        //     if (ctx.options.tremolo.value > 100) return void ctx.error(`Invalid value. Please specify a value lower than or equal to 100.`);
+            ctx.embed
+                .color(Constants.SET_SFX_EMBED_COLOR)
+                .title(player.filters.equalizer?.find((v) => v.band === Constants.EQ_BAND_COUNT - 1) ? `Set the treble to \`+${(player.filters.equalizer?.find((v) => v.band === Constants.EQ_BAND_COUNT - 1)?.gain ?? 0) / Constants.TREBLE_INTENSITY_MULTIPLIER}\`` : `Turned off the treble effect.`)
+                .send()
+                .catch((error) => void ctx.error(error));
+        } else if (ctx.options.tremolo) {
+            if (ctx.options.tremolo.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
+            if (ctx.options.tremolo.value > 100) return void ctx.error(`Invalid value. Please specify a value lower than or equal to 100.`);
 
-        //     if (ctx.options.tremolo.value === 0) delete player.effects.tremolo;
-        //     else player.effects.tremolo = ctx.options.tremolo.value;
+            const newFilters: Filters = Object.assign(player.filters, { tremolo: {
+                depth: ctx.options.tremolo.value / 100, frequency: Constants.TREMOLO_VIBRATO_FREQUENCY
+            } });
+            if (newFilters.tremolo?.depth === 0) delete newFilters.tremolo;
+            await player.setFilters(newFilters);
 
-        //     ctx.embed
-        //         .color(Constants.SET_SFX_EMBED_COLOR)
-        //         .title(player.effects.tremelo ? `Set the tremolo to \`${player.effects.tremelo}%\`` : `Turned off the tremolo effect.`)
-        //         .send()
-        //         .catch((error) => void ctx.error(error));
-        // } else if (ctx.options.vibrato) {
-        //     if (ctx.options.vibrato.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-        //     if (ctx.options.vibrato.value > 100) return void ctx.error(`Invalid value. Please specify a value lower than or equal to 100.`);
+            ctx.embed
+                .color(Constants.SET_SFX_EMBED_COLOR)
+                .title(newFilters.tremolo?.depth ? `Set the tremolo to \`${newFilters.tremolo.depth * 100}%\`` : `Turned off the tremolo effect.`)
+                .send()
+                .catch((error) => void ctx.error(error));
+        } else if (ctx.options.vibrato) {
+            if (ctx.options.vibrato.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
+            if (ctx.options.vibrato.value > 100) return void ctx.error(`Invalid value. Please specify a value lower than or equal to 100.`);
 
-        //     if (ctx.options.vibrato.value === 0) delete player.effects.vibrato;
-        //     else player.effects.vibrato = ctx.options.vibrato.value;
+            const newFilters: Filters = Object.assign(player.filters, { vibrato: {
+                depth: ctx.options.vibrato.value / 100, frequency: Constants.TREMOLO_VIBRATO_FREQUENCY
+            } });
+            if (newFilters.vibrato?.depth === 0) delete newFilters.vibrato;
+            await player.setFilters(newFilters);
 
-        //     ctx.embed
-        //         .color(Constants.SET_SFX_EMBED_COLOR)
-        //         .title(player.effects.vibrato ? `Set the vibrato to \`${player.effects.vibrato}%\`` : `Turned off the vibrato effect.`)
-        //         .send()
-        //         .catch((error) => void ctx.error(error));
-        // } else if (ctx.options.volume) {
-        //     if (ctx.options.volume.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-        //     if (ctx.options.volume.value > 1e3 / Constants.VOLUME_MULTIPLIER) return void ctx.error(`Invalid value. Please specify a value lower than or equal to ${1e3 / Constants.VOLUME_MULTIPLIER}.`);
+            ctx.embed
+                .color(Constants.SET_SFX_EMBED_COLOR)
+                .title(newFilters.vibrato?.depth ? `Set the vibrato to \`${newFilters.vibrato.depth * 100}%\`` : `Turned off the vibrato effect.`)
+                .send()
+                .catch((error) => void ctx.error(error));
+        } else if (ctx.options.volume) {
+            if (ctx.options.volume.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
+            if (ctx.options.volume.value > 1e3) return void ctx.error(`Invalid value. Please specify a value lower than or equal to 1000.`);
 
-        //     player.setVolume(ctx.options.volume.value * Constants.VOLUME_MULTIPLIER);
+            await player.setVolume(ctx.options.volume.value);
 
-        //     ctx.embed
-        //         .color(Constants.SET_SFX_EMBED_COLOR)
-        //         .title(`Set the volume to \`${player.volume / Constants.VOLUME_MULTIPLIER}%\``)
-        //         .send()
-        //         .catch((error) => void ctx.error(error));
-        // }
-
-        // const sendObj: { [key: string]: any } = {
-        //     op: `filters`,
-        //     guildId: ctx.interaction.guild_id
-        // };
-
-        // if (player.effects.bassboost) sendObj.equalizer = (sendObj.equalizer ?? []).concat(new Array(3).fill(null).map((value, i) => ({
-        //     band: i, gain: player.effects.bassboost * Constants.BASSBOOST_INTENSITY_MULTIPLIER
-        // })));
-        // if (player.effects.pitch) sendObj.timescale = Object.assign(sendObj.timescale ?? {}, { pitch: player.effects.pitch / 100 });
-        // if (player.effects.rotation) sendObj.rotation = { rotationHz: player.effects.rotation };
-        // if (player.effects.speed) sendObj.timescale = Object.assign(sendObj.timescale ?? {}, { speed: player.effects.speed / 100 });
-        // if (player.effects.treble) sendObj.equalizer = (sendObj.equalizer ?? []).concat(new Array(3).fill(null).map((value, i) => ({
-        //     band: Constants.EQ_BAND_COUNT - (i + 1), gain: player.effects.treble * Constants.TREBLE_INTENSITY_MULTIPLIER
-        // })));
-        // if (player.effects.tremolo) sendObj.tremolo = {
-        //     frequency: Constants.TREMOLO_VIBRATO_FREQUENCY, depth: player.effects.tremolo / 100
-        // };
-        // if (player.effects.vibrato) sendObj.vibrato = {
-        //     frequency: Constants.TREMOLO_VIBRATO_FREQUENCY, depth: player.effects.vibrato / 100
-        // };
-
-        // player.node.send(sendObj).catch(() => void ctx.error(`An unknown error occurred when setting SFX.`));
+            ctx.embed
+                .color(Constants.SET_SFX_EMBED_COLOR)
+                .title(`Set the volume to \`${player.volume}%\``)
+                .send()
+                .catch((error) => void ctx.error(error));
+        }
     }
 } as CommandOptions;
