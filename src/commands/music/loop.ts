@@ -19,8 +19,8 @@ export default {
                         value: `queue`
                     },
                     {
-                        name: `Track`,
-                        value: `track`
+                        name: `Single`,
+                        value: `single`
                     },
                     {
                         name: `Off`,
@@ -42,7 +42,7 @@ export default {
 
         ctx.embed
             .color(Constants.LOOP_EMBED_COLOR)
-            .title(`:repeat:  Looping is now set to \`${ctx.options.type}\``)
+            .title(`:repeat:  Looping is now set to \`${player.loop.charAt(0).toUpperCase()}${player.loop.slice(1)}\``)
             .send()
             .catch((error) => void ctx.error(error));
     }
