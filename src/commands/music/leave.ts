@@ -2,7 +2,6 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { Player } from '@discord-rose/lavalink';
 
 export default {
     command: `leave`,
@@ -11,7 +10,7 @@ export default {
         description: `Disconnect the bot and destroy the queue.`
     },
     exec: (ctx) => {
-        const player: Player | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
+        const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player) return void ctx.error(`Unable to disconnect the bot; the bot is not connected to a VC.`);
 
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.interaction.member.user.id));

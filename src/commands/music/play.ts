@@ -3,7 +3,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions, Embed } from 'discord-rose';
-import { Player, PlayerState } from '@discord-rose/lavalink';
+import { PlayerState } from '@discord-rose/lavalink';
 
 export default {
     command: `play`,
@@ -35,11 +35,12 @@ export default {
         const search = await ctx.worker.lavalink.search(ctx.options.query, ctx.interaction.member.nick ? `${ctx.interaction.member.nick} (${requesterTag})` : requesterTag);
         if (!search.tracks[0] || search.loadType === `LOAD_FAILED` || search.loadType === `NO_MATCHES`) return void ctx.error(`Unable to find any results based on the provided query.`);
 
-        const player: Player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id) ?? ctx.worker.lavalink.createPlayer({
+        const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id) ?? ctx.worker.lavalink.createPlayer({
             guildId: ctx.interaction.guild_id,
             voiceChannelId: foundVoiceState.channel_id,
             textChannelId: ctx.interaction.channel_id
         });
+        player.twentyfourseven = false;
         if (player.state === PlayerState.DISCONNECTED) await player.connect();
 
         if (search.loadType === `PLAYLIST_LOADED`) {

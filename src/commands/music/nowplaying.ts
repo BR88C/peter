@@ -3,7 +3,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { Player, PlayerState, Track } from '@discord-rose/lavalink';
+import { PlayerState, Track } from '@discord-rose/lavalink';
 import { progressBar, timestamp } from '../../utils/Time';
 
 export default {
@@ -13,7 +13,7 @@ export default {
         description: `Get information on the current song playing.`
     },
     exec: (ctx) => {
-        const player: Player | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
+        const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player || !player.queue.length) return void ctx.error(`Unable to get the current song; there is no music in the queue.`);
         if (player.queuePosition === null) return void ctx.error(`Unable to get the current song; there is no music playing.`);
 

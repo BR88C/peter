@@ -2,7 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { Filters, Player } from '@discord-rose/lavalink';
+import { Filters } from '@discord-rose/lavalink';
 
 export default {
     command: `sfx`,
@@ -127,7 +127,7 @@ export default {
         ]
     },
     exec: async (ctx) => {
-        const player: Player | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
+        const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player || !player.queue.length) return void ctx.error(`Unable to change SFX; there is no music in the queue.`);
 
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.interaction.member.user.id));
