@@ -13,6 +13,7 @@
     "rules": {
         "@typescript-eslint/consistent-type-assertions": "off",
         "@typescript-eslint/indent": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-unnecessary-type-assertion": "off",
         "@typescript-eslint/prefer-readonly": "off",
         "@typescript-eslint/quotes": "off",
@@ -30,7 +31,6 @@
         "no-eval": "error",
         "no-mixed-operators": "off",
         "no-prototype-builtins": "warn",
-        "no-undef": "error",
         "no-unexpected-multiline": "warn",
         "no-unreachable-loop": "error",
         "no-unused-expressions": "warn",
