@@ -45,7 +45,7 @@ export default {
         if (search.loadType === `PLAYLIST_LOADED`) {
             await ctx.embed
                 .color(Constants.PROCESSING_QUERY_EMBED_COLOR)
-                .title(`:search:  Found a playlist, adding it to the queue...`)
+                .title(`:mag_right:  Found a playlist, adding it to the queue...`)
                 .send(true, false, true)
                 .catch((error) => void ctx.error(error));
 
@@ -59,7 +59,7 @@ export default {
         } else {
             await ctx.embed
                 .color(Constants.PROCESSING_QUERY_EMBED_COLOR)
-                .title(`:search:  Found ${search.tracks.length} result${search.tracks.length > 1 ? `s, queuing the first one` : `, adding it to the queue`}...`)
+                .title(`:mag_right:  Found ${search.tracks.length} result${search.tracks.length > 1 ? `s, queuing the first one` : `, adding it to the queue`}...`)
                 .send(true, false, true)
                 .catch((error) => void ctx.error(error));
 
