@@ -2,7 +2,7 @@ import { cleanseMarkdown } from '../../utils/StringUtils';
 import { Constants } from '../../config/Constants';
 
 // Import modules.
-import { CommandOptions } from 'discord-rose';
+import { CommandOptions, Embed } from 'discord-rose';
 import { Player, PlayerState } from '@discord-rose/lavalink';
 
 export default {
@@ -42,22 +42,33 @@ export default {
         });
         if (player.state === PlayerState.DISCONNECTED) await player.connect();
 
-        if (search.loadType !== `PLAYLIST_LOADED`) {
+        if (search.loadType === `PLAYLIST_LOADED`) {
             await ctx.embed
+                .color(Constants.PROCESSING_QUERY_EMBED_COLOR)
+                .title(`:search:  Found a playlist, adding it to the queue...`)
+                .send(true, false, true)
+                .catch((error) => void ctx.error(error));
+
+            await ctx.worker.api.messages.send(ctx.interaction.channel_id, new Embed()
+                .color(Constants.ADDED_TO_QUEUE_EMBED_COLOR)
+                .title(`Successfully queued ${search.tracks.length} song${search.tracks.length > 1 ? `s` : ``}`)
+                .description(`**Link:** ${ctx.options.query}`)
+                .footer(`Requested by ${search.tracks[0].requester}`)
+                .timestamp()
+            );
+        } else {
+            await ctx.embed
+                .color(Constants.PROCESSING_QUERY_EMBED_COLOR)
+                .title(`:search:  Found ${search.tracks.length} result${search.tracks.length > 1 ? `s, queuing the first one` : `, adding it to the queue`}...`)
+                .send(true, false, true)
+                .catch((error) => void ctx.error(error));
+
+            await ctx.worker.api.messages.send(ctx.interaction.channel_id, new Embed()
                 .color(Constants.ADDED_TO_QUEUE_EMBED_COLOR)
                 .title(`Added "${cleanseMarkdown(search.tracks[0].title)}" to the queue`)
                 .footer(`Requested by ${search.tracks[0].requester}`)
                 .timestamp()
-                .send()
-                .catch((error) => void ctx.error(error));
-        } else {
-            await ctx.embed
-                .color(Constants.ADDED_TO_QUEUE_EMBED_COLOR)
-                .title(`Successfully queued ${search.tracks.length} song${search.tracks.length > 1 ? `s` : ``}`)
-                .footer(`Requested by ${search.tracks[0].requester}`)
-                .timestamp()
-                .send()
-                .catch((error) => void ctx.error(error));
+            );
         }
 
         await player.play(search.loadType !== `PLAYLIST_LOADED` ? search.tracks[0] : search.tracks);
