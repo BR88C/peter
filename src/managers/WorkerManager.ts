@@ -133,26 +133,26 @@ export class WorkerManager extends Worker {
 
             this.lavalink.on(`PLAYER_TRACK_END`, ({
                 player, track, reason
-            }) => this.log(`Track Ended | Track Identifier: ${track?.identifier} | Reason: ${reason} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
+            }) => this.log(`Track Ended | Track Identifier: ${track.identifier} | Reason: ${reason} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
             this.lavalink.on(`PLAYER_TRACK_EXCEPTION`, ({
                 player, track, message, severity, cause
-            }) => this.log(`\x1b[31mTrack Ended | Track Identifier: ${track?.identifier} | Severity: ${severity} | Cause: ${cause} | Message: ${message} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
+            }) => this.log(`\x1b[31mTrack Ended | Track Identifier: ${track.identifier} | Severity: ${severity} | Cause: ${cause} | Message: ${message} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
             this.lavalink.on(`PLAYER_TRACK_START`, ({
                 player, track
             }) => {
-                this.log(`Track Started | Track Identifier: ${track?.identifier} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
+                this.log(`Track Started | Track Identifier: ${track.identifier} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
                 void this.api.messages.send(player.options.textChannelId, new Embed()
                     .color(Constants.STARTED_PLAYING_EMBED_COLOR)
-                    .title(`Started playing: ${cleanseMarkdown(track!.title)}`)
-                    .description(`**Link:** ${track!.uri}`)
-                    .image(`${track!.thumbnail(`mqdefault`)}`)
-                    .footer(`Requested by ${track!.requester}`)
+                    .title(`Started playing: ${cleanseMarkdown(track.title)}`)
+                    .description(`**Link:** ${track.uri}`)
+                    .image(`${track.thumbnail(`mqdefault`)}`)
+                    .footer(`Requested by ${track.requester}`)
                     .timestamp()
                 );
             });
             this.lavalink.on(`PLAYER_TRACK_STUCK`, ({
                 player, track, thresholdMs
-            }) => this.log(`\x1b[33mTrack Stuck | Track Identifier: ${track?.identifier} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
+            }) => this.log(`\x1b[33mTrack Stuck | Track Identifier: ${track.identifier} | Guild Name: ${this.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
         });
     }
 }
