@@ -22,6 +22,9 @@ export default {
         const player: Player | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id) as any;
         if (!player || !player.queue.length) return void ctx.error(`Unable to skip; there is no music in the queue.`);
 
+        const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.interaction.member.user.id));
+        if (!foundVoiceState || foundVoiceState.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to skip.`);
+
         const index = typeof ctx.options.index === `number` ? ctx.options.index - 1 : undefined;
         if (index && (index < 0 || index >= player.queue.length)) return void ctx.error(`Invalid index`);
         await player.skip(index);

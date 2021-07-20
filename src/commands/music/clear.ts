@@ -14,6 +14,9 @@ export default {
         const player: Player | undefined = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player || !player.queue.length) return void ctx.error(`Unable to clear the queue; there is no music in the queue.`);
 
+        const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.interaction.member.user.id));
+        if (!foundVoiceState || foundVoiceState.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to clear the queue.`);
+
         player.queue = player.queuePosition !== null && player.queue[player.queuePosition] ? [player.queue[player.queuePosition]] : [];
 
         ctx.embed

@@ -16,6 +16,9 @@ export default {
         if (player.state === PlayerState.CONNECTED) return void ctx.error(`Unable to pause; there is no music playing.`);
         if (player.state === PlayerState.PAUSED) return void ctx.error(`The music is already paused.`);
 
+        const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.interaction.member.user.id));
+        if (!foundVoiceState || foundVoiceState.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to pause the music.`);
+
         await player.pause();
 
         ctx.embed
