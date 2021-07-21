@@ -1,3 +1,5 @@
+import { Config } from "../config/Config";
+
 /**
  * Centers a string on a specified length using spaces.
  * @param str The string to center.
@@ -26,4 +28,7 @@ export const cleanseMarkdown = (str: string): string => str
 * @param str The string to check.
 * @returns The cleaned string.
 */
-export const removeToken = (str: string): string => str.split(process.env.BOT_TOKEN ?? `%bot_token%`).join(`%bot_token%`);
+export const removeToken = (str: string, tokens: { token: string, replacement: string }[] = Config.defaultTokenArray): string => {
+    for (const token of tokens) str = str.split(token.token).join(token.replacement);
+    return str;
+}

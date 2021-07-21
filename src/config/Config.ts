@@ -48,6 +48,11 @@ export interface BotConfig {
     lavalinkNodes: Array<Omit<NodeOptions, `password`>>
 
     /**
+     * The default array to use for parsing tokens out of strings with the removeToken method in StringUtils.
+     */
+    defaultTokenArray: { token: string, replacement: string }[]
+
+    /**
      * The total amount of shards to spawn.
      */
     shards: {
@@ -100,6 +105,12 @@ export const Config: BotConfig = {
             host: `localhost`,
             port: 2333
         }
+    ],
+
+    defaultTokenArray: [
+        { token: process.env.BOT_TOKEN ?? `%bot_token%`, replacement: `%bot_token%`},
+        { token: process.env.SPOTIFY_ID ?? `%spotify_id%`, replacement: `%spotify_id%` },
+        { token: process.env.SPOTIFY_SECRET ?? `%spotify_secret%`, replacement: `%spotify_secret%` }
     ],
 
     shards: {
