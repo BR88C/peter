@@ -21,7 +21,7 @@ export default {
             .field(`Number of Commands`, ctx.worker.commands.commands?.size.toString() ?? `0`, true)
             .field(`Version`, process.env.npm_package_version ?? `Unavailable`, true)
             .field(`Developer${Config.devs.IDs.length > 1 ? `s` : ``}`, Config.devs.tags.join(`, `), true)
-            .field(`Ping`, `\`${Math.round(ctx.worker.guildShard(ctx.interaction.guild_id).ping)} ms\``, true)
+            .field(`Ping`, `\`${Math.round(ctx.worker.guildShard(ctx.interaction.guild_id!).ping)} ms\``, true)
             .field(`Uptime`, (stats ? timestamp(stats[ctx.worker.comms.id].cluster.uptime * 1e3) : `N/A`), true)
             .field(`Support Server`, Constants.SUPPORT_SERVER, true)
             .field(`Website`, Constants.WEBSITE, true)

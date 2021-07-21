@@ -13,7 +13,7 @@ export default {
         description: `Get information on the current song playing.`
     },
     exec: (ctx) => {
-        const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
+        const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
         if (!player || !player.queue.length) return void ctx.error(`Unable to get the current song; there is no music in the queue.`);
         if (player.queuePosition === null) return void ctx.error(`Unable to get the current song; there is no music playing.`);
 

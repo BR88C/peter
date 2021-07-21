@@ -13,7 +13,7 @@ export default {
         ctx.embed
             .color(Constants.PING_EMBED_COLOR)
             .title(`Pong!`)
-            .description(`\`\`\`js\n${ctx.worker.guildShard(ctx.interaction.guild_id).ping} ms\n\`\`\``)
+            .description(`\`\`\`js\n${ctx.worker.guildShard(ctx.interaction.guild_id!).ping} ms\n\`\`\``)
             .send()
             .catch((error) => void ctx.error(error));
     }
