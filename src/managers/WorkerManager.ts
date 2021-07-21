@@ -90,8 +90,8 @@ export class WorkerManager extends Worker {
             } else { // If the received event is an interaction.
                 if (!ctx.interaction.guild_id) {
                     this.log(`\x1b[33mReceived Interaction in a Guild | User: ${ctx.author.username}#${ctx.author.discriminator}`);
-                    void ctx.error(`This command can only be ran in a guild!`)
-                    return false
+                    void ctx.error(`This command can only be ran in a guild!`);
+                    return false;
                 } else {
                     this.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.interaction.guild_id)?.name} | Guild ID: ${ctx.interaction.guild_id}`);
                     return true;
