@@ -111,7 +111,7 @@ export const Config: BotConfig = {
         { token: process.env.BOT_TOKEN ?? `%bot_token%`, replacement: `%bot_token%`},
         { token: process.env.SPOTIFY_ID ?? `%spotify_id%`, replacement: `%spotify_id%` },
         { token: process.env.SPOTIFY_SECRET ?? `%spotify_secret%`, replacement: `%spotify_secret%` }
-    ],
+    ].concat((JSON.parse(process.env.LAVALINK_PASSWORDS ?? `[]`) as string[]).map((pass) => ({ token: pass, replacement: `%lavalink_password%` }))),
 
     shards: {
         dev: 1,
