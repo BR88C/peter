@@ -28,7 +28,7 @@ export const cleanseMarkdown = (str: string): string => str
 * @param str The string to check.
 * @returns The cleaned string.
 */
-export const removeToken = (str: string, tokens: { token: string, replacement: string }[] = Config.defaultTokenArray): string => {
+export const removeToken = (str: string, tokens: Array<{ token: string, replacement: string }> = Config.defaultTokenArray): string => {
     for (const token of tokens) str = str.split(token.token).join(token.replacement);
     return str;
-}
+};

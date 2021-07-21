@@ -50,7 +50,7 @@ export interface BotConfig {
     /**
      * The default array to use for parsing tokens out of strings with the removeToken method in StringUtils.
      */
-    defaultTokenArray: { token: string, replacement: string }[]
+    defaultTokenArray: Array<{ token: string, replacement: string }>
 
     /**
      * The total amount of shards to spawn.
@@ -108,10 +108,18 @@ export const Config: BotConfig = {
     ],
 
     defaultTokenArray: [
-        { token: process.env.BOT_TOKEN ?? `%bot_token%`, replacement: `%bot_token%`},
-        { token: process.env.SPOTIFY_ID ?? `%spotify_id%`, replacement: `%spotify_id%` },
-        { token: process.env.SPOTIFY_SECRET ?? `%spotify_secret%`, replacement: `%spotify_secret%` }
-    ].concat((JSON.parse(process.env.LAVALINK_PASSWORDS ?? `[]`) as string[]).map((password, i) => ({ token: password, replacement: `%lavalink_password_${i}%` }))),
+        {
+            token: process.env.BOT_TOKEN ?? `%bot_token%`, replacement: `%bot_token%`
+        },
+        {
+            token: process.env.SPOTIFY_ID ?? `%spotify_id%`, replacement: `%spotify_id%`
+        },
+        {
+            token: process.env.SPOTIFY_SECRET ?? `%spotify_secret%`, replacement: `%spotify_secret%`
+        }
+    ].concat((JSON.parse(process.env.LAVALINK_PASSWORDS ?? `[]`) as string[]).map((password, i) => ({
+        token: password, replacement: `%lavalink_password_${i}%`
+    }))),
 
     shards: {
         dev: 1,

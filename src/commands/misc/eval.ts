@@ -29,8 +29,12 @@ export default {
         }
 
         // Format.
-        // @ts-expect-error Property 'spotifyToken' is private and only accessible within class 'LavalinkManager'.
-        evalResponse = removeToken((typeof evalResponse !== `string` && typeof evalResponse !== `number` ? inspect(evalResponse, false, 1) : evalResponse).toString(), ctx.worker.lavalink.spotifyToken ? Config.defaultTokenArray.concat({ token: ctx.worker.lavalink.spotifyToken, replacement: `%spotify_token%` }) : Config.defaultTokenArray);
+        evalResponse = removeToken((typeof evalResponse !== `string` && typeof evalResponse !== `number` ? inspect(evalResponse, false, 1) : evalResponse).toString(), ctx.worker.lavalink.spotifyToken
+            ? Config.defaultTokenArray.concat({
+                // @ts-expect-error Property 'spotifyToken' is private and only accessible within class 'LavalinkManager'.
+                token: ctx.worker.lavalink.spotifyToken, replacement: `%spotify_token%`
+            })
+            : Config.defaultTokenArray);
 
         // Post an embed for every 2000 characters.
         for (let i = 0; i < Math.ceil(evalResponse.length / 2e3); i++) {
