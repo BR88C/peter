@@ -29,7 +29,7 @@ export class WorkerManager extends Worker {
         super();
 
         this.lavalink = new LavalinkManager({
-            nodeOptions: Config.lavalinkNodes.map((n, i) => Object.assign(n, JSON.parse(process.env.LAVALINK_PASSWORDS ?? `[]`)[i])),
+            nodeOptions: Config.lavalinkNodes.map((n, i) => Object.assign(n, { password: JSON.parse(process.env.LAVALINK_PASSWORDS ?? `[]`)[i] })),
             spotifyAuth: {
                 clientId: process.env.SPOTIFY_ID ?? ``,
                 clientSecret: process.env.SPOTIFY_SECRET ?? ``
