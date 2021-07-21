@@ -10,7 +10,7 @@ export default {
     command: `eval`,
     exec: async (ctx) => {
         // Check if the user is a developer.
-        if (!Config.devs.IDs.includes(ctx.message.author.id)) return void ctx.error(`You do not have permission to run this command.`);
+        if (!Config.devs.IDs.includes(ctx.author.id)) return void ctx.error(`You do not have permission to run this command.`);
 
         if (ctx.args.length === 0) return void ctx.error(`You must supply an expression to eval.`);
 

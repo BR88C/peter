@@ -11,12 +11,12 @@ export default {
         description: `Resume the music.`
     },
     exec: async (ctx) => {
-        const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
+        const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
         if (!player) return void ctx.error(`Unable to resume; there is no music in the queue.`); // || !player.queue.length
         if (player.state === PlayerState.CONNECTED) return void ctx.error(`Unable to pause; there is no music playing.`);
         if (player.state === PlayerState.PLAYING) return void ctx.error(`The music is already resumed.`);
 
-        const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.interaction.member.user.id));
+        const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
         if (!foundVoiceState || foundVoiceState.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to resume the music.`);
 
         await player.resume();

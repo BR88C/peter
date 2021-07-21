@@ -13,7 +13,7 @@ export default {
         description: `Get the current queue.`
     },
     exec: async (ctx) => {
-        const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
+        const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
         if (!player) return void ctx.error(`Unable to get the queue; there is no music in the queue.`);
 
         const voiceChannel = await ctx.worker.api.channels.get(player.options.voiceChannelId);
@@ -37,7 +37,7 @@ export default {
                 .description(`${pages[page]}\n*Page ${page + 1}/${pages.length}*`)
                 .field(`Queue Size`, `\`${player.queue.length}\``, true)
                 .field(`Queue Length`, `\`${timestamp(queueLength)}\``, true)
-                .field(`Time Left`, `\`${player.queuePosition ? timestamp(queueLength - (player.queue.slice(0, player.queuePosition).reduce((p, c) => p + (c.length ?? 0), 0) + (player.position ?? 0))) : `N/A`}\``, true)
+                .field(`Time Left`, `\`${player.queuePosition !== null ? timestamp(queueLength - (player.queue.slice(0, player.queuePosition).reduce((p, c) => p + (c.length ?? 0), 0) + (player.position ?? 0))) : `N/A`}\``, true)
                 .field(`Voice Channel`, `\`${voiceChannel.name}\`` ?? `N/A`, true)
                 .field(`Loop`, `\`${player.loop.charAt(0).toUpperCase()}${player.loop.slice(1)}\``, true)
                 .field(`24/7`, `\`${player.twentyfourseven ? `On` : `Off`}\``, true)

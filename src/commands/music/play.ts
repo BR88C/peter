@@ -20,9 +20,7 @@ export default {
         ]
     },
     exec: async (ctx) => {
-        if (!ctx.interaction.channel_id || !ctx.interaction.guild_id) return void ctx.error(`An unknown error occured when trying to connect to the voice channel.`);
-
-        const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.interaction.member.user.id));
+        const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
         if (!foundVoiceState) return void ctx.error(`You must be in a voice channel to play music.`);
 
         await ctx.embed
@@ -31,12 +29,12 @@ export default {
             .send(true, false, true)
             .catch((error) => void ctx.error(error));
 
-        const requesterTag = `${ctx.interaction.member.user.username}#${ctx.interaction.member.user.discriminator}`;
-        const search = await ctx.worker.lavalink.search(ctx.options.query, ctx.interaction.member.nick ? `${ctx.interaction.member.nick} (${requesterTag})` : requesterTag);
+        const requesterTag = `${ctx.author.username}#${ctx.author.discriminator}`;
+        const search = await ctx.worker.lavalink.search(ctx.options.query, ctx.member.nick ? `${ctx.member.nick} (${requesterTag})` : requesterTag);
         if (!search.tracks[0] || search.loadType === `LOAD_FAILED` || search.loadType === `NO_MATCHES`) return void ctx.error(`Unable to find any results based on the provided query.`);
 
-        const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id) ?? ctx.worker.lavalink.createPlayer({
-            guildId: ctx.interaction.guild_id,
+        const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!) ?? ctx.worker.lavalink.createPlayer({
+            guildId: ctx.interaction.guild_id!,
             voiceChannelId: foundVoiceState.channel_id,
             textChannelId: ctx.interaction.channel_id
         });
