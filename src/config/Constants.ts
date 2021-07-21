@@ -151,6 +151,10 @@ export interface BotConstants {
      */
     QUEUE_EMBED_COLOR: number
     /**
+     * The color to use for the queue shuffled embed.
+     */
+    QUEUE_SHUFFLED_EMBED_COLOR: number
+    /**
      * The color to use for the server info embed.
      */
     SERVER_INFO_EMBED_COLOR: number
@@ -218,6 +222,7 @@ export const Constants: BotConstants = {
     PROCESSING_QUERY_EMBED_COLOR: 0xB0DEF6,
     QUEUE_CLEARED_EMBED_COLOR: 0xFF8F2E,
     QUEUE_EMBED_COLOR: 0x1E90FF,
+    QUEUE_SHUFFLED_EMBED_COLOR: 0x7429FF,
     SERVER_INFO_EMBED_COLOR: 0xC0FF96,
     SET_SFX_EMBED_COLOR: 0x40FFC2,
     SKIP_EMBED_COLOR: 0x269DFF,
