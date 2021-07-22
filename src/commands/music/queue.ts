@@ -1,5 +1,6 @@
 import { cleanseMarkdown } from '../../utils/StringUtils';
 import { Constants } from '../../config/Constants';
+import { filtersString } from '../../utils/Filters';
 import { timestamp } from '../../utils/Time';
 
 // Import modules.
@@ -41,6 +42,7 @@ export default {
                 .field(`Voice Channel`, `\`${voiceChannel.name}\`` ?? `N/A`, true)
                 .field(`Loop`, `\`${player.loop.charAt(0).toUpperCase()}${player.loop.slice(1)}\``, true)
                 .field(`24/7`, `\`${player.twentyfourseven ? `On` : `Off`}\``, true)
+                .field(`Active Effects`, filtersString(player), false)
                 .send()
                 .catch((error) => void ctx.error(error));
         };

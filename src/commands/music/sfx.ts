@@ -1,4 +1,5 @@
 import { Constants } from '../../config/Constants';
+import { filtersString } from '../../utils/Filters';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
@@ -160,11 +161,10 @@ export default {
                 .send()
                 .catch((error) => void ctx.error(error));
         } else if (ctx.options.list) {
-            const formattedEffects = ``;
             ctx.embed
                 .color(Constants.SET_SFX_EMBED_COLOR)
                 .title(`Active SFX`)
-                .description(formattedEffects)
+                .description(filtersString(player))
                 .send()
                 .catch((error) => void ctx.error(error));
         } else if (ctx.options.pitch) {
