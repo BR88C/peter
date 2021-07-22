@@ -15,7 +15,7 @@ export default {
     },
     exec: async (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
-        if (!player) return void ctx.error(`Unable to get the queue; there is no music in the queue.`);
+        if (!player) return void ctx.error(`Unable to get the queue; there are no tracks in the queue.`);
 
         const voiceChannel = await ctx.worker.api.channels.get(player.options.voiceChannelId);
 
@@ -33,7 +33,7 @@ export default {
 
             await ctx.embed
                 .color(Constants.QUEUE_EMBED_COLOR)
-                .title(player.queuePosition !== null && player.queue[player.queuePosition] ? `**Now Playing:** ${player.queue[player.queuePosition].title} ${player.queue[player.queuePosition].length ? `[${timestamp(trackTimeLeft)} remaining]` : ``}` : `**No song playing**`)
+                .title(player.queuePosition !== null && player.queue[player.queuePosition] ? `**Now Playing:** ${player.queue[player.queuePosition].title} ${player.queue[player.queuePosition].length ? `[${timestamp(trackTimeLeft)} remaining]` : ``}` : `**No track playing**`)
                 .thumbnail(player.queuePosition !== null && player.queue[player.queuePosition] instanceof Track ? (player.queue[player.queuePosition] as Track).thumbnail(`mqdefault`) ?? `` : ``)
                 .description(`${pages[page]}\n*Page ${page + 1}/${pages.length}*`)
                 .field(`Queue Size`, `\`${player.queue.length}\``, true)

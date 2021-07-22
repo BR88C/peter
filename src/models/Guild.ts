@@ -12,8 +12,8 @@ const GuildSchema: Schema = new Schema({
     /**
      * DJ role mode.
      * 0 = No DJ role, use normal behavior.
-     * 1 = Non-DJs can only add songs, voteskip, and view the queue and the current song playing.
-     * 2 = Non-DJs cannot do anything except view the queue and the current song playing.
+     * 1 = Non-DJs can only add tracks, voteskip, and view the queue and the current track playing.
+     * 2 = Non-DJs cannot do anything except view the queue and the current track playing.
      */
     DJMode: Number
 });

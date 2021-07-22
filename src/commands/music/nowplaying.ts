@@ -10,12 +10,12 @@ export default {
     command: `nowplaying`,
     interaction: {
         name: `nowplaying`,
-        description: `Get information on the current song playing.`
+        description: `Get information on the current track playing.`
     },
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
-        if (!player || !player.queue.length) return void ctx.error(`Unable to get the current song; there is no music in the queue.`);
-        if (player.queuePosition === null) return void ctx.error(`Unable to get the current song; there is no music playing.`);
+        if (!player || !player.queue.length) return void ctx.error(`Unable to get the current track; there are no tracks in the queue.`);
+        if (player.queuePosition === null) return void ctx.error(`Unable to get the current track; there are no tracks playing.`);
 
         let description: string;
         if ((player.queue[player.queuePosition] as Track).isStream) description = `🔴  **LIVE**`;

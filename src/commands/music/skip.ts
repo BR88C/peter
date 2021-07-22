@@ -7,19 +7,19 @@ export default {
     command: `skip`,
     interaction: {
         name: `skip`,
-        description: `Skip to the next song, or to a specified song.`,
+        description: `Skip to the next track, or to a specified track.`,
         options: [
             {
                 type: 4,
                 name: `index`,
-                description: `The song index to skip to.`,
+                description: `The index of the track to skip to.`,
                 required: false
             }
         ]
     },
     exec: async (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
-        if (!player || !player.queue.length) return void ctx.error(`Unable to skip; there is no music in the queue.`);
+        if (!player || !player.queue.length) return void ctx.error(`Unable to skip; there are no tracks in the queue.`);
 
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
         if (!foundVoiceState || foundVoiceState.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to skip.`);

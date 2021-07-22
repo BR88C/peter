@@ -9,7 +9,7 @@ export default {
     command: `play`,
     interaction: {
         name: `play`,
-        description: `Plays a specified song.`,
+        description: `Plays a specified song or video.`,
         options: [
             {
                 type: 3,
@@ -21,7 +21,7 @@ export default {
     },
     exec: async (ctx) => {
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
-        if (!foundVoiceState) return void ctx.error(`You must be in a voice channel to play music.`);
+        if (!foundVoiceState) return void ctx.error(`You must be in a voice channel to play a track.`);
 
         await ctx.embed
             .color(Constants.PROCESSING_QUERY_EMBED_COLOR)
@@ -50,7 +50,7 @@ export default {
 
             await ctx.worker.api.messages.send(ctx.interaction.channel_id, new Embed()
                 .color(Constants.ADDED_TO_QUEUE_EMBED_COLOR)
-                .title(`Successfully queued ${search.tracks.length} song${search.tracks.length > 1 ? `s` : ``}`)
+                .title(`Successfully queued ${search.tracks.length} track${search.tracks.length > 1 ? `s` : ``}`)
                 .description(`**Link:** ${ctx.options.query}`)
                 .footer(`Requested by ${search.tracks[0].requester}`)
                 .timestamp()
