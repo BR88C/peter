@@ -17,6 +17,10 @@ import { Embed, Worker } from 'discord-rose';
  */
 export class WorkerManager extends Worker {
     /**
+     * If the worker is available.
+     */
+    public available: boolean = false
+    /**
      * The worker's lavalink manager.
      */
     public lavalink: LavalinkManager
@@ -72,6 +76,11 @@ export class WorkerManager extends Worker {
 
         // Create command middleware.
         this.commands.middleware((ctx) => {
+            if (!this.available) { // If the worker is not available.
+                this.log(`\x1b[33mReceived command before Worker was available | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message?.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id)?.name} | Guild ID: ${ctx.message.guild_id}` : (ctx.interaction?.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.interaction.guild_id)?.name} | Guild ID: ${ctx.interaction.guild_id}` : ``)}`);
+                void ctx.error(`The bot is still starting; please wait!`);
+                return false;
+            }
             if (!ctx.isInteraction) { // If the received event is not an interaction.
                 if (!Config.devs.IDs.includes(ctx.author.id)) { // If the user is not a dev, return an error.
                     this.log(`\x1b[33mReceived Depreciated Prefix Command | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id)?.name} | Guild ID: ${ctx.message.guild_id}` : ``}`);
@@ -88,9 +97,9 @@ export class WorkerManager extends Worker {
                     }
                 }
             } else { // If the received event is an interaction.
-                if (!ctx.interaction.guild_id) {
-                    this.log(`\x1b[33mReceived Interaction in a Guild | User: ${ctx.author.username}#${ctx.author.discriminator}`);
-                    void ctx.error(`This command can only be ran in a guild!`);
+                if (!ctx.interaction.guild_id) { // If the interaction is not in a guild.
+                    this.log(`\x1b[33mReceived Interaction in a DM | User: ${ctx.author.username}#${ctx.author.discriminator}`);
+                    void ctx.error(`This command can only be ran in a server!`);
                     return false;
                 } else {
                     this.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.interaction.guild_id)?.name} | Guild ID: ${ctx.interaction.guild_id}`);
@@ -101,12 +110,13 @@ export class WorkerManager extends Worker {
 
         // On ready.
         this.on(`READY`, async () => {
+            // Spawn lavalink nodes.
             this.log(`Spawning Lavalink Nodes`);
             const lavalinkStart = Date.now();
             const lavalinkSpawnResult = await this.lavalink.connectNodes();
             this.log(`Spawned ${lavalinkSpawnResult.filter((r) => r.status === `fulfilled`).length} Lavalink Nodes after ${Math.round((Date.now() - lavalinkStart) / 10) / 100}s`);
-            this.log(`\x1b[35mWorker up since ${new Date().toLocaleString()}`);
 
+            // Bind lavalink events.
             this.lavalink.on(`NODE_CONNECTED`, (node) => this.log(`Node Connected | Node ID: ${node.identifier}`));
 
             this.lavalink.on(`NODE_CREATED`, (node) => this.log(`Node Created | Node ID: ${node.identifier}`));
@@ -206,6 +216,10 @@ export class WorkerManager extends Worker {
                     .timestamp()
                 );
             });
+
+            // Log worker available and set WorkerManage#available to true.
+            this.log(`\x1b[35mWorker up since ${new Date().toLocaleString()}`);
+            this.available = true;
         });
     }
 }
