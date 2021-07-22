@@ -12,7 +12,7 @@ export default {
             {
                 type: 4,
                 name: `index`,
-                description: `The index of the track to skip to.`,
+                description: `The index of the queue to skip to.`,
                 required: false
             }
         ]
