@@ -23,6 +23,7 @@
   "license": "GPL-3.0",
   "homepage": "https://peter.badfirmware.com",
   "dependencies": {
+    "@discord-rose/lavalink": "github:discord-rose/lavalink-wrapper#build",
     "@top-gg/sdk": "^3.1.2",
     "discord-rose": "github:discord-rose/discord-rose#build",
     "dotenv": "^10.0.0",
