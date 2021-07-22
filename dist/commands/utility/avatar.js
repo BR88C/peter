@@ -16,7 +16,7 @@ exports.default = {
         ]
     },
     exec: async (ctx) => {
-        const user = await ctx.worker.api.users.get(ctx.options.user ?? ctx.interaction.member.user.id);
+        const user = await ctx.worker.api.users.get(ctx.options.user ?? ctx.author.id);
         const avatarURL = `${Constants_1.Constants.DISCORD_CDN}/avatars/${user.id}/${user.avatar}.${user.avatar?.startsWith(`a_`) ? `gif` : `png`}`;
         ctx.embed
             .color(Constants_1.Constants.AVATAR_EMBED_COLOR)

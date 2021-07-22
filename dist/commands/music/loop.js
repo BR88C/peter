@@ -17,8 +17,8 @@ exports.default = {
                         value: `queue`
                     },
                     {
-                        name: `Track`,
-                        value: `track`
+                        name: `Single`,
+                        value: `single`
                     },
                     {
                         name: `Off`,
@@ -32,24 +32,14 @@ exports.default = {
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player || !player.queue.length)
-            return void ctx.error(`Unable to change the loop behavior; there is no music in the queue.`);
-        if (ctx.options.type.value === `queue`) {
-            player.setTrackRepeat(false);
-            player.setQueueRepeat(true);
-        }
-        else if (ctx.options.type.value === `track`) {
-            if (player.queue.current?.isSeekable)
-                return void ctx.error(`The current track does not support looping.`);
-            player.setQueueRepeat(false);
-            player.setTrackRepeat(true);
-        }
-        else {
-            player.setQueueRepeat(false);
-            player.setTrackRepeat(false);
-        }
+            return void ctx.error(`Unable to change the loop behavior; there are no tracks in the queue.`);
+        const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
+        if (!foundVoiceState || foundVoiceState.channel_id !== player.options.voiceChannelId)
+            return void ctx.error(`You must be in the VC to change the loop behavior.`);
+        player.setLoop(ctx.options.type);
         ctx.embed
             .color(Constants_1.Constants.LOOP_EMBED_COLOR)
-            .title(`:repeat:  Looping is now set to \`${ctx.options.type.value}\``)
+            .title(`:repeat:  Looping is now set to \`${player.loop.charAt(0).toUpperCase()}${player.loop.slice(1)}\``)
             .send()
             .catch((error) => void ctx.error(error));
     }

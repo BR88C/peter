@@ -21,7 +21,7 @@ exports.Config = {
         voiceStates: true
     },
     cacheControl: {
-        guilds: [`id`, `name`], voiceStates: []
+        guilds: [`id`, `name`], voiceStates: [`session_id`]
     },
     lavalinkNodes: [
         {
@@ -29,6 +29,19 @@ exports.Config = {
             port: 2333
         }
     ],
+    defaultTokenArray: [
+        {
+            token: process.env.BOT_TOKEN ?? `%bot_token%`, replacement: `%bot_token%`
+        },
+        {
+            token: process.env.SPOTIFY_ID ?? `%spotify_id%`, replacement: `%spotify_id%`
+        },
+        {
+            token: process.env.SPOTIFY_SECRET ?? `%spotify_secret%`, replacement: `%spotify_secret%`
+        }
+    ].concat(JSON.parse(process.env.LAVALINK_PASSWORDS ?? `[]`).map((password, i) => ({
+        token: password, replacement: `%lavalink_password_${i}%`
+    }))),
     shards: {
         dev: 1,
         prod: 2

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeToken = exports.cleanseMarkdown = exports.centerString = void 0;
+const Config_1 = require("../config/Config");
 const centerString = (str, length) => {
     if (str.length > length)
         throw Error(`Invalid length to center string on.`);
@@ -15,5 +16,9 @@ const cleanseMarkdown = (str) => str
     .replace(/_/g, `\\_`)
     .replace(/\|/g, `\\|`);
 exports.cleanseMarkdown = cleanseMarkdown;
-const removeToken = (str) => str.split(process.env.BOT_TOKEN ?? `%bot_token%`).join(`%bot_token%`);
+const removeToken = (str, tokens = Config_1.Config.defaultTokenArray) => {
+    for (const token of tokens)
+        str = str.split(token.token).join(token.replacement);
+    return str;
+};
 exports.removeToken = removeToken;

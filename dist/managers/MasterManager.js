@@ -20,7 +20,7 @@ class MasterManager extends discord_rose_1.Master {
         this.start().catch((error) => this.log(error));
         this.once(`READY`, () => {
             setInterval(() => void (async () => await ProcessUtils_1.statsCheckup(this).catch((error) => this.log(error)))(), Config_1.Config.statsCheckupInterval[process.env.NODE_ENV ?? `dev`]);
-            this.log(`\x1b[35mBot up since ${new Date().toLocaleString()}`);
+            this.log(`\x1b[35mMaster up since ${new Date().toLocaleString()}`);
         });
     }
 }

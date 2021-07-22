@@ -1,32 +1,33 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = require("../../config/Constants");
-const Time_1 = require("../../utils/Time");
 const StringUtils_1 = require("../../utils/StringUtils");
+const Constants_1 = require("../../config/Constants");
+const lavalink_1 = require("@discord-rose/lavalink");
+const Time_1 = require("../../utils/Time");
 exports.default = {
     command: `nowplaying`,
     interaction: {
         name: `nowplaying`,
-        description: `Get information on the current song playing.`
+        description: `Get information on the current track playing.`
     },
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player || !player.queue.length)
-            return void ctx.error(`Unable to get the current song; there is no music in the queue.`);
-        if (!player.queue.current)
-            return void ctx.error(`Unable to get the current song; there is no music playing.`);
+            return void ctx.error(`Unable to get the current track; there are no tracks in the queue.`);
+        if (player.queuePosition === null)
+            return void ctx.error(`Unable to get the current track; there are no tracks playing.`);
         let description;
-        if (player.queue.current.isStream)
+        if (player.queue[player.queuePosition].isStream)
             description = `🔴  **LIVE**`;
         else
-            description = `\`\`\`\n${player.paused ? `⏸` : `▶`} ${Time_1.timestamp(player.position)} ${Time_1.progressBar(player.position / (player.queue.current.duration ?? player.position), 25)} ${Time_1.timestamp(player.queue.current.duration ?? player.position)}\n\`\`\``;
+            description = `\`\`\`\n${player.state === lavalink_1.PlayerState.PAUSED ? `⏸` : `▶`} ${Time_1.timestamp(player.position ?? 0)} ${Time_1.progressBar((player.position ?? 0) / (player.queue[player.queuePosition].length ?? (player.position ?? 0)), 25)} ${Time_1.timestamp(player.queue[player.queuePosition].length ?? (player.position ?? 0))}\n\`\`\``;
         ctx.embed
             .color(Constants_1.Constants.NOW_PLAYING_EMBED_COLOR)
             .author(`Currently playing:`)
-            .title(StringUtils_1.cleanseMarkdown(player.queue.current.title), player.queue.current.uri)
-            .thumbnail(player.queue.current.displayThumbnail ? (player.queue.current.displayThumbnail(`mqdefault`) ?? ``) : ``)
+            .title(StringUtils_1.cleanseMarkdown(player.queue[player.queuePosition].title), player.queue[player.queuePosition].uri)
+            .thumbnail(player.queue[player.queuePosition].thumbnail(`mqdefault`) ?? ``)
             .description(description)
-            .footer(`Requested by ${player.queue.current.requester}`)
+            .footer(`Requested by ${player.queue[player.queuePosition].requester}`)
             .send()
             .catch((error) => void ctx.error(error));
     }
