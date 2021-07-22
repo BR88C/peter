@@ -155,6 +155,10 @@ export interface BotConstants {
      */
     QUEUE_SHUFFLED_EMBED_COLOR: number
     /**
+     * The color to use for the removed track embed.
+     */
+    REMOVED_TRACK_EMBED_COLOR: number
+    /**
      * The color to use for the server info embed.
      */
     SERVER_INFO_EMBED_COLOR: number
@@ -215,7 +219,7 @@ export const Constants: BotConstants = {
     EVAL_EMBED_COLOR: 0x000020,
     INVITE_EMBED_COLOR: 0x5EFF97,
     LEAVE_EMBED_COLOR: 0xFF4F42,
-    LOOP_EMBED_COLOR: 0x00,
+    LOOP_EMBED_COLOR: 0x6395FF,
     NOW_PLAYING_EMBED_COLOR: 0xB0FFE2,
     PAUSE_EMBED_COLOR: 0x4581F7,
     PING_EMBED_COLOR: 0x2100DB,
@@ -223,6 +227,7 @@ export const Constants: BotConstants = {
     QUEUE_CLEARED_EMBED_COLOR: 0xFF8F2E,
     QUEUE_EMBED_COLOR: 0x1E90FF,
     QUEUE_SHUFFLED_EMBED_COLOR: 0x7429FF,
+    REMOVED_TRACK_EMBED_COLOR: 0xFF5338,
     SERVER_INFO_EMBED_COLOR: 0xC0FF96,
     SET_SFX_EMBED_COLOR: 0x40FFC2,
     SKIP_EMBED_COLOR: 0x269DFF,
