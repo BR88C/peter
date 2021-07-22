@@ -148,7 +148,7 @@ export default {
 
             ctx.embed
                 .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(player.filters.equalizer?.find((v) => v.band === 0) ? `Set the bassboost effect to \`+${(player.filters.equalizer?.find((v) => v.band === 0)?.gain ?? 0) / Constants.BASSBOOST_INTENSITY_MULTIPLIER}\`` : `Turned off the bassboost effect.`)
+                .title(player.filters.equalizer?.find((v) => v.band === 0) ? `Set the bassboost effect to \`+${Math.round((player.filters.equalizer?.find((v) => v.band === 0)?.gain ?? 0) / Constants.BASSBOOST_INTENSITY_MULTIPLIER)}\`` : `Turned off the bassboost effect.`)
                 .send()
                 .catch((error) => void ctx.error(error));
         } else if (ctx.options.clear) {
@@ -178,7 +178,7 @@ export default {
 
             ctx.embed
                 .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(player.filters.timescale?.pitch ? `Set the pitch to \`${player.filters.timescale.pitch * 100}%\`` : `Turned off the pitch effect.`)
+                .title(player.filters.timescale?.pitch ? `Set the pitch to \`${Math.round(player.filters.timescale.pitch * 100)}%\`` : `Turned off the pitch effect.`)
                 .send()
                 .catch((error) => void ctx.error(error));
         } else if (ctx.options.rotation) {
@@ -205,7 +205,7 @@ export default {
 
             ctx.embed
                 .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(player.filters.timescale?.speed ? `Set the speed to \`${player.filters.timescale.speed}%\`` : `Turned off the speed effect.`)
+                .title(player.filters.timescale?.speed ? `Set the speed to \`${Math.round(player.filters.timescale.speed * 100)}%\`` : `Turned off the speed effect.`)
                 .send()
                 .catch((error) => void ctx.error(error));
         } else if (ctx.options.treble) {
@@ -222,7 +222,7 @@ export default {
 
             ctx.embed
                 .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(player.filters.equalizer?.find((v) => v.band === Constants.EQ_BAND_COUNT - 1) ? `Set the treble to \`+${(player.filters.equalizer?.find((v) => v.band === Constants.EQ_BAND_COUNT - 1)?.gain ?? 0) / Constants.TREBLE_INTENSITY_MULTIPLIER}\`` : `Turned off the treble effect.`)
+                .title(player.filters.equalizer?.find((v) => v.band === Constants.EQ_BAND_COUNT - 1) ? `Set the treble to \`+${Math.round((player.filters.equalizer?.find((v) => v.band === Constants.EQ_BAND_COUNT - 1)?.gain ?? 0) / Constants.TREBLE_INTENSITY_MULTIPLIER)}\`` : `Turned off the treble effect.`)
                 .send()
                 .catch((error) => void ctx.error(error));
         } else if (ctx.options.tremolo) {
@@ -237,7 +237,7 @@ export default {
 
             ctx.embed
                 .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(newFilters.tremolo?.depth ? `Set the tremolo to \`${newFilters.tremolo.depth * 100}%\`` : `Turned off the tremolo effect.`)
+                .title(newFilters.tremolo?.depth ? `Set the tremolo to \`${Math.round(newFilters.tremolo.depth * 100)}%\`` : `Turned off the tremolo effect.`)
                 .send()
                 .catch((error) => void ctx.error(error));
         } else if (ctx.options.vibrato) {
@@ -252,7 +252,7 @@ export default {
 
             ctx.embed
                 .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(newFilters.vibrato?.depth ? `Set the vibrato to \`${newFilters.vibrato.depth * 100}%\`` : `Turned off the vibrato effect.`)
+                .title(newFilters.vibrato?.depth ? `Set the vibrato to \`${Math.round(newFilters.vibrato.depth * 100)}%\`` : `Turned off the vibrato effect.`)
                 .send()
                 .catch((error) => void ctx.error(error));
         } else if (ctx.options.volume) {
