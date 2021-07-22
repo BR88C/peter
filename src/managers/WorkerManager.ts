@@ -77,18 +77,15 @@ export class WorkerManager extends Worker {
         // Create command middleware.
         this.commands.middleware((ctx) => {
             if (!this.available) { // If the worker is not available.
-                this.log(`\x1b[33mReceived command before Worker was available | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message?.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id)?.name} | Guild ID: ${ctx.message.guild_id}` : (ctx.interaction?.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.interaction.guild_id)?.name} | Guild ID: ${ctx.interaction.guild_id}` : ``)}`);
                 void ctx.error(`The bot is still starting; please wait!`);
                 return false;
             }
             if (!ctx.isInteraction) { // If the received event is not an interaction.
                 if (!Config.devs.IDs.includes(ctx.author.id)) { // If the user is not a dev, return an error.
-                    this.log(`\x1b[33mReceived Depreciated Prefix Command | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id)?.name} | Guild ID: ${ctx.message.guild_id}` : ``}`);
                     void ctx.error(`Prefix commands are now depreciated, please use slash commands instead. For more information, join our support server!`);
                     return false;
                 } else { // If the user is a dev.
                     if (ctx.command.interaction != null) { // If the command is a slash command, return.
-                        this.log(`\x1b[33mReceived Depreciated Prefix Command | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id)?.name} | Guild ID: ${ctx.message.guild_id}` : ``}`);
                         void ctx.error(`That's an interaction command, not a developer command silly!`);
                         return false;
                     } else { // If the command is not a slash command, execute it.
@@ -98,7 +95,6 @@ export class WorkerManager extends Worker {
                 }
             } else { // If the received event is an interaction.
                 if (!ctx.interaction.guild_id) { // If the interaction is not in a guild.
-                    this.log(`\x1b[33mReceived Interaction in a DM | User: ${ctx.author.username}#${ctx.author.discriminator}`);
                     void ctx.error(`This command can only be ran in a server!`);
                     return false;
                 } else {
