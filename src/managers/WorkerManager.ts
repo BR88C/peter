@@ -111,6 +111,7 @@ export class WorkerManager extends Worker {
             const lavalinkStart = Date.now();
             const lavalinkSpawnResult = await this.lavalink.connectNodes();
             this.log(`Spawned ${lavalinkSpawnResult.filter((r) => r.status === `fulfilled`).length} Lavalink Nodes after ${Math.round((Date.now() - lavalinkStart) / 10) / 100}s`);
+            if (!this.lavalink.nodes.size) this.log(`\x1b[33mWARNING: Worker has no available lavalink nodes`);
 
             // Bind lavalink events.
             bindLavalinkEvents(this);
