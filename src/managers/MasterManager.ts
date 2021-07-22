@@ -38,7 +38,7 @@ export class MasterManager extends Master {
             setInterval(() => void (async () => await statsCheckup(this).catch((error) => this.log(error)))(), Config.statsCheckupInterval[process.env.NODE_ENV ?? `dev`]);
 
             // Log ready.
-            this.log(`\x1b[35mBot up since ${new Date().toLocaleString()}`);
+            this.log(`\x1b[35mMaster up since ${new Date().toLocaleString()}`);
         });
     }
 };
