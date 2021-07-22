@@ -1,6 +1,6 @@
 import { cleanseMarkdown } from '../../utils/StringUtils';
 import { Constants } from '../../config/Constants';
-import { filtersString } from '../../utils/Filters';
+import { filtersString } from '../../utils/Lavalink';
 import { timestamp } from '../../utils/Time';
 
 // Import modules.

@@ -1,5 +1,5 @@
 import { Constants } from '../../config/Constants';
-import { filtersString } from '../../utils/Filters';
+import { filtersString } from '../../utils/Lavalink';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
