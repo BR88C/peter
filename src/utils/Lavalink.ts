@@ -3,7 +3,7 @@ import { Constants } from '../config/Constants';
 import { WorkerManager } from '../managers/WorkerManager';
 
 // Import modules.
-import { Player, Track } from '@discord-rose/lavalink';
+import { Player } from '@discord-rose/lavalink';
 import { Embed } from 'discord-rose';
 
 /**
@@ -71,12 +71,12 @@ export const bindLavalinkEvents = (worker: WorkerManager): void => {
 
     worker.lavalink.on(`PLAYER_TRACK_END`, ({
         player, track, reason
-    }) => worker.log(`Track Ended | Track Identifier: ${track.identifier} | Reason: ${reason} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
+    }) => worker.log(`Track Ended | Track Identifier: ${track?.identifier ?? `N/A`} | Reason: ${reason} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
 
     worker.lavalink.on(`PLAYER_TRACK_EXCEPTION`, ({
         player, track, message, severity, cause
     }) => {
-        worker.log(`\x1b[31mTrack Exception | Track Identifier: ${track instanceof Track ? track.identifier : `N/A`} | Severity: ${severity} | Cause: ${cause} | Message: ${message} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
+        worker.log(`\x1b[31mTrack Exception | Track Identifier: ${track?.identifier ?? `N/A`} | Severity: ${severity} | Cause: ${cause} | Message: ${message} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
         void worker.api.messages.send(player.options.textChannelId, new Embed()
             .color(Constants.ERROR_EMBED_COLOR)
             .title(`Error`)
@@ -88,13 +88,13 @@ export const bindLavalinkEvents = (worker: WorkerManager): void => {
     worker.lavalink.on(`PLAYER_TRACK_START`, ({
         player, track
     }) => {
-        worker.log(`Track Started | Track Identifier: ${track.identifier} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
+        worker.log(`Track Started | Track Identifier: ${track?.identifier ?? `N/A`} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
         void worker.api.messages.send(player.options.textChannelId, new Embed()
             .color(Constants.STARTED_PLAYING_EMBED_COLOR)
-            .title(`Started playing: ${cleanseMarkdown(track.title)}`)
-            .description(`**Link:** ${track.uri}`)
-            .image(`${track.thumbnail(`mqdefault`)}`)
-            .footer(`Requested by ${track.requester}`)
+            .title(`Started playing: ${cleanseMarkdown(track?.title ?? `N/A`)}`)
+            .description(`**Link:** ${track?.uri ?? `N/A`}`)
+            .image(`${track?.thumbnail(`mqdefault`)}`)
+            .footer(`Requested by ${track?.requester ?? `N/A`}`)
             .timestamp()
         );
     });
@@ -102,7 +102,7 @@ export const bindLavalinkEvents = (worker: WorkerManager): void => {
     worker.lavalink.on(`PLAYER_TRACK_STUCK`, ({
         player, track, thresholdMs
     }) => {
-        worker.log(`\x1b[33mTrack Stuck | Track Identifier: ${track.identifier} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
+        worker.log(`\x1b[33mTrack Stuck | Track Identifier: ${track?.identifier ?? `N/A`} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
         void worker.api.messages.send(player.options.textChannelId, new Embed()
             .color(Constants.ERROR_EMBED_COLOR)
             .title(`Error`)
