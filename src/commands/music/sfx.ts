@@ -132,7 +132,7 @@ export default {
         if (!player || !player.queue.length) return void ctx.error(`Unable to change SFX; there are no tracks in the queue.`);
 
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
-        if (!foundVoiceState || foundVoiceState.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to change SFX.`);
+        if (foundVoiceState?.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to change SFX.`);
 
         if (ctx.options.bassboost) {
             if (ctx.options.bassboost.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);

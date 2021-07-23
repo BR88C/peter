@@ -17,7 +17,7 @@ export default {
         if (player.state === PlayerState.PAUSED) return void ctx.error(`The current track is already paused.`);
 
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
-        if (!foundVoiceState || foundVoiceState.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to pause the current track.`);
+        if (foundVoiceState?.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to pause the current track.`);
 
         await player.pause();
 
