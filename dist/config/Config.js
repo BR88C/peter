@@ -21,7 +21,7 @@ exports.Config = {
         voiceStates: true
     },
     cacheControl: {
-        guilds: [`id`, `name`], voiceStates: [`session_id`]
+        guilds: [`id`, `name`], voiceStates: [`member`]
     },
     lavalinkNodes: [
         {
@@ -47,6 +47,7 @@ exports.Config = {
     ].concat(JSON.parse(process.env.LAVALINK_PASSWORDS ?? `[]`).map((password, i) => ({
         token: password, replacement: `%lavalink_password_${i}%`
     }))),
+    maxUncheckedVoiceStateUsers: 5,
     shards: {
         dev: 1,
         prod: 2
