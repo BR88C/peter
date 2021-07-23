@@ -33,6 +33,8 @@ export class WorkerManager extends Worker {
         super();
 
         this.lavalink = new LavalinkManager({
+            defaultSource: `youtube`,
+            enabledSources: [`youtube`],
             nodeOptions: Config.lavalinkNodes.map((n, i) => Object.assign(n, { password: JSON.parse(process.env.LAVALINK_PASSWORDS ?? `[]`)[i] })),
             spotifyAuth: {
                 clientId: process.env.SPOTIFY_ID ?? ``,

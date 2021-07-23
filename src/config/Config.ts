@@ -102,8 +102,13 @@ export const Config: BotConfig = {
 
     lavalinkNodes: [
         {
+            clientName: `peter@${process.env.npm_package_version ?? `Unavailable`}`,
+            connectionTimeout: 1e4,
             host: `localhost`,
-            port: 2333
+            maxRetrys: 20,
+            port: 2333,
+            requestTimeout: 15e3,
+            retryDelay: 15e3
         }
     ],
 
