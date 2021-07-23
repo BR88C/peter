@@ -34,7 +34,7 @@ exports.default = {
         if (!player || !player.queue.length)
             return void ctx.error(`Unable to change the loop behavior; there are no tracks in the queue.`);
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
-        if (!foundVoiceState || foundVoiceState.channel_id !== player.options.voiceChannelId)
+        if (foundVoiceState?.channel_id !== player.options.voiceChannelId)
             return void ctx.error(`You must be in the VC to change the loop behavior.`);
         player.setLoop(ctx.options.type);
         ctx.embed
