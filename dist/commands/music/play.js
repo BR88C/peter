@@ -35,7 +35,13 @@ exports.default = {
         if (!search.tracks[0] || search.loadType === `LOAD_FAILED` || search.loadType === `NO_MATCHES`)
             return void ctx.error(`Unable to find any results based on the provided query.`);
         const player = existingPlayer ?? ctx.worker.lavalink.createPlayer({
+            becomeSpeaker: true,
+            connectionTimeout: 15e3,
             guildId: ctx.interaction.guild_id,
+            moveBehavior: `destroy`,
+            selfDeafen: true,
+            selfMute: false,
+            stageMoveBehavior: `pause`,
             voiceChannelId: foundVoiceState.channel_id,
             textChannelId: ctx.interaction.channel_id
         });

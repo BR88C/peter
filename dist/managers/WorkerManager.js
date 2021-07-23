@@ -15,6 +15,8 @@ class WorkerManager extends discord_rose_1.Worker {
         super();
         this.available = false;
         this.lavalink = new lavalink_1.LavalinkManager({
+            defaultSource: `youtube`,
+            enabledSources: [`youtube`],
             nodeOptions: Config_1.Config.lavalinkNodes.map((n, i) => Object.assign(n, { password: JSON.parse(process.env.LAVALINK_PASSWORDS ?? `[]`)[i] })),
             spotifyAuth: {
                 clientId: process.env.SPOTIFY_ID ?? ``,
