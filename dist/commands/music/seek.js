@@ -28,7 +28,7 @@ exports.default = {
             return void ctx.error(`You must be in the VC to seek.`);
         if (ctx.options.time < 0 || ctx.options.time > Constants_1.Constants.MAX_SAFE_JAVA_INTEGER)
             return void ctx.error(`Invalid value to seek to.`);
-        await player.seek(ctx.options.time);
+        await player.seek(ctx.options.time * 1e3);
         ctx.embed
             .color(Constants_1.Constants.SEEK_EMBED_COLOR)
             .title(`:fast_forward:  Seeked to ${Time_1.timestamp(ctx.options.time * 1e3)}`)
