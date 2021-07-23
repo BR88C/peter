@@ -118,6 +118,18 @@ export class WorkerManager extends Worker {
             // Bind lavalink events.
             bindLavalinkEvents(this);
 
+            // Destroy players that aren't 24/7 when no users are in a VC.
+            this.on(`VOICE_STATE_UPDATE`, async (data) => {
+                const player = data.guild_id ? this.lavalink.players.get(data.guild_id) : undefined;
+                if (!player || player.twentyfourseven) return;
+                const voiceState = this.voiceStates.get(player.options.voiceChannelId);
+                if (voiceState?.users.has(this.user.id) && voiceState.users.size <= Config.maxUncheckedVoiceStateUsers) {
+                    let nonBots = 0;
+                    for (const [id] of voiceState.users) nonBots += (await this.api.users.get(id)).bot ? 0 : 1;
+                    if (nonBots === 0) void player.destroy(`No other users in the voice channel`);
+                }
+            });
+
             // Log worker available and set WorkerManage#available to true.
             this.log(`\x1b[35mWorker up since ${new Date().toLocaleString()}`);
             this.available = true;

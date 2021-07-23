@@ -53,6 +53,11 @@ export interface BotConfig {
     defaultTokenArray: Array<{ token: string, replacement: string }>
 
     /**
+     * The maximum number of users to check in a voice channel on voice state updates to see if there are no non-bot users.
+     */
+    maxUncheckedVoiceStateUsers: number
+
+    /**
      * The total amount of shards to spawn.
      */
     shards: {
@@ -97,7 +102,7 @@ export const Config: BotConfig = {
         voiceStates: true
     },
     cacheControl: {
-        guilds: [`id`, `name`], voiceStates: [`session_id`]
+        guilds: [`id`, `name`], voiceStates: [`member`]
     },
 
     lavalinkNodes: [
@@ -125,6 +130,8 @@ export const Config: BotConfig = {
     ].concat((JSON.parse(process.env.LAVALINK_PASSWORDS ?? `[]`) as string[]).map((password, i) => ({
         token: password, replacement: `%lavalink_password_${i}%`
     }))),
+
+    maxUncheckedVoiceStateUsers: 5,
 
     shards: {
         dev: 1,
