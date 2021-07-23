@@ -29,7 +29,7 @@ export default {
 
         if (ctx.options.time < 0 || ctx.options.time > Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value to seek to.`);
 
-        await player.seek(ctx.options.time);
+        await player.seek(ctx.options.time * 1e3);
 
         ctx.embed
             .color(Constants.SEEK_EMBED_COLOR)
