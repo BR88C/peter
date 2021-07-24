@@ -13,8 +13,8 @@ declare module 'discord-rose/dist/typings/lib' { // eslint-disable-line quotes
 
 export class ExtendedPlayer extends BasePlayer {
     twentyfourseven: boolean
-}
+};
 
 declare module '@discord-rose/lavalink/dist/typings/lib' { // eslint-disable-line quotes
     type player = ExtendedPlayer
-}
+};
