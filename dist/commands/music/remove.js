@@ -34,7 +34,7 @@ exports.default = {
             if (player.queue[player.queuePosition])
                 void player.skip(player.queuePosition);
             else
-                player.stop();
+                void player.stop();
         }
     }
 };
