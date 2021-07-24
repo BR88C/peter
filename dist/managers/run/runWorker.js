@@ -8,3 +8,5 @@ void new WorkerManager_1.WorkerManager();
 class ExtendedPlayer extends lavalink_1.Player {
 }
 exports.ExtendedPlayer = ExtendedPlayer;
+;
+;
