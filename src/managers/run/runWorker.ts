@@ -6,6 +6,9 @@ void new WorkerManager();
 
 declare module 'discord-rose/dist/typings/lib' { // eslint-disable-line quotes
     type worker = WorkerManager
+    interface commandOptions {
+        category: string
+    }
 };
 
 export class ExtendedPlayer extends BasePlayer {

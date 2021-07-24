@@ -51,8 +51,13 @@ export class WorkerManager extends Worker {
         this.log(`Using developer prefix ${Config.developerPrefix}`);
 
         // Push all commands to the worker.
-        for (const dir of readdirSync(`./src/commands`).filter((file) => statSync(`${`./src/commands` + `/`}${file}`).isDirectory())) {
+        for (const dir of readdirSync(`./dist/commands`).filter((file) => statSync(`./dist/commands/${file}`).isDirectory())) {
             this.commands.load(resolve(__dirname, `../commands/${dir}`));
+            const commands = readdirSync(`./dist/commands/${dir}`).filter((file) => statSync(`./dist/commands/${dir}/${file}`).isFile()).map((file) => file.replace(`.js`, ``));
+            for (const command of commands) {
+                // @ts-expect-error Property 'category' does not exist on type 'CommandOptions'.
+                if (this.commands.commands?.get(command)) this.commands.commands.get(command)!.category = dir;
+            }
         }
         this.log(`Loaded ${this.commands.commands?.size} commands`);
 
