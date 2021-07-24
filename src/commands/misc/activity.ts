@@ -31,7 +31,7 @@ export default {
                         value: `${Constants.POKER_ACTIVITY_ID}`
                     },
                     {
-                        name: `Youtube`,
+                        name: `Youtube Together`,
                         value: `${Constants.YOUTUBE_ACTIVITY_ID}`
                     }
                 ],
