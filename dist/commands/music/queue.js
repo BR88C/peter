@@ -13,7 +13,7 @@ exports.default = {
     },
     exec: async (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
-        if (!player)
+        if (!player || player.state < lavalink_1.PlayerState.CONNECTED)
             return void ctx.error(`Unable to get the queue; the bot is not connected to the VC.`);
         const voiceChannel = await ctx.worker.api.channels.get(player.options.voiceChannelId);
         const sendEmbed = async (page) => {

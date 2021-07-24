@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
+const lavalink_1 = require("@discord-rose/lavalink");
 exports.default = {
     command: `247`,
     interaction: {
@@ -9,7 +10,7 @@ exports.default = {
     },
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
-        if (!player)
+        if (!player || player.state < lavalink_1.PlayerState.CONNECTED)
             return void ctx.error(`Unable to set the queue to 24/7; the bot is not connected to the VC.`);
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
         if (foundVoiceState?.channel_id !== player.options.voiceChannelId)
