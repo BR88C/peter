@@ -10,7 +10,7 @@ exports.default = {
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player)
-            return void ctx.error(`Unable to disconnect the bot; the bot is not connected to a VC.`);
+            return void ctx.error(`Unable to disconnect the bot; the bot is not connected to the VC.`);
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
         if (foundVoiceState?.channel_id !== player.options.voiceChannelId)
             return void ctx.error(`You must be in the VC to make the bot leave.`);

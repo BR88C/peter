@@ -30,7 +30,7 @@ exports.default = {
             .title(`:x:  Removed "${removedTrack.title}" from the queue`)
             .send()
             .catch((error) => void ctx.error(error));
-        if (ctx.options.index - 1 === player.queuePosition)
+        if (ctx.options.index - 1 === player.queuePosition && player.queue[player.queuePosition])
             void player.skip(player.queuePosition);
     }
 };

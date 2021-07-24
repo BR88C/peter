@@ -14,7 +14,7 @@ exports.default = {
     exec: async (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player)
-            return void ctx.error(`Unable to get the queue; there are no tracks in the queue.`);
+            return void ctx.error(`Unable to get the queue; the bot is not connected to the VC.`);
         const voiceChannel = await ctx.worker.api.channels.get(player.options.voiceChannelId);
         const sendEmbed = async (page) => {
             const trackTitles = [];
@@ -28,7 +28,7 @@ exports.default = {
                 .color(Constants_1.Constants.QUEUE_EMBED_COLOR)
                 .title(player.queuePosition !== null && player.queue[player.queuePosition] ? `**Now Playing:** ${player.queue[player.queuePosition].title} ${player.queue[player.queuePosition].length ? `[${Time_1.timestamp(trackTimeLeft)} remaining]` : ``}` : `**No track playing**`)
                 .thumbnail(player.queuePosition !== null && player.queue[player.queuePosition] instanceof lavalink_1.Track ? player.queue[player.queuePosition].thumbnail(`mqdefault`) ?? `` : ``)
-                .description(`${pages[page]}\n*Page ${page + 1}/${pages.length}*`)
+                .description(pages.length ? `${pages[page]}\n*Page ${page + 1}/${pages.length}*` : `**No tracks in the queue.**`)
                 .field(`Queue Size`, `\`${player.queue.length}\``, true)
                 .field(`Queue Length`, `\`${Time_1.timestamp(queueLength)}\``, true)
                 .field(`Time Left`, `\`${player.queuePosition !== null ? Time_1.timestamp(queueLength - (player.queue.slice(0, player.queuePosition).reduce((p, c) => p + (c.length ?? 0), 0) + (player.position ?? 0))) : `N/A`}\``, true)
