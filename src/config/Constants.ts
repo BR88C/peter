@@ -183,6 +183,10 @@ export interface BotConstants {
      */
     STATUS_EMBED_COLOR: number
     /**
+     * The color to use for the stop embed.
+     */
+    STOP_EMBED_COLOR: number
+    /**
      * The color to use for the 24/7 embed.
      */
     TWENTY_FOUR_SEVEN_EMBED_COLOR: number
@@ -242,6 +246,7 @@ export const Constants: BotConstants = {
     SKIP_EMBED_COLOR: 0x269DFF,
     STARTED_PLAYING_EMBED_COLOR: 0x21FF9E,
     STATUS_EMBED_COLOR: 0x25F536,
+    STOP_EMBED_COLOR: 0xFF4763,
     TWENTY_FOUR_SEVEN_EMBED_COLOR: 0xAEFCE4,
     VOTE_EMBED_COLOR: 0xACA6FF
 };
