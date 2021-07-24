@@ -38,7 +38,7 @@ exports.default = {
             {
                 type: 7,
                 name: `channel`,
-                description: `The voice channel to start the session in`,
+                description: `The VC to start the session in`,
                 required: true
             }
         ]
@@ -46,7 +46,7 @@ exports.default = {
     exec: async (ctx) => {
         const channel = await ctx.worker.api.channels.get(ctx.options.channel);
         if (channel.type !== 2)
-            return void ctx.error(`You must specify a voice channel.`);
+            return void ctx.error(`You must specify a VC.`);
         const invite = await ctx.worker.api.channels.createInvite(channel.id, {
             max_age: 86400,
             max_uses: 0,

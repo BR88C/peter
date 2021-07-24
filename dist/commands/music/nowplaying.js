@@ -8,16 +8,16 @@ exports.default = {
     command: `nowplaying`,
     interaction: {
         name: `nowplaying`,
-        description: `Get information on the current track playing.`
+        description: `Get the current music playing.`
     },
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player || player.state < lavalink_1.PlayerState.CONNECTED)
-            return void ctx.error(`Unable to get the current track; the bot is not connected to the VC.`);
+            return void ctx.error(`Unable to get the current music playing; the bot is not connected to a VC.`);
         if (!player.queue.length)
-            return void ctx.error(`Unable to get the current track; there are no tracks in the queue.`);
+            return void ctx.error(`Unable to get the current music playing; there is no music in the queue.`);
         if (player.queuePosition === null || player.state < lavalink_1.PlayerState.PAUSED)
-            return void ctx.error(`Unable to get the current track; there are no tracks playing.`);
+            return void ctx.error(`Unable to get the current music playing; there is no music playing.`);
         let description;
         if (player.queue[player.queuePosition].isStream)
             description = `🔴  **LIVE**`;

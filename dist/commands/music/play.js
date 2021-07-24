@@ -8,12 +8,12 @@ exports.default = {
     command: `play`,
     interaction: {
         name: `play`,
-        description: `Plays a specified song or video.`,
+        description: `Plays a specified song or video, or adds it to the queue.`,
         options: [
             {
                 type: 3,
                 name: `query`,
-                description: `A YouTube link, or the name of a song / video.`,
+                description: `A YouTube link, a Spotify link, or the name of a song / video.`,
                 required: true
             }
         ]
@@ -21,10 +21,10 @@ exports.default = {
     exec: async (ctx) => {
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
         if (!foundVoiceState)
-            return void ctx.error(`You must be in a voice channel to play a track.`);
+            return void ctx.error(`You must be in a VC to play music.`);
         const existingPlayer = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (existingPlayer && foundVoiceState.channel_id !== existingPlayer.options.voiceChannelId)
-            return void ctx.error(`You must be in the VC to play a track.`);
+            return void ctx.error(`You must be in the VC to play music.`);
         await ctx.embed
             .color(Constants_1.Constants.PROCESSING_QUERY_EMBED_COLOR)
             .title(`:mag_right:  Searching...`)
@@ -63,7 +63,7 @@ exports.default = {
                 .catch((error) => void ctx.error(error));
             await ctx.worker.api.messages.send(ctx.interaction.channel_id, new discord_rose_1.Embed()
                 .color(Constants_1.Constants.ADDED_TO_QUEUE_EMBED_COLOR)
-                .title(`Successfully queued ${search.tracks.length} track${search.tracks.length > 1 ? `s` : ``}`)
+                .title(`Successfully queued ${search.tracks.length} song${search.tracks.length > 1 ? `s` : ``}`)
                 .description(`**Link:** ${ctx.options.query}`)
                 .footer(`Requested by ${search.tracks[0].requester}`)
                 .timestamp());

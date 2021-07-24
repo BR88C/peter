@@ -15,7 +15,7 @@ const bindLavalinkEvents = (worker) => {
     worker.lavalink.on(`PLAYER_CREATED`, (player) => worker.log(`Player Created | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
     worker.lavalink.on(`PLAYER_DESTROYED`, ({ player, reason }) => {
         worker.log(`\x1b[31mPlayer Destroyed | Reason: ${reason} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
-        if (reason === `No other users in the voice channel`)
+        if (reason === `No other users in the VC`)
             void worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
                 .color(Constants_1.Constants.LEAVE_EMBED_COLOR)
                 .title(`:wave:  Left the VC due to no other users being present`));

@@ -99,7 +99,7 @@ class WorkerManager extends discord_rose_1.Worker {
                     for (const [id] of voiceState.users)
                         nonBots += (await this.api.users.get(id)).bot ? 0 : 1;
                     if (nonBots === 0)
-                        void player.destroy(`No other users in the voice channel`);
+                        void player.destroy(`No other users in the VC`);
                 }
             });
             this.log(`\x1b[35mWorker up since ${new Date().toLocaleString()}`);
