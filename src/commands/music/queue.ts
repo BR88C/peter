@@ -15,7 +15,7 @@ export default {
     },
     exec: async (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
-        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to get the queue; the bot is not connected to the VC.`);
+        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to get the queue; the bot is not connected to a VC.`);
 
         const voiceChannel = await ctx.worker.api.channels.get(player.options.voiceChannelId);
 
@@ -33,9 +33,9 @@ export default {
 
             await ctx.embed
                 .color(Constants.QUEUE_EMBED_COLOR)
-                .title(player.queuePosition !== null && player.queue[player.queuePosition] ? `**Now Playing:** ${player.queue[player.queuePosition].title} ${player.queue[player.queuePosition].length ? `[${timestamp(trackTimeLeft)} remaining]` : ``}` : `**No track playing**`)
+                .title(player.queuePosition !== null && player.queue[player.queuePosition] ? `**Now Playing:** ${player.queue[player.queuePosition].title} ${player.queue[player.queuePosition].length ? `[${timestamp(trackTimeLeft)} remaining]` : ``}` : `**No music playing**`)
                 .thumbnail(player.queuePosition !== null && player.queue[player.queuePosition] instanceof Track ? (player.queue[player.queuePosition] as Track).thumbnail(`mqdefault`) ?? `` : ``)
-                .description(pages.length ? `${pages[page]}\n*Page ${page + 1}/${pages.length}*` : `**No tracks in the queue.**`)
+                .description(pages.length ? `${pages[page]}\n*Page ${page + 1}/${pages.length}*` : `**No music in the queue.**`)
                 .field(`Queue Size`, `\`${player.queue.length}\``, true)
                 .field(`Queue Length`, `\`${timestamp(queueLength)}\``, true)
                 .field(`Time Left`, `\`${player.queuePosition !== null ? timestamp(queueLength - (player.queue.slice(0, player.queuePosition).reduce((p, c) => p + (c.length ?? 0), 0) + (player.position ?? 0))) : `N/A`}\``, true)

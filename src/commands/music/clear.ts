@@ -12,8 +12,8 @@ export default {
     },
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
-        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to clear the queue; the bot is not connected to the VC.`);
-        if (!player.queue.length) return void ctx.error(`Unable to clear the queue; there are no tracks in the queue.`);
+        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to clear the queue; the bot is not connected to a VC.`);
+        if (!player.queue.length) return void ctx.error(`Unable to clear the queue; there is no music in the queue.`);
 
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
         if (foundVoiceState?.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to clear the queue.`);

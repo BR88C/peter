@@ -8,12 +8,12 @@ export default {
     command: `loop`,
     interaction: {
         name: `loop`,
-        description: `Modify looping behavior.`,
+        description: `Modify the looping behavior.`,
         options: [
             {
                 type: 3,
                 name: `type`,
-                description: `The type of looping to use.`,
+                description: `The type of loop behavior to use.`,
                 choices: [
                     {
                         name: `Queue`,
@@ -34,7 +34,7 @@ export default {
     },
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
-        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to change the loop behavior; the bot is not connected to the VC.`);
+        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to change the loop behavior; the bot is not connected to a VC.`);
 
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
         if (foundVoiceState?.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to change the loop behavior.`);

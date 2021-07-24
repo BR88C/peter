@@ -8,23 +8,23 @@ export default {
     command: `remove`,
     interaction: {
         name: `remove`,
-        description: `Remove a track from the queue.`,
+        description: `Remove a song from the queue.`,
         options: [
             {
                 type: 4,
                 name: `index`,
-                description: `The track's index in the queue.`,
+                description: `The song's index in the queue.`,
                 required: true
             }
         ]
     },
     exec: async (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
-        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to remove a track from the queue; the bot is not connected to the VC.`)
-        if (!player.queue.length) return void ctx.error(`Unable to remove a track from the queue; there are no tracks in the queue.`);
+        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to remove a song from the queue; the bot is not connected to a VC.`);
+        if (!player.queue.length) return void ctx.error(`Unable to remove a song from the queue; there is no music in the queue.`);
 
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
-        if (foundVoiceState?.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to remove tracks from the queue.`);
+        if (foundVoiceState?.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to remove music from the queue.`);
 
         if (ctx.options.index < 1 || ctx.options.index > player.queue.length) return void ctx.error(`Please specify a valid index.`);
         const removedTrack = player.queue.splice(ctx.options.index - 1, 1)[0];
