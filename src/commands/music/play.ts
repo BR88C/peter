@@ -1,5 +1,6 @@
 import { cleanseMarkdown } from '../../utils/StringUtils';
 import { Constants } from '../../config/Constants';
+import { ExtendedPlayer } from '../../managers/run/runWorker';
 
 // Import modules.
 import { CommandOptions, Embed } from 'discord-rose';
@@ -36,19 +37,25 @@ export default {
         const search = await ctx.worker.lavalink.search(ctx.options.query, ctx.member.nick ? `${ctx.member.nick} (${requesterTag})` : requesterTag);
         if (!search.tracks[0] || search.loadType === `LOAD_FAILED` || search.loadType === `NO_MATCHES`) return void ctx.error(`Unable to find any results based on the provided query.`);
 
-        const player = existingPlayer ?? ctx.worker.lavalink.createPlayer({
-            becomeSpeaker: true,
-            connectionTimeout: 15e3,
-            guildId: ctx.interaction.guild_id!,
-            moveBehavior: `destroy`,
-            selfDeafen: true,
-            selfMute: false,
-            stageMoveBehavior: `pause`,
-            voiceChannelId: foundVoiceState.channel_id,
-            textChannelId: ctx.interaction.channel_id
-        });
-        player.twentyfourseven = false;
+        let player: ExtendedPlayer;
+        if (existingPlayer) player = existingPlayer
+        else {
+            player = ctx.worker.lavalink.createPlayer({
+                becomeSpeaker: true,
+                connectionTimeout: 15e3,
+                guildId: ctx.interaction.guild_id!,
+                moveBehavior: `destroy`,
+                selfDeafen: true,
+                selfMute: false,
+                stageMoveBehavior: `pause`,
+                voiceChannelId: foundVoiceState.channel_id,
+                textChannelId: ctx.interaction.channel_id
+            });
+            player.twentyfourseven = false;
+        }
+
         if (player.state === PlayerState.DISCONNECTED) await player.connect();
+        if (player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to connect to the VC.`)
 
         if (search.loadType === `PLAYLIST_LOADED`) {
             await ctx.embed

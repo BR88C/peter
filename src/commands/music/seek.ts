@@ -3,7 +3,7 @@ import { timestamp } from '../../utils/Time';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { PlayerState } from '@discord-rose/lavalink';
+import { PlayerState, Track } from '@discord-rose/lavalink';
 
 export default {
     command: `seek`,
@@ -21,12 +21,14 @@ export default {
     },
     exec: async (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
-        if (!player || !player.queue.length) return void ctx.error(`Unable to seek; there are no tracks in the queue.`);
-        if (player.state !== PlayerState.PAUSED && player.state !== PlayerState.PLAYING) return void ctx.error(`Unable to seek; there are no tracks playing.`);
+        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to seek; the bot is not connected to the VC.`);
+        if (!player.queue.length) return void ctx.error(`Unable to seek; there are no tracks in the queue.`);
+        if (player.queuePosition === null || player.state < PlayerState.PAUSED) return void ctx.error(`Unable to seek; there are no tracks playing.`);
 
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
         if (foundVoiceState?.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to seek.`);
 
+        if (!(player.queue[player.queuePosition] as Track).isSeekable || (player.queue[player.queuePosition] as Track).isStream) return void ctx.error(`The current track does not support seeking.`)
         if (ctx.options.time < 0 || ctx.options.time > Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value to seek to.`);
 
         await player.seek(ctx.options.time * 1e3);

@@ -5,7 +5,7 @@ import { timestamp } from '../../utils/Time';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { Track } from '@discord-rose/lavalink';
+import { PlayerState, Track } from '@discord-rose/lavalink';
 
 export default {
     command: `queue`,
@@ -15,7 +15,7 @@ export default {
     },
     exec: async (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
-        if (!player) return void ctx.error(`Unable to get the queue; the bot is not connected to the VC.`);
+        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to get the queue; the bot is not connected to the VC.`);
 
         const voiceChannel = await ctx.worker.api.channels.get(player.options.voiceChannelId);
 

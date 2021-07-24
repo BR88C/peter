@@ -2,6 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
+import { PlayerState } from '@discord-rose/lavalink';
 
 export default {
     command: `remove`,
@@ -19,13 +20,13 @@ export default {
     },
     exec: async (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
-        if (!player || !player.queue.length) return void ctx.error(`Unable to remove a track from the queue; there are no tracks in the queue.`);
+        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to remove a track from the queue; the bot is not connected to the VC.`)
+        if (!player.queue.length) return void ctx.error(`Unable to remove a track from the queue; there are no tracks in the queue.`);
 
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
         if (foundVoiceState?.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to remove tracks from the queue.`);
 
         if (ctx.options.index < 1 || ctx.options.index > player.queue.length) return void ctx.error(`Please specify a valid index.`);
-
         const removedTrack = player.queue.splice(ctx.options.index - 1, 1)[0];
 
         await ctx.embed

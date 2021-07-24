@@ -14,8 +14,9 @@ export default {
     },
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
-        if (!player || !player.queue.length) return void ctx.error(`Unable to get the current track; there are no tracks in the queue.`);
-        if (player.queuePosition === null) return void ctx.error(`Unable to get the current track; there are no tracks playing.`);
+        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to get the current track; the bot is not connected to the VC.`)
+        if (!player.queue.length) return void ctx.error(`Unable to get the current track; there are no tracks in the queue.`);
+        if (player.queuePosition === null || player.state < PlayerState.PAUSED) return void ctx.error(`Unable to get the current track; there are no tracks playing.`);
 
         let description: string;
         if ((player.queue[player.queuePosition] as Track).isStream) description = `🔴  **LIVE**`;
