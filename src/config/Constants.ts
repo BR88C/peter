@@ -119,6 +119,10 @@ export interface BotConstants {
      */
     EVAL_EMBED_COLOR: number
     /**
+     * The color to use for the help embed.
+     */
+    HELP_EMBED_COLOR: number
+    /**
      * The color to use for the invite embed.
      */
     INVITE_EMBED_COLOR: number
@@ -234,6 +238,7 @@ export const Constants: BotConstants = {
     DEV_STATS_EMBED_COLOR: 0x000020,
     ERROR_EMBED_COLOR: 0xFF0000,
     EVAL_EMBED_COLOR: 0x000020,
+    HELP_EMBED_COLOR: 0x1FFF8B,
     INVITE_EMBED_COLOR: 0x5EFF97,
     LEAVE_EMBED_COLOR: 0xFF4F42,
     LOOP_EMBED_COLOR: 0x6395FF,
