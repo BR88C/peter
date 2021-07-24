@@ -79,6 +79,10 @@ export interface BotConstants {
     TREMOLO_VIBRATO_FREQUENCY: number
 
     /**
+     * The color to use for the activity embed.
+     */
+    ACTIVITY_EMBED_COLOR: number
+    /**
      * The color to use for the added to queue embed.
      */
     ADDED_TO_QUEUE_EMBED_COLOR: number
@@ -220,6 +224,7 @@ export const Constants: BotConstants = {
     TREBLE_INTENSITY_MULTIPLIER: 0.25,
     TREMOLO_VIBRATO_FREQUENCY: 5,
 
+    ACTIVITY_EMBED_COLOR: 0xBFBFBF,
     ADDED_TO_QUEUE_EMBED_COLOR: 0x9AF522,
     AVATAR_EMBED_COLOR: 0xEB6134,
     BOT_INFO_EMBED_COLOR: 0xFFD87D,

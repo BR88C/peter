@@ -56,6 +56,7 @@ export default {
             temporary: false
         });
         ctx.embed
+            .color(Constants.ACTIVITY_EMBED_COLOR)
             .title(`Click to start the activity`, `https://discord.gg/${invite.code}`)
             .send()
             .catch((error) => void ctx.error(error));
