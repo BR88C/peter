@@ -24,7 +24,7 @@ export default {
         if (!foundVoiceState) return void ctx.error(`You must be in a voice channel to play a track.`);
 
         const existingPlayer = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
-        if (existingPlayer && foundVoiceState.channel_id !== existingPlayer.options.voiceChannelId) return void ctx.error(`You must be in the voice channel to play a track.`);
+        if (existingPlayer && foundVoiceState.channel_id !== existingPlayer.options.voiceChannelId) return void ctx.error(`You must be in the VC to play a track.`);
 
         await ctx.embed
             .color(Constants.PROCESSING_QUERY_EMBED_COLOR)
