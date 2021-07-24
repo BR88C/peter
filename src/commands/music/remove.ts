@@ -36,7 +36,7 @@ export default {
 
         if (ctx.options.index - 1 === player.queuePosition) {
             if (player.queue[player.queuePosition]) void player.skip(player.queuePosition);
-            else player.stop();
+            else void player.stop();
         }
     }
 } as CommandOptions;
