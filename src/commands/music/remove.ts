@@ -34,6 +34,9 @@ export default {
             .send()
             .catch((error) => void ctx.error(error));
 
-        if (ctx.options.index - 1 === player.queuePosition && player.queue[player.queuePosition]) void player.skip(player.queuePosition);
+        if (ctx.options.index - 1 === player.queuePosition) {
+            if (player.queue[player.queuePosition]) void player.skip(player.queuePosition);
+            else player.stop();
+        }
     }
 } as CommandOptions;
