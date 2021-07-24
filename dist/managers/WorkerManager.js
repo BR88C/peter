@@ -27,8 +27,13 @@ class WorkerManager extends discord_rose_1.Worker {
         setInterval(() => ProcessUtils_1.setRandomPresence(this), Config_1.Config.presenceInterval);
         this.commands.prefix(Config_1.Config.developerPrefix);
         this.log(`Using developer prefix ${Config_1.Config.developerPrefix}`);
-        for (const dir of fs_1.readdirSync(`./src/commands`).filter((file) => fs_1.statSync(`${`./src/commands` + `/`}${file}`).isDirectory())) {
+        for (const dir of fs_1.readdirSync(`./dist/commands`).filter((file) => fs_1.statSync(`./dist/commands/${file}`).isDirectory())) {
             this.commands.load(path_1.resolve(__dirname, `../commands/${dir}`));
+            const commands = fs_1.readdirSync(`./dist/commands/${dir}`).filter((file) => fs_1.statSync(`./dist/commands/${dir}/${file}`).isFile()).map((file) => file.replace(`.js`, ``));
+            for (const command of commands) {
+                if (this.commands.commands?.get(command))
+                    this.commands.commands.get(command).category = dir;
+            }
         }
         this.log(`Loaded ${this.commands.commands?.size} commands`);
         this.commands.error((ctx, error) => {
