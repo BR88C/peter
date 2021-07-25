@@ -14,27 +14,30 @@ export default {
     exec: async (ctx) => {
         const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!);
         const member = await ctx.worker.api.members.get(guild.id, ctx.worker.user.id);
-        const roles = guild.roles.reduce<Collection<Snowflake, any>>((p, c) => p.set(c.id, c), new Collection());
-        const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id);
+        const roles = guild?.roles.reduce<Collection<Snowflake, any>>((p, c) => p.set(c.id, c), new Collection()) ?? undefined;
+        const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch(() => {});
 
         const guildPermissions = PermissionsUtils.combine({
             guild,
             member,
             roleList: roles as any
         });
-        const textChannelPermissions = PermissionsUtils.combine({
-            guild,
-            member,
-            overwrites: textChannel.permission_overwrites,
-            roleList: roles as any
-        });
+        const textChannelPermissions = textChannel
+            ? PermissionsUtils.combine({
+                guild,
+                member,
+                overwrites: textChannel.permission_overwrites,
+                roleList: roles as any
+            })
+            : 0;
 
         const debugEmbed = new Embed()
             .color(Constants.DEBUG_EMBED_COLOR)
             .title(`Debug`)
             .description(`Peter's support server: ${Constants.SUPPORT_SERVER}`)
-            .field(`Server`, `**ID:** \`${guild.id}\`\n**Permissions:** \`${guildPermissions}\`\n${PermissionsUtils.has(guildPermissions, `viewChannel`) ? `:white_check_mark:` : `:exclamation:`} View Channels\n${PermissionsUtils.has(guildPermissions, `connect`) ? `:white_check_mark:` : `:exclamation:`} Connect to Voice\n${PermissionsUtils.has(guildPermissions, `speak`) ? `:white_check_mark:` : `:exclamation:`} Speak\n${PermissionsUtils.has(guildPermissions, `requestToSpeak`) ? `:white_check_mark:` : `:exclamation:`} Request to speak\n${PermissionsUtils.has(guildPermissions, `viewChannel`) ? `:white_check_mark:` : `:grey_exclamation:`} Server mute\n${PermissionsUtils.has(guildPermissions, `sendMessages`) ? `:white_check_mark:` : `:exclamation:`} Send messages\n${PermissionsUtils.has(guildPermissions, `embed`) ? `:white_check_mark:` : `:exclamation:`} Embed links`, true)
-            .field(`This Channel`, `**ID:** \`${textChannel.id}\`\n**Permissions:** \`${textChannelPermissions}\`\n${PermissionsUtils.has(textChannelPermissions, `viewChannel`) ? `:white_check_mark:` : `:exclamation:`} View Channel\n${PermissionsUtils.has(textChannelPermissions, `sendMessages`) ? `:white_check_mark:` : `:exclamation:`} Send messages\n${PermissionsUtils.has(textChannelPermissions, `embed`) ? `:white_check_mark:` : `:exclamation:`} Embed links`, true)
+            .field(`Server`, `**ID:** \`${guild.id}\`\n**Permissions:** \`${guildPermissions}\`\n${PermissionsUtils.has(guildPermissions, `viewChannel`) ? `:white_check_mark:` : `:exclamation:`} View Channels\n${PermissionsUtils.has(guildPermissions, `connect`) ? `:white_check_mark:` : `:exclamation:`} Connect to Voice\n${PermissionsUtils.has(guildPermissions, `speak`) ? `:white_check_mark:` : `:exclamation:`} Speak\n${PermissionsUtils.has(guildPermissions, `requestToSpeak`) ? `:white_check_mark:` : `:grey_exclamation:`} Request to speak\n${PermissionsUtils.has(guildPermissions, `mute`) ? `:white_check_mark:` : `:grey_exclamation:`} Server mute\n${PermissionsUtils.has(guildPermissions, `sendMessages`) ? `:white_check_mark:` : `:exclamation:`} Send messages\n${PermissionsUtils.has(guildPermissions, `embed`) ? `:white_check_mark:` : `:exclamation:`} Embed links`, true)
+            .field(`This Channel`, `**ID:** \`${ctx.interaction.channel_id}\`\n**Permissions:** \`${textChannelPermissions}\`\n${PermissionsUtils.has(textChannelPermissions, `viewChannel`) ? `:white_check_mark:` : `:exclamation:`} View Channel\n${PermissionsUtils.has(textChannelPermissions, `sendMessages`) ? `:white_check_mark:` : `:exclamation:`} Send messages\n${PermissionsUtils.has(textChannelPermissions, `embed`) ? `:white_check_mark:` : `:exclamation:`} Embed links`, true)
+            .footer(`❗ = Missing required permission, ❕ = Missing non-essential permission`)
             .timestamp();
 
         const player = ctx.worker.lavalink.players.get(guild.id);
