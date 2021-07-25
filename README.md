@@ -19,7 +19,8 @@ You must have the following installed to test your changes.
 - [Node.js](https://nodejs.org/en/download/) `v14+`
 - [NPM](https://www.npmjs.com/get-npm) `v7.x` (Normally bundled with Node)
 - [Java](https://adoptopenjdk.net/) `v13`
-- [Lavalink](https://github.com/freyacodes/Lavalink) Dev branch
+- [Lavalink](https://github.com/freyacodes/Lavalink) Latest Dev
+- [MongoDB Community Server](https://www.mongodb.com/try/download/community) `v5.0.x`
 
 ## Contribute
 Fork the repository and clone it.
