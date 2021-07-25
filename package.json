@@ -27,7 +27,7 @@
     "@top-gg/sdk": "^3.1.2",
     "discord-rose": "github:discord-rose/discord-rose#build",
     "dotenv": "^10.0.0",
-    "mongoose": "^5.13.3"
+    "mongodb": "4.0.1"
   },
   "devDependencies": {
     "@types/node": "^16.4.1",
