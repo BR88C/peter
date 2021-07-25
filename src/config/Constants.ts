@@ -1,4 +1,4 @@
-import { Snowflake } from "discord-rose";
+import { Snowflake } from 'discord-rose';
 
 export interface BotConstants {
     /**
