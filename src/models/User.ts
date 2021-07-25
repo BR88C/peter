@@ -1,4 +1,5 @@
 import { model, Schema } from 'mongoose';
+import { Snowflake } from 'discord-rose';
 
 const UserSchema: Schema = new Schema({
     /**
@@ -10,12 +11,10 @@ const UserSchema: Schema = new Schema({
      */
     premium: Boolean,
     /**
-     * The User's search mode.
-     * 0 = The first result of a search query is used.
-     * 1 = The user is shown an empheral with the firt 5 results.
-     * 2 = The user is shown an empheral with the first 10 results.
+     * The number of results to show a user from a search.
+     * 0 will automatically pick the first result.
      */
-    searchMode: Number
+    searchResults: Number
 });
 
 export const User = model(`User`, UserSchema);
