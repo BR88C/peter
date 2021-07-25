@@ -43,6 +43,11 @@ export interface BotConfig {
     cacheControl: CacheControlOptions
 
     /**
+     * The URL of the DB to connect to.
+     */
+    mongoURL: string
+
+    /**
      * Lavalink nodes. Passwords should be defined in .env, and should coorelate with the index of the nodes here.
      */
     lavalinkNodes: Array<Omit<NodeOptions, `password`>>
@@ -105,9 +110,11 @@ export const Config: BotConfig = {
         guilds: [`id`, `name`], voiceStates: [`member`]
     },
 
+    mongoURL: `mongodb://localhost:27017/peter`,
+
     lavalinkNodes: [
         {
-            clientName: `peter@${process.env.npm_package_version ?? `Unavailable`}`,
+            clientName: `peter@${process.env.npm_package_version ?? `0.0.0`}`,
             connectionTimeout: 1e4,
             host: `localhost`,
             maxRetrys: 20,
