@@ -1,4 +1,4 @@
-import { Config } from "../config/Config";
+import { Config } from '../config/Config';
 
 /**
  * Centers a string on a specified length using spaces.
