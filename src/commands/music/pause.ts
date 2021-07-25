@@ -23,7 +23,7 @@ export default {
         await player.pause();
 
         ctx.embed
-            .color(Constants.PAUSE_EMBED_COLOR)
+            .color(Constants.PAUSE_RESUME_EMBED_COLOR)
             .title(`:pause_button:  Paused the music`)
             .send()
             .catch((error) => void ctx.error(error));
