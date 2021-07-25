@@ -32,6 +32,7 @@ export class WorkerManager extends Worker {
     constructor () {
         super();
 
+        // Create the lavalink manager.
         this.lavalink = new LavalinkManager({
             defaultSource: `youtube`,
             enabledSources: [`youtube`],
