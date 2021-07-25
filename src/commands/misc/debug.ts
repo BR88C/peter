@@ -2,7 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { Collection } from '@discordjs/collection';
-import { CommandOptions, Embed, PermissionsUtils, Snowflake } from 'discord-rose';
+import { CommandOptions, Embed, PermissionsUtils } from 'discord-rose';
 import { Track } from '@discord-rose/lavalink';
 
 export default {
@@ -41,7 +41,7 @@ export default {
         } else {
             const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!);
             const member = await ctx.worker.api.members.get(guild.id, ctx.worker.user.id);
-            const roles = guild?.roles.reduce<Collection<Snowflake, any>>((p, c) => p.set(c.id, c), new Collection()) ?? undefined;
+            const roles = guild.roles.reduce((p, c) => p.set(c.id, c), new Collection());
             const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch(() => {});
 
             const guildPermissions = PermissionsUtils.combine({
