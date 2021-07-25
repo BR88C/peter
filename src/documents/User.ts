@@ -1,6 +1,7 @@
-import { Snowflake } from "discord-rose";
+import { Document } from 'mongodb';
+import { Snowflake } from 'discord-rose';
 
-export interface UserDocument {
+export interface UserDocument extends Document {
     /**
      * The User's ID.
      */

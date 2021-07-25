@@ -1,6 +1,7 @@
-import { Snowflake } from "discord-rose";
+import { Document } from 'mongodb';
+import { Snowflake } from 'discord-rose';
 
-export interface GuildDocument {
+export interface GuildDocument extends Document {
     /**
      * The Guild's ID.
      */
