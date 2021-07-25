@@ -1,5 +1,4 @@
 import { model, Schema } from 'mongoose';
-import { Snowflake } from 'discord-rose';
 
 const GuildSchema: Schema = new Schema({
     /**
