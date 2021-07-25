@@ -6,6 +6,7 @@ import { setRandomPresence } from '../utils/ProcessUtils';
 
 // Import modules.
 import { LavalinkManager } from '@discord-rose/lavalink';
+import { MongoClient } from 'mongodb';
 import { readdirSync, statSync } from 'fs';
 import { resolve } from 'path';
 import { Worker } from 'discord-rose';
@@ -24,6 +25,7 @@ export class WorkerManager extends Worker {
      * The worker's lavalink manager.
      */
     public lavalink: LavalinkManager
+    public mongoClient: MongoClient = new MongoClient(Config.mongo.url)
 
     /**
      * Create the Worker manager.
@@ -133,6 +135,13 @@ export class WorkerManager extends Worker {
                     for (const [id] of voiceState.users) nonBots += (await this.api.users.get(id)).bot ? 0 : 1;
                     if (nonBots === 0) void player.destroy(`No other users in the VC`);
                 }
+            });
+
+            // Connect to Mongo DB.
+            await this.mongoClient.connect().catch((error) => {
+                console.log(`\x1b[31m`);
+                console.error(error);
+                console.log(`\x1b[37m`);
             });
 
             // Log worker available and set WorkerManage#available to true.
