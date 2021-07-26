@@ -30,7 +30,7 @@ export default {
         if (ctx.options.dj) {
             if (ctx.options.dj.command) {
                 const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!);
-                if (PermissionsUtils.has(PermissionsUtils.combine({
+                if (!PermissionsUtils.has(PermissionsUtils.combine({
                     guild,
                     member: await ctx.worker.api.members.get(ctx.interaction.guild_id!, ctx.author.id),
                     roleList: guild.roles.reduce((p, c) => p.set(c.id, c), new Collection()) as any
@@ -70,7 +70,7 @@ export default {
                     .field(`Current Configuration`, commands.splice(0, Math.ceil(commands.length / 2)).join(`\n`), true)
                     .field(`\u200b`, commands.join(`\n`), true)
                     .footer(`🔒 = DJ only, 🔓 = Public`)
-                    .send(true, false, true)
+                    .send()
                     .catch((error) => void ctx.error(error));
             }
         }
