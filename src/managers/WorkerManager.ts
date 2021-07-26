@@ -5,11 +5,12 @@ import { removeToken } from '../utils/StringUtils';
 import { setRandomPresence } from '../utils/ProcessUtils';
 
 // Import modules.
+import { Collection } from '@discordjs/collection';
 import { LavalinkManager } from '@discord-rose/lavalink';
 import { MongoClient } from 'mongodb';
+import { PermissionsUtils, Worker } from 'discord-rose';
 import { readdirSync, statSync } from 'fs';
 import { resolve } from 'path';
-import { Worker } from 'discord-rose';
 
 /**
  * The Worker manager class.
@@ -84,7 +85,7 @@ export class WorkerManager extends Worker {
         });
 
         // Create command middleware.
-        this.commands.middleware((ctx) => {
+        this.commands.middleware(async (ctx) => {
             if (!this.available) { // If the worker is not available.
                 void ctx.error(`The bot is still starting; please wait!`);
                 return false;
@@ -107,6 +108,22 @@ export class WorkerManager extends Worker {
                     void ctx.error(`This command can only be ran in a server!`);
                     return false;
                 } else {
+                    // @ts-expect-error Property 'category' does not exist on type 'CommandOptions'.
+                    if (ctx.command.category === `music`) { // If the interaction is a music command.
+                        const guildDocument = await this.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
+                        if (guildDocument?.djCommands.includes(ctx.command.interaction?.name.toLowerCase())) {
+                            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!);
+                            const member = await ctx.worker.api.members.get(ctx.interaction.guild_id!, ctx.author.id);
+                            if (!PermissionsUtils.has(PermissionsUtils.combine({
+                                guild,
+                                member,
+                                roleList: guild.roles.reduce((p, c) => p.set(c.id, c), new Collection()) as any
+                            }), `manageGuild`) && !guild.roles.filter((role) => role.name.toLowerCase() === `dj`).map((role) => role.id).some((role) => member.roles.includes(role))) {
+                                void ctx.error(`You must have the DJ role to use that command.`);
+                                return false;
+                            }
+                        }
+                    }
                     this.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.interaction.guild_id)?.name} | Guild ID: ${ctx.interaction.guild_id}`);
                     return true;
                 }
