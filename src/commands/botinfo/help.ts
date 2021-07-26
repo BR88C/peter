@@ -34,7 +34,7 @@ export default {
                 .catch((error) => void ctx.error(error));
         } else {
             // @ts-expect-errorProperty 'category' does not exist on type 'CommandOptions'.
-            const categories = [...new Set(ctx.worker.commands.commands.map((command) => command.category.toLowerCase()))].map((category) => ctx.worker.commands.commands.filter((command) => command.interaction && command.category === category)).sort((a, b) => a.size - b.size);
+            const categories = [...new Set(ctx.worker.commands.commands.map((command) => command.category.toLowerCase()))].map((category) => ctx.worker.commands.commands.filter((command) => command.interaction && command.category === category)).sort((a, b) => b.size - a.size);
             const helpEmbed = new Embed()
                 .color(Constants.HELP_EMBED_COLOR)
                 .title(`Help`)
