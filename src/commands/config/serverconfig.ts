@@ -66,7 +66,7 @@ export default {
                 ctx.embed
                     .color(Constants.CONFIG_EMBED_COLOR)
                     .title(`DJ Config`)
-                    .description(`Peter's DJ configuration works by toggling individual commands to be public or DJ only, allowing for total control over what non-DJs can and cannot access. To make someone a DJ, simply give them a role named "DJ". You can create as many DJ roles as you would like.`)
+                    .description(`Peter's DJ configuration works by toggling individual commands to be public or DJ only, allowing for total control over what non-DJs can and cannot access. To make someone a DJ, simply give them a role named "DJ". Users with the "Manage Server" or "Administrator" permissions are also considered DJs.`)
                     .field(`Current Configuration`, commands.splice(0, Math.ceil(commands.length / 2)).join(`\n`), true)
                     .field(`\u200b`, commands.join(`\n`), true)
                     .footer(`🔒 = DJ only, 🌎 = Public`)
