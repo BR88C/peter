@@ -31,8 +31,7 @@ export default {
             ctx.embed
                 .color(Constants.DEBUG_EMBED_COLOR)
                 .title(`Permissions Debug`)
-                .description(`Permissions for \`${Number(bits)}\``)
-                .field(`\u200b`, permissions.splice(0, Math.ceil(permissions.length / 2)).join(`\n`), true)
+                .field(`Permissions for \`${Number(bits)}\``, permissions.splice(0, Math.ceil(permissions.length / 2)).join(`\n`), true)
                 .field(`\u200b`, permissions.join(`\n`), true)
                 .footer(`Guild ID: ${ctx.interaction.guild_id}`)
                 .timestamp()
