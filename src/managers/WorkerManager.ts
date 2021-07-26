@@ -26,6 +26,9 @@ export class WorkerManager extends Worker {
      * The worker's lavalink manager.
      */
     public lavalink: LavalinkManager
+    /**
+     * The worker's MongoDB client.
+     */
     public mongoClient: MongoClient = new MongoClient(Config.mongo.url)
 
     /**
