@@ -67,7 +67,7 @@ export default {
             await ctx.worker.api.messages.send(ctx.interaction.channel_id, new Embed()
                 .color(Constants.ADDED_TO_QUEUE_EMBED_COLOR)
                 .title(`Successfully queued ${search.tracks.length} song${search.tracks.length > 1 ? `s` : ``}`)
-                .description(`**Link:** ${ctx.options.query}\n\`\`\`\n${search.tracks.slice(0, 5).map((track, i) => `${i}. ${track.title}`).join(`\n`)}${search.tracks.length > 5 ? `\n${search.tracks.length - 5} more...` : ``}\n\`\`\``)
+                .description(`**Link:** ${ctx.options.query}\n\`\`\`\n${search.tracks.slice(0, 5).map((track, i) => `${i + 1}. ${track.title}`).join(`\n`)}${search.tracks.length > 5 ? `\n\n${search.tracks.length - 5} more...` : ``}\n\`\`\``)
                 .footer(`Requested by ${search.tracks[0].requester}`)
                 .timestamp()
             );
