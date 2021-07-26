@@ -24,6 +24,7 @@
   "homepage": "https://peter.badfirmware.com",
   "dependencies": {
     "@discord-rose/lavalink": "github:discord-rose/lavalink-wrapper#build",
+    "@discordjs/collection": "^0.2.0",
     "@top-gg/sdk": "^3.1.2",
     "discord-rose": "github:discord-rose/discord-rose#build",
     "dotenv": "^10.0.0",
