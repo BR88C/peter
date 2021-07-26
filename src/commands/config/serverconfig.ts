@@ -48,7 +48,7 @@ export default {
                         djCommands: [ctx.options.dj.command.toLowerCase()]
                     });
                 } else {
-                    const newArray = guildDocument.djCommands.includes(ctx.options.dj.command.toLowerCase()) ? guildDocument.djCommands.filter((command) => command !== ctx.options.dj.command.toLowerCase()) : guildDocument.djCommand.concat(ctx.options.dj.command.toLowerCase());
+                    const newArray = guildDocument.djCommands.includes(ctx.options.dj.command.toLowerCase()) ? guildDocument.djCommands.filter((command) => command !== ctx.options.dj.command.toLowerCase()) : guildDocument.djCommands.concat(ctx.options.dj.command.toLowerCase());
                     await ctx.worker.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).updateOne({ id: ctx.interaction.guild_id }, { $set: { djCommands: newArray } });
                 }
 
@@ -61,7 +61,7 @@ export default {
                 if (!ctx.worker.commands.commands) return void ctx.error(`Unable to get commands.`);
                 const guildDocument = await ctx.worker.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
                 // @ts-expect-error Property 'category' does not exist on type 'CommandOptions'.
-                const commands = ctx.worker.commands.commands.filter((command) => command.interaction && command.category === `music`).map((command) => `${guildDocument?.djCommands.includes(command.interaction.name) ? `:lock:` : `:unlock:`} \`${command.interaction.name}\``);
+                const commands = ctx.worker.commands.commands.filter((command) => command.interaction && command.category === `music`).map((command) => `${guildDocument?.djCommands.includes(command.interaction.name) ? `:lock:` : `:earth_americas:`} \`${command.interaction.name}\``);
 
                 ctx.embed
                     .color(Constants.CONFIG_EMBED_COLOR)
@@ -69,7 +69,7 @@ export default {
                     .description(`Peter's DJ configuration works by toggling individual commands to be public or DJ only, allowing for total control over what non-DJs can and cannot access. To make someone a DJ, simply give them a role named "DJ". You can create as many DJ roles as you would like.`)
                     .field(`Current Configuration`, commands.splice(0, Math.ceil(commands.length / 2)).join(`\n`), true)
                     .field(`\u200b`, commands.join(`\n`), true)
-                    .footer(`🔒 = DJ only, 🔓 = Public`)
+                    .footer(`🔒 = DJ only, 🌎 = Public`)
                     .send()
                     .catch((error) => void ctx.error(error));
             }
