@@ -115,15 +115,18 @@ export class WorkerManager extends Worker {
                     if (ctx.command.category === `music`) { // If the interaction is a music command.
                         const guildDocument = await this.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
                         if (guildDocument?.djCommands.includes(ctx.command.interaction?.name.toLowerCase())) {
-                            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!);
-                            const member = await ctx.worker.api.members.get(ctx.interaction.guild_id!, ctx.author.id);
-                            if (!PermissionsUtils.has(PermissionsUtils.combine({
-                                guild,
-                                member,
-                                roleList: guild.roles.reduce((p, c) => p.set(c.id, c), new Collection()) as any
-                            }), `manageGuild`) && !guild.roles.filter((role) => role.name.toLowerCase() === `dj`).map((role) => role.id).some((role) => member.roles.includes(role))) {
-                                void ctx.error(`You must have the DJ role to use that command.`);
-                                return false;
+                            const voiceChannel = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!)?.options.voiceChannelId ?? ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id))?.channel_id;
+                            if (voiceChannel && (ctx.worker.voiceStates.get(voiceChannel)?.users.size ?? 1) - 1 >= guildDocument.djOverride) {
+                                const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!);
+                                const member = await ctx.worker.api.members.get(ctx.interaction.guild_id!, ctx.author.id);
+                                if (!PermissionsUtils.has(PermissionsUtils.combine({
+                                    guild,
+                                    member,
+                                    roleList: guild.roles.reduce((p, c) => p.set(c.id, c), new Collection()) as any
+                                }), `manageGuild`) && !guild.roles.filter((role) => role.name.toLowerCase() === `dj`).map((role) => role.id).some((role) => member.roles.includes(role))) {
+                                    void ctx.error(`You must have the DJ role to use that command.`);
+                                    return false;
+                                }
                             }
                         }
                     }
