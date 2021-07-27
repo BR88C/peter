@@ -38,7 +38,7 @@ export default {
                 const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!);
                 if (!PermissionsUtils.has(PermissionsUtils.combine({
                     guild,
-                    member: await ctx.worker.api.members.get(ctx.interaction.guild_id!, ctx.author.id),
+                    member: ctx.interaction.member!,
                     roleList: guild.roles.reduce((p, c) => p.set(c.id, c), new Collection()) as any
                 }), `manageGuild`)) return void ctx.error(`You must have the "Manage Server" permission to set DJ config.`);
 
