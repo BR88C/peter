@@ -21,6 +21,9 @@ export class MasterManager extends Master {
             cache: Config.cache,
             cacheControl: Config.cacheControl,
             log: log,
+            rest: {
+                version: 9
+            },
             shards: Config.shards[process.env.NODE_ENV ?? `dev`],
             shardsPerCluster: Config.shardsPerCluster[process.env.NODE_ENV ?? `dev`],
             token: process.env.BOT_TOKEN ?? ``
