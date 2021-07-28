@@ -23,8 +23,8 @@ exports.default = {
             return void ctx.error(`The music is already resumed.`);
         await player.resume();
         ctx.embed
-            .color(Constants_1.Constants.PAUSE_EMBED_COLOR)
-            .title(`:pause_button:  Paused the music`)
+            .color(Constants_1.Constants.PAUSE_RESUME_EMBED_COLOR)
+            .title(`:arrow_forward:  Resumed the music`)
             .send()
             .catch((error) => void ctx.error(error));
     }

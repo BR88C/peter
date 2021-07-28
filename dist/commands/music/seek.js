@@ -30,7 +30,7 @@ exports.default = {
             return void ctx.error(`You must be in the VC to seek.`);
         if (!player.queue[player.queuePosition].isSeekable || player.queue[player.queuePosition].isStream)
             return void ctx.error(`The current song does not support seeking.`);
-        if (ctx.options.time < 0 || ctx.options.time > Constants_1.Constants.MAX_SAFE_JAVA_INTEGER)
+        if (ctx.options.time < 0)
             return void ctx.error(`Invalid value to seek to.`);
         await player.seek(ctx.options.time * 1e3);
         ctx.embed

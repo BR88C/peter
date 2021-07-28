@@ -23,9 +23,13 @@ exports.Config = {
     cacheControl: {
         guilds: [`id`, `name`], voiceStates: [`member`]
     },
+    mongo: {
+        url: `mongodb://localhost:27017`,
+        dbName: `peter`
+    },
     lavalinkNodes: [
         {
-            clientName: `peter@${process.env.npm_package_version ?? `Unavailable`}`,
+            clientName: `peter@${process.env.npm_package_version ?? `0.0.0`}`,
             connectionTimeout: 1e4,
             host: `localhost`,
             maxRetrys: 20,

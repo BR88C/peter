@@ -1,0 +1,89 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const Constants_1 = require("../../config/Constants");
+const collection_1 = require("@discordjs/collection");
+const discord_rose_1 = require("discord-rose");
+exports.default = {
+    command: `debug`,
+    interaction: {
+        name: `debug`,
+        description: `Used to easily troubleshoot common issues.`,
+        options: [
+            {
+                type: 3,
+                name: `permissions`,
+                description: `Get a list of permissions using a supplied bit combination.`,
+                required: false
+            }
+        ]
+    },
+    exec: async (ctx) => {
+        if (ctx.options.permissions) {
+            let bits;
+            try {
+                bits = BigInt(ctx.options.permissions);
+            }
+            catch (error) {
+                return void ctx.error(`Invalid bit combination.`);
+            }
+            const permissions = Object.keys(discord_rose_1.PermissionsUtils.bits).map((bit) => `${discord_rose_1.PermissionsUtils.has(bits, bit) ? `:white_check_mark:` : `:x:`} ${`${bit.charAt(0).toUpperCase()}${bit.slice(1)}`.replace(/([A-Z])/g, ` $1`).trim()}`);
+            ctx.embed
+                .color(Constants_1.Constants.DEBUG_EMBED_COLOR)
+                .title(`Permissions Debug`)
+                .field(`Permissions for \`${Number(bits)}\``, permissions.splice(0, Math.ceil(permissions.length / 2)).join(`\n`), true)
+                .field(`\u200b`, permissions.join(`\n`), true)
+                .footer(`Guild ID: ${ctx.interaction.guild_id}`)
+                .timestamp()
+                .send()
+                .catch((error) => void ctx.error(error));
+        }
+        else {
+            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id);
+            const member = await ctx.worker.api.members.get(guild.id, ctx.worker.user.id);
+            const roles = guild.roles.reduce((p, c) => p.set(c.id, c), new collection_1.Collection());
+            const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch(() => { });
+            const guildPermissions = discord_rose_1.PermissionsUtils.combine({
+                guild,
+                member,
+                roleList: roles
+            });
+            const textChannelPermissions = textChannel
+                ? discord_rose_1.PermissionsUtils.combine({
+                    guild,
+                    member,
+                    overwrites: textChannel.permission_overwrites,
+                    roleList: roles
+                })
+                : 0;
+            const debugEmbed = new discord_rose_1.Embed()
+                .color(Constants_1.Constants.DEBUG_EMBED_COLOR)
+                .title(`Debug`)
+                .description(`Peter's support server: ${Constants_1.Constants.SUPPORT_SERVER}\n**Thread ID:** \`${ctx.worker.comms.id}\``)
+                .field(`Server`, `**ID:** \`${guild.id}\`\n**Permissions:** \`${guildPermissions}\`\n${discord_rose_1.PermissionsUtils.has(guildPermissions, `viewChannel`) ? `:white_check_mark:` : `:exclamation:`} View Channels\n${discord_rose_1.PermissionsUtils.has(guildPermissions, `connect`) ? `:white_check_mark:` : `:exclamation:`} Connect to Voice\n${discord_rose_1.PermissionsUtils.has(guildPermissions, `speak`) ? `:white_check_mark:` : `:exclamation:`} Speak\n${discord_rose_1.PermissionsUtils.has(guildPermissions, `requestToSpeak`) ? `:white_check_mark:` : `:grey_exclamation:`} Request to speak\n${discord_rose_1.PermissionsUtils.has(guildPermissions, `mute`) ? `:white_check_mark:` : `:grey_exclamation:`} Server mute\n${discord_rose_1.PermissionsUtils.has(guildPermissions, `sendMessages`) ? `:white_check_mark:` : `:exclamation:`} Send messages\n${discord_rose_1.PermissionsUtils.has(guildPermissions, `embed`) ? `:white_check_mark:` : `:exclamation:`} Embed links`, true)
+                .field(`This Channel`, `**ID:** \`${ctx.interaction.channel_id}\`\n**Permissions:** \`${textChannelPermissions}\`\n${discord_rose_1.PermissionsUtils.has(textChannelPermissions, `viewChannel`) ? `:white_check_mark:` : `:exclamation:`} View Channel\n${discord_rose_1.PermissionsUtils.has(textChannelPermissions, `sendMessages`) ? `:white_check_mark:` : `:exclamation:`} Send messages\n${discord_rose_1.PermissionsUtils.has(textChannelPermissions, `embed`) ? `:white_check_mark:` : `:exclamation:`} Embed links`, true)
+                .footer(`❗ = Missing essential permission, ❕ = Missing non-essential permission`);
+            const player = ctx.worker.lavalink.players.get(guild.id);
+            if (player) {
+                const playerTextChannel = await ctx.worker.api.channels.get(player.options.textChannelId);
+                const playerTextChannelPermissions = discord_rose_1.PermissionsUtils.combine({
+                    guild,
+                    member,
+                    overwrites: playerTextChannel.permission_overwrites,
+                    roleList: roles
+                });
+                const playerVoiceChannel = await ctx.worker.api.channels.get(player.options.voiceChannelId);
+                const playerVoiceChannelPermissions = discord_rose_1.PermissionsUtils.combine({
+                    guild,
+                    member,
+                    overwrites: playerVoiceChannel.permission_overwrites,
+                    roleList: roles
+                });
+                debugEmbed
+                    .field(`Music Player`, `**Node:** ${player.node.identifier}\n**Player state:** ${player.state}\n**Node state:** ${player.node.state}\n**Text Channel ID:**: \`${player.options.textChannelId}\`\n**Text Channel Permissions:** \`${playerTextChannelPermissions}\`\n**Voice Channel ID:** \`${player.options.voiceChannelId}\`\n**Voice Channel Permissions:** \`${playerVoiceChannelPermissions}\`\n**Current song:** ${player.queuePosition !== null ? (player.queue[player.queuePosition].uri ?? player.queue[player.queuePosition].title) : `*No song playing.*`}`, false);
+            }
+            else
+                debugEmbed.field(`Music Player`, `*No player found.*`, false);
+            ctx.send(debugEmbed).catch((error) => void ctx.error(error));
+        }
+    }
+};

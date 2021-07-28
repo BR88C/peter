@@ -6,14 +6,17 @@ const Config_1 = require("../config/Config");
 const Constants_1 = require("../config/Constants");
 const StringUtils_1 = require("../utils/StringUtils");
 const ProcessUtils_1 = require("../utils/ProcessUtils");
+const collection_1 = require("@discordjs/collection");
 const lavalink_1 = require("@discord-rose/lavalink");
+const mongodb_1 = require("mongodb");
+const discord_rose_1 = require("discord-rose");
 const fs_1 = require("fs");
 const path_1 = require("path");
-const discord_rose_1 = require("discord-rose");
 class WorkerManager extends discord_rose_1.Worker {
     constructor() {
         super();
         this.available = false;
+        this.mongoClient = new mongodb_1.MongoClient(Config_1.Config.mongo.url);
         this.lavalink = new lavalink_1.LavalinkManager({
             defaultSource: `youtube`,
             enabledSources: [`youtube`],
@@ -53,7 +56,7 @@ class WorkerManager extends discord_rose_1.Worker {
                 .send(true, false, true)
                 .catch((error) => this.log(`\x1b[31mUnable to send Error Embed${typeof error === `string` ? ` | Reason: ${error}` : (typeof error?.message === `string` ? ` | Reason: ${error.message}` : ``)}`));
         });
-        this.commands.middleware((ctx) => {
+        this.commands.middleware(async (ctx) => {
             if (!this.available) {
                 void ctx.error(`The bot is still starting; please wait!`);
                 return false;
@@ -75,11 +78,28 @@ class WorkerManager extends discord_rose_1.Worker {
                 }
             }
             else {
-                if (!ctx.interaction.guild_id) {
+                if (!ctx.interaction.guild_id || !ctx.interaction.member) {
                     void ctx.error(`This command can only be ran in a server!`);
                     return false;
                 }
                 else {
+                    if (ctx.command.category === `music`) {
+                        const guildDocument = await this.mongoClient.db(Config_1.Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
+                        if (guildDocument?.djCommands.includes(ctx.command.interaction?.name.toLowerCase())) {
+                            const voiceChannel = ctx.worker.lavalink.players.get(ctx.interaction.guild_id)?.options.voiceChannelId ?? ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id))?.channel_id;
+                            if (voiceChannel && (ctx.worker.voiceStates.get(voiceChannel)?.users.size ?? 1) - 1 >= guildDocument.djOverride) {
+                                const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id);
+                                if (!discord_rose_1.PermissionsUtils.has(discord_rose_1.PermissionsUtils.combine({
+                                    guild,
+                                    member: ctx.interaction.member,
+                                    roleList: guild.roles.reduce((p, c) => p.set(c.id, c), new collection_1.Collection())
+                                }), `manageGuild`) && !guild.roles.filter((role) => role.name.toLowerCase() === `dj`).map((role) => role.id).some((role) => ctx.interaction.member.roles.includes(role))) {
+                                    void ctx.error(`You must have the DJ role to use that command.`);
+                                    return false;
+                                }
+                            }
+                        }
+                    }
                     this.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.interaction.guild_id)?.name} | Guild ID: ${ctx.interaction.guild_id}`);
                     return true;
                 }
@@ -105,6 +125,11 @@ class WorkerManager extends discord_rose_1.Worker {
                     if (nonBots === 0)
                         void player.destroy(`No other users in the VC`);
                 }
+            });
+            await this.mongoClient.connect().catch((error) => {
+                console.log(`\x1b[31m`);
+                console.error(error);
+                console.log(`\x1b[37m`);
             });
             this.log(`\x1b[35mWorker up since ${new Date().toLocaleString()}`);
             this.available = true;

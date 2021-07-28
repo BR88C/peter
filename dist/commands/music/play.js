@@ -64,7 +64,7 @@ exports.default = {
             await ctx.worker.api.messages.send(ctx.interaction.channel_id, new discord_rose_1.Embed()
                 .color(Constants_1.Constants.ADDED_TO_QUEUE_EMBED_COLOR)
                 .title(`Successfully queued ${search.tracks.length} song${search.tracks.length > 1 ? `s` : ``}`)
-                .description(`**Link:** ${ctx.options.query}`)
+                .description(`**Link:** ${ctx.options.query}\n\`\`\`\n${search.tracks.slice(0, 8).map((track, i) => `${i + 1}. ${track.title}`).join(`\n`)}${search.tracks.length > 8 ? `\n\n${search.tracks.length - 8} more...` : ``}\n\`\`\``)
                 .footer(`Requested by ${search.tracks[0].requester}`)
                 .timestamp());
         }
