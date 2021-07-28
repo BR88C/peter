@@ -66,10 +66,6 @@ export interface BotConstants {
      */
     EQ_BAND_COUNT: number
     /**
-     * The maximum safe integer for Java.
-     */
-    MAX_SAFE_JAVA_INTEGER: number
-    /**
      * The amount to multiply specified treble values by.
      */
     TREBLE_INTENSITY_MULTIPLIER: number
@@ -226,10 +222,9 @@ export const Constants: BotConstants = {
     POKER_ACTIVITY_ID: `755827207812677713`,
     YOUTUBE_ACTIVITY_ID: `755600276941176913`,
 
-    BASSBOOST_INTENSITY_MULTIPLIER: 0.25,
+    BASSBOOST_INTENSITY_MULTIPLIER: 0.15,
     EQ_BAND_COUNT: 15,
-    MAX_SAFE_JAVA_INTEGER: 2147483647,
-    TREBLE_INTENSITY_MULTIPLIER: 0.25,
+    TREBLE_INTENSITY_MULTIPLIER: 0.15,
     TREMOLO_VIBRATO_FREQUENCY: 5,
 
     ACTIVITY_EMBED_COLOR: 0xBFBFBF,

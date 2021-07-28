@@ -53,9 +53,9 @@ export default {
                 description: `Adds rotation (Audio panning) to the music.`,
                 options: [
                     {
-                        type: 4,
+                        type: 10,
                         name: `value`,
-                        description: `The frequency to rotate at. 0 sets this to off.`,
+                        description: `The frequency to rotate at. You can specify a decimal for this effect. 0 sets this to off.`,
                         required: true
                     }
                 ]
@@ -136,7 +136,6 @@ export default {
 
         if (ctx.options.bassboost) {
             if (ctx.options.bassboost.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-            if (ctx.options.bassboost.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
 
             const newFilters: Filters = Object.assign(player.filters, { equalizer: (player.filters.equalizer?.filter((v) => v.band > 2) ?? []).concat(ctx.options.bassboost.value === 0
                 ? []
@@ -169,7 +168,6 @@ export default {
                 .catch((error) => void ctx.error(error));
         } else if (ctx.options.pitch) {
             if (ctx.options.pitch.value <= 0) return void ctx.error(`Invalid value. Please specify a value greater than 0.`);
-            if (ctx.options.pitch.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
 
             const newFilters: Filters = Object.assign(player.filters, { timescale: Object.assign(player.filters.timescale ?? {}, { pitch: ctx.options.pitch.value / 100 }) });
             if (newFilters.timescale?.pitch === 1) delete newFilters.timescale.pitch;
@@ -183,7 +181,6 @@ export default {
                 .catch((error) => void ctx.error(error));
         } else if (ctx.options.rotation) {
             if (ctx.options.rotation.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-            if (ctx.options.rotation.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
 
             const newFilters: Filters = Object.assign(player.filters, { rotation: { rotationHz: ctx.options.rotation.value } });
             if (newFilters.rotation?.rotationHz === 0) delete newFilters.rotation;
@@ -196,7 +193,6 @@ export default {
                 .catch((error) => void ctx.error(error));
         } else if (ctx.options.speed) {
             if (ctx.options.speed.value <= 0) return void ctx.error(`Invalid value. Please specify a value greater than 0.`);
-            if (ctx.options.speed.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
 
             const newFilters: Filters = Object.assign(player.filters, { timescale: Object.assign(player.filters.timescale ?? {}, { speed: ctx.options.speed.value / 100 }) });
             if (newFilters.timescale?.speed === 1) delete newFilters.timescale.speed;
@@ -210,7 +206,6 @@ export default {
                 .catch((error) => void ctx.error(error));
         } else if (ctx.options.treble) {
             if (ctx.options.treble.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
-            if (ctx.options.treble.value >= Constants.MAX_SAFE_JAVA_INTEGER) return void ctx.error(`Invalid value. Please specify a lower value.`);
 
             const newFilters: Filters = Object.assign(player.filters, { equalizer: (player.filters.equalizer?.filter((v) => v.band < Constants.EQ_BAND_COUNT - 3) ?? []).concat(ctx.options.treble.value === 0
                 ? []
