@@ -5,23 +5,8 @@
  */
 export const Presences: Array<{type: `playing` | `streaming` | `listening` | `watching` | `competing`, name: string, status: `online` | `dnd` | `idle` | `invisible` | `offline` }> = [
     {
-        type: `watching`,
-        name: `a kid's guide to the Internet`,
-        status: `online`
-    },
-    {
-        type: `listening`,
-        name: `sick jams`,
-        status: `online`
-    },
-    {
-        type: `listening`,
-        name: `smooth jazz`,
-        status: `online`
-    },
-    {
-        type: `listening`,
-        name: `lofi hip hop radio - beats to relax/study to`,
+        type: `playing`,
+        name: `with new Slash Commands!`,
         status: `online`
     },
     {
@@ -31,12 +16,7 @@ export const Presences: Array<{type: `playing` | `streaming` | `listening` | `wa
     },
     {
         type: `playing`,
-        name: `on the internet`,
+        name: `peters.guidetothe.net`,
         status: `online`
     },
-    {
-        type: `playing`,
-        name: `lol watch this`,
-        status: `online`
-    }
 ];
