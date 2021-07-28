@@ -15,7 +15,7 @@ exports.default = {
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
         if (foundVoiceState?.channel_id !== player.options.voiceChannelId)
             return void ctx.error(`You must be in the VC to set the queue to 24/7.`);
-        if (!(await ctx.worker.comms.sendCommand('GET_VOTE', { user_id: ctx.author.id })))
+        if (!(await ctx.worker.comms.sendCommand(`GET_VOTE`, { user_id: ctx.author.id })))
             return ctx.embed
                 .color(Constants_1.Constants.ERROR_EMBED_COLOR)
                 .title(`You must vote to use this command! Please vote by going to the link below.`)

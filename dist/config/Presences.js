@@ -16,5 +16,5 @@ exports.Presences = [
         type: `playing`,
         name: `peters.guidetothe.net`,
         status: `online`
-    },
+    }
 ];
