@@ -1,13 +1,12 @@
+import { MasterManager } from '../managers/MasterManager';
 import { Presences } from '../config/Presences';
-
-// Import modules.
-import { ClusterStats, Master, Worker } from 'discord-rose';
+import { WorkerManager } from '../managers/WorkerManager';
 
 /**
  * Sets a random presence on the Worker.
  * @param worker The Worker object.
  */
-export const setRandomPresence = (worker: Worker): void => {
+export const setRandomPresence = (worker: WorkerManager): void => {
     const presence = Presences[~~(Presences.length * Math.random())];
     worker.setStatus(presence.type, presence.name, presence.status);
 };
@@ -16,6 +15,18 @@ export const setRandomPresence = (worker: Worker): void => {
  * Logs a stats checkup.
  * @param master The Master object.
  */
-export const statsCheckup = async (master: Master): Promise<void> => await master.getStats().then((stats: ClusterStats[]) => {
-    for (const entry of stats) master.log(`\x1b[35mStats checkup | Shard count: ${entry.shards.length} | Guilds: ${entry.shards.reduce((p, c) => p + c.guilds, 0)} | Average Ping: ${Math.round(entry.shards.reduce((p, c) => p + c.ping, 0) / entry.shards.length)}ms | Memory usage: ${Math.round(entry.cluster.memory / 1e4) / 100}mb`, master.clusters.get(entry.cluster.id));
-});
+export const statsCheckup = async (master: MasterManager): Promise<void> => {
+    const stats = await master.getStats();
+    let totalGuilds = 0; let totalMemory = 0; let totalShards = 0;
+    for (const entry of stats) {
+        const guildCount = entry.shards.reduce((p, c) => p + c.guilds, 0);
+        totalGuilds += guildCount;
+        const memory = entry.cluster.memory;
+        totalMemory += memory;
+        const shardCount = entry.shards.length;
+        totalShards += shardCount;
+        master.log(`\x1b[35mStats checkup | Guilds: ${guildCount} | Shards: ${shardCount} | Ping: ${Math.round(entry.shards.reduce((p, c) => p + c.ping, 0) / entry.shards.length)}ms | Memory: ${Math.round(memory / 1e4) / 100}mb`, master.clusters.get(entry.cluster.id));
+    }
+    master.log(`\x1b[35mStats totals | Guilds: ${totalGuilds} | Shards: ${totalShards} | Memory: ${Math.round(totalMemory / 1e3) / 100}mb`);
+    if (master.topgg) master.topgg.postStats({ serverCount: totalGuilds }).then(() => master.log(`Posted stats to Top.gg`)).catch(() => master.log(`Error posting stats to Top.gg`));
+};

@@ -3,6 +3,7 @@ import { log } from '../utils/Log';
 import { statsCheckup } from '../utils/ProcessUtils';
 
 // Import modules.
+import { Api } from '@top-gg/sdk';
 import { Master } from 'discord-rose';
 import { resolve } from 'path';
 
@@ -13,6 +14,11 @@ import { resolve } from 'path';
  */
 export class MasterManager extends Master {
     /**
+     * The topgg API client.
+     */
+    public topgg: Api | null
+
+    /**
      * Create the Master manager.
      * @constructor
      */
@@ -21,9 +27,7 @@ export class MasterManager extends Master {
             cache: Config.cache,
             cacheControl: Config.cacheControl,
             log: log,
-            rest: {
-                version: 9
-            },
+            rest: { version: 9 },
             shards: Config.shards[process.env.NODE_ENV ?? `dev`],
             shardsPerCluster: Config.shardsPerCluster[process.env.NODE_ENV ?? `dev`],
             token: process.env.BOT_TOKEN ?? ``
@@ -34,6 +38,11 @@ export class MasterManager extends Master {
 
         // Start master.
         this.start().catch((error) => this.log(error));
+
+        if (process.env.TOPGG_TOKEN) {
+            this.topgg = new Api(process.env.TOPGG_TOKEN);
+            this.log(`Connected to Top.gg`);
+        } else this.log(`No Top.gg token provided, skipping initialization`);
 
         // On ready.
         this.once(`READY`, () => {

@@ -145,6 +145,9 @@ export const Config: BotConfig = {
         },
         {
             token: process.env.SPOTIFY_SECRET ?? `%spotify_secret%`, replacement: `%spotify_secret%`
+        },
+        {
+            token: process.env.TOPGG_TOKEN ?? `%topgg_token%`, replacement: `%topgg_token%`
         }
     ].concat((JSON.parse(process.env.LAVALINK_PASSWORDS ?? `[]`) as string[]).map((password, i) => ({
         token: password, replacement: `%lavalink_password_${i}%`
