@@ -23,12 +23,6 @@ export interface BotConfig {
     }
 
     /**
-     * The ID of the guild that contains all emoji's the bot uses.
-     * Used to forge emojis from IDs.
-     */
-    emojiGuildID: Snowflake
-
-    /**
      * The interval to change the bot's presence at, in milliseconds.
      */
     presenceInterval: number
@@ -100,8 +94,6 @@ export const Config: BotConfig = {
         IDs: [`342275771546599425`],
         tags: [`BR88C#0001`]
     },
-
-    emojiGuildID: `844990450763169792`,
 
     presenceInterval: 6e5,
 
