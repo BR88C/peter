@@ -14,7 +14,7 @@ if (!JSON.parse(process.env.LAVALINK_PASSWORDS ?? `[]`).length || Config_1.Confi
     throw new Error(`Lavalink configuration is not properly set.`);
 if (!process.env.SPOTIFY_ID || !process.env.SPOTIFY_SECRET)
     throw new Error(`Spotify App credentials have not been set.`);
-if (process.env.NODE_ENV !== `dev` && process.env.NODE_ENV !== `prod`)
+if (process.env.NODE_ENV && process.env.NODE_ENV !== `dev` && process.env.NODE_ENV !== `prod`)
     throw new Error(`NODE_ENV is not properly set.`);
 Log_1.logHeader();
 runMaster_1.default();
