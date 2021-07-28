@@ -116,7 +116,7 @@ export const Config: BotConfig = {
         voiceStates: true
     },
     cacheControl: {
-        guilds: [`id`, `name`], voiceStates: [`member`]
+        guilds: [`id`, `name`], voiceStates: []
     },
 
     mongo: {
