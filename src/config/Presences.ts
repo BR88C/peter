@@ -18,5 +18,5 @@ export const Presences: Array<{type: `playing` | `streaming` | `listening` | `wa
         type: `playing`,
         name: `peters.guidetothe.net`,
         status: `online`
-    },
+    }
 ];

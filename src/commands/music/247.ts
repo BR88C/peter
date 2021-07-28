@@ -18,7 +18,7 @@ export default {
         if (foundVoiceState?.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to set the queue to 24/7.`);
 
         // @ts-expect-error Argument of type '"GET_VOTE"' is not assignable to parameter of type 'keyof ThreadEvents'.
-        if (!(await ctx.worker.comms.sendCommand('GET_VOTE', { user_id: ctx.author.id }))) return ctx.embed
+        if (!(await ctx.worker.comms.sendCommand(`GET_VOTE`, { user_id: ctx.author.id }))) return ctx.embed
             .color(Constants.ERROR_EMBED_COLOR)
             .title(`You must vote to use this command! Please vote by going to the link below.`)
             .description(Constants.VOTE_LINK)
