@@ -31,8 +31,8 @@
     "mongodb": "4.0.1"
   },
   "devDependencies": {
-    "@types/node": "^16.4.1",
-    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@types/node": "^16.4.5",
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
     "eslint": "^7.31.0",
     "eslint-config-standard-with-typescript": "^20.0.0",
     "eslint-plugin-import": "^2.23.4",
