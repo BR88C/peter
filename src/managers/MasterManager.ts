@@ -44,6 +44,12 @@ export class MasterManager extends Master {
             this.log(`Connected to Top.gg`);
         } else this.log(`No Top.gg token provided, skipping initialization`);
 
+        // @ts-expect-error Argument of type '"GET_VOTE"' is not assignable to parameter of type 'keyof ThreadEvents'.
+        this.handlers.on('GET_VOTE', async (cluster, data: any, resolve: ((data: any) => void)) => {
+            const voted = this.topgg ? await this.topgg.hasVoted(data.user_id) : true;
+            resolve(voted);
+        });
+
         // On ready.
         this.once(`READY`, () => {
             // Run stats checkups at a set interval.
