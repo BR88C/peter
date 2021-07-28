@@ -27,6 +27,6 @@ export const statsCheckup = async (master: MasterManager): Promise<void> => {
         totalShards += shardCount;
         master.log(`\x1b[35mStats checkup | Guilds: ${guildCount} | Shards: ${shardCount} | Ping: ${Math.round(entry.shards.reduce((p, c) => p + c.ping, 0) / entry.shards.length)}ms | Memory: ${Math.round(memory / 1e4) / 100}mb`, master.clusters.get(entry.cluster.id));
     }
-    master.log(`\x1b[35mStats totals | Guilds: ${totalGuilds} | Shards: ${totalShards} | Memory: ${Math.round(totalMemory / 1e3) / 100}mb`);
+    master.log(`\x1b[35mStats totals | Guilds: ${totalGuilds} | Shards: ${totalShards} | Memory: ${Math.round(totalMemory / 1e4) / 100}mb`);
     if (master.topgg) master.topgg.postStats({ serverCount: totalGuilds }).then(() => master.log(`Posted stats to Top.gg`)).catch(() => master.log(`Error posting stats to Top.gg`));
 };
