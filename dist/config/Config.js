@@ -54,7 +54,7 @@ exports.Config = {
     maxUncheckedVoiceStateUsers: 5,
     shards: {
         dev: 1,
-        prod: 2
+        prod: 1
     },
     shardsPerCluster: {
         dev: 1,
