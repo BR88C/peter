@@ -3,23 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Presences = void 0;
 exports.Presences = [
     {
-        type: `watching`,
-        name: `a kid's guide to the Internet`,
-        status: `online`
-    },
-    {
-        type: `listening`,
-        name: `sick jams`,
-        status: `online`
-    },
-    {
-        type: `listening`,
-        name: `smooth jazz`,
-        status: `online`
-    },
-    {
-        type: `listening`,
-        name: `lofi hip hop radio - beats to relax/study to`,
+        type: `playing`,
+        name: `with new Slash Commands!`,
         status: `online`
     },
     {
@@ -29,12 +14,7 @@ exports.Presences = [
     },
     {
         type: `playing`,
-        name: `on the internet`,
+        name: `peters.guidetothe.net`,
         status: `online`
     },
-    {
-        type: `playing`,
-        name: `lol watch this`,
-        status: `online`
-    }
 ];
