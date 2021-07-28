@@ -21,7 +21,7 @@ exports.Config = {
         voiceStates: true
     },
     cacheControl: {
-        guilds: [`id`, `name`], voiceStates: [`member`]
+        guilds: [`id`, `name`], voiceStates: []
     },
     mongo: {
         url: `mongodb://localhost:27017`,
