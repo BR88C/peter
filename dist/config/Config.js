@@ -8,7 +8,6 @@ exports.Config = {
         IDs: [`342275771546599425`],
         tags: [`BR88C#0001`]
     },
-    emojiGuildID: `844990450763169792`,
     presenceInterval: 6e5,
     cache: {
         channels: false,
