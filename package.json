@@ -4,7 +4,7 @@
   "description": "A Discord music bot with free audio effects/filters (SFX) and 24/7 support",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "npm install && tsc",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
     "start": "node ./dist/index.js"
