@@ -12,6 +12,9 @@ class MasterManager extends discord_rose_1.Master {
             cache: Config_1.Config.cache,
             cacheControl: Config_1.Config.cacheControl,
             log: Log_1.log,
+            rest: {
+                version: 9
+            },
             shards: Config_1.Config.shards[process.env.NODE_ENV ?? `dev`],
             shardsPerCluster: Config_1.Config.shardsPerCluster[process.env.NODE_ENV ?? `dev`],
             token: process.env.BOT_TOKEN ?? ``
