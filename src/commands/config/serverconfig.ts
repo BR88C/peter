@@ -54,7 +54,7 @@ export default {
                         id: ctx.interaction.guild_id,
                         premium: false,
                         djCommands: ctx.options.dj.command ? [ctx.options.dj.command.toLowerCase()] : [],
-                        djOverride: !ctx.options.dj.useroverride || ctx.options.dj.useroverride === 1 ? 0 : 0
+                        djOverride: !ctx.options.dj.useroverride || ctx.options.dj.useroverride === 1 ? 0 : ctx.options.dj.useroverride
                     });
                 } else {
                     let newArray: string[] | undefined;
