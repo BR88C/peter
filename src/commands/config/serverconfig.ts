@@ -47,6 +47,8 @@ export default {
                     // @ts-expect-error Property 'category' does not exist on type 'CommandOptions'.
                     if (!ctx.worker.commands.commands.find((command) => command.category === `music` && command.interaction?.name.toLowerCase() === ctx.options.dj.command.toLowerCase())) return void ctx.error(`Invalid command.`);
                 }
+                if (ctx.options.dj.useroverride < 0) return void ctx.error(`Invalid useroverride value.`);
+                if (ctx.options.dj.useroverride === 1) ctx.options.dj.useroverride = 0;
 
                 const guildDocument = await ctx.worker.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
                 if (!guildDocument) {
@@ -54,7 +56,7 @@ export default {
                         id: ctx.interaction.guild_id,
                         premium: false,
                         djCommands: ctx.options.dj.command ? [ctx.options.dj.command.toLowerCase()] : [],
-                        djOverride: !ctx.options.dj.useroverride || ctx.options.dj.useroverride === 1 ? 0 : ctx.options.dj.useroverride
+                        djOverride: ctx.options.dj.useroverride ?? 0
                     });
                 } else {
                     let newArray: string[] | undefined;
