@@ -7,6 +7,8 @@ const Constants_1 = require("../config/Constants");
 const StringUtils_1 = require("../utils/StringUtils");
 const ProcessUtils_1 = require("../utils/ProcessUtils");
 const collection_1 = require("@discordjs/collection");
+const http_1 = require("http");
+const https_1 = require("https");
 const lavalink_1 = require("@discord-rose/lavalink");
 const mongodb_1 = require("mongodb");
 const discord_rose_1 = require("discord-rose");
@@ -24,7 +26,13 @@ class WorkerManager extends discord_rose_1.Worker {
             spotifyAuth: {
                 clientId: process.env.SPOTIFY_ID ?? ``,
                 clientSecret: process.env.SPOTIFY_SECRET ?? ``
-            }
+            },
+            defaultSpotifyRequestOptions: { agent: (_parsedURL) => {
+                    if (_parsedURL.protocol === `http:`)
+                        return new http_1.Agent({ family: 4 });
+                    else
+                        return new https_1.Agent({ family: 4 });
+                } }
         }, this);
         ProcessUtils_1.setRandomPresence(this);
         setInterval(() => ProcessUtils_1.setRandomPresence(this), Config_1.Config.presenceInterval);

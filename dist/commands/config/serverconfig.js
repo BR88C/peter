@@ -47,13 +47,17 @@ exports.default = {
                     if (!ctx.worker.commands.commands.find((command) => command.category === `music` && command.interaction?.name.toLowerCase() === ctx.options.dj.command.toLowerCase()))
                         return void ctx.error(`Invalid command.`);
                 }
+                if (ctx.options.dj.useroverride < 0)
+                    return void ctx.error(`Invalid useroverride value.`);
+                if (ctx.options.dj.useroverride === 1)
+                    ctx.options.dj.useroverride = 0;
                 const guildDocument = await ctx.worker.mongoClient.db(Config_1.Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
                 if (!guildDocument) {
                     await ctx.worker.mongoClient.db(Config_1.Config.mongo.dbName).collection(`Guilds`).insertOne({
                         id: ctx.interaction.guild_id,
                         premium: false,
                         djCommands: ctx.options.dj.command ? [ctx.options.dj.command.toLowerCase()] : [],
-                        djOverride: !ctx.options.dj.useroverride || ctx.options.dj.useroverride === 1 ? 0 : 0
+                        djOverride: ctx.options.dj.useroverride ?? 0
                     });
                 }
                 else {
