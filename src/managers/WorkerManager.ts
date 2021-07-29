@@ -6,6 +6,8 @@ import { setRandomPresence } from '../utils/ProcessUtils';
 
 // Import modules.
 import { Collection } from '@discordjs/collection';
+import { Agent as HttpAgent } from 'http';
+import { Agent as HttpsAgent } from 'https';
 import { LavalinkManager } from '@discord-rose/lavalink';
 import { MongoClient } from 'mongodb';
 import { PermissionsUtils, Worker } from 'discord-rose';
@@ -46,7 +48,13 @@ export class WorkerManager extends Worker {
             spotifyAuth: {
                 clientId: process.env.SPOTIFY_ID ?? ``,
                 clientSecret: process.env.SPOTIFY_SECRET ?? ``
-            }
+            },
+            defaultSpotifyRequestOptions: { agent: (_parsedURL) => {
+                // @ts-expect-error Argument of type '{ family: number; }' is not assignable to parameter of type 'AgentOptions'.
+                if (_parsedURL.protocol === `http:`) return new HttpAgent({ family: 4 });
+                // @ts-expect-error Argument of type '{ family: number; }' is not assignable to parameter of type 'AgentOptions'.
+                else return new HttpsAgent({ family: 4 });
+            } }
         }, this);
 
         // Set presence, and change it at an interval specified in config.
