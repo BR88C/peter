@@ -33,7 +33,6 @@ export default {
                 .send()
                 .catch((error) => void ctx.error(error));
         } else {
-            // @ts-expect-errorProperty 'category' does not exist on type 'CommandOptions'.
             const categories = [...new Set(ctx.worker.commands.commands.map((command) => command.category.toLowerCase()))].map((category) => ctx.worker.commands.commands.filter((command) => command.interaction && command.category === category)).sort((a, b) => b.size - a.size);
             const helpEmbed = new Embed()
                 .color(Constants.HELP_EMBED_COLOR)
@@ -41,7 +40,6 @@ export default {
                 .description(`Peter's support server: ${Constants.SUPPORT_SERVER}`)
                 .footer(`Peter! made by ${Config.devs.tags.join(`, `)}`)
                 .timestamp();
-            // @ts-expect-errorProperty 'category' does not exist on type 'CommandOptions'.
             for (const category of categories) helpEmbed.field(`${category.first().category.charAt(0).toUpperCase()}${category.first().category.slice(1)}`, category.map((command) => `\`${command.interaction.name}\``).join(`, `), true);
             ctx.send(helpEmbed).catch((error) => void ctx.error(error));
         }

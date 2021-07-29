@@ -69,7 +69,6 @@ export class WorkerManager extends Worker {
         for (const dir of readdirSync(`./dist/commands`).filter((file) => statSync(`./dist/commands/${file}`).isDirectory())) {
             this.commands.load(resolve(__dirname, `../commands/${dir}`));
             for (const command of readdirSync(`./dist/commands/${dir}`).filter((file) => statSync(`./dist/commands/${dir}/${file}`).isFile()).map((file) => file.replace(`.js`, ``))) {
-                // @ts-expect-error Property 'category' does not exist on type 'CommandOptions'.
                 if (this.commands.commands?.get(command)) this.commands.commands.get(command)!.category = dir;
             }
         }
@@ -119,7 +118,6 @@ export class WorkerManager extends Worker {
                     void ctx.error(`This command can only be ran in a server!`);
                     return false;
                 } else {
-                    // @ts-expect-error Property 'category' does not exist on type 'CommandOptions'.
                     if (ctx.command.category === `music`) { // If the interaction is a music command.
                         const guildDocument = await this.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
                         if (guildDocument?.djCommands.includes(ctx.command.interaction?.name.toLowerCase())) {
