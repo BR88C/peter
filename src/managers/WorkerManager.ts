@@ -1,6 +1,7 @@
 import { bindLavalinkEvents } from '../utils/Lavalink';
 import { Config } from '../config/Config';
 import { Constants } from '../config/Constants';
+import { logError } from '../utils/Log';
 import { removeToken } from '../utils/StringUtils';
 import { setRandomPresence } from '../utils/ProcessUtils';
 
@@ -76,14 +77,10 @@ export class WorkerManager extends Worker {
 
         // Custom command error response.
         this.commands.error((ctx, error) => {
-            if (ctx.isInteraction) this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${removeToken(error.message.replace(/^(Error: )/, ``))} | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.interaction?.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.interaction?.guild_id)?.name} | Guild ID: ${ctx.interaction?.guild_id}` : ``}`);
-            else this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${removeToken(error.message.replace(/^(Error: )/, ``))} | Command: ${ctx.command?.command} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message?.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message?.guild_id)?.name} | Guild ID: ${ctx.message?.guild_id}` : ``}`);
+            if (ctx.isInteraction) this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${removeToken(error.message.replace(/^(Error: )/, ``))} | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.interaction?.guild_id ? ` | Guild ID: ${ctx.interaction?.guild_id}` : ``}`);
+            else this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${removeToken(error.message.replace(/^(Error: )/, ``))} | Command: ${ctx.command?.command} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message?.guild_id ? ` | Guild ID: ${ctx.message?.guild_id}` : ``}`);
 
-            if (!error.nonFatal) {
-                console.log(`\x1b[31m`);
-                console.error(error);
-                console.log(`\x1b[37m`);
-            }
+            if (!error.nonFatal) logError(error)
 
             ctx.embed
                 .color(Constants.ERROR_EMBED_COLOR)
@@ -105,11 +102,11 @@ export class WorkerManager extends Worker {
                     void ctx.error(`Prefix commands are now depreciated, please use slash commands instead. For more information, join our support server!`);
                     return false;
                 } else { // If the user is a dev.
-                    if (ctx.command.interaction != null) { // If the command is a slash command, return.
+                    if (ctx.command.interaction) { // If the command is a slash command, return.
                         void ctx.error(`That's an interaction command, not a developer command silly!`);
                         return false;
                     } else { // If the command is not a slash command, execute it.
-                        this.log(`\x1b[32mReceived Dev Command | Command: ${ctx.command.command} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id)?.name} | Guild ID: ${ctx.message.guild_id}` : ``}`);
+                        this.log(`\x1b[32mReceived Dev Command | Command: ${ctx.command.command} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message.guild_id ? ` | Guild ID: ${ctx.message.guild_id}` : ``}`);
                         return true;
                     }
                 }
@@ -135,7 +132,7 @@ export class WorkerManager extends Worker {
                             }
                         }
                     }
-                    this.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.interaction.guild_id)?.name} | Guild ID: ${ctx.interaction.guild_id}`);
+                    this.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild ID: ${ctx.interaction.guild_id}`);
                     return true;
                 }
             }
@@ -167,11 +164,7 @@ export class WorkerManager extends Worker {
                 });
 
                 // Connect to Mongo DB.
-                await this.mongoClient.connect().catch((error) => {
-                    console.log(`\x1b[31m`);
-                    console.error(error);
-                    console.log(`\x1b[37m`);
-                });
+                await this.mongoClient.connect().catch((error) => logError(error));
                 this.log(`Connected to MongoDB`);
 
                 // Set worker to available.

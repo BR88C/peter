@@ -18,6 +18,16 @@ export const log = (msg: string, cluster: Cluster | undefined): void => {
 };
 
 /**
+ * Log an error.
+ * @param error The error to log.
+ */
+export const logError = (error: any): void => {
+    console.log(`\x1b[31m`);
+    console.error(error);
+    console.log(`\x1b[37m`);
+}
+
+/**
  * Creates and logs a logging header.
  */
 export const logHeader = (): void => console.log(`\n\x1b[35m${TextArt}\n\nBy ${Config.devs.tags.join(`, `)}\n`);
