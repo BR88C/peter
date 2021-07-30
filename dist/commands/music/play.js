@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const StringUtils_1 = require("../../utils/StringUtils");
 const Constants_1 = require("../../config/Constants");
+const Log_1 = require("../../utils/Log");
 const discord_rose_1 = require("discord-rose");
 const lavalink_1 = require("@discord-rose/lavalink");
 exports.default = {
@@ -31,9 +32,16 @@ exports.default = {
             .send(true, false, true)
             .catch(() => void ctx.error(`Unable to send the response message.`));
         const requesterTag = `${ctx.author.username}#${ctx.author.discriminator}`;
-        const search = await ctx.worker.lavalink.search(ctx.options.query, ctx.member.nick ? `${ctx.member.nick} (${requesterTag})` : requesterTag);
-        if (search.exception)
+        const search = await ctx.worker.lavalink.search(ctx.options.query, ctx.member.nick ? `${ctx.member.nick} (${requesterTag})` : requesterTag).catch((error) => {
+            Log_1.logError(error);
+            void ctx.error(`Un unknown search error occurred. Please submit an issue in our support server.`);
+        });
+        if (!search)
+            return;
+        if (search.exception) {
             ctx.worker.log(`\x1b[31mSearch Error | Error: ${search.exception.message} | Severity: ${search.exception.severity} | Guild ID: ${ctx.interaction.guild_id}`);
+            return void ctx.error(`Un unknown search error occurred. Please submit an issue in our support server.`);
+        }
         if (!search.tracks[0] || search.loadType === `LOAD_FAILED` || search.loadType === `NO_MATCHES`)
             return void ctx.error(`Unable to find any results based on the provided query.`);
         let player;
