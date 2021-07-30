@@ -1,6 +1,7 @@
 import { cleanseMarkdown } from '../../utils/StringUtils';
 import { Constants } from '../../config/Constants';
 import { ExtendedPlayer } from '../../managers/run/runWorker';
+import { logError } from '../../utils/Log';
 
 // Import modules.
 import { CommandOptions, Embed } from 'discord-rose';
@@ -34,8 +35,16 @@ export default {
             .catch(() => void ctx.error(`Unable to send the response message.`));
 
         const requesterTag = `${ctx.author.username}#${ctx.author.discriminator}`;
-        const search = await ctx.worker.lavalink.search(ctx.options.query, ctx.member.nick ? `${ctx.member.nick} (${requesterTag})` : requesterTag);
-        if (search.exception) ctx.worker.log(`\x1b[31mSearch Error | Error: ${search.exception.message} | Severity: ${search.exception.severity} | Guild ID: ${ctx.interaction.guild_id}`);
+
+        const search = await ctx.worker.lavalink.search(ctx.options.query, ctx.member.nick ? `${ctx.member.nick} (${requesterTag})` : requesterTag).catch((error) => {
+            logError(error);
+            void ctx.error(`Un unknown search error occurred. Please submit an issue in our support server.`);
+        });
+        if (!search) return;
+        if (search.exception) {
+            ctx.worker.log(`\x1b[31mSearch Error | Error: ${search.exception.message} | Severity: ${search.exception.severity} | Guild ID: ${ctx.interaction.guild_id}`);
+            return void ctx.error(`Un unknown search error occurred. Please submit an issue in our support server.`);
+        }
         if (!search.tracks[0] || search.loadType === `LOAD_FAILED` || search.loadType === `NO_MATCHES`) return void ctx.error(`Unable to find any results based on the provided query.`);
 
         let player: ExtendedPlayer;
