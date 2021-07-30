@@ -49,9 +49,9 @@ class WorkerManager extends discord_rose_1.Worker {
         this.log(`Loaded ${this.commands.commands?.size} commands`);
         this.commands.error((ctx, error) => {
             if (ctx.isInteraction)
-                this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${StringUtils_1.removeToken(error.message.replace(/^(Error: )/, ``))} | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.interaction?.guild_id ? ` | Guild ID: ${ctx.interaction?.guild_id}` : ``}`);
+                this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.ran} | Reason: ${StringUtils_1.removeToken(error.message.replace(/^(Error: )/, ``))} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.interaction?.guild_id ? ` | Guild ID: ${ctx.interaction?.guild_id}` : ``}`);
             else
-                this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${StringUtils_1.removeToken(error.message.replace(/^(Error: )/, ``))} | Command: ${ctx.command?.command} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message?.guild_id ? ` | Guild ID: ${ctx.message?.guild_id}` : ``}`);
+                this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.command?.command} | Reason: ${StringUtils_1.removeToken(error.message.replace(/^(Error: )/, ``))} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message?.guild_id ? ` | Guild ID: ${ctx.message?.guild_id}` : ``}`);
             if (!error.nonFatal)
                 Log_1.logError(error);
             ctx.embed
