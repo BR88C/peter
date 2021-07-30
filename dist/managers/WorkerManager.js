@@ -52,8 +52,10 @@ class WorkerManager extends discord_rose_1.Worker {
                 this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.ran} | Reason: ${StringUtils_1.removeToken(error.message.replace(/^(Error: )/, ``))} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.interaction?.guild_id ? ` | Guild ID: ${ctx.interaction?.guild_id}` : ``}`);
             else
                 this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.command?.command} | Reason: ${StringUtils_1.removeToken(error.message.replace(/^(Error: )/, ``))} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message?.guild_id ? ` | Guild ID: ${ctx.message?.guild_id}` : ``}`);
-            if (!error.nonFatal)
+            if (!error.nonFatal) {
                 Log_1.logError(error);
+                error.message = `An unkown error occurred. Please submit an issue in our support server.`;
+            }
             ctx.embed
                 .color(Constants_1.Constants.ERROR_EMBED_COLOR)
                 .title(`Error`)
