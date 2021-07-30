@@ -25,7 +25,7 @@ export const logError = (error: any): void => {
     console.log(`\x1b[31m`);
     console.error(error);
     console.log(`\x1b[37m`);
-}
+};
 
 /**
  * Creates and logs a logging header.
