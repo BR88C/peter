@@ -1,6 +1,6 @@
 {
   "name": "peter",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A feature rich Discord music bot that offers features such as 24/7 and audio effects for free.",
   "main": "./dist/index.js",
   "scripts": {
@@ -31,7 +31,7 @@
     "mongodb": "^4.0.1"
   },
   "devDependencies": {
-    "@types/node": "^16.4.6",
+    "@types/node": "^16.4.7",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "eslint": "^7.31.0",
     "eslint-config-standard-with-typescript": "^20.0.0",
