@@ -80,7 +80,10 @@ export class WorkerManager extends Worker {
             if (ctx.isInteraction) this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.ran} | Reason: ${removeToken(error.message.replace(/^(Error: )/, ``))} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.interaction?.guild_id ? ` | Guild ID: ${ctx.interaction?.guild_id}` : ``}`);
             else this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.command?.command} | Reason: ${removeToken(error.message.replace(/^(Error: )/, ``))} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message?.guild_id ? ` | Guild ID: ${ctx.message?.guild_id}` : ``}`);
 
-            if (!error.nonFatal) logError(error);
+            if (!error.nonFatal) {
+                logError(error);
+                error.message = `An unkown error occurred. Please submit an issue in our support server.`;
+            }
 
             ctx.embed
                 .color(Constants.ERROR_EMBED_COLOR)
