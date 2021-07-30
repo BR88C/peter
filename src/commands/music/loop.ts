@@ -34,10 +34,10 @@ export default {
     },
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
-        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to change the loop behavior; the bot is not connected to a VC.`);
+        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to change the loop behavior; the bot is not connected to a voice channel.`);
 
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
-        if (foundVoiceState?.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the VC to change the loop behavior.`);
+        if (foundVoiceState?.channel_id !== player.options.voiceChannelId) return void ctx.error(`You must be in the voice channel to change the loop behavior.`);
 
         player.setLoop(ctx.options.type);
 
@@ -45,6 +45,6 @@ export default {
             .color(Constants.LOOP_EMBED_COLOR)
             .title(`:repeat:  Looping is now set to \`${player.loop.charAt(0).toUpperCase()}${player.loop.slice(1)}\``)
             .send()
-            .catch((error) => void ctx.error(error));
+            .catch(() => void ctx.error(`Unable to send the response message.`));
     }
 } as CommandOptions;

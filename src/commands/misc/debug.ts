@@ -36,7 +36,7 @@ export default {
                 .footer(`Guild ID: ${ctx.interaction.guild_id}`)
                 .timestamp()
                 .send()
-                .catch((error) => void ctx.error(error));
+                .catch(() => void ctx.error(`Unable to send the response message.`));
         } else {
             const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!);
             const member = await ctx.worker.api.members.get(guild.id, ctx.worker.user.id);
@@ -87,7 +87,7 @@ export default {
                     .field(`Music Player`, `**Node:** ${player.node.identifier}\n**Player state:** ${player.state}\n**Node state:** ${player.node.state}\n**Text Channel ID:**: \`${player.options.textChannelId}\`\n**Text Channel Permissions:** \`${playerTextChannelPermissions}\`\n**Voice Channel ID:** \`${player.options.voiceChannelId}\`\n**Voice Channel Permissions:** \`${playerVoiceChannelPermissions}\`\n**Current song:** ${player.queuePosition !== null ? ((player.queue[player.queuePosition] as Track).uri ?? player.queue[player.queuePosition].title) : `*No song playing.*`}`, false);
             } else debugEmbed.field(`Music Player`, `*No player found.*`, false);
 
-            ctx.send(debugEmbed).catch((error) => void ctx.error(error));
+            ctx.send(debugEmbed).catch(() => void ctx.error(`Unable to send the response message.`));
         }
     }
 } as CommandOptions;

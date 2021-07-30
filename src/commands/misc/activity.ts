@@ -7,7 +7,7 @@ export default {
     command: `activity`,
     interaction: {
         name: `activity`,
-        description: `Start a VC activity.`,
+        description: `Start a voice channel activity.`,
         options: [
             {
                 type: 3,
@@ -40,14 +40,14 @@ export default {
             {
                 type: 7,
                 name: `channel`,
-                description: `The VC to start the session in`,
+                description: `The voice channel to start the session in`,
                 required: true
             }
         ]
     },
     exec: async (ctx) => {
         const channel = await ctx.worker.api.channels.get(ctx.options.channel);
-        if (channel.type !== 2) return void ctx.error(`You must specify a VC.`);
+        if (channel.type !== 2) return void ctx.error(`You must specify a voice channel.`);
         const invite = await ctx.worker.api.channels.createInvite(channel.id, {
             max_age: 86400,
             max_uses: 0,
@@ -59,6 +59,6 @@ export default {
             .color(Constants.ACTIVITY_EMBED_COLOR)
             .title(`Click to start the activity`, `https://discord.gg/${invite.code}`)
             .send()
-            .catch((error) => void ctx.error(error));
+            .catch(() => void ctx.error(`Unable to send the response message.`));
     }
 } as CommandOptions;

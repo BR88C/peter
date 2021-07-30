@@ -8,7 +8,7 @@ import { ClusterStats, CommandOptions, ShardStats } from 'discord-rose';
 export default {
     command: `devstats`,
     exec: async (ctx) => {
-        const stats: ClusterStats[] | undefined = await ctx.worker.comms.getStats().catch((error) => void ctx.error(error));
+        const stats: ClusterStats[] | undefined = await ctx.worker.comms.getStats().catch(() => void ctx.error(`Unable to get the bot's stats.`));
         const shards: ShardStats[] | undefined = stats?.map((s) => s.shards).reduce((p, c) => p.concat(c), []);
 
         ctx.embed
@@ -23,6 +23,6 @@ export default {
             .field(`Shard stats`, `\`\`\`\n${centerString(`Shard`, 9)} | ${centerString(`State`, 9)} | ${centerString(`Guilds`, 10)} | ${centerString(`Ping`, 8)}\n${shards?.reduce((p, c) => p + `${centerString(`${c.id}`, 9)} | ${centerString(`${c.state}`, 9)} | ${centerString(`${c.guilds}`, 10)} | ${centerString(`${Math.round(c.ping)}ms`, 8)}\n`, ``)}\`\`\``, false) // eslint-disable-line prefer-template
             .field(`\u200B`, `\`\`\`\n Clusters: ${stats?.length}  |  Shards: ${shards?.length}  | Shards per Cluster: ${ctx.worker.options.shardsPerCluster} \`\`\``, false)
             .send()
-            .catch((error) => void ctx.error(error));
+            .catch(() => void ctx.error(`Unable to send the response message.`));
     }
 } as CommandOptions;

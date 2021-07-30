@@ -14,7 +14,7 @@ export default {
     },
     exec: (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
-        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to get the current music playing; the bot is not connected to a VC.`);
+        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to get the current music playing; the bot is not connected to a voice channel.`);
         if (!player.queue.length) return void ctx.error(`Unable to get the current music playing; there is no music in the queue.`);
         if (player.queuePosition === null || player.state < PlayerState.PAUSED) return void ctx.error(`Unable to get the current music playing; there is no music playing.`);
 
@@ -30,6 +30,6 @@ export default {
             .description(description)
             .footer(`Requested by ${player.queue[player.queuePosition].requester}`)
             .send()
-            .catch((error) => void ctx.error(error));
+            .catch(() => void ctx.error(`Unable to send the response message.`));
     }
 } as CommandOptions;

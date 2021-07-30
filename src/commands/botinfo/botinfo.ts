@@ -12,7 +12,7 @@ export default {
         description: `Gets information about the bot.`
     },
     exec: async (ctx) => {
-        const stats: ClusterStats[] | undefined = await ctx.worker.comms.getStats().catch((error) => void ctx.error(error));
+        const stats: ClusterStats[] | undefined = await ctx.worker.comms.getStats().catch(() => void ctx.error(`Unable to get the bot's stats.`));
         ctx.embed
             .color(Constants.BOT_INFO_EMBED_COLOR)
             .thumbnail(`${Constants.DISCORD_CDN}/avatars/${ctx.worker.user.id}/${ctx.worker.user.avatar}.png`)
@@ -26,6 +26,6 @@ export default {
             .field(`Support Server`, Constants.SUPPORT_SERVER, true)
             .field(`Website`, Constants.WEBSITE, true)
             .send()
-            .catch((error) => void ctx.error(error));
+            .catch(() => void ctx.error(`Unable to send the response message.`));
     }
 } as CommandOptions;

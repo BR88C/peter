@@ -37,9 +37,9 @@ export const bindLavalinkEvents = (worker: WorkerManager): void => {
         player, reason
     }) => {
         worker.log(`\x1b[31mPlayer Destroyed | Reason: ${reason} | Guild ID: ${player.options.guildId}`);
-        if (reason === `No other users in the VC`) void worker.api.messages.send(player.options.textChannelId, new Embed()
+        if (reason === `No other users in the voice channel`) void worker.api.messages.send(player.options.textChannelId, new Embed()
             .color(Constants.LEAVE_EMBED_COLOR)
-            .title(`:wave:  Left the VC due to no other users being present`)
+            .title(`:wave:  Left the voice channel due to no other users being present`)
         );
         else if (reason !== `Manual destroy`) void worker.api.messages.send(player.options.textChannelId, new Embed()
             .color(Constants.ERROR_EMBED_COLOR)

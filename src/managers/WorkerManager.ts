@@ -99,7 +99,7 @@ export class WorkerManager extends Worker {
             }
             if (!ctx.isInteraction) { // If the received event is not an interaction.
                 if (!Config.devs.IDs.includes(ctx.author.id)) { // If the user is not a dev, return an error.
-                    void ctx.error(`Prefix commands are now depreciated, please use slash commands instead. For more information, join our support server!`);
+                    void ctx.error(`Peter's prefix commands (sudo) have been replaced by slash commands. For more information, join our support server!`);
                     return false;
                 } else { // If the user is a dev.
                     if (ctx.command.interaction) { // If the command is a slash command, return.
@@ -112,7 +112,7 @@ export class WorkerManager extends Worker {
                 }
             } else { // If the received event is an interaction.
                 if (!ctx.interaction.guild_id || !ctx.interaction.member) { // If the interaction is not in a guild.
-                    void ctx.error(`This command can only be ran in a server!`);
+                    void ctx.error(`That command can only be ran in a server!`);
                     return false;
                 } else {
                     if (ctx.command.category === `music`) { // If the interaction is a music command.
@@ -151,7 +151,7 @@ export class WorkerManager extends Worker {
                 // Bind lavalink events.
                 bindLavalinkEvents(this);
 
-                // Destroy players that aren't 24/7 when no users are in the VC.
+                // Destroy players that aren't 24/7 when no users are in the voice channel.
                 this.on(`VOICE_STATE_UPDATE`, async (data) => {
                     const player = data.guild_id ? this.lavalink.players.get(data.guild_id) : undefined;
                     if (!player || player.twentyfourseven) return;
@@ -159,7 +159,7 @@ export class WorkerManager extends Worker {
                     if (voiceState?.users.has(this.user.id) && voiceState.users.size <= Config.maxUncheckedVoiceStateUsers) {
                         let nonBots = 0;
                         for (const [id] of voiceState.users) nonBots += (await this.api.users.get(id)).bot ? 0 : 1;
-                        if (nonBots === 0) void player.destroy(`No other users in the VC`);
+                        if (nonBots === 0) void player.destroy(`No other users in the voice channel`);
                     }
                 });
 
