@@ -13,6 +13,6 @@ exports.default = {
             .title(`Pong!`)
             .description(`\`\`\`js\n${ctx.worker.guildShard(ctx.interaction.guild_id).ping} ms\n\`\`\``)
             .send()
-            .catch((error) => void ctx.error(error));
+            .catch(() => void ctx.error(`Unable to send the response message.`));
     }
 };

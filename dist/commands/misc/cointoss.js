@@ -12,6 +12,6 @@ exports.default = {
             .color(Constants_1.Constants.COIN_TOSS_EMBED_COLOR)
             .title(`The coin landed on ${Math.random() >= 0.5 ? `heads` : `tails`}!`)
             .send()
-            .catch((error) => void ctx.error(error));
+            .catch(() => void ctx.error(`Unable to send the response message.`));
     }
 };

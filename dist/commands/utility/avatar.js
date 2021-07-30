@@ -24,6 +24,6 @@ exports.default = {
             .description(`[64](${avatarURL}?size=64) | [128](${avatarURL}?size=128) | [256](${avatarURL}?size=256) | [512](${avatarURL}?size=512) | [1024](${avatarURL}?size=1024) | [2048](${avatarURL}?size=2048) | [4096](${avatarURL}?size=4096)`)
             .image(`${avatarURL}?size=1024`)
             .send()
-            .catch((error) => void ctx.error(error));
+            .catch(() => void ctx.error(`Unable to send the response message.`));
     }
 };

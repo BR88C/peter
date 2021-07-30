@@ -13,6 +13,6 @@ exports.default = {
             .title(`Invite link:`)
             .description(Constants_1.Constants.INVITE_LINK)
             .send()
-            .catch((error) => void ctx.error(error));
+            .catch(() => void ctx.error(`Unable to send the response message.`));
     }
 };

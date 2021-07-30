@@ -19,11 +19,11 @@ exports.default = {
     },
     exec: (ctx) => {
         if (!ctx.worker.commands.commands)
-            return void ctx.error(`Unable to get commands.`);
+            return void ctx.error(`Unable to get the command list.`);
         if (ctx.options.command) {
             const command = ctx.worker.commands.commands.find((command) => command.interaction?.name.toLocaleLowerCase() === ctx.options.command.toLowerCase());
             if (!command || !command.interaction)
-                return void ctx.error(`Invalid command.`);
+                return void ctx.error(`That command does not exist.`);
             ctx.embed
                 .color(Constants_1.Constants.HELP_EMBED_COLOR)
                 .title(`Command information`)
@@ -31,7 +31,7 @@ exports.default = {
                 .footer(`Peter! made by ${Config_1.Config.devs.tags.join(`, `)}`)
                 .timestamp()
                 .send()
-                .catch((error) => void ctx.error(error));
+                .catch(() => void ctx.error(`Unable to send the response message.`));
         }
         else {
             const categories = [...new Set(ctx.worker.commands.commands.map((command) => command.category.toLowerCase()))].map((category) => ctx.worker.commands.commands.filter((command) => command.interaction && command.category === category)).sort((a, b) => b.size - a.size);
@@ -43,7 +43,7 @@ exports.default = {
                 .timestamp();
             for (const category of categories)
                 helpEmbed.field(`${category.first().category.charAt(0).toUpperCase()}${category.first().category.slice(1)}`, category.map((command) => `\`${command.interaction.name}\``).join(`, `), true);
-            ctx.send(helpEmbed).catch((error) => void ctx.error(error));
+            ctx.send(helpEmbed).catch(() => void ctx.error(`Unable to send the response message.`));
         }
     }
 };

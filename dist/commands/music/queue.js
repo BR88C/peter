@@ -14,7 +14,7 @@ exports.default = {
     exec: async (ctx) => {
         const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (!player || player.state < lavalink_1.PlayerState.CONNECTED)
-            return void ctx.error(`Unable to get the queue; the bot is not connected to a VC.`);
+            return void ctx.error(`Unable to get the queue; the bot is not connected to a voice channel.`);
         const voiceChannel = await ctx.worker.api.channels.get(player.options.voiceChannelId);
         const sendEmbed = async (page) => {
             const trackTitles = [];
@@ -37,7 +37,7 @@ exports.default = {
                 .field(`24/7`, `\`${player.twentyfourseven ? `On` : `Off`}\``, true)
                 .field(`Active Effects`, Lavalink_1.filtersString(player), false)
                 .send()
-                .catch((error) => void ctx.error(error));
+                .catch(() => void ctx.error(`Unable to send the response message.`));
         };
         await sendEmbed(Math.floor((player.queuePosition ?? 0) / 10));
     }

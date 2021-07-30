@@ -13,6 +13,6 @@ exports.default = {
             .title(`Vote Link:`)
             .description(Constants_1.Constants.VOTE_LINK)
             .send()
-            .catch((error) => void ctx.error(error));
+            .catch(() => void ctx.error(`Unable to send the response message.`));
     }
 };

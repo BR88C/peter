@@ -35,7 +35,7 @@ exports.default = {
                 .footer(`Guild ID: ${ctx.interaction.guild_id}`)
                 .timestamp()
                 .send()
-                .catch((error) => void ctx.error(error));
+                .catch(() => void ctx.error(`Unable to send the response message.`));
         }
         else {
             const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id);
@@ -83,7 +83,7 @@ exports.default = {
             }
             else
                 debugEmbed.field(`Music Player`, `*No player found.*`, false);
-            ctx.send(debugEmbed).catch((error) => void ctx.error(error));
+            ctx.send(debugEmbed).catch(() => void ctx.error(`Unable to send the response message.`));
         }
     }
 };

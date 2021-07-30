@@ -21,15 +21,15 @@ exports.default = {
     exec: async (ctx) => {
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
         if (!foundVoiceState)
-            return void ctx.error(`You must be in a VC to play music.`);
+            return void ctx.error(`You must be in a voice channel to play music.`);
         const existingPlayer = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         if (existingPlayer && foundVoiceState.channel_id !== existingPlayer.options.voiceChannelId)
-            return void ctx.error(`You must be in the VC to play music.`);
+            return void ctx.error(`You must be in the voice channel to play music.`);
         await ctx.embed
             .color(Constants_1.Constants.PROCESSING_QUERY_EMBED_COLOR)
             .title(`:mag_right:  Searching...`)
             .send(true, false, true)
-            .catch((error) => void ctx.error(error));
+            .catch(() => void ctx.error(`Unable to send the response message.`));
         const requesterTag = `${ctx.author.username}#${ctx.author.discriminator}`;
         const search = await ctx.worker.lavalink.search(ctx.options.query, ctx.member.nick ? `${ctx.member.nick} (${requesterTag})` : requesterTag);
         if (search.exception)
@@ -56,13 +56,13 @@ exports.default = {
         if (player.state === lavalink_1.PlayerState.DISCONNECTED)
             await player.connect();
         if (player.state < lavalink_1.PlayerState.CONNECTED)
-            return void ctx.error(`Unable to connect to the VC.`);
+            return void ctx.error(`Unable to connect to the voice channel.`);
         if (search.loadType === `PLAYLIST_LOADED`) {
             await ctx.embed
                 .color(Constants_1.Constants.PROCESSING_QUERY_EMBED_COLOR)
                 .title(`:mag_right:  Found a playlist, adding it to the queue...`)
                 .send(true, false, true)
-                .catch((error) => void ctx.error(error));
+                .catch(() => void ctx.error(`Unable to send the response message.`));
             await ctx.worker.api.messages.send(ctx.interaction.channel_id, new discord_rose_1.Embed()
                 .color(Constants_1.Constants.ADDED_TO_QUEUE_EMBED_COLOR)
                 .title(`Successfully queued ${search.tracks.length} song${search.tracks.length > 1 ? `s` : ``}`)
@@ -75,7 +75,7 @@ exports.default = {
                 .color(Constants_1.Constants.PROCESSING_QUERY_EMBED_COLOR)
                 .title(`:mag_right:  Found ${search.tracks.length} result${search.tracks.length > 1 ? `s, queuing the first one` : `, adding it to the queue`}...`)
                 .send(true, false, true)
-                .catch((error) => void ctx.error(error));
+                .catch(() => void ctx.error(`Unable to send the response message.`));
             await ctx.worker.api.messages.send(ctx.interaction.channel_id, new discord_rose_1.Embed()
                 .color(Constants_1.Constants.ADDED_TO_QUEUE_EMBED_COLOR)
                 .title(`Added "${StringUtils_1.cleanseMarkdown(search.tracks[0].title)}" to the queue`)

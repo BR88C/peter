@@ -23,6 +23,6 @@ exports.default = {
             .field(`Boosts`, `Number of boosts: ${guild.premium_subscription_count}\nServer Level: ${guild.premium_tier}`, true)
             .thumbnail(iconURL)
             .send()
-            .catch((error) => void ctx.error(error));
+            .catch(() => void ctx.error(`Unable to send the response message.`));
     }
 };

@@ -12,7 +12,7 @@ exports.default = {
                 .color(Constants_1.Constants.STATUS_EMBED_COLOR)
                 .title(`Updated status successfully`)
                 .send()
-                .catch((error) => void ctx.error(error));
+                .catch(() => void ctx.error(`Unable to send the response message.`));
         }
     }
 };

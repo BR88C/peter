@@ -37,7 +37,7 @@ exports.default = {
                 .title(i === 0 ? `\`\`\` ${ctx.args.join(` `).replace(`-m `, ``).length > 25 ? `${ctx.args.join(` `).replace(`-m `, ``).substring(0, 25)}\`...` : `${ctx.args.join(` `).replace(`-m `, ``)}`} \`\`\`` : undefined)
                 .description(`\`\`\`js\n${evalResponse.substring(i * 2e3, (i + 1) * 2e3)}\n\`\`\``)
                 .send(i === 0)
-                .catch((error) => void ctx.error(error));
+                .catch(() => void ctx.error(`Unable to send the response message.`));
         }
     }
 };

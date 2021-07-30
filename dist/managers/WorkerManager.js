@@ -69,7 +69,7 @@ class WorkerManager extends discord_rose_1.Worker {
             }
             if (!ctx.isInteraction) {
                 if (!Config_1.Config.devs.IDs.includes(ctx.author.id)) {
-                    void ctx.error(`Prefix commands are now depreciated, please use slash commands instead. For more information, join our support server!`);
+                    void ctx.error(`Peter's prefix commands (sudo) have been replaced by slash commands. For more information, join our support server!`);
                     return false;
                 }
                 else {
@@ -85,7 +85,7 @@ class WorkerManager extends discord_rose_1.Worker {
             }
             else {
                 if (!ctx.interaction.guild_id || !ctx.interaction.member) {
-                    void ctx.error(`This command can only be ran in a server!`);
+                    void ctx.error(`That command can only be ran in a server!`);
                     return false;
                 }
                 else {
@@ -130,7 +130,7 @@ class WorkerManager extends discord_rose_1.Worker {
                         for (const [id] of voiceState.users)
                             nonBots += (await this.api.users.get(id)).bot ? 0 : 1;
                         if (nonBots === 0)
-                            void player.destroy(`No other users in the VC`);
+                            void player.destroy(`No other users in the voice channel`);
                     }
                 });
                 await this.mongoClient.connect().catch((error) => Log_1.logError(error));

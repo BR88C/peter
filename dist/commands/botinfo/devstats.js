@@ -6,7 +6,7 @@ const Time_1 = require("../../utils/Time");
 exports.default = {
     command: `devstats`,
     exec: async (ctx) => {
-        const stats = await ctx.worker.comms.getStats().catch((error) => void ctx.error(error));
+        const stats = await ctx.worker.comms.getStats().catch(() => void ctx.error(`Unable to get the bot's stats.`));
         const shards = stats?.map((s) => s.shards).reduce((p, c) => p.concat(c), []);
         ctx.embed
             .color(Constants_1.Constants.DEV_STATS_EMBED_COLOR)
@@ -20,6 +20,6 @@ exports.default = {
             .field(`Shard stats`, `\`\`\`\n${StringUtils_1.centerString(`Shard`, 9)} | ${StringUtils_1.centerString(`State`, 9)} | ${StringUtils_1.centerString(`Guilds`, 10)} | ${StringUtils_1.centerString(`Ping`, 8)}\n${shards?.reduce((p, c) => p + `${StringUtils_1.centerString(`${c.id}`, 9)} | ${StringUtils_1.centerString(`${c.state}`, 9)} | ${StringUtils_1.centerString(`${c.guilds}`, 10)} | ${StringUtils_1.centerString(`${Math.round(c.ping)}ms`, 8)}\n`, ``)}\`\`\``, false)
             .field(`\u200B`, `\`\`\`\n Clusters: ${stats?.length}  |  Shards: ${shards?.length}  | Shards per Cluster: ${ctx.worker.options.shardsPerCluster} \`\`\``, false)
             .send()
-            .catch((error) => void ctx.error(error));
+            .catch(() => void ctx.error(`Unable to send the response message.`));
     }
 };
