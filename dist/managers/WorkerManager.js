@@ -4,6 +4,7 @@ exports.WorkerManager = void 0;
 const Lavalink_1 = require("../utils/Lavalink");
 const Config_1 = require("../config/Config");
 const Constants_1 = require("../config/Constants");
+const Log_1 = require("../utils/Log");
 const StringUtils_1 = require("../utils/StringUtils");
 const ProcessUtils_1 = require("../utils/ProcessUtils");
 const collection_1 = require("@discordjs/collection");
@@ -48,14 +49,11 @@ class WorkerManager extends discord_rose_1.Worker {
         this.log(`Loaded ${this.commands.commands?.size} commands`);
         this.commands.error((ctx, error) => {
             if (ctx.isInteraction)
-                this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${StringUtils_1.removeToken(error.message.replace(/^(Error: )/, ``))} | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.interaction?.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.interaction?.guild_id)?.name} | Guild ID: ${ctx.interaction?.guild_id}` : ``}`);
+                this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${StringUtils_1.removeToken(error.message.replace(/^(Error: )/, ``))} | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.interaction?.guild_id ? ` | Guild ID: ${ctx.interaction?.guild_id}` : ``}`);
             else
-                this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${StringUtils_1.removeToken(error.message.replace(/^(Error: )/, ``))} | Command: ${ctx.command?.command} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message?.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message?.guild_id)?.name} | Guild ID: ${ctx.message?.guild_id}` : ``}`);
-            if (!error.nonFatal) {
-                console.log(`\x1b[31m`);
-                console.error(error);
-                console.log(`\x1b[37m`);
-            }
+                this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Reason: ${StringUtils_1.removeToken(error.message.replace(/^(Error: )/, ``))} | Command: ${ctx.command?.command} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message?.guild_id ? ` | Guild ID: ${ctx.message?.guild_id}` : ``}`);
+            if (!error.nonFatal)
+                Log_1.logError(error);
             ctx.embed
                 .color(Constants_1.Constants.ERROR_EMBED_COLOR)
                 .title(`Error`)
@@ -75,12 +73,12 @@ class WorkerManager extends discord_rose_1.Worker {
                     return false;
                 }
                 else {
-                    if (ctx.command.interaction != null) {
+                    if (ctx.command.interaction) {
                         void ctx.error(`That's an interaction command, not a developer command silly!`);
                         return false;
                     }
                     else {
-                        this.log(`\x1b[32mReceived Dev Command | Command: ${ctx.command.command} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message.guild_id ? ` | Guild Name: ${ctx.worker.guilds.get(ctx.message.guild_id)?.name} | Guild ID: ${ctx.message.guild_id}` : ``}`);
+                        this.log(`\x1b[32mReceived Dev Command | Command: ${ctx.command.command} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message.guild_id ? ` | Guild ID: ${ctx.message.guild_id}` : ``}`);
                         return true;
                     }
                 }
@@ -108,7 +106,7 @@ class WorkerManager extends discord_rose_1.Worker {
                             }
                         }
                     }
-                    this.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild Name: ${ctx.worker.guilds.get(ctx.interaction.guild_id)?.name} | Guild ID: ${ctx.interaction.guild_id}`);
+                    this.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild ID: ${ctx.interaction.guild_id}`);
                     return true;
                 }
             }
@@ -135,11 +133,7 @@ class WorkerManager extends discord_rose_1.Worker {
                             void player.destroy(`No other users in the VC`);
                     }
                 });
-                await this.mongoClient.connect().catch((error) => {
-                    console.log(`\x1b[31m`);
-                    console.error(error);
-                    console.log(`\x1b[37m`);
-                });
+                await this.mongoClient.connect().catch((error) => Log_1.logError(error));
                 this.log(`Connected to MongoDB`);
                 this.available = true;
             }

@@ -11,10 +11,10 @@ const bindLavalinkEvents = (worker) => {
     worker.lavalink.on(`NODE_DISCONNECTED`, ({ node, code, reason }) => worker.log(`\x1b[31mNode Disconnected | Node ID: ${node.identifier} | Code: ${code} | Reason: ${reason}`));
     worker.lavalink.on(`NODE_ERROR`, ({ node, error }) => worker.log(`\x1b[31mNode Error | Node ID: ${node.identifier} | Error: ${error?.message ?? error}`));
     worker.lavalink.on(`NODE_RECONNECTING`, (node) => worker.log(`\x1b[33mNode Reconnecting | Node ID: ${node.identifier}`));
-    worker.lavalink.on(`PLAYER_CONNECTED`, (player) => worker.log(`Player Connected | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
-    worker.lavalink.on(`PLAYER_CREATED`, (player) => worker.log(`Player Created | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
+    worker.lavalink.on(`PLAYER_CONNECTED`, (player) => worker.log(`Player Connected | Guild ID: ${player.options.guildId}`));
+    worker.lavalink.on(`PLAYER_CREATED`, (player) => worker.log(`Player Created | Guild ID: ${player.options.guildId}`));
     worker.lavalink.on(`PLAYER_DESTROYED`, ({ player, reason }) => {
-        worker.log(`\x1b[31mPlayer Destroyed | Reason: ${reason} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
+        worker.log(`\x1b[31mPlayer Destroyed | Reason: ${reason} | Guild ID: ${player.options.guildId}`);
         if (reason === `No other users in the VC`)
             void worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
                 .color(Constants_1.Constants.LEAVE_EMBED_COLOR)
@@ -27,19 +27,19 @@ const bindLavalinkEvents = (worker) => {
                 .timestamp());
     });
     worker.lavalink.on(`PLAYER_ERROR`, ({ player, error }) => {
-        worker.log(`\x1b[31mPlayer Error | Error: ${error?.message ?? error} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
+        worker.log(`\x1b[31mPlayer Error | Error: ${error?.message ?? error} | Guild ID: ${player.options.guildId}`);
         void worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
             .color(Constants_1.Constants.ERROR_EMBED_COLOR)
             .title(`Error`)
             .description(`\`\`\`\nAn unknown player error occurred\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants_1.Constants.SUPPORT_SERVER}`)
             .timestamp());
     });
-    worker.lavalink.on(`PLAYER_MOVED`, ({ player, newChannel }) => worker.log(`Player Moved | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
-    worker.lavalink.on(`PLAYER_PAUSED`, ({ player, reason }) => worker.log(`Player Paused | Reason: ${reason} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
-    worker.lavalink.on(`PLAYER_RESUMED`, ({ player, reason }) => worker.log(`Player Resumed | Reason: ${reason} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
-    worker.lavalink.on(`PLAYER_TRACK_END`, ({ player, track, reason }) => worker.log(`Track Ended | Track Identifier: ${track?.identifier ?? `N/A`} | Reason: ${reason} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`));
+    worker.lavalink.on(`PLAYER_MOVED`, ({ player, newChannel }) => worker.log(`Player Moved | Guild ID: ${player.options.guildId}`));
+    worker.lavalink.on(`PLAYER_PAUSED`, ({ player, reason }) => worker.log(`Player Paused | Reason: ${reason} | Guild ID: ${player.options.guildId}`));
+    worker.lavalink.on(`PLAYER_RESUMED`, ({ player, reason }) => worker.log(`Player Resumed | Reason: ${reason} | Guild ID: ${player.options.guildId}`));
+    worker.lavalink.on(`PLAYER_TRACK_END`, ({ player, track, reason }) => worker.log(`Track Ended | Track Identifier: ${track?.identifier ?? `N/A`} | Reason: ${reason} | Guild ID: ${player.options.guildId}`));
     worker.lavalink.on(`PLAYER_TRACK_EXCEPTION`, ({ player, track, message, severity, cause }) => {
-        worker.log(`\x1b[31mTrack Exception | Track Identifier: ${track?.identifier ?? `N/A`} | Severity: ${severity} | Cause: ${cause} | Message: ${message} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
+        worker.log(`\x1b[31mTrack Exception | Track Identifier: ${track?.identifier ?? `N/A`} | Severity: ${severity} | Cause: ${cause} | Message: ${message} | Guild ID: ${player.options.guildId}`);
         void worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
             .color(Constants_1.Constants.ERROR_EMBED_COLOR)
             .title(`Error`)
@@ -47,7 +47,7 @@ const bindLavalinkEvents = (worker) => {
             .timestamp());
     });
     worker.lavalink.on(`PLAYER_TRACK_START`, ({ player, track }) => {
-        worker.log(`Track Started | Track Identifier: ${track?.identifier ?? `N/A`} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
+        worker.log(`Track Started | Track Identifier: ${track?.identifier ?? `N/A`} | Guild ID: ${player.options.guildId}`);
         void worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
             .color(Constants_1.Constants.STARTED_PLAYING_EMBED_COLOR)
             .title(`Started playing: ${StringUtils_1.cleanseMarkdown(track?.title ?? `N/A`)}`)
@@ -57,7 +57,7 @@ const bindLavalinkEvents = (worker) => {
             .timestamp());
     });
     worker.lavalink.on(`PLAYER_TRACK_STUCK`, ({ player, track, thresholdMs }) => {
-        worker.log(`\x1b[33mTrack Stuck | Track Identifier: ${track?.identifier ?? `N/A`} | Guild Name: ${worker.guilds.get(player.options.guildId)?.name} | Guild ID: ${player.options.guildId}`);
+        worker.log(`\x1b[33mTrack Stuck | Track Identifier: ${track?.identifier ?? `N/A`} | Guild ID: ${player.options.guildId}`);
         void worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
             .color(Constants_1.Constants.ERROR_EMBED_COLOR)
             .title(`Error`)

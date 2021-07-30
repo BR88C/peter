@@ -19,7 +19,7 @@ class MasterManager extends discord_rose_1.Master {
             token: process.env.BOT_TOKEN ?? ``
         });
         this.log(`\x1b[35mRunning in \x1b[33m${process.env.NODE_ENV ?? `dev`}\x1b[35m mode.`);
-        this.start().catch((error) => this.log(error));
+        this.start().catch((error) => Log_1.logError(error));
         if (process.env.TOPGG_TOKEN) {
             this.topgg = new sdk_1.Api(process.env.TOPGG_TOKEN);
             this.log(`Connected to Top.gg`);
@@ -31,7 +31,7 @@ class MasterManager extends discord_rose_1.Master {
             resolve(voted);
         });
         this.once(`READY`, () => {
-            setInterval(() => void (async () => await ProcessUtils_1.statsCheckup(this).catch((error) => this.log(error)))(), Config_1.Config.statsCheckupInterval[process.env.NODE_ENV ?? `dev`]);
+            setInterval(() => void (async () => await ProcessUtils_1.statsCheckup(this).catch((error) => Log_1.logError(error)))(), Config_1.Config.statsCheckupInterval[process.env.NODE_ENV ?? `dev`]);
             this.log(`\x1b[35mMaster up since ${new Date().toLocaleString()}`);
         });
     }
