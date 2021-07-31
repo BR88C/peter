@@ -37,32 +37,32 @@ export const bindLavalinkEvents = (worker: WorkerManager): void => {
         player, reason
     }) => {
         worker.log(`\x1b[31mPlayer Destroyed | Reason: ${reason} | Guild ID: ${player.options.guildId}`);
-        if (reason === `No other users in the voice channel`) void worker.api.messages.send(player.options.textChannelId, new Embed()
+        if (reason === `No other users in the voice channel`) worker.api.messages.send(player.options.textChannelId, new Embed()
             .color(Constants.LEAVE_EMBED_COLOR)
             .title(`:wave:  Left the voice channel due to no other users being present`)
-        );
-        else if (reason === `Player was moved out of the voice channel`) void worker.api.messages.send(player.options.textChannelId, new Embed()
+        ).catch(() => {});
+        else if (reason === `Player was moved out of the voice channel`) worker.api.messages.send(player.options.textChannelId, new Embed()
             .color(Constants.LEAVE_EMBED_COLOR)
             .title(`Destroyed the queue due to being moved out of the voice channel.`)
-        );
-        else if (reason !== `Manual destroy`) void worker.api.messages.send(player.options.textChannelId, new Embed()
+        ).catch(() => {});
+        else if (reason !== `Manual destroy`) worker.api.messages.send(player.options.textChannelId, new Embed()
             .color(Constants.ERROR_EMBED_COLOR)
             .title(`Error`)
             .description(`\`\`\`\nAn unkown error occurred while playing music, causing the queue to be destroyed. Please submit an issue in our support server.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
             .timestamp()
-        );
+        ).catch(() => {});
     });
 
     worker.lavalink.on(`PLAYER_ERROR`, ({
         player, error
     }) => {
         worker.log(`\x1b[31mPlayer Error | Error: ${error?.message ?? error} | Guild ID: ${player.options.guildId}`);
-        void worker.api.messages.send(player.options.textChannelId, new Embed()
+        worker.api.messages.send(player.options.textChannelId, new Embed()
             .color(Constants.ERROR_EMBED_COLOR)
             .title(`Error`)
             .description(`\`\`\`\nAn unkown error occurred while playing music. Please submit an issue in our support server.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
             .timestamp()
-        );
+        ).catch(() => {});
     });
 
     worker.lavalink.on(`PLAYER_MOVED`, ({ player }) => worker.log(`Player Moved | Guild ID: ${player.options.guildId}`));
@@ -83,38 +83,38 @@ export const bindLavalinkEvents = (worker: WorkerManager): void => {
         player, track, message, severity, cause
     }) => {
         worker.log(`\x1b[31mTrack Exception | Track Identifier: ${track?.identifier ?? `N/A`} | Severity: ${severity} | Cause: ${cause} | Message: ${message} | Guild ID: ${player.options.guildId}`);
-        void worker.api.messages.send(player.options.textChannelId, new Embed()
+        worker.api.messages.send(player.options.textChannelId, new Embed()
             .color(Constants.ERROR_EMBED_COLOR)
             .title(`Error`)
             .description(`\`\`\`\nAn unkown error occurred while playing music. Please submit an issue in our support server.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
             .timestamp()
-        );
+        ).catch(() => {});
     });
 
     worker.lavalink.on(`PLAYER_TRACK_START`, ({
         player, track
     }) => {
         worker.log(`Track Started | Track Identifier: ${track?.identifier ?? `N/A`} | Guild ID: ${player.options.guildId}`);
-        void worker.api.messages.send(player.options.textChannelId, new Embed()
+        worker.api.messages.send(player.options.textChannelId, new Embed()
             .color(Constants.STARTED_PLAYING_EMBED_COLOR)
             .title(`Started playing: ${cleanseMarkdown(track?.title ?? `N/A`)}`)
             .description(`**Link:** ${track?.uri ?? `N/A`}`)
             .image(`${track?.thumbnail(`mqdefault`)}`)
             .footer(`Requested by ${track?.requester ?? `N/A`}`)
             .timestamp()
-        );
+        ).catch(() => {});
     });
 
     worker.lavalink.on(`PLAYER_TRACK_STUCK`, ({
         player, track 
     }) => {
         worker.log(`\x1b[33mTrack Stuck | Track Identifier: ${track?.identifier ?? `N/A`} | Guild ID: ${player.options.guildId}`);
-        void worker.api.messages.send(player.options.textChannelId, new Embed()
+        worker.api.messages.send(player.options.textChannelId, new Embed()
             .color(Constants.ERROR_EMBED_COLOR)
             .title(`Error`)
             .description(`\`\`\`\nAn unkown error occurred while playing music. Please submit an issue in our support server.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
             .timestamp()
-        );
+        ).catch(() => {});
     });
 
     worker.lavalink.on(`SPOTIFY_AUTHORIZED`, ({ expiresIn }) => worker.log(`Spotify Authorized | Expires at: ${new Date(Date.now() + expiresIn).toLocaleString()}`));
