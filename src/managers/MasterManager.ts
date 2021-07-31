@@ -59,4 +59,4 @@ export class MasterManager extends Master {
             this.log(`\x1b[35mMaster up since ${new Date().toLocaleString()}`);
         });
     }
-};
+}

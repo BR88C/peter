@@ -86,7 +86,7 @@ export interface BotConfig {
         dev: number
         prod: number
     }
-};
+}
 
 export const Config: BotConfig = {
     developerPrefix: `sudo`,

@@ -24,7 +24,7 @@ export class WorkerManager extends Worker {
     /**
      * If the worker is available.
      */
-    public available: boolean = false
+    public available = false
     /**
      * The worker's lavalink manager.
      */

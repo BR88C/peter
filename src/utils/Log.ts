@@ -21,7 +21,7 @@ export const log = (msg: string, cluster: Cluster | undefined): void => {
  * Log an error.
  * @param error The error to log.
  */
-export const logError = (error: any): void => {
+export const logError = (error: Error | string): void => {
     console.log(`\x1b[31m`);
     console.error(error);
     console.log(`\x1b[37m`);

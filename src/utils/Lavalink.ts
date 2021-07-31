@@ -61,9 +61,7 @@ export const bindLavalinkEvents = (worker: WorkerManager): void => {
         );
     });
 
-    worker.lavalink.on(`PLAYER_MOVED`, ({
-        player, newChannel
-    }) => worker.log(`Player Moved | Guild ID: ${player.options.guildId}`));
+    worker.lavalink.on(`PLAYER_MOVED`, ({ player }) => worker.log(`Player Moved | Guild ID: ${player.options.guildId}`));
 
     worker.lavalink.on(`PLAYER_PAUSED`, ({
         player, reason
@@ -104,7 +102,7 @@ export const bindLavalinkEvents = (worker: WorkerManager): void => {
     });
 
     worker.lavalink.on(`PLAYER_TRACK_STUCK`, ({
-        player, track, thresholdMs
+        player, track 
     }) => {
         worker.log(`\x1b[33mTrack Stuck | Track Identifier: ${track?.identifier ?? `N/A`} | Guild ID: ${player.options.guildId}`);
         void worker.api.messages.send(player.options.textChannelId, new Embed()

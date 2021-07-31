@@ -202,7 +202,7 @@ export interface BotConstants {
      * The color to use for the vote embed.
      */
     VOTE_EMBED_COLOR: number
-};
+}
 
 export const Constants: BotConstants = {
     MAX_CLUSTER_LOG_LENGTH: 12,
