@@ -17,6 +17,8 @@ exports.default = {
         const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
         if (foundVoiceState?.channel_id !== player.options.voiceChannelId)
             return void ctx.error(`You must be in the voice channel to skip to the previous song.`);
+        if (!player.queue[(player.queuePosition ?? player.queue.length) - 1])
+            return void ctx.error(`There are no previous songs to skip to.`);
         await player.skip((player.queuePosition ?? player.queue.length) - 1);
         ctx.embed
             .color(Constants_1.Constants.SKIP_EMBED_COLOR)
