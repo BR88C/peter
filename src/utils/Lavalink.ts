@@ -115,7 +115,7 @@ export const bindLavalinkEvents = (worker: WorkerManager): void => {
 
     worker.lavalink.on(`SPOTIFY_AUTHORIZED`, ({ expiresIn }) => worker.log(`Spotify Authorized | Expires at: ${new Date(Date.now() + expiresIn).toLocaleString()}`));
 
-    worker.lavalink.on(`SPOTIFY_AUTH_ERROR`, (error) => worker.log(`Error Authorizing Spotify | Error: ${error.message}`));
+    worker.lavalink.on(`SPOTIFY_AUTH_ERROR`, (error) => worker.log(`\x1b[31mError Authorizing Spotify | Error: ${error.message}`));
 };
 
 /**
