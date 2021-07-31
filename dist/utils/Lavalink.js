@@ -64,6 +64,8 @@ const bindLavalinkEvents = (worker) => {
             .description(`\`\`\`\nAn unkown error occurred while playing music. Please submit an issue in our support server.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants_1.Constants.SUPPORT_SERVER}`)
             .timestamp());
     });
+    worker.lavalink.on(`SPOTIFY_AUTHORIZED`, ({ expiresIn }) => worker.log(`Spotify Authorized | Expires at: ${new Date(Date.now() + expiresIn).toLocaleString()}`));
+    worker.lavalink.on(`SPOTIFY_AUTH_ERROR`, (error) => worker.log(`Error Authorizing Spotify | Error: ${error.message}`));
 };
 exports.bindLavalinkEvents = bindLavalinkEvents;
 const filtersString = (player) => {
