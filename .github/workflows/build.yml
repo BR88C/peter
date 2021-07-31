@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node: [14]
+        node: [16]
 
     steps:
       # Checkout repository.
@@ -52,7 +52,7 @@ jobs:
 
     strategy:
       matrix:
-        node: [14]
+        node: [16]
 
     steps:
       # Checkout repository.
