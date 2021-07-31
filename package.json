@@ -31,13 +31,14 @@
     "mongodb": "^4.0.1"
   },
   "devDependencies": {
-    "@types/node": "^16.4.7",
+    "@br88c/eslint-config": "^1.0.3",
+    "@types/node": "^16.4.8",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
-    "eslint": "^7.31.0",
-    "eslint-config-standard-with-typescript": "^20.0.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
+    "@typescript-eslint/parser": "^4.28.5",
+    "eslint": "^7.32.0",
     "typescript": "^4.3.5"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }

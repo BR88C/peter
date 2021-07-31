@@ -37,4 +37,3 @@ class MasterManager extends discord_rose_1.Master {
     }
 }
 exports.MasterManager = MasterManager;
-;

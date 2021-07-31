@@ -34,7 +34,7 @@ const bindLavalinkEvents = (worker) => {
             .description(`\`\`\`\nAn unkown error occurred while playing music. Please submit an issue in our support server.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants_1.Constants.SUPPORT_SERVER}`)
             .timestamp());
     });
-    worker.lavalink.on(`PLAYER_MOVED`, ({ player, newChannel }) => worker.log(`Player Moved | Guild ID: ${player.options.guildId}`));
+    worker.lavalink.on(`PLAYER_MOVED`, ({ player }) => worker.log(`Player Moved | Guild ID: ${player.options.guildId}`));
     worker.lavalink.on(`PLAYER_PAUSED`, ({ player, reason }) => worker.log(`Player Paused | Reason: ${reason} | Guild ID: ${player.options.guildId}`));
     worker.lavalink.on(`PLAYER_RESUMED`, ({ player, reason }) => worker.log(`Player Resumed | Reason: ${reason} | Guild ID: ${player.options.guildId}`));
     worker.lavalink.on(`PLAYER_TRACK_END`, ({ player, track, reason }) => worker.log(`Track Ended | Track Identifier: ${track?.identifier ?? `N/A`} | Reason: ${reason} | Guild ID: ${player.options.guildId}`));
@@ -56,7 +56,7 @@ const bindLavalinkEvents = (worker) => {
             .footer(`Requested by ${track?.requester ?? `N/A`}`)
             .timestamp());
     });
-    worker.lavalink.on(`PLAYER_TRACK_STUCK`, ({ player, track, thresholdMs }) => {
+    worker.lavalink.on(`PLAYER_TRACK_STUCK`, ({ player, track }) => {
         worker.log(`\x1b[33mTrack Stuck | Track Identifier: ${track?.identifier ?? `N/A`} | Guild ID: ${player.options.guildId}`);
         void worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
             .color(Constants_1.Constants.ERROR_EMBED_COLOR)

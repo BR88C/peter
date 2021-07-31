@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Constants = void 0;
-;
 exports.Constants = {
     MAX_CLUSTER_LOG_LENGTH: 12,
     INVITE_LINK: `https://discord.com/oauth2/authorize?client_id=744694015630245949&scope=bot%20applications.commands&permissions=3525696&redirect_uri=https%3A%2F%2Fdiscord.gg%2FE2JsYPPJYN&response_type=code`,
