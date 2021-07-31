@@ -19,8 +19,8 @@ export default {
             .field(`Total Guilds`, `\`${shards?.reduce((p, c) => p + c.guilds, 0)}\``, true)
             .field(`Average Ping`, `\`${Math.round((shards?.reduce((p, c) => p + c.ping, 0) ?? 0) / (shards?.length ?? 1))}ms\``, true)
             .field(`Total Memory Usage`, `\`${Math.round((stats?.reduce((p, c) => p + c.cluster.memory, 0) ?? 0) / 1e4) / 100}mb\``, true)
-            .field(`Cluster stats`, `\`\`\`\n${centerString(`Cluster`, 11)} | ${centerString(`Memory Usage`, 16)}\n${stats?.reduce((p, c) => p + `${centerString(c.cluster.id, 11)} | ${centerString(`${Math.round(c.cluster.memory / 1e4) / 100}mb`, 16)}\n`, ``)}\`\`\``, false) // eslint-disable-line prefer-template
-            .field(`Shard stats`, `\`\`\`\n${centerString(`Shard`, 9)} | ${centerString(`State`, 9)} | ${centerString(`Guilds`, 10)} | ${centerString(`Ping`, 8)}\n${shards?.reduce((p, c) => p + `${centerString(`${c.id}`, 9)} | ${centerString(`${c.state}`, 9)} | ${centerString(`${c.guilds}`, 10)} | ${centerString(`${Math.round(c.ping)}ms`, 8)}\n`, ``)}\`\`\``, false) // eslint-disable-line prefer-template
+            .field(`Cluster stats`, `\`\`\`\n${centerString(`Cluster`, 11)} | ${centerString(`Memory Usage`, 16)}\n${stats?.reduce((p, c) => `${p  }${centerString(c.cluster.id, 11)} | ${centerString(`${Math.round(c.cluster.memory / 1e4) / 100}mb`, 16)}\n`, ``)}\`\`\``, false)
+            .field(`Shard stats`, `\`\`\`\n${centerString(`Shard`, 9)} | ${centerString(`State`, 9)} | ${centerString(`Guilds`, 10)} | ${centerString(`Ping`, 8)}\n${shards?.reduce((p, c) => `${p  }${centerString(`${c.id}`, 9)} | ${centerString(`${c.state}`, 9)} | ${centerString(`${c.guilds}`, 10)} | ${centerString(`${Math.round(c.ping)}ms`, 8)}\n`, ``)}\`\`\``, false)
             .field(`\u200B`, `\`\`\`\n Clusters: ${stats?.length}  |  Shards: ${shards?.length}  | Shards per Cluster: ${ctx.worker.options.shardsPerCluster} \`\`\``, false)
             .send()
             .catch(() => void ctx.error(`Unable to send the response message.`));
