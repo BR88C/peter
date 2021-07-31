@@ -86,6 +86,35 @@ class WorkerManager extends discord_rose_1.Worker {
                 }
             }
             else {
+                ctx.player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
+                if (ctx.command.mustBePaused && ctx.player?.state !== lavalink_1.PlayerState.PAUSED) {
+                    void ctx.error(`The music must be paused to run the "${ctx.command.interaction.name}" command.`);
+                    return false;
+                }
+                if (ctx.command.mustBePlaying && (ctx.player?.state !== lavalink_1.PlayerState.PLAYING || ctx.player?.queuePosition === null)) {
+                    void ctx.error(`The bot must be playing music to run the "${ctx.command.interaction.name}" command.`);
+                    return false;
+                }
+                if (ctx.command.mustHaveConnectedPlayer && (ctx.player?.state ?? 0) < lavalink_1.PlayerState.CONNECTED) {
+                    void ctx.error(`The bot must be connected to the voice channel to run the "${ctx.command.interaction.name}" command.`);
+                    return false;
+                }
+                if (ctx.command.mustHavePlayer && !ctx.player) {
+                    void ctx.error(`The bot must be connecting or connected to the voice channel to run the "${ctx.command.interaction.name}" command.`);
+                    return false;
+                }
+                if (ctx.command.mustHaveTracksInQueue && !ctx.player?.queue.length) {
+                    void ctx.error(`There must be music in the queue to run the "${ctx.command.interaction.name}" command.`);
+                    return false;
+                }
+                if (ctx.command.userMustBeInSameVC && (!ctx.player || ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id))?.channel_id !== ctx.player.options.voiceChannelId)) {
+                    void ctx.error(`You must be in the same voice channel as the bot to run the "${ctx.command.interaction.name}" command.`);
+                    return false;
+                }
+                if (ctx.command.userMustBeInVC && !ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id))) {
+                    void ctx.error(`You must be in a voice channel to run the "${ctx.command.interaction.name}" command.`);
+                    return false;
+                }
                 if (ctx.command.category === `music`) {
                     const guildDocument = await this.mongoClient.db(Config_1.Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
                     if (guildDocument?.djCommands.includes(ctx.command.interaction.name.toLowerCase())) {
