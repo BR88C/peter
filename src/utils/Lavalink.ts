@@ -56,7 +56,7 @@ export const bindLavalinkEvents = (worker: WorkerManager): void => {
         void worker.api.messages.send(player.options.textChannelId, new Embed()
             .color(Constants.ERROR_EMBED_COLOR)
             .title(`Error`)
-            .description(`\`\`\`\nAn unknown player error occurred\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
+            .description(`\`\`\`\nAn unkown error occurred while playing music. Please submit an issue in our support server.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
             .timestamp()
         );
     });
@@ -84,7 +84,7 @@ export const bindLavalinkEvents = (worker: WorkerManager): void => {
         void worker.api.messages.send(player.options.textChannelId, new Embed()
             .color(Constants.ERROR_EMBED_COLOR)
             .title(`Error`)
-            .description(`\`\`\`\nAn unknown track exception occurred\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
+            .description(`\`\`\`\nAn unkown error occurred while playing music. Please submit an issue in our support server.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
             .timestamp()
         );
     });
@@ -110,7 +110,7 @@ export const bindLavalinkEvents = (worker: WorkerManager): void => {
         void worker.api.messages.send(player.options.textChannelId, new Embed()
             .color(Constants.ERROR_EMBED_COLOR)
             .title(`Error`)
-            .description(`\`\`\`\nTrack stuck, skipping to the next queued track.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
+            .description(`\`\`\`\nAn unkown error occurred while playing music. Please submit an issue in our support server.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
             .timestamp()
         );
     });
