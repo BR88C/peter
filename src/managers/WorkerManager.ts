@@ -77,8 +77,8 @@ export class WorkerManager extends Worker {
 
         // Custom command error response.
         this.commands.error((ctx, error) => {
-            if (ctx.isInteraction) this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.ran} | Reason: ${removeToken(error.message.replace(/^(Error: )/, ``))} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.interaction?.guild_id ? ` | Guild ID: ${ctx.interaction?.guild_id}` : ``}`);
-            else this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.command?.command} | Reason: ${removeToken(error.message.replace(/^(Error: )/, ``))} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message?.guild_id ? ` | Guild ID: ${ctx.message?.guild_id}` : ``}`);
+            if (ctx.isInteraction) this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.ran} | Reason: ${removeToken(error.message.replace(/^(Error: )/, ``))} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.interaction?.guild_id ? ` | Guild ID: ${ctx.interaction.guild_id}` : ``}`);
+            else this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.command?.command} | Reason: ${removeToken(error.message.replace(/^(Error: )/, ``))} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message?.guild_id ? ` | Guild ID: ${ctx.message.guild_id}` : ``}`);
 
             if (!error.nonFatal) {
                 logError(error);
@@ -120,7 +120,7 @@ export class WorkerManager extends Worker {
                 } else {
                     if (ctx.command.category === `music`) { // If the interaction is a music command.
                         const guildDocument = await this.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
-                        if (guildDocument?.djCommands.includes(ctx.command.interaction?.name.toLowerCase())) {
+                        if (guildDocument?.djCommands.includes(ctx.command.interaction!.name.toLowerCase())) {
                             const voiceChannel = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!)?.options.voiceChannelId ?? ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id))?.channel_id;
                             if (voiceChannel && (ctx.worker.voiceStates.get(voiceChannel)?.users.size ?? 1) - 1 >= guildDocument.djOverride) {
                                 const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!);

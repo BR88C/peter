@@ -1,5 +1,5 @@
 // Import modules.
-import { CacheControlOptions, CacheOptions, Snowflake } from 'discord-rose';
+import { Snowflake } from 'discord-rose';
 import { NodeOptions } from '@discord-rose/lavalink';
 
 export interface BotConfig {
@@ -30,11 +30,11 @@ export interface BotConfig {
     /**
      * Cache options to be used when creating master.
      */
-    cache: CacheOptions
+    cache: any
     /**
      * Cache control options to be used when creating master.
      */
-    cacheControl: CacheControlOptions
+    cacheControl: any
 
     /**
      * MongoDB config.
