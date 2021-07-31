@@ -16,27 +16,27 @@ const bindLavalinkEvents = (worker) => {
     worker.lavalink.on(`PLAYER_DESTROYED`, ({ player, reason }) => {
         worker.log(`\x1b[31mPlayer Destroyed | Reason: ${reason} | Guild ID: ${player.options.guildId}`);
         if (reason === `No other users in the voice channel`)
-            void worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
+            worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
                 .color(Constants_1.Constants.LEAVE_EMBED_COLOR)
-                .title(`:wave:  Left the voice channel due to no other users being present`));
+                .title(`:wave:  Left the voice channel due to no other users being present`)).catch(() => { });
         else if (reason === `Player was moved out of the voice channel`)
-            void worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
+            worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
                 .color(Constants_1.Constants.LEAVE_EMBED_COLOR)
-                .title(`Destroyed the queue due to being moved out of the voice channel.`));
+                .title(`Destroyed the queue due to being moved out of the voice channel.`)).catch(() => { });
         else if (reason !== `Manual destroy`)
-            void worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
+            worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
                 .color(Constants_1.Constants.ERROR_EMBED_COLOR)
                 .title(`Error`)
                 .description(`\`\`\`\nAn unkown error occurred while playing music, causing the queue to be destroyed. Please submit an issue in our support server.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants_1.Constants.SUPPORT_SERVER}`)
-                .timestamp());
+                .timestamp()).catch(() => { });
     });
     worker.lavalink.on(`PLAYER_ERROR`, ({ player, error }) => {
         worker.log(`\x1b[31mPlayer Error | Error: ${error?.message ?? error} | Guild ID: ${player.options.guildId}`);
-        void worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
+        worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
             .color(Constants_1.Constants.ERROR_EMBED_COLOR)
             .title(`Error`)
             .description(`\`\`\`\nAn unkown error occurred while playing music. Please submit an issue in our support server.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants_1.Constants.SUPPORT_SERVER}`)
-            .timestamp());
+            .timestamp()).catch(() => { });
     });
     worker.lavalink.on(`PLAYER_MOVED`, ({ player }) => worker.log(`Player Moved | Guild ID: ${player.options.guildId}`));
     worker.lavalink.on(`PLAYER_PAUSED`, ({ player, reason }) => worker.log(`Player Paused | Reason: ${reason} | Guild ID: ${player.options.guildId}`));
@@ -44,29 +44,29 @@ const bindLavalinkEvents = (worker) => {
     worker.lavalink.on(`PLAYER_TRACK_END`, ({ player, track, reason }) => worker.log(`Track Ended | Track Identifier: ${track?.identifier ?? `N/A`} | Reason: ${reason} | Guild ID: ${player.options.guildId}`));
     worker.lavalink.on(`PLAYER_TRACK_EXCEPTION`, ({ player, track, message, severity, cause }) => {
         worker.log(`\x1b[31mTrack Exception | Track Identifier: ${track?.identifier ?? `N/A`} | Severity: ${severity} | Cause: ${cause} | Message: ${message} | Guild ID: ${player.options.guildId}`);
-        void worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
+        worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
             .color(Constants_1.Constants.ERROR_EMBED_COLOR)
             .title(`Error`)
             .description(`\`\`\`\nAn unkown error occurred while playing music. Please submit an issue in our support server.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants_1.Constants.SUPPORT_SERVER}`)
-            .timestamp());
+            .timestamp()).catch(() => { });
     });
     worker.lavalink.on(`PLAYER_TRACK_START`, ({ player, track }) => {
         worker.log(`Track Started | Track Identifier: ${track?.identifier ?? `N/A`} | Guild ID: ${player.options.guildId}`);
-        void worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
+        worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
             .color(Constants_1.Constants.STARTED_PLAYING_EMBED_COLOR)
             .title(`Started playing: ${StringUtils_1.cleanseMarkdown(track?.title ?? `N/A`)}`)
             .description(`**Link:** ${track?.uri ?? `N/A`}`)
             .image(`${track?.thumbnail(`mqdefault`)}`)
             .footer(`Requested by ${track?.requester ?? `N/A`}`)
-            .timestamp());
+            .timestamp()).catch(() => { });
     });
     worker.lavalink.on(`PLAYER_TRACK_STUCK`, ({ player, track }) => {
         worker.log(`\x1b[33mTrack Stuck | Track Identifier: ${track?.identifier ?? `N/A`} | Guild ID: ${player.options.guildId}`);
-        void worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
+        worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
             .color(Constants_1.Constants.ERROR_EMBED_COLOR)
             .title(`Error`)
             .description(`\`\`\`\nAn unkown error occurred while playing music. Please submit an issue in our support server.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants_1.Constants.SUPPORT_SERVER}`)
-            .timestamp());
+            .timestamp()).catch(() => { });
     });
     worker.lavalink.on(`SPOTIFY_AUTHORIZED`, ({ expiresIn }) => worker.log(`Spotify Authorized | Expires at: ${new Date(Date.now() + expiresIn).toLocaleString()}`));
     worker.lavalink.on(`SPOTIFY_AUTH_ERROR`, (error) => worker.log(`\x1b[31mError Authorizing Spotify | Error: ${error.message}`));
