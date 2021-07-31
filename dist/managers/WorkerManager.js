@@ -86,31 +86,25 @@ class WorkerManager extends discord_rose_1.Worker {
                 }
             }
             else {
-                if (!ctx.interaction.guild_id || !ctx.interaction.member) {
-                    void ctx.error(`That command can only be ran in a server!`);
-                    return false;
-                }
-                else {
-                    if (ctx.command.category === `music`) {
-                        const guildDocument = await this.mongoClient.db(Config_1.Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
-                        if (guildDocument?.djCommands.includes(ctx.command.interaction.name.toLowerCase())) {
-                            const voiceChannel = ctx.worker.lavalink.players.get(ctx.interaction.guild_id)?.options.voiceChannelId ?? ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id))?.channel_id;
-                            if (voiceChannel && (ctx.worker.voiceStates.get(voiceChannel)?.users.size ?? 1) - 1 >= guildDocument.djOverride) {
-                                const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id);
-                                if (!discord_rose_1.PermissionsUtils.has(discord_rose_1.PermissionsUtils.combine({
-                                    guild,
-                                    member: ctx.interaction.member,
-                                    roleList: guild.roles.reduce((p, c) => p.set(c.id, c), new collection_1.Collection())
-                                }), `manageGuild`) && !guild.roles.filter((role) => role.name.toLowerCase() === `dj`).map((role) => role.id).some((role) => ctx.interaction.member.roles.includes(role))) {
-                                    void ctx.error(`You must have the DJ role to use that command.`);
-                                    return false;
-                                }
+                if (ctx.command.category === `music`) {
+                    const guildDocument = await this.mongoClient.db(Config_1.Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
+                    if (guildDocument?.djCommands.includes(ctx.command.interaction.name.toLowerCase())) {
+                        const voiceChannel = ctx.worker.lavalink.players.get(ctx.interaction.guild_id)?.options.voiceChannelId ?? ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id))?.channel_id;
+                        if (voiceChannel && (ctx.worker.voiceStates.get(voiceChannel)?.users.size ?? 1) - 1 >= guildDocument.djOverride) {
+                            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id);
+                            if (!discord_rose_1.PermissionsUtils.has(discord_rose_1.PermissionsUtils.combine({
+                                guild,
+                                member: ctx.interaction.member,
+                                roleList: guild.roles.reduce((p, c) => p.set(c.id, c), new collection_1.Collection())
+                            }), `manageGuild`) && !guild.roles.filter((role) => role.name.toLowerCase() === `dj`).map((role) => role.id).some((role) => ctx.interaction.member.roles.includes(role))) {
+                                void ctx.error(`You must have the DJ role to use that command.`);
+                                return false;
                             }
                         }
                     }
-                    this.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild ID: ${ctx.interaction.guild_id}`);
-                    return true;
                 }
+                this.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild ID: ${ctx.interaction.guild_id}`);
+                return true;
             }
         });
         this.on(`READY`, async () => {
