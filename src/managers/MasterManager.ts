@@ -39,16 +39,14 @@ export class MasterManager extends Master {
         // Start master.
         this.start().catch((error) => logError(error));
 
+        // Create Top.gg API client if a token is set.
         if (process.env.TOPGG_TOKEN) {
             this.topgg = new Api(process.env.TOPGG_TOKEN);
             this.log(`Connected to Top.gg`);
         } else this.log(`No Top.gg token provided, skipping initialization`);
 
-        // @ts-expect-error Argument of type '"GET_VOTE"' is not assignable to parameter of type 'keyof ThreadEvents'.
-        this.handlers.on(`GET_VOTE`, async (cluster, data: any, resolve: ((data: any) => void)) => { // eslint-disable-line @typescript-eslint/no-misused-promises
-            const voted = this.topgg ? await this.topgg.hasVoted(data.user_id) : true;
-            resolve(voted);
-        });
+        // Check vote command.
+        this.handlers.on(`CHECK_VOTE`, async (cluster, data, resolve) => resolve(this.topgg ? await this.topgg.hasVoted(data) : true));
 
         // On ready.
         this.once(`READY`, () => {

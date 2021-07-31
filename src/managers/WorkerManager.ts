@@ -143,8 +143,7 @@ export class WorkerManager extends Worker {
                     void ctx.error(`You must be in a voice channel to run the "${ctx.command.interaction!.name}" command.`);
                     return false;
                 }
-                // @ts-expect-error Argument of type '"GET_VOTE"' is not assignable to parameter of type 'keyof ThreadEvents'.
-                if (ctx.command.voteLocked && !(await ctx.worker.comms.sendCommand(`GET_VOTE`, { user_id: ctx.author.id }))) {
+                if (ctx.command.voteLocked && !(await ctx.worker.comms.sendCommand(`CHECK_VOTE`, ctx.author.id))) {
                     await ctx.embed
                         .color(Constants.ERROR_EMBED_COLOR)
                         .title(`You must vote to use this command! Please vote by going to the link below.`)
@@ -153,7 +152,6 @@ export class WorkerManager extends Worker {
                         .catch(() => void ctx.error(`Unable to send the response message.`));
                     return false;
                 }
-        
 
                 if (ctx.command.category === `music`) { // If the interaction is a music command.
                     const guildDocument = await this.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });

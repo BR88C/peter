@@ -1,7 +1,8 @@
 import { WorkerManager } from './managers/WorkerManager';
 
 // Import modules.
-import { Player as BasePlayer } from '@discord-rose/lavalink';
+import { Player } from '@discord-rose/lavalink';
+import { Snowflake } from 'discord-rose';
 
 declare module 'discord-rose/dist/typings/lib' { // eslint-disable-line quotes
     type worker = WorkerManager
@@ -48,7 +49,25 @@ declare module 'discord-rose/dist/typings/lib' { // eslint-disable-line quotes
     }
 }
 
-export class ExtendedPlayer extends BasePlayer {
+declare module 'discord-rose/dist/clustering/ThreadComms' { // eslint-disable-line quotes
+    interface ThreadEvents {
+        /**
+         * Check if a user has voted.
+         */
+        CHECK_VOTE: {
+            /**
+             * The user's ID.
+             */
+            send: Snowflake
+            /**
+             * If the user has voted.
+             */
+            receive: boolean
+        }
+    }
+}
+
+export class ExtendedPlayer extends Player {
     /**
      * If the player should stay in the voice channel after all users leave.
      */
