@@ -115,6 +115,15 @@ class WorkerManager extends discord_rose_1.Worker {
                     void ctx.error(`You must be in a voice channel to run the "${ctx.command.interaction.name}" command.`);
                     return false;
                 }
+                if (ctx.command.voteLocked && !(await ctx.worker.comms.sendCommand(`GET_VOTE`, { user_id: ctx.author.id }))) {
+                    await ctx.embed
+                        .color(Constants_1.Constants.ERROR_EMBED_COLOR)
+                        .title(`You must vote to use this command! Please vote by going to the link below.`)
+                        .description(Constants_1.Constants.VOTE_LINK)
+                        .send(true, false, true)
+                        .catch(() => void ctx.error(`Unable to send the response message.`));
+                    return false;
+                }
                 if (ctx.command.category === `music`) {
                     const guildDocument = await this.mongoClient.db(Config_1.Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
                     if (guildDocument?.djCommands.includes(ctx.command.interaction.name.toLowerCase())) {
