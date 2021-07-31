@@ -39,6 +39,10 @@ declare module 'discord-rose/dist/typings/lib' { // eslint-disable-line quotes
          * If the invoking user should be in the same VC.
          */
         userMustBeInSameVC: boolean
+        /**
+         * If the command is vote locked.
+         */
+        voteLocked: boolean
     }
     interface CommandContext {
         player: ExtendedPlayer | undefined
