@@ -44,7 +44,7 @@ exports.default = {
                 if (ctx.options.dj.command) {
                     if (!ctx.worker.commands.commands)
                         return void ctx.error(`Unable to get the command list.`);
-                    if (!ctx.worker.commands.commands.find((command) => command.category === `music` && command.interaction?.name.toLowerCase() === ctx.options.dj.command.toLowerCase()))
+                    if (!ctx.worker.commands.commands.find((command) => command.category === `music` && command.interaction.name.toLowerCase() === ctx.options.dj.command.toLowerCase()))
                         return void ctx.error(`That command does not exist.`);
                 }
                 if (ctx.options.dj.useroverride < 0)
@@ -83,7 +83,7 @@ exports.default = {
                 if (!ctx.worker.commands.commands)
                     return void ctx.error(`Unable to get the command list.`);
                 const guildDocument = await ctx.worker.mongoClient.db(Config_1.Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
-                const commands = ctx.worker.commands.commands.filter((command) => command.interaction && command.category === `music`).map((command) => `${guildDocument?.djCommands.includes(command.interaction.name) ? `:lock:` : `:earth_americas:`} \`${command.interaction.name}\``);
+                const commands = ctx.worker.commands.commands.filter((command) => !!command.interaction && command.category === `music`).map((command) => `${guildDocument?.djCommands.includes(command.interaction.name) ? `:lock:` : `:earth_americas:`} \`${command.interaction.name}\``);
                 ctx.embed
                     .color(Constants_1.Constants.CONFIG_EMBED_COLOR)
                     .title(`DJ Config`)

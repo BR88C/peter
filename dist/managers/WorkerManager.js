@@ -49,9 +49,9 @@ class WorkerManager extends discord_rose_1.Worker {
         this.log(`Loaded ${this.commands.commands?.size} commands`);
         this.commands.error((ctx, error) => {
             if (ctx.isInteraction)
-                this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.ran} | Reason: ${StringUtils_1.removeToken(error.message.replace(/^(Error: )/, ``))} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.interaction?.guild_id ? ` | Guild ID: ${ctx.interaction?.guild_id}` : ``}`);
+                this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.ran} | Reason: ${StringUtils_1.removeToken(error.message.replace(/^(Error: )/, ``))} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.interaction?.guild_id ? ` | Guild ID: ${ctx.interaction.guild_id}` : ``}`);
             else
-                this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.command?.command} | Reason: ${StringUtils_1.removeToken(error.message.replace(/^(Error: )/, ``))} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message?.guild_id ? ` | Guild ID: ${ctx.message?.guild_id}` : ``}`);
+                this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.command?.command} | Reason: ${StringUtils_1.removeToken(error.message.replace(/^(Error: )/, ``))} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message?.guild_id ? ` | Guild ID: ${ctx.message.guild_id}` : ``}`);
             if (!error.nonFatal) {
                 Log_1.logError(error);
                 error.message = `An unkown error occurred. Please submit an issue in our support server.`;
@@ -93,7 +93,7 @@ class WorkerManager extends discord_rose_1.Worker {
                 else {
                     if (ctx.command.category === `music`) {
                         const guildDocument = await this.mongoClient.db(Config_1.Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
-                        if (guildDocument?.djCommands.includes(ctx.command.interaction?.name.toLowerCase())) {
+                        if (guildDocument?.djCommands.includes(ctx.command.interaction.name.toLowerCase())) {
                             const voiceChannel = ctx.worker.lavalink.players.get(ctx.interaction.guild_id)?.options.voiceChannelId ?? ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id))?.channel_id;
                             if (voiceChannel && (ctx.worker.voiceStates.get(voiceChannel)?.users.size ?? 1) - 1 >= guildDocument.djOverride) {
                                 const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id);
