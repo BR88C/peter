@@ -29,10 +29,8 @@ export default {
         }
 
         // Format.
-        // @ts-expect-error Property 'spotifyToken' is private and only accessible within class 'LavalinkManager'.
         evalResponse = removeToken((typeof evalResponse !== `string` && typeof evalResponse !== `number` ? inspect(evalResponse, false, 1) : evalResponse).toString(), ctx.worker.lavalink.spotifyToken
             ? Config.defaultTokenArray.concat({
-                // @ts-expect-error Property 'spotifyToken' is private and only accessible within class 'LavalinkManager'.
                 token: ctx.worker.lavalink.spotifyToken, replacement: `%spotify_token%`
             })
             : Config.defaultTokenArray);
