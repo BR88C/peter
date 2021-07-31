@@ -9,7 +9,7 @@ import { setRandomPresence } from '../utils/ProcessUtils';
 import { Collection } from '@discordjs/collection';
 import { Agent as HttpAgent } from 'http';
 import { Agent as HttpsAgent } from 'https';
-import { LavalinkManager } from '@discord-rose/lavalink';
+import { LavalinkManager, PlayerState } from '@discord-rose/lavalink';
 import { MongoClient } from 'mongodb';
 import { PermissionsUtils, Worker } from 'discord-rose';
 import { readdirSync, statSync } from 'fs';
@@ -114,6 +114,36 @@ export class WorkerManager extends Worker {
                     }
                 }
             } else { // If the received event is an interaction.
+                ctx.player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
+                if (ctx.command.mustBePaused && ctx.player?.state !== PlayerState.PAUSED) {
+                    void ctx.error(`The music must be paused to run the "${ctx.command.interaction!.name}" command.`);
+                    return false;
+                }
+                if (ctx.command.mustBePlaying && (ctx.player?.state !== PlayerState.PLAYING || ctx.player?.queuePosition === null)) {
+                    void ctx.error(`The bot must be playing music to run the "${ctx.command.interaction!.name}" command.`);
+                    return false;
+                }
+                if (ctx.command.mustHaveConnectedPlayer && (ctx.player?.state ?? 0) < PlayerState.CONNECTED) {
+                    void ctx.error(`The bot must be connected to the voice channel to run the "${ctx.command.interaction!.name}" command.`);
+                    return false;
+                }
+                if (ctx.command.mustHavePlayer && !ctx.player) {
+                    void ctx.error(`The bot must be connecting or connected to the voice channel to run the "${ctx.command.interaction!.name}" command.`);
+                    return false;
+                }
+                if (ctx.command.mustHaveTracksInQueue && !ctx.player?.queue.length) {
+                    void ctx.error(`There must be music in the queue to run the "${ctx.command.interaction!.name}" command.`);
+                    return false;
+                }
+                if (ctx.command.userMustBeInSameVC && (!ctx.player || ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id))?.channel_id !== ctx.player.options.voiceChannelId)) {
+                    void ctx.error(`You must be in the same voice channel as the bot to run the "${ctx.command.interaction!.name}" command.`);
+                    return false;
+                }
+                if (ctx.command.userMustBeInVC && !ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id))) {
+                    void ctx.error(`You must be in a voice channel to run the "${ctx.command.interaction!.name}" command.`);
+                    return false;
+                }
+
                 if (ctx.command.category === `music`) { // If the interaction is a music command.
                     const guildDocument = await this.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
                     if (guildDocument?.djCommands.includes(ctx.command.interaction!.name.toLowerCase())) {
@@ -131,6 +161,7 @@ export class WorkerManager extends Worker {
                         }
                     }
                 }
+
                 this.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild ID: ${ctx.interaction.guild_id}`);
                 return true;
             }

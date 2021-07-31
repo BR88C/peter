@@ -11,12 +11,43 @@ declare module 'discord-rose/dist/typings/lib' { // eslint-disable-line quotes
          * The command's category.
          */
         category: string
+        /**
+         * If the player should specifically be in a PAUSED state.
+         */
+        mustBePaused: boolean
+        /**
+         * If the player should specifically be in a PLAYING state.
+         */
+        mustBePlaying: boolean
+        /**
+         * If there should be a player for the guild in a CONNECTED, PAUSED, or PLAYING state.
+         */
+        mustHaveConnectedPlayer: boolean
+        /**
+         * If there should be a player for the guild.
+         */
+        mustHavePlayer: boolean
+        /**
+         * If there should be tracks in the queue.
+         */
+        mustHaveTracksInQueue: boolean
+        /**
+         * If the invoking user should be in any VC.
+         */
+        userMustBeInVC: boolean
+        /**
+         * If the invoking user should be in the same VC.
+         */
+        userMustBeInSameVC: boolean
+    }
+    interface CommandContext {
+        player: ExtendedPlayer | undefined
     }
 }
 
 export class ExtendedPlayer extends BasePlayer {
     /**
-     * If the player should stay in the VC after all users leave.
+     * If the player should stay in the voice channel after all users leave.
      */
     twentyfourseven: boolean
 }
