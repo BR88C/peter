@@ -41,10 +41,14 @@ export const bindLavalinkEvents = (worker: WorkerManager): void => {
             .color(Constants.LEAVE_EMBED_COLOR)
             .title(`:wave:  Left the voice channel due to no other users being present`)
         );
+        else if (reason === `Player was moved out of the voice channel`) void worker.api.messages.send(player.options.textChannelId, new Embed()
+            .color(Constants.LEAVE_EMBED_COLOR)
+            .title(`Destroyed the queue due to being moved out of the voice channel.`)
+        );
         else if (reason !== `Manual destroy`) void worker.api.messages.send(player.options.textChannelId, new Embed()
             .color(Constants.ERROR_EMBED_COLOR)
             .title(`Error`)
-            .description(`\`\`\`\nPlayer destroyed: ${reason}${reason.endsWith(`.`) ? `` : `.`}\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
+            .description(`\`\`\`\nAn unkown error occurred while playing music, causing the queue to be destroyed. Please submit an issue in our support server.\n\`\`\`\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}`)
             .timestamp()
         );
     });
