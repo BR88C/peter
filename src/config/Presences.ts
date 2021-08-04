@@ -1,4 +1,3 @@
-// Import modules.
 /**
  * An array of presences for the bot to randomly use.
  * The interval at which the bot's presence is changed is set in config.js
