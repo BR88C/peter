@@ -1,8 +1,8 @@
 import { WorkerManager } from './managers/WorkerManager';
 
 // Import modules.
+import { CachedVoiceState, Snowflake } from 'discord-rose';
 import { Player } from '@discord-rose/lavalink';
-import { Snowflake } from 'discord-rose';
 
 declare module 'discord-rose/dist/typings/lib' { // eslint-disable-line quotes
     type worker = WorkerManager
@@ -46,6 +46,7 @@ declare module 'discord-rose/dist/typings/lib' { // eslint-disable-line quotes
     }
     interface CommandContext {
         player: ExtendedPlayer | undefined
+        voiceState: CachedVoiceState | undefined
     }
 }
 

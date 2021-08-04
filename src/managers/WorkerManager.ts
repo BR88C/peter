@@ -115,6 +115,7 @@ export class WorkerManager extends Worker {
                 }
             } else { // If the received event is an interaction.
                 ctx.player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
+                ctx.voiceState = ctx.voiceState;
                 if (ctx.command.mustBePaused && ctx.player?.state !== PlayerState.PAUSED) {
                     void ctx.error(`The music must be paused to run the "${ctx.command.interaction!.name}" command.`);
                     return false;
@@ -135,11 +136,11 @@ export class WorkerManager extends Worker {
                     void ctx.error(`There must be music in the queue to run the "${ctx.command.interaction!.name}" command.`);
                     return false;
                 }
-                if (ctx.command.userMustBeInSameVC && (!ctx.player || ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id))?.channel_id !== ctx.player.options.voiceChannelId)) {
+                if (ctx.command.userMustBeInSameVC && (!ctx.player || ctx.voiceState?.channel_id !== ctx.player.options.voiceChannelId)) {
                     void ctx.error(`You must be in the same voice channel as the bot to run the "${ctx.command.interaction!.name}" command.`);
                     return false;
                 }
-                if (ctx.command.userMustBeInVC && !ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id))) {
+                if (ctx.command.userMustBeInVC && !ctx.voiceState) {
                     void ctx.error(`You must be in a voice channel to run the "${ctx.command.interaction!.name}" command.`);
                     return false;
                 }
@@ -156,7 +157,7 @@ export class WorkerManager extends Worker {
                 if (ctx.command.category === `music`) { // If the interaction is a music command.
                     const guildDocument = await this.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
                     if (guildDocument?.djCommands.includes(ctx.command.interaction!.name.toLowerCase())) {
-                        const voiceChannel = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!)?.options.voiceChannelId ?? ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id))?.channel_id;
+                        const voiceChannel = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!)?.options.voiceChannelId ?? ctx.voiceState?.channel_id;
                         if (voiceChannel && (ctx.worker.voiceStates.get(voiceChannel)?.users.size ?? 1) - 1 >= guildDocument.djOverride) {
                             const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!);
                             if (!PermissionsUtils.has(PermissionsUtils.combine({
