@@ -16,6 +16,10 @@ declare module 'discord-rose/dist/typings/lib' { // eslint-disable-line quotes
          */
         mustBePaused: boolean
         /**
+         * If the player should specifically be in a PAUSED or PLAYING state.
+         */
+        mustBePausedOrPlaying: boolean
+        /**
          * If the player should specifically be in a PLAYING state.
          */
         mustBePlaying: boolean
