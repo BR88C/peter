@@ -7,12 +7,14 @@ export default {
     command: `247`,
     mustHaveConnectedPlayer: true,
     userMustBeInSameVC: true,
+    voteLocked: true,
     interaction: {
         name: `247`,
         description: `Toggle 24/7.`
     },
     exec: async (ctx) => {
         ctx.player!.twentyfourseven = !ctx.player!.twentyfourseven;
+        if (ctx.player!.loop === `off`) ctx.player!.setLoop(`queue`);
 
         ctx.embed
             .color(Constants.TWENTY_FOUR_SEVEN_EMBED_COLOR)

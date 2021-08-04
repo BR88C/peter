@@ -8,27 +8,25 @@ import { progressBar, timestamp } from '../../utils/Time';
 
 export default {
     command: `nowplaying`,
+    mustHaveConnectedPlayer: true,
+    mustHaveTracksInQueue: true,
+    mustBePausedOrPlaying: true,
     interaction: {
         name: `nowplaying`,
         description: `Get the current music playing.`
     },
     exec: (ctx) => {
-        const player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
-        if (!player || player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to get the current music playing; the bot is not connected to a voice channel.`);
-        if (!player.queue.length) return void ctx.error(`Unable to get the current music playing; there is no music in the queue.`);
-        if (player.queuePosition === null || player.state < PlayerState.PAUSED) return void ctx.error(`Unable to get the current music playing; there is no music playing.`);
-
         let description: string;
-        if ((player.queue[player.queuePosition] as Track).isStream) description = `🔴  **LIVE**`;
-        else description = `\`\`\`\n${player.state === PlayerState.PAUSED ? `⏸` : `▶`} ${timestamp(player.position ?? 0)} ${progressBar((player.position ?? 0) / (player.queue[player.queuePosition].length ?? (player.position ?? 0)), 25)} ${timestamp(player.queue[player.queuePosition].length ?? (player.position ?? 0))}\n\`\`\``;
+        if ((ctx.player!.queue[ctx.player!.queuePosition!] as Track).isStream) description = `🔴  **LIVE**`;
+        else description = `\`\`\`\n${ctx.player!.state === PlayerState.PAUSED ? `⏸` : `▶`} ${timestamp(ctx.player!.position ?? 0)} ${progressBar((ctx.player!.position ?? 0) / (ctx.player!.queue[ctx.player!.queuePosition!].length ?? (ctx.player!.position ?? 0)), 25)} ${timestamp(ctx.player!.queue[ctx.player!.queuePosition!].length ?? (ctx.player!.position ?? 0))}\n\`\`\``;
 
         ctx.embed
             .color(Constants.NOW_PLAYING_EMBED_COLOR)
             .author(`Currently playing:`)
-            .title(cleanseMarkdown((player.queue[player.queuePosition] as Track).title), (player.queue[player.queuePosition] as Track).uri)
-            .thumbnail((player.queue[player.queuePosition] as Track).thumbnail(`mqdefault`) ?? ``)
+            .title(cleanseMarkdown((ctx.player!.queue[ctx.player!.queuePosition!] as Track).title), (ctx.player!.queue[ctx.player!.queuePosition!] as Track).uri)
+            .thumbnail((ctx.player!.queue[ctx.player!.queuePosition!] as Track).thumbnail(`mqdefault`) ?? ``)
             .description(description)
-            .footer(`Requested by ${player.queue[player.queuePosition].requester}`)
+            .footer(`Requested by ${ctx.player!.queue[ctx.player!.queuePosition!].requester}`)
             .send()
             .catch(() => void ctx.error(`Unable to send the response message.`));
     }
