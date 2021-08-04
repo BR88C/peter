@@ -15,7 +15,7 @@ export default {
         description: `Seek to the beginning of the song.`
     },
     exec: async (ctx) => {
-        if (!(ctx.player!.queue[ctx.player!.queuePosition ?? 0] as Track).isSeekable || (ctx.player!.queue[ctx.player!.queuePosition ?? 0] as Track).isStream) return void ctx.error(`The current song does not support seeking to the beginning of the song.`);
+        if (!(ctx.player!.currentTrack! as Track).isSeekable || (ctx.player!.currentTrack! as Track).isStream) return void ctx.error(`The current song does not support seeking to the beginning of the song.`);
         await ctx.player!.seek(0);
 
         ctx.embed

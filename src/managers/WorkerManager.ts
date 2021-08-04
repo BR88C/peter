@@ -124,7 +124,7 @@ export class WorkerManager extends Worker {
                     void ctx.error(`The music must be paused or playing to run the "${ctx.command.interaction!.name}" command.`);
                     return false;
                 }
-                if (ctx.command.mustBePlaying && (ctx.player?.state !== PlayerState.PLAYING || ctx.player?.queuePosition === null)) {
+                if (ctx.command.mustBePlaying && (ctx.player?.state !== PlayerState.PLAYING || ctx.player?.queuePosition === null || !ctx.player?.currentTrack)) {
                     void ctx.error(`The bot must be playing music to run the "${ctx.command.interaction!.name}" command.`);
                     return false;
                 }

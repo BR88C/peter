@@ -27,12 +27,12 @@ export default {
             const pages: string[] = [];
             for (const [i, title] of trackTitles.entries()) pages[Math.floor(i / 10)] = `${pages[Math.floor(i / 10)] ?? ``}${title}\n`;
             const queueLength = ctx.player!.queue.reduce((p, c) => p + (c.length ?? 0), 0);
-            const trackTimeLeft = ctx.player!.queuePosition !== null && ctx.player!.queue[ctx.player!.queuePosition] instanceof Track ? (ctx.player!.queue[ctx.player!.queuePosition].length ?? 0) - (ctx.player!.position ?? (ctx.player!.queue[ctx.player!.queuePosition].length ?? 0)) : 0;
+            const trackTimeLeft = ctx.player!.currentTrack instanceof Track ? (ctx.player!.currentTrack.length ?? 0) - (ctx.player!.position ?? (ctx.player!.currentTrack.length ?? 0)) : 0;
 
             await ctx.embed
                 .color(Constants.QUEUE_EMBED_COLOR)
-                .title(ctx.player!.queuePosition !== null && ctx.player!.queue[ctx.player!.queuePosition] ? `**Now Playing:** ${ctx.player!.queue[ctx.player!.queuePosition].title} ${ctx.player!.queue[ctx.player!.queuePosition].length ? `[${timestamp(trackTimeLeft)} remaining]` : ``}` : `**No music playing**`)
-                .thumbnail(ctx.player!.queuePosition !== null && ctx.player!.queue[ctx.player!.queuePosition] instanceof Track ? (ctx.player!.queue[ctx.player!.queuePosition] as Track).thumbnail(`mqdefault`) ?? `` : ``)
+                .title(ctx.player!.currentTrack ? `**Now Playing:** ${ctx.player!.currentTrack.title} ${ctx.player!.currentTrack.length ? `[${timestamp(trackTimeLeft)} remaining]` : ``}` : `**No music playing**`)
+                .thumbnail(ctx.player!.currentTrack instanceof Track ? ctx.player!.currentTrack.thumbnail(`mqdefault`) ?? `` : ``)
                 .description(pages.length ? `${pages[page]}\n*Page ${page + 1}/${pages.length}*` : `**No music in the queue.**`)
                 .field(`Queue Size`, `\`${ctx.player!.queue.length}\``, true)
                 .field(`Queue Length`, `\`${timestamp(queueLength)}\``, true)
