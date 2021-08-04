@@ -26,10 +26,7 @@ class MasterManager extends discord_rose_1.Master {
         }
         else
             this.log(`No Top.gg token provided, skipping initialization`);
-        this.handlers.on(`GET_VOTE`, async (cluster, data, resolve) => {
-            const voted = this.topgg ? await this.topgg.hasVoted(data.user_id) : true;
-            resolve(voted);
-        });
+        this.handlers.on(`CHECK_VOTE`, async (cluster, data, resolve) => resolve(this.topgg ? await this.topgg.hasVoted(data) : true));
         this.once(`READY`, () => {
             setInterval(() => void (async () => await ProcessUtils_1.statsCheckup(this).catch((error) => Log_1.logError(error)))(), Config_1.Config.statsCheckupInterval[process.env.NODE_ENV ?? `dev`]);
             this.log(`\x1b[35mMaster up since ${new Date().toLocaleString()}`);

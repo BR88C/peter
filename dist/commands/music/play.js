@@ -7,6 +7,7 @@ const discord_rose_1 = require("discord-rose");
 const lavalink_1 = require("@discord-rose/lavalink");
 exports.default = {
     command: `play`,
+    userMustBeInVC: true,
     interaction: {
         name: `play`,
         description: `Plays a specified song or video, or adds it to the queue.`,
@@ -20,12 +21,8 @@ exports.default = {
         ]
     },
     exec: async (ctx) => {
-        const foundVoiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
-        if (!foundVoiceState)
-            return void ctx.error(`You must be in a voice channel to play music.`);
-        const existingPlayer = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
-        if (existingPlayer && foundVoiceState.channel_id !== existingPlayer.options.voiceChannelId)
-            return void ctx.error(`You must be in the voice channel to play music.`);
+        if (ctx.player && ctx.voiceState.channel_id !== ctx.player.options.voiceChannelId)
+            return void ctx.error(`You must be in the same voice channel as the bot to run the "${ctx.command.interaction.name}" command.`);
         await ctx.embed
             .color(Constants_1.Constants.PROCESSING_QUERY_EMBED_COLOR)
             .title(`:mag_right:  Searching...`)
@@ -34,19 +31,19 @@ exports.default = {
         const requesterTag = `${ctx.author.username}#${ctx.author.discriminator}`;
         const search = await ctx.worker.lavalink.search(ctx.options.query, ctx.member.nick ? `${ctx.member.nick} (${requesterTag})` : requesterTag).catch((error) => {
             Log_1.logError(error);
-            void ctx.error(`Un unknown search error occurred. Please submit an issue in our support server.`);
+            void ctx.error(`An unknown search error occurred. Please submit an issue in our support server.`);
         });
         if (!search)
             return;
         if (search.exception) {
             ctx.worker.log(`\x1b[31mSearch Error | Error: ${search.exception.message} | Severity: ${search.exception.severity} | Guild ID: ${ctx.interaction.guild_id}`);
-            return void ctx.error(`Un unknown search error occurred. Please submit an issue in our support server.`);
+            return void ctx.error(`An unknown search error occurred. Please submit an issue in our support server.`);
         }
         if (!search.tracks[0] || search.loadType === `LOAD_FAILED` || search.loadType === `NO_MATCHES`)
             return void ctx.error(`Unable to find any results based on the provided query.`);
         let player;
-        if (existingPlayer)
-            player = existingPlayer;
+        if (ctx.player)
+            player = ctx.player;
         else {
             player = ctx.worker.lavalink.createPlayer({
                 becomeSpeaker: true,
@@ -56,7 +53,7 @@ exports.default = {
                 selfDeafen: true,
                 selfMute: false,
                 stageMoveBehavior: `pause`,
-                voiceChannelId: foundVoiceState.channel_id,
+                voiceChannelId: ctx.voiceState.channel_id,
                 textChannelId: ctx.interaction.channel_id
             });
             player.twentyfourseven = false;

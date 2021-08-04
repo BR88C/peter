@@ -79,7 +79,7 @@ exports.default = {
                     roleList: roles
                 });
                 debugEmbed
-                    .field(`Music Player`, `**Node:** ${player.node.identifier}\n**Player state:** ${player.state}\n**Node state:** ${player.node.state}\n**Text Channel ID:**: \`${player.options.textChannelId}\`\n**Text Channel Permissions:** \`${playerTextChannelPermissions}\`\n**Voice Channel ID:** \`${player.options.voiceChannelId}\`\n**Voice Channel Permissions:** \`${playerVoiceChannelPermissions}\`\n**Current song:** ${player.queuePosition !== null ? (player.queue[player.queuePosition].uri ?? player.queue[player.queuePosition].title) : `*No song playing.*`}`, false);
+                    .field(`Music Player`, `**Node:** ${player.node.identifier}\n**Player state:** ${player.state}\n**Node state:** ${player.node.state}\n**Text Channel ID:**: \`${player.options.textChannelId}\`\n**Text Channel Permissions:** \`${playerTextChannelPermissions}\`\n**Voice Channel ID:** \`${player.options.voiceChannelId}\`\n**Voice Channel Permissions:** \`${playerVoiceChannelPermissions}\`\n**Current song:** ${player.currentTrack ? (player.currentTrack.uri ?? player.currentTrack.title) : `*No song playing.*`}`, false);
             }
             else
                 debugEmbed.field(`Music Player`, `*No player found.*`, false);

@@ -87,11 +87,16 @@ class WorkerManager extends discord_rose_1.Worker {
             }
             else {
                 ctx.player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
+                ctx.voiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
                 if (ctx.command.mustBePaused && ctx.player?.state !== lavalink_1.PlayerState.PAUSED) {
                     void ctx.error(`The music must be paused to run the "${ctx.command.interaction.name}" command.`);
                     return false;
                 }
-                if (ctx.command.mustBePlaying && (ctx.player?.state !== lavalink_1.PlayerState.PLAYING || ctx.player?.queuePosition === null)) {
+                if (ctx.command.mustBePausedOrPlaying && (ctx.player?.state ?? 0) < lavalink_1.PlayerState.PAUSED) {
+                    void ctx.error(`The music must be paused or playing to run the "${ctx.command.interaction.name}" command.`);
+                    return false;
+                }
+                if (ctx.command.mustBePlaying && (ctx.player?.state !== lavalink_1.PlayerState.PLAYING || ctx.player?.queuePosition === null || !ctx.player?.currentTrack)) {
                     void ctx.error(`The bot must be playing music to run the "${ctx.command.interaction.name}" command.`);
                     return false;
                 }
@@ -107,15 +112,15 @@ class WorkerManager extends discord_rose_1.Worker {
                     void ctx.error(`There must be music in the queue to run the "${ctx.command.interaction.name}" command.`);
                     return false;
                 }
-                if (ctx.command.userMustBeInSameVC && (!ctx.player || ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id))?.channel_id !== ctx.player.options.voiceChannelId)) {
+                if (ctx.command.userMustBeInSameVC && (!ctx.player || ctx.voiceState?.channel_id !== ctx.player.options.voiceChannelId)) {
                     void ctx.error(`You must be in the same voice channel as the bot to run the "${ctx.command.interaction.name}" command.`);
                     return false;
                 }
-                if (ctx.command.userMustBeInVC && !ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id))) {
+                if (ctx.command.userMustBeInVC && !ctx.voiceState) {
                     void ctx.error(`You must be in a voice channel to run the "${ctx.command.interaction.name}" command.`);
                     return false;
                 }
-                if (ctx.command.voteLocked && !(await ctx.worker.comms.sendCommand(`GET_VOTE`, { user_id: ctx.author.id }))) {
+                if (ctx.command.voteLocked && !(await ctx.worker.comms.sendCommand(`CHECK_VOTE`, ctx.author.id))) {
                     await ctx.embed
                         .color(Constants_1.Constants.ERROR_EMBED_COLOR)
                         .title(`You must vote to use this command! Please vote by going to the link below.`)
@@ -127,7 +132,7 @@ class WorkerManager extends discord_rose_1.Worker {
                 if (ctx.command.category === `music`) {
                     const guildDocument = await this.mongoClient.db(Config_1.Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
                     if (guildDocument?.djCommands.includes(ctx.command.interaction.name.toLowerCase())) {
-                        const voiceChannel = ctx.worker.lavalink.players.get(ctx.interaction.guild_id)?.options.voiceChannelId ?? ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id))?.channel_id;
+                        const voiceChannel = ctx.worker.lavalink.players.get(ctx.interaction.guild_id)?.options.voiceChannelId ?? ctx.voiceState?.channel_id;
                         if (voiceChannel && (ctx.worker.voiceStates.get(voiceChannel)?.users.size ?? 1) - 1 >= guildDocument.djOverride) {
                             const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id);
                             if (!discord_rose_1.PermissionsUtils.has(discord_rose_1.PermissionsUtils.combine({
