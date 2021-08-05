@@ -8,6 +8,7 @@ exports.Constants = {
     VOTE_LINK: `https://top.gg/bot/744694015630245949/vote`,
     WEBSITE: `https://peters.guidetothe.net`,
     DISCORD_CDN: `https://cdn.discordapp.com`,
+    MAX_EMBED_DESCRIPTION_SIZE: 4000,
     PRESENCE_TYPES: [`playing`, `streaming`, `listening`, `watching`, `competing`],
     PRESENCE_STATUSES: [`online`, `idle`, `dnd`, `offline`, `invisible`],
     BETRAYAL_ACTIVITY_ID: `773336526917861400`,
