@@ -35,12 +35,12 @@ export default {
             })
             : Config.defaultTokenArray);
 
-        // Post an embed for every 2000 characters.
-        for (let i = 0; i < Math.ceil(evalResponse.length / 2e3); i++) {
+        // Send response.
+        for (let i = 0; i < Math.ceil(evalResponse.length / Constants.MAX_EMBED_DESCRIPTION_SIZE); i++) {
             await ctx.embed
                 .color(Constants.EVAL_EMBED_COLOR)
                 .title(i === 0 ? `\`${ctx.args.join(` `).replace(`-m `, ``).length > 25 ? `${ctx.args.join(` `).replace(`-m `, ``).substring(0, 25)}...` : `${ctx.args.join(` `).replace(`-m `, ``)}`}\`` : undefined)
-                .description(`\`\`\`js\n${evalResponse.substring(i * 2e3, (i + 1) * 2e3)}\n\`\`\``)
+                .description(`\`\`\`js\n${evalResponse.substring(i * Constants.MAX_EMBED_DESCRIPTION_SIZE, (i + 1) * Constants.MAX_EMBED_DESCRIPTION_SIZE)}\n\`\`\``)
                 .send(i === 0)
                 .catch(() => void ctx.error(`Unable to send the response message.`));
         }

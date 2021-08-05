@@ -28,6 +28,10 @@ export interface BotConstants {
      */
     DISCORD_CDN: string
     /**
+     * The maximum description size for embeds.
+     */
+    MAX_EMBED_DESCRIPTION_SIZE: number
+    /**
      * Allowed presence types.
      */
     PRESENCE_TYPES: string[]
@@ -213,6 +217,7 @@ export const Constants: BotConstants = {
     WEBSITE: `https://peters.guidetothe.net`,
 
     DISCORD_CDN: `https://cdn.discordapp.com`,
+    MAX_EMBED_DESCRIPTION_SIZE: 4000,
     PRESENCE_TYPES: [`playing`, `streaming`, `listening`, `watching`, `competing`],
     PRESENCE_STATUSES: [`online`, `idle`, `dnd`, `offline`, `invisible`],
 
