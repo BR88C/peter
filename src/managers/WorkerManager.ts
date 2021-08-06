@@ -10,6 +10,7 @@ import { Agent as HttpAgent } from 'http';
 import { Agent as HttpsAgent } from 'https';
 import { LavalinkManager } from '@discord-rose/lavalink';
 import { MongoClient } from 'mongodb';
+import { resolve } from 'path';
 import { Worker } from 'discord-rose';
 
 /**
@@ -64,7 +65,7 @@ export class WorkerManager extends Worker {
         this.log(`Using developer prefix ${Config.developerPrefix}`);
 
         // Load commands.
-        loadCommands(this, `../commands`);
+        loadCommands(this, resolve(__dirname, `../commands`));
 
         // Custom command error response.
         this.commands.error((ctx, error) => errorFunction(ctx, error, this, Config.defaultTokenArray, Constants.ERROR_EMBED_COLOR, Constants.SUPPORT_SERVER));
