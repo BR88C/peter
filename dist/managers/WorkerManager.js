@@ -11,6 +11,7 @@ const http_1 = require("http");
 const https_1 = require("https");
 const lavalink_1 = require("@discord-rose/lavalink");
 const mongodb_1 = require("mongodb");
+const path_1 = require("path");
 const discord_rose_1 = require("discord-rose");
 class WorkerManager extends discord_rose_1.Worker {
     constructor() {
@@ -36,7 +37,7 @@ class WorkerManager extends discord_rose_1.Worker {
         setInterval(() => discord_utils_1.setRandomPresence(this, Presences_1.Presences), Config_1.Config.presenceInterval);
         this.commands.prefix(Config_1.Config.developerPrefix);
         this.log(`Using developer prefix ${Config_1.Config.developerPrefix}`);
-        discord_utils_1.loadCommands(this, `../commands`);
+        discord_utils_1.loadCommands(this, path_1.resolve(__dirname, `../commands`));
         this.commands.error((ctx, error) => discord_utils_1.errorFunction(ctx, error, this, Config_1.Config.defaultTokenArray, Constants_1.Constants.ERROR_EMBED_COLOR, Constants_1.Constants.SUPPORT_SERVER));
         this.commands.middleware(async (ctx) => Middleware_1.Middleware(ctx));
         this.on(`READY`, async () => {
