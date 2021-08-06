@@ -2,20 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Constants = void 0;
 exports.Constants = {
-    MAX_CLUSTER_LOG_LENGTH: 12,
     INVITE_LINK: `https://discord.com/oauth2/authorize?client_id=744694015630245949&scope=bot%20applications.commands&permissions=3525696&redirect_uri=https%3A%2F%2Fdiscord.gg%2FE2JsYPPJYN&response_type=code`,
     SUPPORT_SERVER: `https://discord.gg/E2JsYPPJYN`,
     VOTE_LINK: `https://top.gg/bot/744694015630245949/vote`,
     WEBSITE: `https://peters.guidetothe.net`,
-    DISCORD_CDN: `https://cdn.discordapp.com`,
-    MAX_EMBED_DESCRIPTION_SIZE: 4000,
-    PRESENCE_TYPES: [`playing`, `streaming`, `listening`, `watching`, `competing`],
-    PRESENCE_STATUSES: [`online`, `idle`, `dnd`, `offline`, `invisible`],
-    BETRAYAL_ACTIVITY_ID: `773336526917861400`,
-    CHESS_ACTIVITY_ID: `832012586023256104`,
-    FISHING_ACTIVITY_ID: `814288819477020702`,
-    POKER_ACTIVITY_ID: `755827207812677713`,
-    YOUTUBE_ACTIVITY_ID: `755600276941176913`,
     BASSBOOST_INTENSITY_MULTIPLIER: 0.15,
     EQ_BAND_COUNT: 15,
     TREBLE_INTENSITY_MULTIPLIER: 0.15,

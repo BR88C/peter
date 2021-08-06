@@ -13,7 +13,7 @@ exports.default = {
         const stats = await ctx.worker.comms.getStats().catch(() => void ctx.error(`Unable to get the bot's stats.`));
         ctx.embed
             .color(Constants_1.Constants.BOT_INFO_EMBED_COLOR)
-            .thumbnail(`${Constants_1.Constants.DISCORD_CDN}/avatars/${ctx.worker.user.id}/${ctx.worker.user.avatar}.png`)
+            .thumbnail(`${discord_utils_1.DiscordConstants.DISCORD_CDN}/avatars/${ctx.worker.user.id}/${ctx.worker.user.avatar}.png`)
             .title(`Bot Information`)
             .field(`Tag`, `\`${ctx.worker.user.username}#${ctx.worker.user.discriminator}\``, true)
             .field(`Number of Commands`, `\`${ctx.worker.commands.commands?.size ?? 0}\``, true)

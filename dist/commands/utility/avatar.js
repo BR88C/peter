@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
+const discord_utils_1 = require("@br88c/discord-utils");
 exports.default = {
     command: `avatar`,
     interaction: {
@@ -17,7 +18,7 @@ exports.default = {
     },
     exec: async (ctx) => {
         const user = await ctx.worker.api.users.get(ctx.options.user ?? ctx.author.id);
-        const avatarURL = `${Constants_1.Constants.DISCORD_CDN}/avatars/${user.id}/${user.avatar}.${user.avatar?.startsWith(`a_`) ? `gif` : `png`}`;
+        const avatarURL = `${discord_utils_1.DiscordConstants.DISCORD_CDN}/avatars/${user.id}/${user.avatar}.${user.avatar?.startsWith(`a_`) ? `gif` : `png`}`;
         ctx.embed
             .color(Constants_1.Constants.AVATAR_EMBED_COLOR)
             .title(`\`${user.username}#${user.discriminator}\`'s Avatar`)

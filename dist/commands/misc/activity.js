@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
+const discord_utils_1 = require("@br88c/discord-utils");
 exports.default = {
     command: `activity`,
     interaction: {
@@ -14,23 +15,23 @@ exports.default = {
                 choices: [
                     {
                         name: `Betrayal`,
-                        value: `${Constants_1.Constants.BETRAYAL_ACTIVITY_ID}`
+                        value: `${discord_utils_1.DiscordConstants.ACTIVITY_IDS.BETRAYAL}`
                     },
                     {
                         name: `Chess`,
-                        value: `${Constants_1.Constants.CHESS_ACTIVITY_ID}`
+                        value: `${discord_utils_1.DiscordConstants.ACTIVITY_IDS.CHESS}`
                     },
                     {
                         name: `Fishing`,
-                        value: `${Constants_1.Constants.FISHING_ACTIVITY_ID}`
+                        value: `${discord_utils_1.DiscordConstants.ACTIVITY_IDS.FISHING}`
                     },
                     {
                         name: `Poker`,
-                        value: `${Constants_1.Constants.POKER_ACTIVITY_ID}`
+                        value: `${discord_utils_1.DiscordConstants.ACTIVITY_IDS.POKER}`
                     },
                     {
                         name: `Youtube Together`,
-                        value: `${Constants_1.Constants.YOUTUBE_ACTIVITY_ID}`
+                        value: `${discord_utils_1.DiscordConstants.ACTIVITY_IDS.YOUTUBE_TOGETHER}`
                     }
                 ],
                 required: true

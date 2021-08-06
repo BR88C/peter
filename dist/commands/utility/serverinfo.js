@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
+const discord_utils_1 = require("@br88c/discord-utils");
 exports.default = {
     command: `serverinfo`,
     interaction: {
@@ -10,7 +11,7 @@ exports.default = {
     exec: async (ctx) => {
         const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id, true);
         const owner = await ctx.worker.api.users.get(guild.owner_id);
-        const iconURL = `${Constants_1.Constants.DISCORD_CDN}/icons/${guild.id}/${guild.icon}.${guild.icon?.startsWith(`a_`) ? `gif` : `png`}`;
+        const iconURL = `${discord_utils_1.DiscordConstants.DISCORD_CDN}/icons/${guild.id}/${guild.icon}.${guild.icon?.startsWith(`a_`) ? `gif` : `png`}`;
         ctx.embed
             .color(Constants_1.Constants.SERVER_INFO_EMBED_COLOR)
             .title(guild.name)
