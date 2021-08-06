@@ -1,10 +1,10 @@
+import { Config } from '../../config/Config';
+
 // Import modules.
 import { CommandOptions } from 'discord-rose';
+import { echoCommand } from '@br88c/discord-utils';
 
 export default {
     command: `echo`,
-    exec: (ctx) => {
-        ctx.delete().catch(() => {});
-        ctx.send(ctx.args.join(` `)).catch(() => void ctx.error(`Unable to send the response message.`));
-    }
+    exec: (ctx) => echoCommand(ctx, Config.devs.IDs)
 } as CommandOptions;

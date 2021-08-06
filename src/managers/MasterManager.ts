@@ -1,11 +1,11 @@
 import { Config } from '../config/Config';
-import { log, logError } from '../utils/Log';
-import { statsCheckup } from '../utils/ProcessUtils';
 
 // Import modules.
 import { Api } from '@top-gg/sdk';
+import { log, logError } from '@br88c/discord-utils';
 import { Master } from 'discord-rose';
 import { resolve } from 'path';
+import { statsCheckup } from '@br88c/discord-utils';
 
 /**
  * The Master manager class.
@@ -51,7 +51,10 @@ export class MasterManager extends Master {
         // On ready.
         this.once(`READY`, () => {
             // Run stats checkups at a set interval.
-            setInterval(() => void (async () => await statsCheckup(this).catch((error) => logError(error)))(), Config.statsCheckupInterval[process.env.NODE_ENV ?? `dev`]);
+            setInterval(() => void (async () => {
+                const stats = await statsCheckup(this).catch((error) => logError(error));
+                if (stats && this.topgg) this.topgg.postStats({ serverCount: stats.totalGuilds }).then(() => this.log(`Posted stats to Top.gg`)).catch(() => this.log(`Error posting stats to Top.gg`));
+            })(), Config.statsCheckupInterval[process.env.NODE_ENV ?? `dev`]);
 
             // Log ready.
             this.log(`\x1b[35mMaster up since ${new Date().toLocaleString()}`);

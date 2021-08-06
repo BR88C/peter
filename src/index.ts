@@ -15,8 +15,8 @@
  */
 
 import { Config } from './config/Config';
-import { logHeader } from './utils/Log';
 import runMaster from './managers/run/runMaster';
+import { TextArt } from './config/TextArt';
 
 // Import modules.
 import { config } from 'dotenv';
@@ -37,7 +37,7 @@ if (!process.env.SPOTIFY_ID || !process.env.SPOTIFY_SECRET) throw new Error(`Spo
 if (process.env.NODE_ENV && process.env.NODE_ENV !== `dev` && process.env.NODE_ENV !== `prod`) throw new Error(`NODE_ENV is not properly set.`);
 
 // Log header.
-logHeader();
+console.log(`\n\x1b[35m${TextArt}\n\nBy ${Config.devs.tags.join(`, `)}\n`);
 
 // Start the bot by creating the master process.
 runMaster();

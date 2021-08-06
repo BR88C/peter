@@ -1,8 +1,7 @@
-import { centerString } from '../../utils/StringUtils';
 import { Constants } from '../../config/Constants';
-import { timestamp } from '../../utils/Time';
 
 // Import modules.
+import { centerString, timestamp } from '@br88c/discord-utils';
 import { ClusterStats, CommandOptions, ShardStats } from 'discord-rose';
 
 export default {

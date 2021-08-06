@@ -1,10 +1,9 @@
-import { cleanseMarkdown } from '../../utils/StringUtils';
 import { Constants } from '../../config/Constants';
 
 // Import modules.
+import { cleanseMarkdown, progressBar, timestamp } from '@br88c/discord-utils';
 import { CommandOptions } from 'discord-rose';
 import { PlayerState, Track } from '@discord-rose/lavalink';
-import { progressBar, timestamp } from '../../utils/Time';
 
 export default {
     command: `nowplaying`,

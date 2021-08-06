@@ -1,10 +1,8 @@
-import { cleanseMarkdown } from '../../utils/StringUtils';
 import { Constants } from '../../config/Constants';
-import { logError } from '../../utils/Log';
-
 import { ExtendedPlayer } from '../../typings';
 
 // Import modules.
+import { cleanseMarkdown, logError } from '@br88c/discord-utils';
 import { CommandOptions, Embed } from 'discord-rose';
 import { PlayerState } from '@discord-rose/lavalink';
 

@@ -1,8 +1,8 @@
-import { cleanseMarkdown } from './StringUtils';
 import { Constants } from '../config/Constants';
 import { WorkerManager } from '../managers/WorkerManager';
 
 // Import modules.
+import { cleanseMarkdown } from '@br88c/discord-utils';
 import { Player } from '@discord-rose/lavalink';
 import { Embed } from 'discord-rose';
 

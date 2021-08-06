@@ -1,7 +1,7 @@
 import { Constants } from '../../config/Constants';
-import { timestamp } from '../../utils/Time';
 
 // Import modules.
+import { timestamp } from '@br88c/discord-utils';
 import { CommandOptions } from 'discord-rose';
 import { Track } from '@discord-rose/lavalink';
 

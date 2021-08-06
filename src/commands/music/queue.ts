@@ -1,9 +1,8 @@
-import { cleanseMarkdown } from '../../utils/StringUtils';
 import { Constants } from '../../config/Constants';
 import { filtersString } from '../../utils/Lavalink';
-import { timestamp } from '../../utils/Time';
 
 // Import modules.
+import { cleanseMarkdown, timestamp } from '@br88c/discord-utils';
 import { CommandOptions } from 'discord-rose';
 import { Track } from '@discord-rose/lavalink';
 

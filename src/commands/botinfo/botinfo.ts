@@ -1,9 +1,9 @@
 import { Config } from '../../config/Config';
 import { Constants } from '../../config/Constants';
-import { timestamp } from '../../utils/Time';
 
 // Import modules.
 import { ClusterStats, CommandOptions } from 'discord-rose';
+import { timestamp } from '@br88c/discord-utils';
 
 export default {
     command: `botinfo`,
