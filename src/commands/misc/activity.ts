@@ -2,6 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
+import { DiscordConstants } from '@br88c/discord-utils';
 
 export default {
     command: `activity`,
@@ -16,23 +17,23 @@ export default {
                 choices: [
                     {
                         name: `Betrayal`,
-                        value: `${Constants.BETRAYAL_ACTIVITY_ID}`
+                        value: `${DiscordConstants.ACTIVITY_IDS.BETRAYAL}`
                     },
                     {
                         name: `Chess`,
-                        value: `${Constants.CHESS_ACTIVITY_ID}`
+                        value: `${DiscordConstants.ACTIVITY_IDS.CHESS}`
                     },
                     {
                         name: `Fishing`,
-                        value: `${Constants.FISHING_ACTIVITY_ID}`
+                        value: `${DiscordConstants.ACTIVITY_IDS.FISHING}`
                     },
                     {
                         name: `Poker`,
-                        value: `${Constants.POKER_ACTIVITY_ID}`
+                        value: `${DiscordConstants.ACTIVITY_IDS.POKER}`
                     },
                     {
                         name: `Youtube Together`,
-                        value: `${Constants.YOUTUBE_ACTIVITY_ID}`
+                        value: `${DiscordConstants.ACTIVITY_IDS.YOUTUBE_TOGETHER}`
                     }
                 ],
                 required: true

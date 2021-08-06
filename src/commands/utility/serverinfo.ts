@@ -2,6 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
+import { DiscordConstants } from '@br88c/discord-utils';
 
 export default {
     command: `serverinfo`,
@@ -12,7 +13,7 @@ export default {
     exec: async (ctx) => {
         const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!, true);
         const owner = await ctx.worker.api.users.get(guild.owner_id);
-        const iconURL = `${Constants.DISCORD_CDN}/icons/${guild.id}/${guild.icon}.${guild.icon?.startsWith(`a_`) ? `gif` : `png`}`;
+        const iconURL = `${DiscordConstants.DISCORD_CDN}/icons/${guild.id}/${guild.icon}.${guild.icon?.startsWith(`a_`) ? `gif` : `png`}`;
         ctx.embed
             .color(Constants.SERVER_INFO_EMBED_COLOR)
             .title(guild.name)

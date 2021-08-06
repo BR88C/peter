@@ -1,11 +1,4 @@
-import { Snowflake } from 'discord-rose';
-
 export interface BotConstants {
-    /**
-     * The max number of characters to be used for logging the cluster a log originates from.
-     */
-    MAX_CLUSTER_LOG_LENGTH: number
-
     /**
      * The bot's invite link.
      */
@@ -22,44 +15,6 @@ export interface BotConstants {
      * The bot's website.
      */
     WEBSITE: string
-
-    /**
-     * The Discord CDN URL to use.
-     */
-    DISCORD_CDN: string
-    /**
-     * The maximum description size for embeds.
-     */
-    MAX_EMBED_DESCRIPTION_SIZE: number
-    /**
-     * Allowed presence types.
-     */
-    PRESENCE_TYPES: string[]
-    /**
-     * Allowed presence statuses.
-     */
-    PRESENCE_STATUSES: string[]
-
-    /**
-     * The betrayal activity application ID.
-     */
-    BETRAYAL_ACTIVITY_ID: Snowflake
-    /**
-     * The chess activity application ID.
-     */
-    CHESS_ACTIVITY_ID: Snowflake
-    /**
-     * The poker activity application ID.
-     */
-    FISHING_ACTIVITY_ID: Snowflake
-    /**
-     * The poker activity application ID.
-     */
-    POKER_ACTIVITY_ID: Snowflake
-    /**
-     * The YouTube Together activity application ID.
-     */
-    YOUTUBE_ACTIVITY_ID: Snowflake
 
     /**
      * The amount to multiply specified bassboost values by.
@@ -209,23 +164,10 @@ export interface BotConstants {
 }
 
 export const Constants: BotConstants = {
-    MAX_CLUSTER_LOG_LENGTH: 12,
-
     INVITE_LINK: `https://discord.com/oauth2/authorize?client_id=744694015630245949&scope=bot%20applications.commands&permissions=3525696&redirect_uri=https%3A%2F%2Fdiscord.gg%2FE2JsYPPJYN&response_type=code`,
     SUPPORT_SERVER: `https://discord.gg/E2JsYPPJYN`,
     VOTE_LINK: `https://top.gg/bot/744694015630245949/vote`,
     WEBSITE: `https://peters.guidetothe.net`,
-
-    DISCORD_CDN: `https://cdn.discordapp.com`,
-    MAX_EMBED_DESCRIPTION_SIZE: 4000,
-    PRESENCE_TYPES: [`playing`, `streaming`, `listening`, `watching`, `competing`],
-    PRESENCE_STATUSES: [`online`, `idle`, `dnd`, `offline`, `invisible`],
-
-    BETRAYAL_ACTIVITY_ID: `773336526917861400`,
-    CHESS_ACTIVITY_ID: `832012586023256104`,
-    FISHING_ACTIVITY_ID: `814288819477020702`,
-    POKER_ACTIVITY_ID: `755827207812677713`,
-    YOUTUBE_ACTIVITY_ID: `755600276941176913`,
 
     BASSBOOST_INTENSITY_MULTIPLIER: 0.15,
     EQ_BAND_COUNT: 15,

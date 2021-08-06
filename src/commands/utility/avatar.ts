@@ -2,6 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
+import { DiscordConstants } from '@br88c/discord-utils';
 
 export default {
     command: `avatar`,
@@ -19,7 +20,7 @@ export default {
     },
     exec: async (ctx) => {
         const user = await ctx.worker.api.users.get(ctx.options.user ?? ctx.author.id);
-        const avatarURL = `${Constants.DISCORD_CDN}/avatars/${user.id}/${user.avatar}.${user.avatar?.startsWith(`a_`) ? `gif` : `png`}`;
+        const avatarURL = `${DiscordConstants.DISCORD_CDN}/avatars/${user.id}/${user.avatar}.${user.avatar?.startsWith(`a_`) ? `gif` : `png`}`;
         ctx.embed
             .color(Constants.AVATAR_EMBED_COLOR)
             .title(`\`${user.username}#${user.discriminator}\`'s Avatar`)

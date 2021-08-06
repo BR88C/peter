@@ -2,11 +2,12 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
+import { DiscordConstants } from '@br88c/discord-utils';
 
 export default {
     command: `status`,
     exec: (ctx) => {
-        if (!Constants.PRESENCE_TYPES.includes(ctx.args[0])) void ctx.error(`Invalid status type.`);
+        if (!DiscordConstants.PRESENCE_TYPES.includes(ctx.args[0])) void ctx.error(`Invalid status type.`);
         else {
             ctx.worker.setStatus(ctx.args[0], ctx.args.slice(1).join(` `), `online`);
             ctx.embed
