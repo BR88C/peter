@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.filtersString = exports.bindLavalinkEvents = void 0;
-const StringUtils_1 = require("./StringUtils");
 const Constants_1 = require("../config/Constants");
+const discord_utils_1 = require("@br88c/discord-utils");
 const discord_rose_1 = require("discord-rose");
 const bindLavalinkEvents = (worker) => {
     worker.lavalink.on(`NODE_CONNECTED`, (node) => worker.log(`Node Connected | Node ID: ${node.identifier}`));
@@ -54,7 +54,7 @@ const bindLavalinkEvents = (worker) => {
         worker.log(`Track Started | Track Identifier: ${track?.identifier ?? `N/A`} | Guild ID: ${player.options.guildId}`);
         worker.api.messages.send(player.options.textChannelId, new discord_rose_1.Embed()
             .color(Constants_1.Constants.STARTED_PLAYING_EMBED_COLOR)
-            .title(`Started playing: ${StringUtils_1.cleanseMarkdown(track?.title ?? `N/A`)}`)
+            .title(`Started playing: ${discord_utils_1.cleanseMarkdown(track?.title ?? `N/A`)}`)
             .description(`**Link:** ${track?.uri ?? `N/A`}`)
             .image(`${track?.thumbnail(`mqdefault`)}`)
             .footer(`Requested by ${track?.requester ?? `N/A`}`)

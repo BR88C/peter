@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
-const Time_1 = require("../../utils/Time");
+const discord_utils_1 = require("@br88c/discord-utils");
 exports.default = {
     command: `seek`,
     mustHaveConnectedPlayer: true,
@@ -28,7 +28,7 @@ exports.default = {
         await ctx.player.seek(ctx.options.time * 1e3);
         ctx.embed
             .color(Constants_1.Constants.SEEK_EMBED_COLOR)
-            .title(`:fast_forward:  Seeked to ${Time_1.timestamp(ctx.options.time * 1e3)}`)
+            .title(`:fast_forward:  Seeked to ${discord_utils_1.timestamp(ctx.options.time * 1e3)}`)
             .send()
             .catch(() => void ctx.error(`Unable to send the response message.`));
     }

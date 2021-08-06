@@ -1,9 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const StringUtils_1 = require("../../utils/StringUtils");
 const Constants_1 = require("../../config/Constants");
+const discord_utils_1 = require("@br88c/discord-utils");
 const lavalink_1 = require("@discord-rose/lavalink");
-const Time_1 = require("../../utils/Time");
 exports.default = {
     command: `nowplaying`,
     mustHaveConnectedPlayer: true,
@@ -18,11 +17,11 @@ exports.default = {
         if (ctx.player.currentTrack.isStream)
             description = `🔴  **LIVE**`;
         else
-            description = `\`\`\`\n${ctx.player.state === lavalink_1.PlayerState.PAUSED ? `⏸` : `▶`} ${Time_1.timestamp(ctx.player.position ?? 0)} ${Time_1.progressBar((ctx.player.position ?? 0) / (ctx.player.currentTrack.length ?? (ctx.player.position ?? 0)), 25)} ${Time_1.timestamp(ctx.player.currentTrack.length ?? (ctx.player.position ?? 0))}\n\`\`\``;
+            description = `\`\`\`\n${ctx.player.state === lavalink_1.PlayerState.PAUSED ? `⏸` : `▶`} ${discord_utils_1.timestamp(ctx.player.position ?? 0)} ${discord_utils_1.progressBar((ctx.player.position ?? 0) / (ctx.player.currentTrack.length ?? (ctx.player.position ?? 0)), 25)} ${discord_utils_1.timestamp(ctx.player.currentTrack.length ?? (ctx.player.position ?? 0))}\n\`\`\``;
         ctx.embed
             .color(Constants_1.Constants.NOW_PLAYING_EMBED_COLOR)
             .author(`Currently playing:`)
-            .title(StringUtils_1.cleanseMarkdown(ctx.player.currentTrack.title), ctx.player.currentTrack.uri)
+            .title(discord_utils_1.cleanseMarkdown(ctx.player.currentTrack.title), ctx.player.currentTrack.uri)
             .thumbnail(ctx.player.currentTrack.thumbnail(`mqdefault`) ?? ``)
             .description(description)
             .footer(`Requested by ${ctx.player.currentTrack.requester}`)

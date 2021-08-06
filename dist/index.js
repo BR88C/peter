@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Config_1 = require("./config/Config");
-const Log_1 = require("./utils/Log");
 const runMaster_1 = __importDefault(require("./managers/run/runMaster"));
+const TextArt_1 = require("./config/TextArt");
 const dotenv_1 = require("dotenv");
 dotenv_1.config();
 if (!process.env.BOT_TOKEN)
@@ -16,5 +16,5 @@ if (!process.env.SPOTIFY_ID || !process.env.SPOTIFY_SECRET)
     throw new Error(`Spotify App credentials have not been set.`);
 if (process.env.NODE_ENV && process.env.NODE_ENV !== `dev` && process.env.NODE_ENV !== `prod`)
     throw new Error(`NODE_ENV is not properly set.`);
-Log_1.logHeader();
+console.log(`\n\x1b[35m${TextArt_1.TextArt}\n\nBy ${Config_1.Config.devs.tags.join(`, `)}\n`);
 runMaster_1.default();

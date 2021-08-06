@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const StringUtils_1 = require("../../utils/StringUtils");
 const Constants_1 = require("../../config/Constants");
-const Log_1 = require("../../utils/Log");
+const discord_utils_1 = require("@br88c/discord-utils");
 const discord_rose_1 = require("discord-rose");
 const lavalink_1 = require("@discord-rose/lavalink");
 exports.default = {
@@ -30,7 +29,7 @@ exports.default = {
             .catch(() => void ctx.error(`Unable to send the response message.`));
         const requesterTag = `${ctx.author.username}#${ctx.author.discriminator}`;
         const search = await ctx.worker.lavalink.search(ctx.options.query, ctx.member.nick ? `${ctx.member.nick} (${requesterTag})` : requesterTag).catch((error) => {
-            Log_1.logError(error);
+            discord_utils_1.logError(error);
             void ctx.error(`An unknown search error occurred. Please submit an issue in our support server.`);
         });
         if (!search)
@@ -83,7 +82,7 @@ exports.default = {
                 .catch(() => void ctx.error(`Unable to send the response message.`));
             await ctx.worker.api.messages.send(ctx.interaction.channel_id, new discord_rose_1.Embed()
                 .color(Constants_1.Constants.ADDED_TO_QUEUE_EMBED_COLOR)
-                .title(`Added "${StringUtils_1.cleanseMarkdown(search.tracks[0].title)}" to the queue`)
+                .title(`Added "${discord_utils_1.cleanseMarkdown(search.tracks[0].title)}" to the queue`)
                 .footer(`Requested by ${search.tracks[0].requester}`)
                 .timestamp());
         }
