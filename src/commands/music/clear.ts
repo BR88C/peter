@@ -5,6 +5,7 @@ import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `clear`,
+    allowButton: true,
     mustHaveConnectedPlayer: true,
     mustHaveTracksInQueue: true,
     userMustBeInSameVC: true,

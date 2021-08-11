@@ -28,6 +28,11 @@ export const Middleware = async (ctx: CommandContext): Promise<boolean> => {
     } else { // If the received event is an interaction.
         ctx.player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
         ctx.voiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
+        // @ts-expect-error This condition will always return 'true' since the types 'InteractionType.ApplicationCommand' and '3' have no overlap.
+        if (!ctx.command.allowButton && ctx.interaction.type === 3) {
+            void ctx.error(`An internal button error occured. Please submit an issue in our support server.`)
+            return false;
+        }
         if (ctx.command.mustBePaused && ctx.player?.state !== PlayerState.PAUSED) {
             void ctx.error(`The music must be paused to run the "${ctx.command.interaction!.name}" command.`);
             return false;

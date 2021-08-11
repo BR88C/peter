@@ -5,6 +5,7 @@ import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `vote`,
+    allowButton: true,
     interaction: {
         name: `vote`,
         description: `Gets the bot's vote link.`

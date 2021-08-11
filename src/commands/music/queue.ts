@@ -8,6 +8,7 @@ import { Track } from '@discord-rose/lavalink';
 
 export default {
     command: `queue`,
+    allowButton: true,
     mustHaveConnectedPlayer: true,
     interaction: {
         name: `queue`,

@@ -5,6 +5,7 @@ import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `247`,
+    allowButton: true,
     mustHaveConnectedPlayer: true,
     userMustBeInSameVC: true,
     voteLocked: true,

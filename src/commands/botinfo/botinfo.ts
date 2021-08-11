@@ -7,6 +7,7 @@ import { DiscordConstants, timestamp } from '@br88c/discord-utils';
 
 export default {
     command: `botinfo`,
+    allowButton: true,
     interaction: {
         name: `botinfo`,
         description: `Gets information about the bot.`

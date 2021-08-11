@@ -5,6 +5,7 @@ import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `previous`,
+    allowButton: true,
     mustHaveConnectedPlayer: true,
     mustHaveTracksInQueue: true,
     userMustBeInSameVC: true,

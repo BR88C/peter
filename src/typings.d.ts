@@ -12,6 +12,10 @@ declare module 'discord-rose/dist/typings/lib' { // eslint-disable-line quotes
          */
         category: string
         /**
+         * If the command can be executed from a button.
+         */
+        allowButton: boolean
+        /**
          * If the player should specifically be in a PAUSED state.
          */
         mustBePaused: boolean

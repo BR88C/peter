@@ -5,6 +5,7 @@ import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `cointoss`,
+    allowButton: true,
     interaction: {
         name: `cointoss`,
         description: `Tosses a coin, and returns heads or tails.`

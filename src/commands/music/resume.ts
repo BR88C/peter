@@ -5,6 +5,7 @@ import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `resume`,
+    allowButton: true,
     mustHaveConnectedPlayer: true,
     mustHaveTracksInQueue: true,
     mustBePaused: true,

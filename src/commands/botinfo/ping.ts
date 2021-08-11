@@ -5,6 +5,7 @@ import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `ping`,
+    allowButton: true,
     interaction: {
         name: `ping`,
         description: `Gets the bot's ping.`

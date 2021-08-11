@@ -5,6 +5,7 @@ import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `stop`,
+    allowButton: true,
     mustHaveConnectedPlayer: true,
     mustHaveTracksInQueue: true,
     mustBePausedOrPlaying: true,

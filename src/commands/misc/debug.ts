@@ -7,6 +7,7 @@ import { Track } from '@discord-rose/lavalink';
 
 export default {
     command: `debug`,
+    allowButton: true,
     interaction: {
         name: `debug`,
         description: `Used to easily troubleshoot common issues.`,

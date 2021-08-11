@@ -5,6 +5,7 @@ import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `invite`,
+    allowButton: true,
     interaction: {
         name: `invite`,
         description: `Gets the bot's invite link.`

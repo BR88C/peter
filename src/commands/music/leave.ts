@@ -5,6 +5,7 @@ import { CommandOptions } from 'discord-rose';
 
 export default {
     command: `leave`,
+    allowButton: true,
     mustHavePlayer: true,
     userMustBeInSameVC: true,
     interaction: {

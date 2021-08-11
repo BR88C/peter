@@ -6,6 +6,7 @@ import { CommandOptions, Embed } from 'discord-rose';
 
 export default {
     command: `help`,
+    allowButton: true,
     interaction: {
         name: `help`,
         description: `Get help using the bot.`,

@@ -7,6 +7,7 @@ import { PlayerState, Track } from '@discord-rose/lavalink';
 
 export default {
     command: `nowplaying`,
+    allowButton: true,
     mustHaveConnectedPlayer: true,
     mustHaveTracksInQueue: true,
     mustBePausedOrPlaying: true,

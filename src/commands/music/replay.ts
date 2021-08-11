@@ -6,6 +6,7 @@ import { Track } from '@discord-rose/lavalink';
 
 export default {
     command: `replay`,
+    allowButton: true,
     mustHaveConnectedPlayer: true,
     mustHaveTracksInQueue: true,
     mustBePausedOrPlaying: true,
