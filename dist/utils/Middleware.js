@@ -30,6 +30,10 @@ const Middleware = async (ctx) => {
     else {
         ctx.player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
         ctx.voiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
+        if (!ctx.command.allowButton && ctx.interaction.type === 3) {
+            void ctx.error(`An internal button error occured. Please submit an issue in our support server.`);
+            return false;
+        }
         if (ctx.command.mustBePaused && ctx.player?.state !== lavalink_1.PlayerState.PAUSED) {
             void ctx.error(`The music must be paused to run the "${ctx.command.interaction.name}" command.`);
             return false;

@@ -5,6 +5,7 @@ const discord_utils_1 = require("@br88c/discord-utils");
 const lavalink_1 = require("@discord-rose/lavalink");
 exports.default = {
     command: `nowplaying`,
+    allowButton: true,
     mustHaveConnectedPlayer: true,
     mustHaveTracksInQueue: true,
     mustBePausedOrPlaying: true,

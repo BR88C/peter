@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
 exports.default = {
     command: `ping`,
+    allowButton: true,
     interaction: {
         name: `ping`,
         description: `Gets the bot's ping.`

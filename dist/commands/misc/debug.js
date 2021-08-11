@@ -5,6 +5,7 @@ const collection_1 = require("@discordjs/collection");
 const discord_rose_1 = require("discord-rose");
 exports.default = {
     command: `debug`,
+    allowButton: true,
     interaction: {
         name: `debug`,
         description: `Used to easily troubleshoot common issues.`,

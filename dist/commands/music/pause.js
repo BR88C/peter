@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
 exports.default = {
     command: `pause`,
+    allowButton: true,
     mustHaveConnectedPlayer: true,
     mustHaveTracksInQueue: true,
     mustBePlaying: true,

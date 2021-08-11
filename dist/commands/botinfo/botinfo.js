@@ -5,6 +5,7 @@ const Constants_1 = require("../../config/Constants");
 const discord_utils_1 = require("@br88c/discord-utils");
 exports.default = {
     command: `botinfo`,
+    allowButton: true,
     interaction: {
         name: `botinfo`,
         description: `Gets information about the bot.`

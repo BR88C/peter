@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
 exports.default = {
     command: `invite`,
+    allowButton: true,
     interaction: {
         name: `invite`,
         description: `Gets the bot's invite link.`

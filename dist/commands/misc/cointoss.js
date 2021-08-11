@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
 exports.default = {
     command: `cointoss`,
+    allowButton: true,
     interaction: {
         name: `cointoss`,
         description: `Tosses a coin, and returns heads or tails.`

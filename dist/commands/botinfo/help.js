@@ -5,6 +5,7 @@ const Constants_1 = require("../../config/Constants");
 const discord_rose_1 = require("discord-rose");
 exports.default = {
     command: `help`,
+    allowButton: true,
     interaction: {
         name: `help`,
         description: `Get help using the bot.`,

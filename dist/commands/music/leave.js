@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
 exports.default = {
     command: `leave`,
+    allowButton: true,
     mustHavePlayer: true,
     userMustBeInSameVC: true,
     interaction: {
