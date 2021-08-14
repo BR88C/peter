@@ -98,7 +98,7 @@ class LavalinkManager extends lavalink_1.LavalinkManager {
         this.worker.log(`Spawning Lavalink Nodes`);
         const lavalinkStart = Date.now();
         const lavalinkSpawnResult = await this.connectNodes();
-        this.worker.log(`Spawned ${lavalinkSpawnResult.filter((r) => r.status === `fulfilled`).length} Lavalink Nodes after ${Math.round((Date.now() - lavalinkStart) / 10) / 100}s`);
+        this.worker.log(`Spawned ${lavalinkSpawnResult.filter((r) => r.status === `fulfilled`).length}/${this.options.nodeOptions.length} Lavalink Nodes after ${Math.round((Date.now() - lavalinkStart) / 10) / 100}s`);
         if (!this.nodes.size)
             this.worker.log(`\x1b[33mWARNING: Worker has no available lavalink nodes`);
         this.worker.on(`VOICE_STATE_UPDATE`, async (data) => {
