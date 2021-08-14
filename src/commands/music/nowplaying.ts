@@ -1,7 +1,7 @@
 import { Constants } from '../../config/Constants';
 
 // Import modules.
-import { cleanseMarkdown, progressBar, timestamp } from '@br88c/discord-utils';
+import { cleanseMarkdown, logError, progressBar, timestamp } from '@br88c/discord-utils';
 import { CommandOptions } from 'discord-rose';
 import { PlayerState, Track } from '@discord-rose/lavalink';
 
@@ -28,6 +28,9 @@ export default {
             .description(description)
             .footer(`Requested by ${ctx.player!.currentTrack!.requester}`)
             .send()
-            .catch(() => void ctx.error(`Unable to send the response message.`));
+            .catch((error) => {
+                logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
     }
 } as CommandOptions;

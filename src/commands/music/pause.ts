@@ -2,6 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
+import { logError } from '@br88c/discord-utils';
 
 export default {
     command: `pause`,
@@ -21,6 +22,9 @@ export default {
             .color(Constants.PAUSE_RESUME_EMBED_COLOR)
             .title(`:pause_button:  Paused the music`)
             .send()
-            .catch(() => void ctx.error(`Unable to send the response message.`));
+            .catch((error) => {
+                logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
     }
 } as CommandOptions;

@@ -3,6 +3,7 @@ import { Constants } from '../../config/Constants';
 // Import modules.
 import { Collection } from '@discordjs/collection';
 import { CommandOptions, Embed, PermissionsUtils } from 'discord-rose';
+import { logError } from '@br88c/discord-utils';
 import { Track } from '@discord-rose/lavalink';
 
 export default {
@@ -37,12 +38,18 @@ export default {
                 .footer(`Guild ID: ${ctx.interaction.guild_id}`)
                 .timestamp()
                 .send()
-                .catch(() => void ctx.error(`Unable to send the response message.`));
+                .catch((error) => {
+                    logError(error);
+                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                });
         } else {
-            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!);
-            const member = await ctx.worker.api.members.get(guild.id, ctx.worker.user.id);
+            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!).catch((error) => logError(error));
+            const member = await ctx.worker.api.members.get(guild.id, ctx.worker.user.id).catch((error) => logError(error));
+            const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch((error) => logError(error));
+
+            if (!guild || !member || !textChannel) return void ctx.error(`Unable to get the bot's permissions.`);
+
             const roles = guild.roles.reduce((p, c) => p.set(c.id, c), new Collection());
-            const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch(() => {});
 
             const guildPermissions = PermissionsUtils.combine({
                 guild,
@@ -88,7 +95,10 @@ export default {
                     .field(`Music Player`, `**Node:** ${player.node.identifier}\n**Player state:** ${player.state}\n**Node state:** ${player.node.state}\n**Text Channel ID:**: \`${player.options.textChannelId}\`\n**Text Channel Permissions:** \`${playerTextChannelPermissions}\`\n**Voice Channel ID:** \`${player.options.voiceChannelId}\`\n**Voice Channel Permissions:** \`${playerVoiceChannelPermissions}\`\n**Current song:** ${player.currentTrack ? ((player.currentTrack as Track).uri ?? player.currentTrack.title) : `*No song playing.*`}`, false);
             } else debugEmbed.field(`Music Player`, `*No player found.*`, false);
 
-            ctx.send(debugEmbed).catch(() => void ctx.error(`Unable to send the response message.`));
+            ctx.send(debugEmbed).catch((error) => {
+                logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
         }
     }
 } as CommandOptions;

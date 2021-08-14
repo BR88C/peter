@@ -1,13 +1,16 @@
 import { Constants } from '../../config/Constants';
 
 // Import modules.
-import { centerString, timestamp } from '@br88c/discord-utils';
+import { centerString, logError, timestamp } from '@br88c/discord-utils';
 import { ClusterStats, CommandOptions, ShardStats } from 'discord-rose';
 
 export default {
     command: `devstats`,
     exec: async (ctx) => {
-        const stats: ClusterStats[] | undefined = await ctx.worker.comms.getStats().catch(() => void ctx.error(`Unable to get the bot's stats.`));
+        const stats: ClusterStats[] | void = await ctx.worker.comms.getStats().catch((error) => {
+            logError(error);
+            void ctx.error(`Unable to get the bot's stats.`);
+        });
         const shards: ShardStats[] | undefined = stats?.map((s) => s.shards).reduce((p, c) => p.concat(c), []);
 
         ctx.embed
@@ -22,6 +25,9 @@ export default {
             .field(`Shard stats`, `\`\`\`\n${centerString(`Shard`, 9)} | ${centerString(`State`, 9)} | ${centerString(`Guilds`, 10)} | ${centerString(`Ping`, 8)}\n${shards?.reduce((p, c) => `${p  }${centerString(`${c.id}`, 9)} | ${centerString(`${c.state}`, 9)} | ${centerString(`${c.guilds}`, 10)} | ${centerString(`${Math.round(c.ping)}ms`, 8)}\n`, ``)}\`\`\``, false)
             .field(`\u200B`, `\`\`\`\n Clusters: ${stats?.length}  |  Shards: ${shards?.length}  | Shards per Cluster: ${ctx.worker.options.shardsPerCluster} \`\`\``, false)
             .send()
-            .catch(() => void ctx.error(`Unable to send the response message.`));
+            .catch((error) => {
+                logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
     }
 } as CommandOptions;

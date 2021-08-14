@@ -1,8 +1,8 @@
 import { Constants } from '../../config/Constants';
 
 // Import modules.
-import { timestamp } from '@br88c/discord-utils';
 import { CommandOptions } from 'discord-rose';
+import { logError, timestamp } from '@br88c/discord-utils';
 import { Track } from '@discord-rose/lavalink';
 
 export default {
@@ -32,6 +32,9 @@ export default {
             .color(Constants.SEEK_EMBED_COLOR)
             .title(`:fast_forward:  Seeked to ${timestamp(ctx.options.time * 1e3)}`)
             .send()
-            .catch(() => void ctx.error(`Unable to send the response message.`));
+            .catch((error) => {
+                logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
     }
 } as CommandOptions;

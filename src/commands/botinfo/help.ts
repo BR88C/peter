@@ -3,6 +3,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions, Embed } from 'discord-rose';
+import { logError } from '@br88c/discord-utils';
 
 export default {
     command: `help`,
@@ -32,7 +33,10 @@ export default {
                 .footer(`Peter! made by ${Config.devs.tags.join(`, `)}`)
                 .timestamp()
                 .send()
-                .catch(() => void ctx.error(`Unable to send the response message.`));
+                .catch((error) => {
+                    logError(error);
+                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                });
         } else {
             const categories = [...new Set(ctx.worker.commands.commands.map((command) => command.category.toLowerCase()))].map((category) => ctx.worker.commands.commands!.filter((command) => !!command.interaction && command.category === category)).sort((a, b) => b.size - a.size);
             const helpEmbed = new Embed()
@@ -42,7 +46,10 @@ export default {
                 .footer(`Peter! made by ${Config.devs.tags.join(`, `)}`)
                 .timestamp();
             for (const category of categories) helpEmbed.field(`${category.first()!.category.charAt(0).toUpperCase()}${category.first()!.category.slice(1)}`, category.map((command) => `\`${command.interaction!.name}\``).join(`, `), true);
-            ctx.send(helpEmbed).catch(() => void ctx.error(`Unable to send the response message.`));
+            ctx.send(helpEmbed).catch((error) => {
+                logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
         }
     }
 } as CommandOptions;

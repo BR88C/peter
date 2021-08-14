@@ -4,6 +4,7 @@ import { Constants } from '../../config/Constants';
 // Import modules.
 import { Collection } from '@discordjs/collection';
 import { CommandOptions, PermissionsUtils } from 'discord-rose';
+import { logError } from '@br88c/discord-utils';
 
 export default {
     command: `serverconfig`,
@@ -72,7 +73,10 @@ export default {
                     .color(Constants.CONFIG_EMBED_COLOR)
                     .title(newSettings.join(` and `))
                     .send(true, false, true)
-                    .catch(() => void ctx.error(`Unable to send the response message.`));
+                    .catch((error) => {
+                        logError(error);
+                        void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    });
             } else {
                 if (!ctx.worker.commands.commands) return void ctx.error(`Unable to get the command list.`);
                 const guildDocument = await ctx.worker.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
@@ -87,7 +91,10 @@ export default {
                     .field(`\u200b`, commands.join(`\n`), true)
                     .footer(`🔒 = DJ only, 🌎 = Public`)
                     .send()
-                    .catch(() => void ctx.error(`Unable to send the response message.`));
+                    .catch((error) => {
+                        logError(error);
+                        void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    });
             }
         }
     }

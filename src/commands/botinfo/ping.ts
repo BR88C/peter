@@ -2,6 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
+import { logError } from '@br88c/discord-utils';
 
 export default {
     command: `ping`,
@@ -16,6 +17,9 @@ export default {
             .title(`Pong!`)
             .description(`\`\`\`js\n${ctx.worker.guildShard(ctx.interaction.guild_id!).ping} ms\n\`\`\``)
             .send()
-            .catch(() => void ctx.error(`Unable to send the response message.`));
+            .catch((error) => {
+                logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
     }
 } as CommandOptions;

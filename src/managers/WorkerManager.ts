@@ -59,7 +59,7 @@ export class WorkerManager extends Worker {
         // Create command middleware.
         this.commands.middleware(async (ctx) => {
             if (!ctx.worker.available) { // If the worker is not available.
-                void ctx.error(`The bot is still starting; please wait!`);
+                void ctx.error(`The bot is still starting; please wait to run a command!`);
                 return false;
             }
             if (!ctx.isInteraction) { // If the received event is not an interaction.
@@ -121,7 +121,10 @@ export class WorkerManager extends Worker {
                         .title(`You must vote to use this command! Please vote by going to the link below.`)
                         .description(Constants.VOTE_LINK)
                         .send(true, false, true)
-                        .catch(() => void ctx.error(`Unable to send the response message.`));
+                        .catch((error) => {
+                            logError(error);
+                            void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                        });
                     return false;
                 }
         
@@ -144,7 +147,10 @@ export class WorkerManager extends Worker {
                 }
         
                 ctx.worker.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild ID: ${ctx.interaction.guild_id}`);
-                await ctx.typing().catch(() => void ctx.error(`Unable to send thinking response.`));
+                await ctx.typing().catch((error) => {
+                    logError(error);
+                    void ctx.error(`Unable to send thinking response.`);
+                });
                 return true;
             }
         });

@@ -1,7 +1,7 @@
 import { Constants } from '../../config/Constants';
 
 // Import modules.
-import { cleanseMarkdown, timestamp } from '@br88c/discord-utils';
+import { cleanseMarkdown, logError, timestamp } from '@br88c/discord-utils';
 import { CommandOptions } from 'discord-rose';
 import { Track } from '@discord-rose/lavalink';
 
@@ -41,7 +41,10 @@ export default {
                 .field(`24/7`, `\`${ctx.player!.twentyfourseven ? `On` : `Off`}\``, true)
                 .field(`Active Effects`, ctx.worker.lavalink.filtersString(ctx.player!), false)
                 .send()
-                .catch(() => void ctx.error(`Unable to send the response message.`));
+                .catch((error) => {
+                    logError(error);
+                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                });
         };
 
         await sendEmbed(Math.floor((ctx.player!.queuePosition ?? 0) / 10));

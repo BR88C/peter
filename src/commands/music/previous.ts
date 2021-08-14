@@ -2,6 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
+import { logError } from '@br88c/discord-utils';
 
 export default {
     command: `previous`,
@@ -21,6 +22,9 @@ export default {
             .color(Constants.SKIP_EMBED_COLOR)
             .title(`:track_previous:  Skipped to the previous song`)
             .send()
-            .catch(() => void ctx.error(`Unable to send the response message.`));
+            .catch((error) => {
+                logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
     }
 } as CommandOptions;

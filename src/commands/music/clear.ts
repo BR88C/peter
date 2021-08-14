@@ -2,6 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
+import { logError } from '@br88c/discord-utils';
 
 export default {
     command: `clear`,
@@ -20,6 +21,9 @@ export default {
             .color(Constants.QUEUE_CLEARED_EMBED_COLOR)
             .title(`:broom:  Cleared the queue`)
             .send()
-            .catch(() => void ctx.error(`Unable to send the response message.`));
+            .catch((error) => {
+                logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
     }
 } as CommandOptions;

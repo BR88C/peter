@@ -29,7 +29,10 @@ export default {
             .color(Constants.PROCESSING_QUERY_EMBED_COLOR)
             .title(`:mag_right:  Searching...`)
             .send(true, false, true)
-            .catch(() => void ctx.error(`Unable to send the response message.`));
+            .catch((error) => {
+                logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
 
         const requesterTag = `${ctx.author.username}#${ctx.author.discriminator}`;
 
@@ -47,10 +50,10 @@ export default {
         let player: ExtendedPlayer;
         if (ctx.player) player = ctx.player;
         else {
-            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!).catch(() => {});
-            const botMember = await ctx.worker.api.members.get(ctx.interaction.guild_id!, ctx.worker.user.id).catch(() => {});
-            const voiceChannel = await ctx.worker.api.channels.get(ctx.voiceState!.channel_id).catch(() => {});
-            const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch(() => {});
+            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!).catch((error) => logError(error));
+            const botMember = await ctx.worker.api.members.get(ctx.interaction.guild_id!, ctx.worker.user.id).catch((error) => logError(error));
+            const voiceChannel = await ctx.worker.api.channels.get(ctx.voiceState!.channel_id).catch((error) => logError(error));
+            const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch((error) => logError(error));
             if (!guild || !botMember || !voiceChannel || !textChannel) return ctx.error(`Unable to check channel permissions.`);
             const voicePermissions = PermissionsUtils.combine({
                 member: botMember,
@@ -84,7 +87,7 @@ export default {
             player.twentyfourseven = false;
         }
 
-        if (player.state === PlayerState.DISCONNECTED) await player.connect();
+        if (player.state === PlayerState.DISCONNECTED) await player.connect().catch((error) => logError(error));
         if (player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to connect to the voice channel.`);
 
         if (search.loadType === `PLAYLIST_LOADED`) {
@@ -92,7 +95,10 @@ export default {
                 .color(Constants.PROCESSING_QUERY_EMBED_COLOR)
                 .title(`:mag_right:  Found a playlist, adding it to the queue...`)
                 .send(true, false, true)
-                .catch(() => void ctx.error(`Unable to send the response message.`));
+                .catch((error) => {
+                    logError(error);
+                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                });
 
             await ctx.worker.api.messages.send(ctx.interaction.channel_id, new Embed()
                 .color(Constants.ADDED_TO_QUEUE_EMBED_COLOR)
@@ -100,20 +106,29 @@ export default {
                 .description(`**Link:** ${ctx.options.query}\n\`\`\`\n${search.tracks.slice(0, 8).map((track, i) => `${i + 1}. ${track.title}`).join(`\n`)}${search.tracks.length > 8 ? `\n\n${search.tracks.length - 8} more...` : ``}\n\`\`\``)
                 .footer(`Requested by ${search.tracks[0].requester}`)
                 .timestamp()
-            ).catch(() => void ctx.error(`Unable to send the response message.`));
+            ).catch((error) => {
+                logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
         } else {
             await ctx.embed
                 .color(Constants.PROCESSING_QUERY_EMBED_COLOR)
                 .title(`:mag_right:  Found ${search.tracks.length} result${search.tracks.length > 1 ? `s, queuing the first one` : `, adding it to the queue`}...`)
                 .send(true, false, true)
-                .catch(() => void ctx.error(`Unable to send the response message.`));
+                .catch((error) => {
+                    logError(error);
+                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                });
 
             await ctx.worker.api.messages.send(ctx.interaction.channel_id, new Embed()
                 .color(Constants.ADDED_TO_QUEUE_EMBED_COLOR)
                 .title(`Added "${cleanseMarkdown(search.tracks[0].title)}" to the queue`)
                 .footer(`Requested by ${search.tracks[0].requester}`)
                 .timestamp()
-            ).catch(() => void ctx.error(`Unable to send the response message.`));
+            ).catch((error) => {
+                logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
         }
 
         await player.play(search.loadType === `PLAYLIST_LOADED` ? search.tracks : search.tracks[0]);

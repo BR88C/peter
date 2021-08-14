@@ -2,6 +2,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
+import { logError } from '@br88c/discord-utils';
 import { Track } from '@discord-rose/lavalink';
 
 export default {
@@ -23,6 +24,9 @@ export default {
             .color(Constants.SEEK_EMBED_COLOR)
             .title(`:rewind:  Seeked to the beginning of the song`)
             .send()
-            .catch(() => void ctx.error(`Unable to send the response message.`));
+            .catch((error) => {
+                logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
     }
 } as CommandOptions;

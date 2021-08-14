@@ -3,7 +3,7 @@ import { Constants } from '../../config/Constants';
 
 // Import modules.
 import { ClusterStats, CommandOptions } from 'discord-rose';
-import { DiscordConstants, timestamp } from '@br88c/discord-utils';
+import { DiscordConstants, logError, timestamp } from '@br88c/discord-utils';
 
 export default {
     command: `botinfo`,
@@ -13,7 +13,10 @@ export default {
         description: `Gets information about the bot.`
     },
     exec: async (ctx) => {
-        const stats: ClusterStats[] | undefined = await ctx.worker.comms.getStats().catch(() => void ctx.error(`Unable to get the bot's stats.`));
+        const stats: ClusterStats[] | void = await ctx.worker.comms.getStats().catch((error) => {
+            logError(error);
+            void ctx.error(`Unable to get the bot's stats.`);
+        });
         ctx.embed
             .color(Constants.BOT_INFO_EMBED_COLOR)
             .thumbnail(`${DiscordConstants.DISCORD_CDN}/avatars/${ctx.worker.user.id}/${ctx.worker.user.avatar}.png`)
@@ -27,6 +30,9 @@ export default {
             .field(`Support Server`, Constants.SUPPORT_SERVER, true)
             .field(`Website`, Constants.WEBSITE, true)
             .send()
-            .catch(() => void ctx.error(`Unable to send the response message.`));
+            .catch((error) => {
+                logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
     }
 } as CommandOptions;
