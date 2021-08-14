@@ -1,4 +1,3 @@
-import { bindButtons } from '../utils/Buttons';
 import { bindLavalinkEvents } from '../utils/Lavalink';
 import { Config } from '../config/Config';
 import { Constants } from '../config/Constants';
@@ -56,8 +55,6 @@ export class WorkerManager extends Worker {
                 else return new HttpsAgent({ family: 4 });
             } }
         }, this);
-
-        bindButtons(this);
 
         // Set presence, and change it at an interval specified in config.
         setRandomPresence(this, Presences);
