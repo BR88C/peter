@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WorkerManager = void 0;
-const Buttons_1 = require("../utils/Buttons");
 const Lavalink_1 = require("../utils/Lavalink");
 const Config_1 = require("../config/Config");
 const Constants_1 = require("../config/Constants");
@@ -34,7 +33,6 @@ class WorkerManager extends discord_rose_1.Worker {
                         return new https_1.Agent({ family: 4 });
                 } }
         }, this);
-        Buttons_1.bindButtons(this);
         discord_utils_1.setRandomPresence(this, Presences_1.Presences);
         setInterval(() => discord_utils_1.setRandomPresence(this, Presences_1.Presences), Config_1.Config.presenceInterval);
         this.commands.prefix(Config_1.Config.developerPrefix);
