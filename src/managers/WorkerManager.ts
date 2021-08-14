@@ -144,7 +144,7 @@ export class WorkerManager extends Worker {
                 }
         
                 ctx.worker.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild ID: ${ctx.interaction.guild_id}`);
-                await ctx.typing();
+                await ctx.typing().catch(() => void ctx.error(`Unable to send thinking response.`));
                 return true;
             }
         });
