@@ -51,7 +51,7 @@ export default {
             const botMember = await ctx.worker.api.members.get(ctx.interaction.guild_id!, ctx.worker.user.id).catch(() => {});
             const voiceChannel = await ctx.worker.api.channels.get(ctx.voiceState!.channel_id).catch(() => {});
             const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch(() => {});
-            if (!guild || !botMember || !voiceChannel || !textChannel) return ctx.error(`Unable to get channel permissions.`);
+            if (!guild || !botMember || !voiceChannel || !textChannel) return ctx.error(`Unable to check channel permissions.`);
             const voicePermissions = PermissionsUtils.combine({
                 member: botMember,
                 guild,
