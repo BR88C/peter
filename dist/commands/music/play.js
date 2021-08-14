@@ -50,7 +50,7 @@ exports.default = {
             const voiceChannel = await ctx.worker.api.channels.get(ctx.voiceState.channel_id).catch(() => { });
             const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch(() => { });
             if (!guild || !botMember || !voiceChannel || !textChannel)
-                return ctx.error(`Unable to get channel permissions.`);
+                return ctx.error(`Unable to check channel permissions.`);
             const voicePermissions = discord_rose_1.PermissionsUtils.combine({
                 member: botMember,
                 guild,
