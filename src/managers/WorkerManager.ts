@@ -68,24 +68,7 @@ export class WorkerManager extends Worker {
         loadCommands(this, resolve(__dirname, `../commands`));
 
         // Custom command error response.
-        this.commands.error((ctx, error) => {
-            if (ctx.isInteraction) this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.ran} | Reason: ${removeToken(error.message.replace(/^(Error: )/, ``), Config.defaultTokenArray)} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.interaction?.guild_id ? ` | Guild ID: ${ctx.interaction.guild_id}` : ``}`);
-            else this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.command?.command} | Reason: ${removeToken(error.message.replace(/^(Error: )/, ``), Config.defaultTokenArray)} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message?.guild_id ? ` | Guild ID: ${ctx.message.guild_id}` : ``}`);
-
-            if (!error.nonFatal) {
-                logError(error);
-                error.message = `An unkown error occurred. Please submit an issue in our support server.`;
-            }
-
-            ctx.embed
-                .color(Constants.ERROR_EMBED_COLOR ?? 0xFF0000)
-                .title(`Error`)
-                .description(`\`\`\`\n${removeToken(error.message.replace(/^(Error: )/, ``), Config.defaultTokenArray)}\n\`\`\`${Constants.SUPPORT_SERVER ? `\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants.SUPPORT_SERVER}` : ``}`)
-                .timestamp()
-                .send(true, false, true)
-                .catch((error) => this.log(`\x1b[31mUnable to send Error Embed${typeof error === `string` ? ` | Reason: ${error}` : (typeof error?.message === `string` ? ` | Reason: ${error.message}` : ``)}`));
-
-        });
+        this.commands.error((ctx, error) => errorFunction(ctx, error, this, Config.defaultTokenArray, Constants.ERROR_EMBED_COLOR, Constants.SUPPORT_SERVER));
 
         // Create command middleware.
         this.commands.middleware(async (ctx) => Middleware(ctx));
