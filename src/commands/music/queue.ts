@@ -1,5 +1,4 @@
 import { Constants } from '../../config/Constants';
-import { filtersString } from '../../utils/Lavalink';
 
 // Import modules.
 import { cleanseMarkdown, timestamp } from '@br88c/discord-utils';
@@ -40,7 +39,7 @@ export default {
                 .field(`Voice Channel`, `\`${voiceChannel.name}\`` ?? `N/A`, true)
                 .field(`Loop`, `\`${ctx.player!.loop.charAt(0).toUpperCase()}${ctx.player!.loop.slice(1)}\``, true)
                 .field(`24/7`, `\`${ctx.player!.twentyfourseven ? `On` : `Off`}\``, true)
-                .field(`Active Effects`, filtersString(ctx.player!), false)
+                .field(`Active Effects`, ctx.worker.lavalink.filtersString(ctx.player!), false)
                 .send()
                 .catch(() => void ctx.error(`Unable to send the response message.`));
         };

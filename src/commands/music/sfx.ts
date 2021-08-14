@@ -1,5 +1,4 @@
 import { Constants } from '../../config/Constants';
-import { filtersString } from '../../utils/Lavalink';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
@@ -159,7 +158,7 @@ export default {
             ctx.embed
                 .color(Constants.SET_SFX_EMBED_COLOR)
                 .title(`Active SFX`)
-                .description(filtersString(ctx.player!))
+                .description(ctx.worker.lavalink.filtersString(ctx.player!))
                 .send()
                 .catch((error) => void ctx.error(error));
         } else if (ctx.options.pitch) {

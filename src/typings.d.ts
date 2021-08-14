@@ -2,7 +2,7 @@ import { WorkerManager } from './managers/WorkerManager';
 
 // Import modules.
 import { CachedVoiceState, Snowflake } from 'discord-rose';
-import { Player } from '@discord-rose/lavalink';
+import { ExtendedPlayer, LavalinkManager } from './managers/LavalinkManager';
 
 declare module 'discord-rose/dist/typings/lib' { // eslint-disable-line quotes
     type worker = WorkerManager
@@ -76,13 +76,7 @@ declare module 'discord-rose/dist/clustering/ThreadComms' { // eslint-disable-li
     }
 }
 
-export class ExtendedPlayer extends Player {
-    /**
-     * If the player should stay in the voice channel after all users leave.
-     */
-    twentyfourseven: boolean
-}
-
 declare module '@discord-rose/lavalink/dist/typings/lib' { // eslint-disable-line quotes
     type player = ExtendedPlayer
+    type lavalinkManager = LavalinkManager
 }
