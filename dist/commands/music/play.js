@@ -101,7 +101,7 @@ exports.default = {
                 .title(`Successfully queued ${search.tracks.length} song${search.tracks.length > 1 ? `s` : ``}`)
                 .description(`**Link:** ${ctx.options.query}\n\`\`\`\n${search.tracks.slice(0, 8).map((track, i) => `${i + 1}. ${track.title}`).join(`\n`)}${search.tracks.length > 8 ? `\n\n${search.tracks.length - 8} more...` : ``}\n\`\`\``)
                 .footer(`Requested by ${search.tracks[0].requester}`)
-                .timestamp());
+                .timestamp()).catch(() => void ctx.error(`Unable to send the response message.`));
         }
         else {
             await ctx.embed
@@ -113,7 +113,7 @@ exports.default = {
                 .color(Constants_1.Constants.ADDED_TO_QUEUE_EMBED_COLOR)
                 .title(`Added "${discord_utils_1.cleanseMarkdown(search.tracks[0].title)}" to the queue`)
                 .footer(`Requested by ${search.tracks[0].requester}`)
-                .timestamp());
+                .timestamp()).catch(() => void ctx.error(`Unable to send the response message.`));
         }
         await player.play(search.loadType === `PLAYLIST_LOADED` ? search.tracks : search.tracks[0]);
     }
