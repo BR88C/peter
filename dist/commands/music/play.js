@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
 const discord_utils_1 = require("@br88c/discord-utils");
+const collection_1 = require("@discordjs/collection");
 const discord_rose_1 = require("discord-rose");
 const lavalink_1 = require("@discord-rose/lavalink");
 exports.default = {
@@ -44,6 +45,34 @@ exports.default = {
         if (ctx.player)
             player = ctx.player;
         else {
+            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id).catch(() => { });
+            const botMember = await ctx.worker.api.members.get(ctx.interaction.guild_id, ctx.worker.user.id).catch(() => { });
+            const voiceChannel = await ctx.worker.api.channels.get(ctx.voiceState.channel_id).catch(() => { });
+            const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch(() => { });
+            if (!guild || !botMember || !voiceChannel || !textChannel)
+                return ctx.error(`Unable to get channel permissions.`);
+            const voicePermissions = discord_rose_1.PermissionsUtils.combine({
+                member: botMember,
+                guild,
+                roleList: guild.roles.reduce((p, c) => p.set(c.id, c), new collection_1.Collection()),
+                overwrites: voiceChannel.permission_overwrites
+            });
+            const textPermissions = discord_rose_1.PermissionsUtils.combine({
+                member: botMember,
+                guild,
+                roleList: guild.roles.reduce((p, c) => p.set(c.id, c), new collection_1.Collection()),
+                overwrites: textChannel.permission_overwrites
+            });
+            if (!discord_rose_1.PermissionsUtils.has(voicePermissions, `connect`))
+                return ctx.error(`The bot must have the "Connect" permission in your voice channel to play music.`);
+            if (!discord_rose_1.PermissionsUtils.has(voicePermissions, `speak`))
+                return ctx.error(`The bot must have the "Speak" permission in your voice channel to play music.`);
+            if (voiceChannel.type === 13 && !discord_rose_1.PermissionsUtils.has(voicePermissions, `requestToSpeak`) && !discord_rose_1.PermissionsUtils.has(voicePermissions, `mute`))
+                return ctx.error(`The bot must have the "Request to Speak" or "Mute Members" permission in your voice channel to play music.`);
+            if (!discord_rose_1.PermissionsUtils.has(textPermissions, `sendMessages`))
+                return ctx.error(`The bot must have the "Send Messages" permission in this text channel to play music.`);
+            if (!discord_rose_1.PermissionsUtils.has(textPermissions, `embed`))
+                return ctx.error(`The bot must have the "Embed Links" permission in this text channel to play music.`);
             player = ctx.worker.lavalink.createPlayer({
                 becomeSpeaker: true,
                 connectionTimeout: 15e3,
@@ -52,8 +81,8 @@ exports.default = {
                 selfDeafen: true,
                 selfMute: false,
                 stageMoveBehavior: `pause`,
-                voiceChannelId: ctx.voiceState.channel_id,
-                textChannelId: ctx.interaction.channel_id
+                voiceChannelId: voiceChannel.id,
+                textChannelId: textChannel.id
             });
             player.twentyfourseven = false;
         }

@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
-const Lavalink_1 = require("../../utils/Lavalink");
 const discord_utils_1 = require("@br88c/discord-utils");
 const lavalink_1 = require("@discord-rose/lavalink");
 exports.default = {
@@ -33,7 +32,7 @@ exports.default = {
                 .field(`Voice Channel`, `\`${voiceChannel.name}\`` ?? `N/A`, true)
                 .field(`Loop`, `\`${ctx.player.loop.charAt(0).toUpperCase()}${ctx.player.loop.slice(1)}\``, true)
                 .field(`24/7`, `\`${ctx.player.twentyfourseven ? `On` : `Off`}\``, true)
-                .field(`Active Effects`, Lavalink_1.filtersString(ctx.player), false)
+                .field(`Active Effects`, ctx.worker.lavalink.filtersString(ctx.player), false)
                 .send()
                 .catch(() => void ctx.error(`Unable to send the response message.`));
         };

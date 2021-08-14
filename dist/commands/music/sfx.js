@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
-const Lavalink_1 = require("../../utils/Lavalink");
 exports.default = {
     command: `sfx`,
     mustHaveConnectedPlayer: true,
@@ -157,7 +156,7 @@ exports.default = {
             ctx.embed
                 .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
                 .title(`Active SFX`)
-                .description(Lavalink_1.filtersString(ctx.player))
+                .description(ctx.worker.lavalink.filtersString(ctx.player))
                 .send()
                 .catch((error) => void ctx.error(error));
         }
