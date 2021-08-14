@@ -1,6 +1,6 @@
 {
   "name": "peter",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "A feature rich Discord music bot that offers features such as 24/7 and audio effects for free.",
   "main": "./dist/index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   "license": "GPL-3.0",
   "homepage": "https://peter.badfirmware.com",
   "dependencies": {
-    "@br88c/discord-utils": "^1.0.2",
+    "@br88c/discord-utils": "^1.0.3",
     "@discord-rose/lavalink": "^0.1.3",
     "@discordjs/collection": "^0.2.1",
     "@top-gg/sdk": "^3.1.2",
