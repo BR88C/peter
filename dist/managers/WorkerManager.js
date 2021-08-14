@@ -40,7 +40,23 @@ class WorkerManager extends discord_rose_1.Worker {
         this.commands.prefix(Config_1.Config.developerPrefix);
         this.log(`Using developer prefix ${Config_1.Config.developerPrefix}`);
         discord_utils_1.loadCommands(this, path_1.resolve(__dirname, `../commands`));
-        this.commands.error((ctx, error) => discord_utils_1.errorFunction(ctx, error, this, Config_1.Config.defaultTokenArray, Constants_1.Constants.ERROR_EMBED_COLOR, Constants_1.Constants.SUPPORT_SERVER));
+        this.commands.error((ctx, error) => {
+            if (ctx.isInteraction)
+                this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.ran} | Reason: ${discord_utils_1.removeToken(error.message.replace(/^(Error: )/, ``), Config_1.Config.defaultTokenArray)} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.interaction?.guild_id ? ` | Guild ID: ${ctx.interaction.guild_id}` : ``}`);
+            else
+                this.log(`\x1b[31m${error.nonFatal ? `` : `Fatal `}Error executing Command | Command: ${ctx.command?.command} | Reason: ${discord_utils_1.removeToken(error.message.replace(/^(Error: )/, ``), Config_1.Config.defaultTokenArray)} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message?.guild_id ? ` | Guild ID: ${ctx.message.guild_id}` : ``}`);
+            if (!error.nonFatal) {
+                discord_utils_1.logError(error);
+                error.message = `An unkown error occurred. Please submit an issue in our support server.`;
+            }
+            ctx.embed
+                .color(Constants_1.Constants.ERROR_EMBED_COLOR ?? 0xFF0000)
+                .title(`Error`)
+                .description(`\`\`\`\n${discord_utils_1.removeToken(error.message.replace(/^(Error: )/, ``), Config_1.Config.defaultTokenArray)}\n\`\`\`${Constants_1.Constants.SUPPORT_SERVER ? `\n*If this doesn't seem right, please submit an issue in the support server:* ${Constants_1.Constants.SUPPORT_SERVER}` : ``}`)
+                .timestamp()
+                .send(true, false, true)
+                .catch((error) => this.log(`\x1b[31mUnable to send Error Embed${typeof error === `string` ? ` | Reason: ${error}` : (typeof error?.message === `string` ? ` | Reason: ${error.message}` : ``)}`));
+        });
         this.commands.middleware(async (ctx) => {
             if (!ctx.worker.available) {
                 void ctx.error(`The bot is still starting; please wait!`);
