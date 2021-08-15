@@ -15,16 +15,21 @@ export default {
         name: `stop`,
         description: `Stop the music.`
     },
-    exec: async (ctx) => {
-        await ctx.player!.stop();
-
-        ctx.embed
-            .color(Constants.STOP_EMBED_COLOR)
-            .title(`:octagonal_sign:  Stopped the music`)
-            .send()
+    exec: (ctx) => {
+        ctx.player!.stop()
+            .then(() => {
+                ctx.embed
+                    .color(Constants.STOP_EMBED_COLOR)
+                    .title(`:octagonal_sign:  Stopped the music`)
+                    .send()
+                    .catch((error) => {
+                        logError(error);
+                        void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    });
+            })
             .catch((error) => {
                 logError(error);
-                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                void ctx.error(`An unknown error occurred while stopping the music. Please submit an issue in our support server.`);
             });
     }
 } as CommandOptions;

@@ -14,7 +14,7 @@ export default {
         name: `247`,
         description: `Toggle 24/7.`
     },
-    exec: async (ctx) => {
+    exec: (ctx) => {
         ctx.player!.twentyfourseven = !ctx.player!.twentyfourseven;
         if (ctx.player!.loop === `off`) ctx.player!.setLoop(`queue`);
 

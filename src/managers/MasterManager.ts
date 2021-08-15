@@ -46,7 +46,10 @@ export class MasterManager extends Master {
         } else this.log(`No Top.gg token provided, skipping initialization`);
 
         // Check vote command.
-        this.handlers.on(`CHECK_VOTE`, async (cluster, data, resolve) => resolve(this.topgg ? await this.topgg.hasVoted(data) : true));
+        this.handlers.on(`CHECK_VOTE`, async (cluster, data, resolve) => resolve(this.topgg ? await this.topgg.hasVoted(data).catch((error) => {
+            logError(error);
+            return true;
+        }) : true));
 
         // On ready.
         this.once(`READY`, () => {

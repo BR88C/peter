@@ -16,17 +16,22 @@ export default {
         name: `replay`,
         description: `Seek to the beginning of the song.`
     },
-    exec: async (ctx) => {
+    exec: (ctx) => {
         if (!(ctx.player!.currentTrack! as Track).isSeekable || (ctx.player!.currentTrack! as Track).isStream) return void ctx.error(`The current song does not support seeking to the beginning of the song.`);
-        await ctx.player!.seek(0);
-
-        ctx.embed
-            .color(Constants.SEEK_EMBED_COLOR)
-            .title(`:rewind:  Seeked to the beginning of the song`)
-            .send()
+        ctx.player!.seek(0)
+            .then(() => {
+                ctx.embed
+                    .color(Constants.SEEK_EMBED_COLOR)
+                    .title(`:rewind:  Seeked to the beginning of the song`)
+                    .send()
+                    .catch((error) => {
+                        logError(error);
+                        void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    });
+            })
             .catch((error) => {
                 logError(error);
-                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                void ctx.error(`An unknown error occurred while seeking to the beginning of the song. Please submit an issue in our support server.`);
             });
     }
 } as CommandOptions;

@@ -11,8 +11,10 @@ export default {
         description: `Get information about the server.`
     },
     exec: async (ctx) => {
-        const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!, true);
-        const owner = await ctx.worker.api.users.get(guild.owner_id);
+        const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!, true).catch((error) => logError(error));
+        if (!guild) return void ctx.error(`Unable to get information about this server. Please try again.`);
+        const owner = await ctx.worker.api.users.get(guild.owner_id).catch((error) => logError(error));
+        if (!owner) return void ctx.error(`Unable to get information about this server. Please try again.`);
         const iconURL = `${DiscordConstants.DISCORD_CDN}/icons/${guild.id}/${guild.icon}.${guild.icon?.startsWith(`a_`) ? `gif` : `png`}`;
         ctx.embed
             .color(Constants.SERVER_INFO_EMBED_COLOR)

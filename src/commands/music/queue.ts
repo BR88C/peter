@@ -14,7 +14,8 @@ export default {
         description: `Get the current queue.`
     },
     exec: async (ctx) => {
-        const voiceChannel = await ctx.worker.api.channels.get(ctx.player!.options.voiceChannelId);
+        const voiceChannel = await ctx.worker.api.channels.get(ctx.player!.options.voiceChannelId).catch((error) => logError(error));
+        if (!voiceChannel) return void ctx.error(`Unable to get information about the queue. Please try again.`);
 
         /**
          * Send the quue embed.

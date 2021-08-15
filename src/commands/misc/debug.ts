@@ -44,11 +44,9 @@ export default {
                 });
         } else {
             const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!).catch((error) => logError(error));
-            const member = await ctx.worker.api.members.get(guild.id, ctx.worker.user.id).catch((error) => logError(error));
+            const member = await ctx.worker.api.members.get(ctx.interaction.guild_id!, ctx.worker.user.id).catch((error) => logError(error));
             const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch((error) => logError(error));
-
-            if (!guild || !member || !textChannel) return void ctx.error(`Unable to get the bot's permissions.`);
-
+            if (!guild || !member || !textChannel) return void ctx.error(`Unable to get the bot's permissions. Please try again.`);
             const roles = guild.roles.reduce((p, c) => p.set(c.id, c), new Collection());
 
             const guildPermissions = PermissionsUtils.combine({
@@ -75,7 +73,8 @@ export default {
 
             const player = ctx.worker.lavalink.players.get(guild.id);
             if (player) {
-                const playerTextChannel = await ctx.worker.api.channels.get(player.options.textChannelId);
+                const playerTextChannel = await ctx.worker.api.channels.get(player.options.textChannelId).catch((error) => logError(error));
+                if (!playerTextChannel) return void ctx.error(`Unable to get the bot's permission for the music player's text channel. Please try again.`);
                 const playerTextChannelPermissions = PermissionsUtils.combine({
                     guild,
                     member,
@@ -83,7 +82,8 @@ export default {
                     roleList: roles as any
                 });
 
-                const playerVoiceChannel = await ctx.worker.api.channels.get(player.options.voiceChannelId);
+                const playerVoiceChannel = await ctx.worker.api.channels.get(player.options.voiceChannelId).catch((error) => logError(error));
+                if (!playerVoiceChannel) return void ctx.error(`Unable to get the bot's permission for the music player's text channel. Please try again.`);
                 const playerVoiceChannelPermissions = PermissionsUtils.combine({
                     guild,
                     member,

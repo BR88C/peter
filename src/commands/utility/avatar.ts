@@ -19,7 +19,8 @@ export default {
         ]
     },
     exec: async (ctx) => {
-        const user = await ctx.worker.api.users.get(ctx.options.user ?? ctx.author.id);
+        const user = await ctx.worker.api.users.get(ctx.options.user ?? ctx.author.id).catch((error) => logError(error));
+        if (!user) return void ctx.error(`Unable to get the specified user's avatar. Please try again.`);
         const avatarURL = `${DiscordConstants.DISCORD_CDN}/avatars/${user.id}/${user.avatar}.${user.avatar?.startsWith(`a_`) ? `gif` : `png`}`;
         ctx.embed
             .color(Constants.AVATAR_EMBED_COLOR)

@@ -22,18 +22,23 @@ export default {
             }
         ]
     },
-    exec: async (ctx) => {
+    exec: (ctx) => {
         const index = typeof ctx.options.index === `number` ? ctx.options.index - 1 : undefined;
         if (index && (index < 0 || index >= ctx.player!.queue.length)) return void ctx.error(`Invalid index. Please specify a value greater than 0 and less than or equal to the queue's length.`);
-        await ctx.player!.skip(index);
-
-        ctx.embed
-            .color(Constants.SKIP_EMBED_COLOR)
-            .title(`:track_next:  Skipped to ${typeof index === `number` ? `song ${index + 1}` : `the next song`}`)
-            .send()
+        ctx.player!.skip(index)
+            .then(() => {
+                ctx.embed
+                    .color(Constants.SKIP_EMBED_COLOR)
+                    .title(`:track_next:  Skipped to ${typeof index === `number` ? `song ${index + 1}` : `the next song`}`)
+                    .send()
+                    .catch((error) => {
+                        logError(error);
+                        void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    });
+            })
             .catch((error) => {
                 logError(error);
-                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                void ctx.error(`An unknown error occurred while skipping. Please submit an issue in our support server.`);
             });
     }
 } as CommandOptions;

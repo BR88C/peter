@@ -15,16 +15,21 @@ export default {
         name: `resume`,
         description: `Resume the music.`
     },
-    exec: async (ctx) => {
-        await ctx.player!.resume();
-
-        ctx.embed
-            .color(Constants.PAUSE_RESUME_EMBED_COLOR)
-            .title(`:arrow_forward:  Resumed the music`)
-            .send()
+    exec: (ctx) => {
+        ctx.player!.resume()
+            .then(() => {
+                ctx.embed
+                    .color(Constants.PAUSE_RESUME_EMBED_COLOR)
+                    .title(`:arrow_forward:  Resumed the music`)
+                    .send()
+                    .catch((error) => {
+                        logError(error);
+                        void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    });
+            })
             .catch((error) => {
                 logError(error);
-                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                void ctx.error(`An unknown error occurred while resuming the music. Please submit an issue in our support server.`);
             });
     }
 } as CommandOptions;

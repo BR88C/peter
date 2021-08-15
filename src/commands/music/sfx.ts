@@ -129,7 +129,7 @@ export default {
             }
         ]
     },
-    exec: async (ctx) => {
+    exec: (ctx) => {
         if (ctx.options.bassboost) {
             if (ctx.options.bassboost.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
 
@@ -139,27 +139,43 @@ export default {
                     band: i, gain: ctx.options.bassboost.value * Constants.BASSBOOST_INTENSITY_MULTIPLIER
                 }))) });
             if (!newFilters.equalizer?.length) delete newFilters.equalizer;
-            await ctx.player!.setFilters(newFilters);
-
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(ctx.player!.filters.equalizer?.find((v) => v.band === 0) ? `Set the bassboost effect to \`+${Math.round((ctx.player!.filters.equalizer?.find((v) => v.band === 0)?.gain ?? 0) / Constants.BASSBOOST_INTENSITY_MULTIPLIER)}\`` : `Turned off the bassboost effect.`)
-                .send()
+            ctx.player!.setFilters(newFilters)
+                .then(() => {
+                    ctx.embed
+                        .color(Constants.SET_SFX_EMBED_COLOR)
+                        .title(ctx.player!.filters.equalizer?.find((v) => v.band === 0) ? `Set the bassboost effect to \`+${Math.round((ctx.player!.filters.equalizer?.find((v) => v.band === 0)?.gain ?? 0) / Constants.BASSBOOST_INTENSITY_MULTIPLIER)}\`` : `Turned off the bassboost effect.`)
+                        .send()
+                        .catch((error) => {
+                            logError(error);
+                            void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                        });
+                })
                 .catch((error) => {
                     logError(error);
-                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
                 });
         } else if (ctx.options.clear) {
-            await ctx.player!.setFilters({});
-            await ctx.player!.setVolume(100);
-
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(`Cleared all effects`)
-                .send()
+            ctx.player!.setFilters({})
+                .then(() => {
+                ctx.player!.setVolume(100)
+                    .then(() => {
+                        ctx.embed
+                            .color(Constants.SET_SFX_EMBED_COLOR)
+                            .title(`Cleared all effects`)
+                            .send()
+                            .catch((error) => {
+                                logError(error);
+                                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                            });
+                    })
+                    .catch((error) => {
+                        logError(error);
+                        void ctx.error(`An unknown error occurred while setting the volume. Please submit an issue in our support server.`);
+                    });
+                })
                 .catch((error) => {
                     logError(error);
-                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
                 });
         } else if (ctx.options.list) {
             ctx.embed
@@ -177,30 +193,40 @@ export default {
             const newFilters: Filters = Object.assign(ctx.player!.filters, { timescale: Object.assign(ctx.player!.filters.timescale ?? {}, { pitch: ctx.options.pitch.value / 100 }) });
             if (newFilters.timescale?.pitch === 1) delete newFilters.timescale.pitch;
             if (!Object.keys(newFilters.timescale ?? {}).length) delete newFilters.timescale;
-            await ctx.player!.setFilters(newFilters);
-
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(ctx.player!.filters.timescale?.pitch ? `Set the pitch to \`${Math.round(ctx.player!.filters.timescale.pitch * 100)}%\`` : `Turned off the pitch effect.`)
-                .send()
+            ctx.player!.setFilters(newFilters)
+                .then(() => {
+                    ctx.embed
+                        .color(Constants.SET_SFX_EMBED_COLOR)
+                        .title(ctx.player!.filters.timescale?.pitch ? `Set the pitch to \`${Math.round(ctx.player!.filters.timescale.pitch * 100)}%\`` : `Turned off the pitch effect.`)
+                        .send()
+                        .catch((error) => {
+                            logError(error);
+                            void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                        });
+                })
                 .catch((error) => {
                     logError(error);
-                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
                 });
         } else if (ctx.options.rotation) {
             if (ctx.options.rotation.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
 
             const newFilters: Filters = Object.assign(ctx.player!.filters, { rotation: { rotationHz: ctx.options.rotation.value } });
             if (newFilters.rotation?.rotationHz === 0) delete newFilters.rotation;
-            await ctx.player!.setFilters(newFilters);
-
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(typeof newFilters.rotation?.rotationHz === `number` ? `Set the rotation frequency to \`${newFilters.rotation.rotationHz} Hz\`` : `Turned off the rotation effect.`)
-                .send()
+            ctx.player!.setFilters(newFilters)
+                .then(() => {
+                    ctx.embed
+                        .color(Constants.SET_SFX_EMBED_COLOR)
+                        .title(typeof newFilters.rotation?.rotationHz === `number` ? `Set the rotation frequency to \`${newFilters.rotation.rotationHz} Hz\`` : `Turned off the rotation effect.`)
+                        .send()
+                        .catch((error) => {
+                            logError(error);
+                            void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                        });
+                })
                 .catch((error) => {
                     logError(error);
-                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
                 });
         } else if (ctx.options.speed) {
             if (ctx.options.speed.value <= 0) return void ctx.error(`Invalid value. Please specify a value greater than 0.`);
@@ -208,15 +234,20 @@ export default {
             const newFilters: Filters = Object.assign(ctx.player!.filters, { timescale: Object.assign(ctx.player!.filters.timescale ?? {}, { speed: ctx.options.speed.value / 100 }) });
             if (newFilters.timescale?.speed === 1) delete newFilters.timescale.speed;
             if (!Object.keys(newFilters.timescale ?? {}).length) delete newFilters.timescale;
-            await ctx.player!.setFilters(newFilters);
-
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(ctx.player!.filters.timescale?.speed ? `Set the speed to \`${Math.round(ctx.player!.filters.timescale.speed * 100)}%\`` : `Turned off the speed effect.`)
-                .send()
+            ctx.player!.setFilters(newFilters)
+                .then(() => {
+                    ctx.embed
+                        .color(Constants.SET_SFX_EMBED_COLOR)
+                        .title(ctx.player!.filters.timescale?.speed ? `Set the speed to \`${Math.round(ctx.player!.filters.timescale.speed * 100)}%\`` : `Turned off the speed effect.`)
+                        .send()
+                        .catch((error) => {
+                            logError(error);
+                            void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                        });
+                })
                 .catch((error) => {
                     logError(error);
-                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
                 });
         } else if (ctx.options.treble) {
             if (ctx.options.treble.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
@@ -227,15 +258,20 @@ export default {
                     band: Constants.EQ_BAND_COUNT - (i + 1), gain: ctx.options.treble.value * Constants.TREBLE_INTENSITY_MULTIPLIER
                 }))) });
             if (!newFilters.equalizer?.length) delete newFilters.equalizer;
-            await ctx.player!.setFilters(newFilters);
-
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(ctx.player!.filters.equalizer?.find((v) => v.band === Constants.EQ_BAND_COUNT - 1) ? `Set the treble to \`+${Math.round((ctx.player!.filters.equalizer?.find((v) => v.band === Constants.EQ_BAND_COUNT - 1)?.gain ?? 0) / Constants.TREBLE_INTENSITY_MULTIPLIER)}\`` : `Turned off the treble effect.`)
-                .send()
+            ctx.player!.setFilters(newFilters)
+                .then(() => {
+                    ctx.embed
+                        .color(Constants.SET_SFX_EMBED_COLOR)
+                        .title(ctx.player!.filters.equalizer?.find((v) => v.band === Constants.EQ_BAND_COUNT - 1) ? `Set the treble to \`+${Math.round((ctx.player!.filters.equalizer?.find((v) => v.band === Constants.EQ_BAND_COUNT - 1)?.gain ?? 0) / Constants.TREBLE_INTENSITY_MULTIPLIER)}\`` : `Turned off the treble effect.`)
+                        .send()
+                        .catch((error) => {
+                            logError(error);
+                            void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                        });
+                })
                 .catch((error) => {
                     logError(error);
-                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
                 });
         } else if (ctx.options.tremolo) {
             if (ctx.options.tremolo.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
@@ -245,15 +281,20 @@ export default {
                 depth: ctx.options.tremolo.value / 100, frequency: Constants.TREMOLO_VIBRATO_FREQUENCY
             } });
             if (newFilters.tremolo?.depth === 0) delete newFilters.tremolo;
-            await ctx.player!.setFilters(newFilters);
-
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(newFilters.tremolo?.depth ? `Set the tremolo to \`${Math.round(newFilters.tremolo.depth * 100)}%\`` : `Turned off the tremolo effect.`)
-                .send()
+            ctx.player!.setFilters(newFilters)
+                .then(() => {
+                    ctx.embed
+                        .color(Constants.SET_SFX_EMBED_COLOR)
+                        .title(newFilters.tremolo?.depth ? `Set the tremolo to \`${Math.round(newFilters.tremolo.depth * 100)}%\`` : `Turned off the tremolo effect.`)
+                        .send()
+                        .catch((error) => {
+                            logError(error);
+                            void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                        });
+                })
                 .catch((error) => {
                     logError(error);
-                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
                 });
         } else if (ctx.options.vibrato) {
             if (ctx.options.vibrato.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
@@ -263,29 +304,39 @@ export default {
                 depth: ctx.options.vibrato.value / 100, frequency: Constants.TREMOLO_VIBRATO_FREQUENCY
             } });
             if (newFilters.vibrato?.depth === 0) delete newFilters.vibrato;
-            await ctx.player!.setFilters(newFilters);
-
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(newFilters.vibrato?.depth ? `Set the vibrato to \`${Math.round(newFilters.vibrato.depth * 100)}%\`` : `Turned off the vibrato effect.`)
-                .send()
+            ctx.player!.setFilters(newFilters)
+                .then(() => {
+                    ctx.embed
+                        .color(Constants.SET_SFX_EMBED_COLOR)
+                        .title(newFilters.vibrato?.depth ? `Set the vibrato to \`${Math.round(newFilters.vibrato.depth * 100)}%\`` : `Turned off the vibrato effect.`)
+                        .send()
+                        .catch((error) => {
+                            logError(error);
+                            void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                        });
+                })
                 .catch((error) => {
                     logError(error);
-                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
                 });
         } else if (ctx.options.volume) {
             if (ctx.options.volume.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
             if (ctx.options.volume.value > 1e3) return void ctx.error(`Invalid value. Please specify a value lower than or equal to 1000.`);
 
-            await ctx.player!.setVolume(ctx.options.volume.value);
-
-            ctx.embed
-                .color(Constants.SET_SFX_EMBED_COLOR)
-                .title(`Set the volume to \`${ctx.player!.volume}%\``)
-                .send()
+            ctx.player!.setVolume(ctx.options.volume.value)
+                .then(() => {
+                    ctx.embed
+                        .color(Constants.SET_SFX_EMBED_COLOR)
+                        .title(`Set the volume to \`${ctx.player!.volume}%\``)
+                        .send()
+                        .catch((error) => {
+                            logError(error);
+                            void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                        });
+                })
                 .catch((error) => {
                     logError(error);
-                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    void ctx.error(`An unknown error occurred while setting the volume. Please submit an issue in our support server.`);
                 });
         }
     }

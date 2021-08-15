@@ -115,7 +115,10 @@ export class WorkerManager extends Worker {
                     void ctx.error(`You must be in a voice channel to run the "${ctx.command.interaction!.name}" command.`);
                     return false;
                 }
-                if (ctx.command.voteLocked && !(await ctx.worker.comms.sendCommand(`CHECK_VOTE`, ctx.author.id))) {
+                if (ctx.command.voteLocked && !(await ctx.worker.comms.sendCommand(`CHECK_VOTE`, ctx.author.id).catch((error) => {
+                    logError(error);
+                    return true;
+                }))) {
                     await ctx.embed
                         .color(Constants.ERROR_EMBED_COLOR)
                         .title(`You must vote to use this command! Please vote by going to the link below.`)
@@ -129,20 +132,24 @@ export class WorkerManager extends Worker {
                 }
         
                 if (ctx.command.category === `music`) { // If the interaction is a music command.
-                    const guildDocument = await ctx.worker.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
-                    if (guildDocument?.djCommands.includes(ctx.command.interaction!.name.toLowerCase())) {
-                        const voiceChannel = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!)?.options.voiceChannelId ?? ctx.voiceState?.channel_id;
-                        if (voiceChannel && (ctx.worker.voiceStates.get(voiceChannel)?.users.size ?? 1) - 1 >= guildDocument.djOverride) {
-                            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!);
-                            if (!PermissionsUtils.has(PermissionsUtils.combine({
-                                guild,
-                                member: ctx.interaction.member!,
-                                roleList: guild.roles.reduce((p, c) => p.set(c.id, c), new Collection()) as any
-                            }), `manageGuild`) && !guild.roles.filter((role) => role.name.toLowerCase() === `dj`).map((role) => role.id).some((role) => ctx.interaction.member!.roles.includes(role))) {
-                                void ctx.error(`You must have the DJ role to use that command.`);
-                                return false;
+                    try {
+                        const guildDocument = await ctx.worker.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
+                        if (guildDocument?.djCommands.includes(ctx.command.interaction!.name.toLowerCase())) {
+                            const voiceChannel = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!)?.options.voiceChannelId ?? ctx.voiceState?.channel_id;
+                            if (voiceChannel && (ctx.worker.voiceStates.get(voiceChannel)?.users.size ?? 1) - 1 >= guildDocument.djOverride) {
+                                const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!);
+                                if (!PermissionsUtils.has(PermissionsUtils.combine({
+                                    guild,
+                                    member: ctx.interaction.member!,
+                                    roleList: guild.roles.reduce((p, c) => p.set(c.id, c), new Collection()) as any
+                                }), `manageGuild`) && !guild.roles.filter((role) => role.name.toLowerCase() === `dj`).map((role) => role.id).some((role) => ctx.interaction.member!.roles.includes(role))) {
+                                    void ctx.error(`You must have the DJ role to use that command.`);
+                                    return false;
+                                }
                             }
                         }
+                    } catch (error) {
+                        logError(error);
                     }
                 }
         
@@ -159,7 +166,7 @@ export class WorkerManager extends Worker {
         this.on(`READY`, async () => {
             if (!this.available) {
                 // Initiate lavalink.
-                await this.lavalink.init();
+                await this.lavalink.init().catch((error) => logError(error));
 
                 // Connect to Mongo DB.
                 await this.mongoClient.connect().catch((error) => logError(error));

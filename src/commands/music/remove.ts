@@ -21,17 +21,22 @@ export default {
             }
         ]
     },
-    exec: async (ctx) => {
+    exec: (ctx) => {
         if (ctx.options.index < 1 || ctx.options.index > ctx.player!.queue.length) return void ctx.error(`Please specify a valid index of the queue.`);
-        const removedTrack = await ctx.player!.remove(ctx.options.index - 1);
-
-        await ctx.embed
-            .color(Constants.REMOVED_TRACK_EMBED_COLOR)
-            .title(`:x:  Removed "${removedTrack.title}" from the queue`)
-            .send()
+        ctx.player!.remove(ctx.options.index - 1)
+            .then((removedTrack) => {
+                ctx.embed
+                    .color(Constants.REMOVED_TRACK_EMBED_COLOR)
+                    .title(`:x:  Removed "${removedTrack.title}" from the queue`)
+                    .send()
+                    .catch((error) => {
+                        logError(error);
+                        void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    });
+            })
             .catch((error) => {
                 logError(error);
-                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                void ctx.error(`An unknown error occurred while removing music from the queue. Please submit an issue in our support server.`);
             });
     }
 } as CommandOptions;

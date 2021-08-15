@@ -21,11 +21,11 @@ export default {
         ]
     },
     exec: (ctx) => {
-        if (!ctx.worker.commands.commands) return void ctx.error(`Unable to get the command list.`);
+        if (!ctx.worker.commands.commands) return void ctx.error(`Unable to get the command list. Please try again.`);
 
         if (ctx.options.command) {
             const command = ctx.worker.commands.commands.find((command) => command.interaction!.name.toLocaleLowerCase() === ctx.options.command.toLowerCase());
-            if (!command || !command.interaction) return void ctx.error(`That command does not exist.`);
+            if (!command || !command.interaction) return void ctx.error(`The specified command does not exist.`);
             ctx.embed
                 .color(Constants.HELP_EMBED_COLOR)
                 .title(`Command information`)

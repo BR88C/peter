@@ -15,15 +15,20 @@ export default {
         description: `Clears the queue.`
     },
     exec: (ctx) => {
-        ctx.player!.clear();
-
-        ctx.embed
-            .color(Constants.QUEUE_CLEARED_EMBED_COLOR)
-            .title(`:broom:  Cleared the queue`)
-            .send()
+        ctx.player!.clear()
+            .then(() => {
+                ctx.embed
+                    .color(Constants.QUEUE_CLEARED_EMBED_COLOR)
+                    .title(`:broom:  Cleared the queue`)
+                    .send()
+                    .catch((error) => {
+                        logError(error);
+                        void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    });
+            })
             .catch((error) => {
                 logError(error);
-                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                void ctx.error(`An unknown error occurred while clearing the queue. Please submit an issue in our support server.`);
             });
     }
 } as CommandOptions;

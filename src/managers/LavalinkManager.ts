@@ -2,7 +2,7 @@ import { Config } from '../config/Config';
 import { Constants } from '../config/Constants';
 
 // Import modules.
-import { cleanseMarkdown } from '@br88c/discord-utils';
+import { cleanseMarkdown, logError } from '@br88c/discord-utils';
 import { Embed, Worker } from 'discord-rose';
 import { Agent as HttpAgent } from 'http';
 import { Agent as HttpsAgent } from 'https';
@@ -150,8 +150,8 @@ export class LavalinkManager extends Manager {
     public async init (): Promise<void> {
         this.worker.log(`Spawning Lavalink Nodes`);
         const lavalinkStart = Date.now();
-        const lavalinkSpawnResult = await this.connectNodes();
-        this.worker.log(`Spawned ${lavalinkSpawnResult.filter((r) => r.status === `fulfilled`).length}/${this.options.nodeOptions.length} Lavalink Nodes after ${Math.round((Date.now() - lavalinkStart) / 10) / 100}s`);
+        const lavalinkSpawnResult = await this.connectNodes().catch((error) => logError(error));
+        this.worker.log(`Spawned ${lavalinkSpawnResult ? lavalinkSpawnResult.filter((r) => r.status === `fulfilled`).length : 0}/${this.options.nodeOptions.length} Lavalink Nodes after ${Math.round((Date.now() - lavalinkStart) / 10) / 100}s`);
         if (!this.nodes.size) this.worker.log(`\x1b[33mWARNING: Worker has no available lavalink nodes`);
 
         this.worker.on(`VOICE_STATE_UPDATE`, async (data) => {
@@ -160,7 +160,7 @@ export class LavalinkManager extends Manager {
             const voiceState = this.worker.voiceStates.get(player.options.voiceChannelId);
             if (voiceState?.users.has(this.worker.user.id) && voiceState.users.size <= Config.maxUncheckedVoiceStateUsers) {
                 let nonBots = 0;
-                for (const [id] of voiceState.users) nonBots += (await this.worker.api.users.get(id)).bot ? 0 : 1;
+                for (const [id] of voiceState.users) nonBots += (await this.worker.api.users.get(id).catch((error) => logError(error)))?.bot ? 0 : 1;
                 if (nonBots === 0) void player.destroy(`No other users in the voice channel`);
             }
         });
