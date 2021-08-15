@@ -27,14 +27,14 @@ exports.default = {
             .color(Constants_1.Constants.PROCESSING_QUERY_EMBED_COLOR)
             .title(`:mag_right:  Searching...`)
             .send(true, false, true)
-            .catch(() => void ctx.error(`Unable to send the response message.`));
-        const requesterTag = `${ctx.author.username}#${ctx.author.discriminator}`;
-        const search = await ctx.worker.lavalink.search(ctx.options.query, ctx.member.nick ? `${ctx.member.nick} (${requesterTag})` : requesterTag).catch((error) => {
+            .catch((error) => {
             discord_utils_1.logError(error);
-            void ctx.error(`An unknown search error occurred. Please submit an issue in our support server.`);
+            void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
         });
+        const requesterTag = `${ctx.author.username}#${ctx.author.discriminator}`;
+        const search = await ctx.worker.lavalink.search(ctx.options.query, ctx.member.nick ? `${ctx.member.nick} (${requesterTag})` : requesterTag).catch((error) => discord_utils_1.logError(error));
         if (!search)
-            return;
+            return void ctx.error(`An unknown search error occurred. Please submit an issue in our support server.`);
         if (search.exception) {
             ctx.worker.log(`\x1b[31mSearch Error | Error: ${search.exception.message} | Severity: ${search.exception.severity} | Guild ID: ${ctx.interaction.guild_id}`);
             return void ctx.error(`An unknown search error occurred. Please submit an issue in our support server.`);
@@ -45,12 +45,12 @@ exports.default = {
         if (ctx.player)
             player = ctx.player;
         else {
-            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id).catch(() => { });
-            const botMember = await ctx.worker.api.members.get(ctx.interaction.guild_id, ctx.worker.user.id).catch(() => { });
-            const voiceChannel = await ctx.worker.api.channels.get(ctx.voiceState.channel_id).catch(() => { });
-            const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch(() => { });
+            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id).catch((error) => discord_utils_1.logError(error));
+            const botMember = await ctx.worker.api.members.get(ctx.interaction.guild_id, ctx.worker.user.id).catch((error) => discord_utils_1.logError(error));
+            const voiceChannel = await ctx.worker.api.channels.get(ctx.voiceState.channel_id).catch((error) => discord_utils_1.logError(error));
+            const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch((error) => discord_utils_1.logError(error));
             if (!guild || !botMember || !voiceChannel || !textChannel)
-                return ctx.error(`Unable to check channel permissions.`);
+                return ctx.error(`Unable to check channel permissions. Please try again.`);
             const voicePermissions = discord_rose_1.PermissionsUtils.combine({
                 member: botMember,
                 guild,
@@ -68,7 +68,7 @@ exports.default = {
             if (!discord_rose_1.PermissionsUtils.has(voicePermissions, `speak`))
                 return ctx.error(`The bot must have the "Speak" permission in your voice channel to play music.`);
             if (voiceChannel.type === 13 && !discord_rose_1.PermissionsUtils.has(voicePermissions, `requestToSpeak`) && !discord_rose_1.PermissionsUtils.has(voicePermissions, `mute`))
-                return ctx.error(`The bot must have the "Request to Speak" or "Mute Members" permission in your voice channel to play music.`);
+                return ctx.error(`The bot must have the "Request To Speak" or "Mute Members" permission in your voice channel to play music.`);
             if (!discord_rose_1.PermissionsUtils.has(textPermissions, `sendMessages`))
                 return ctx.error(`The bot must have the "Send Messages" permission in this text channel to play music.`);
             if (!discord_rose_1.PermissionsUtils.has(textPermissions, `embed`))
@@ -87,7 +87,7 @@ exports.default = {
             player.twentyfourseven = false;
         }
         if (player.state === lavalink_1.PlayerState.DISCONNECTED)
-            await player.connect();
+            await player.connect().catch((error) => discord_utils_1.logError(error));
         if (player.state < lavalink_1.PlayerState.CONNECTED)
             return void ctx.error(`Unable to connect to the voice channel.`);
         if (search.loadType === `PLAYLIST_LOADED`) {
@@ -95,26 +95,48 @@ exports.default = {
                 .color(Constants_1.Constants.PROCESSING_QUERY_EMBED_COLOR)
                 .title(`:mag_right:  Found a playlist, adding it to the queue...`)
                 .send(true, false, true)
-                .catch(() => void ctx.error(`Unable to send the response message.`));
-            await ctx.worker.api.messages.send(ctx.interaction.channel_id, new discord_rose_1.Embed()
-                .color(Constants_1.Constants.ADDED_TO_QUEUE_EMBED_COLOR)
-                .title(`Successfully queued ${search.tracks.length} song${search.tracks.length > 1 ? `s` : ``}`)
-                .description(`**Link:** ${ctx.options.query}\n\`\`\`\n${search.tracks.slice(0, 8).map((track, i) => `${i + 1}. ${track.title}`).join(`\n`)}${search.tracks.length > 8 ? `\n\n${search.tracks.length - 8} more...` : ``}\n\`\`\``)
-                .footer(`Requested by ${search.tracks[0].requester}`)
-                .timestamp()).catch(() => void ctx.error(`Unable to send the response message.`));
+                .catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
         }
         else {
             await ctx.embed
                 .color(Constants_1.Constants.PROCESSING_QUERY_EMBED_COLOR)
                 .title(`:mag_right:  Found ${search.tracks.length} result${search.tracks.length > 1 ? `s, queuing the first one` : `, adding it to the queue`}...`)
                 .send(true, false, true)
-                .catch(() => void ctx.error(`Unable to send the response message.`));
-            await ctx.worker.api.messages.send(ctx.interaction.channel_id, new discord_rose_1.Embed()
-                .color(Constants_1.Constants.ADDED_TO_QUEUE_EMBED_COLOR)
-                .title(`Added "${discord_utils_1.cleanseMarkdown(search.tracks[0].title)}" to the queue`)
-                .footer(`Requested by ${search.tracks[0].requester}`)
-                .timestamp()).catch(() => void ctx.error(`Unable to send the response message.`));
+                .catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
         }
-        await player.play(search.loadType === `PLAYLIST_LOADED` ? search.tracks : search.tracks[0]);
+        await player.play(search.loadType === `PLAYLIST_LOADED` ? search.tracks : search.tracks[0])
+            .then(() => {
+            if (search.loadType === `PLAYLIST_LOADED`) {
+                ctx.worker.api.messages.send(ctx.interaction.channel_id, new discord_rose_1.Embed()
+                    .color(Constants_1.Constants.ADDED_TO_QUEUE_EMBED_COLOR)
+                    .title(`Successfully queued ${search.tracks.length} song${search.tracks.length > 1 ? `s` : ``}`)
+                    .description(`**Link:** ${ctx.options.query}\n\`\`\`\n${search.tracks.slice(0, 8).map((track, i) => `${i + 1}. ${track.title}`).join(`\n`)}${search.tracks.length > 8 ? `\n\n${search.tracks.length - 8} more...` : ``}\n\`\`\``)
+                    .footer(`Requested by ${search.tracks[0].requester}`)
+                    .timestamp()).catch((error) => {
+                    discord_utils_1.logError(error);
+                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                });
+            }
+            else {
+                ctx.worker.api.messages.send(ctx.interaction.channel_id, new discord_rose_1.Embed()
+                    .color(Constants_1.Constants.ADDED_TO_QUEUE_EMBED_COLOR)
+                    .title(`Added "${discord_utils_1.cleanseMarkdown(search.tracks[0].title)}" to the queue`)
+                    .footer(`Requested by ${search.tracks[0].requester}`)
+                    .timestamp()).catch((error) => {
+                    discord_utils_1.logError(error);
+                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                });
+            }
+        })
+            .catch((error) => {
+            discord_utils_1.logError(error);
+            void ctx.error(`An unknown error occurred while starting or queuing music. Please try again.`);
+        });
     }
 };

@@ -20,16 +20,25 @@ exports.default = {
             }
         ]
     },
-    exec: async (ctx) => {
+    exec: (ctx) => {
         if (!ctx.player.queue[ctx.player.queuePosition ?? 0].isSeekable || ctx.player.queue[ctx.player.queuePosition ?? 0].isStream)
             return void ctx.error(`The current song does not support seeking.`);
         if (ctx.options.time < 0)
             return void ctx.error(`Invalid value to seek to.`);
-        await ctx.player.seek(ctx.options.time * 1e3);
-        ctx.embed
-            .color(Constants_1.Constants.SEEK_EMBED_COLOR)
-            .title(`:fast_forward:  Seeked to ${discord_utils_1.timestamp(ctx.options.time * 1e3)}`)
-            .send()
-            .catch(() => void ctx.error(`Unable to send the response message.`));
+        ctx.player.seek(ctx.options.time * 1e3)
+            .then(() => {
+            ctx.embed
+                .color(Constants_1.Constants.SEEK_EMBED_COLOR)
+                .title(`:fast_forward:  Seeked to ${discord_utils_1.timestamp(ctx.options.time * 1e3)}`)
+                .send()
+                .catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
+        })
+            .catch((error) => {
+            discord_utils_1.logError(error);
+            void ctx.error(`An unknown error occurred while seeking. Please submit an issue in our support server.`);
+        });
     }
 };

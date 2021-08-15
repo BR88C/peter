@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
+const discord_utils_1 = require("@br88c/discord-utils");
 exports.default = {
     command: `ping`,
     allowButton: true,
@@ -14,6 +15,9 @@ exports.default = {
             .title(`Pong!`)
             .description(`\`\`\`js\n${ctx.worker.guildShard(ctx.interaction.guild_id).ping} ms\n\`\`\``)
             .send()
-            .catch(() => void ctx.error(`Unable to send the response message.`));
+            .catch((error) => {
+            discord_utils_1.logError(error);
+            void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+        });
     }
 };

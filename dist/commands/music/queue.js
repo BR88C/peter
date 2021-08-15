@@ -12,7 +12,9 @@ exports.default = {
         description: `Get the current queue.`
     },
     exec: async (ctx) => {
-        const voiceChannel = await ctx.worker.api.channels.get(ctx.player.options.voiceChannelId);
+        const voiceChannel = await ctx.worker.api.channels.get(ctx.player.options.voiceChannelId).catch((error) => discord_utils_1.logError(error));
+        if (!voiceChannel)
+            return void ctx.error(`Unable to get information about the queue. Please try again.`);
         const sendEmbed = async (page) => {
             const trackTitles = [];
             ctx.player.queue.forEach((track, i) => trackTitles.push(`${i === ctx.player.queuePosition ? `↳ ` : ``}**${i + 1}.** ${track.uri ? `[` : ``}${discord_utils_1.cleanseMarkdown(track.title)}${track.uri ? `](${track.uri})` : ``} ${track.length ? ` - [${discord_utils_1.timestamp(track.length)}]` : ``}`));
@@ -34,7 +36,10 @@ exports.default = {
                 .field(`24/7`, `\`${ctx.player.twentyfourseven ? `On` : `Off`}\``, true)
                 .field(`Active Effects`, ctx.worker.lavalink.filtersString(ctx.player), false)
                 .send()
-                .catch(() => void ctx.error(`Unable to send the response message.`));
+                .catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
         };
         await sendEmbed(Math.floor((ctx.player.queuePosition ?? 0) / 10));
     }

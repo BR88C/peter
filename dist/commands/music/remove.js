@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
+const discord_utils_1 = require("@br88c/discord-utils");
 exports.default = {
     command: `remove`,
     mustHaveConnectedPlayer: true,
@@ -18,14 +19,23 @@ exports.default = {
             }
         ]
     },
-    exec: async (ctx) => {
+    exec: (ctx) => {
         if (ctx.options.index < 1 || ctx.options.index > ctx.player.queue.length)
             return void ctx.error(`Please specify a valid index of the queue.`);
-        const removedTrack = await ctx.player.remove(ctx.options.index - 1);
-        await ctx.embed
-            .color(Constants_1.Constants.REMOVED_TRACK_EMBED_COLOR)
-            .title(`:x:  Removed "${removedTrack.title}" from the queue`)
-            .send()
-            .catch(() => void ctx.error(`Unable to send the response message.`));
+        ctx.player.remove(ctx.options.index - 1)
+            .then((removedTrack) => {
+            ctx.embed
+                .color(Constants_1.Constants.REMOVED_TRACK_EMBED_COLOR)
+                .title(`:x:  Removed "${removedTrack.title}" from the queue`)
+                .send()
+                .catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
+        })
+            .catch((error) => {
+            discord_utils_1.logError(error);
+            void ctx.error(`An unknown error occurred while removing music from the queue. Please submit an issue in our support server.`);
+        });
     }
 };

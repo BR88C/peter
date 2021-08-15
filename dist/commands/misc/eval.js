@@ -5,7 +5,7 @@ const Constants_1 = require("../../config/Constants");
 const discord_utils_1 = require("@br88c/discord-utils");
 exports.default = {
     command: `eval`,
-    exec: async (ctx) => discord_utils_1.evalCommand(ctx, Config_1.Config.devs.IDs, ctx.worker.lavalink.spotifyToken
+    exec: async (ctx) => await discord_utils_1.evalCommand(ctx, Config_1.Config.devs.IDs, ctx.worker.lavalink.spotifyToken
         ? Config_1.Config.defaultTokenArray.concat({
             token: ctx.worker.lavalink.spotifyToken, replacement: `%spotify_token%`
         })

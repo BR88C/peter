@@ -27,7 +27,7 @@ class WorkerManager extends discord_rose_1.Worker {
         this.commands.error((ctx, error) => discord_utils_1.errorFunction(ctx, error, this, Config_1.Config.defaultTokenArray, Constants_1.Constants.ERROR_EMBED_COLOR, Constants_1.Constants.SUPPORT_SERVER));
         this.commands.middleware(async (ctx) => {
             if (!ctx.worker.available) {
-                void ctx.error(`The bot is still starting; please wait!`);
+                void ctx.error(`The bot is still starting; please wait to run a command!`);
                 return false;
             }
             if (!ctx.isInteraction) {
@@ -85,40 +85,54 @@ class WorkerManager extends discord_rose_1.Worker {
                     void ctx.error(`You must be in a voice channel to run the "${ctx.command.interaction.name}" command.`);
                     return false;
                 }
-                if (ctx.command.voteLocked && !(await ctx.worker.comms.sendCommand(`CHECK_VOTE`, ctx.author.id))) {
+                if (ctx.command.voteLocked && !(await ctx.worker.comms.sendCommand(`CHECK_VOTE`, ctx.author.id).catch((error) => {
+                    discord_utils_1.logError(error);
+                    return true;
+                }))) {
                     await ctx.embed
                         .color(Constants_1.Constants.ERROR_EMBED_COLOR)
                         .title(`You must vote to use this command! Please vote by going to the link below.`)
                         .description(Constants_1.Constants.VOTE_LINK)
                         .send(true, false, true)
-                        .catch(() => void ctx.error(`Unable to send the response message.`));
+                        .catch((error) => {
+                        discord_utils_1.logError(error);
+                        void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    });
                     return false;
                 }
                 if (ctx.command.category === `music`) {
-                    const guildDocument = await ctx.worker.mongoClient.db(Config_1.Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
-                    if (guildDocument?.djCommands.includes(ctx.command.interaction.name.toLowerCase())) {
-                        const voiceChannel = ctx.worker.lavalink.players.get(ctx.interaction.guild_id)?.options.voiceChannelId ?? ctx.voiceState?.channel_id;
-                        if (voiceChannel && (ctx.worker.voiceStates.get(voiceChannel)?.users.size ?? 1) - 1 >= guildDocument.djOverride) {
-                            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id);
-                            if (!discord_rose_1.PermissionsUtils.has(discord_rose_1.PermissionsUtils.combine({
-                                guild,
-                                member: ctx.interaction.member,
-                                roleList: guild.roles.reduce((p, c) => p.set(c.id, c), new collection_1.Collection())
-                            }), `manageGuild`) && !guild.roles.filter((role) => role.name.toLowerCase() === `dj`).map((role) => role.id).some((role) => ctx.interaction.member.roles.includes(role))) {
-                                void ctx.error(`You must have the DJ role to use that command.`);
-                                return false;
+                    try {
+                        const guildDocument = await ctx.worker.mongoClient.db(Config_1.Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
+                        if (guildDocument?.djCommands.includes(ctx.command.interaction.name.toLowerCase())) {
+                            const voiceChannel = ctx.worker.lavalink.players.get(ctx.interaction.guild_id)?.options.voiceChannelId ?? ctx.voiceState?.channel_id;
+                            if (voiceChannel && (ctx.worker.voiceStates.get(voiceChannel)?.users.size ?? 1) - 1 >= guildDocument.djOverride) {
+                                const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id);
+                                if (!discord_rose_1.PermissionsUtils.has(discord_rose_1.PermissionsUtils.combine({
+                                    guild,
+                                    member: ctx.interaction.member,
+                                    roleList: guild.roles.reduce((p, c) => p.set(c.id, c), new collection_1.Collection())
+                                }), `manageGuild`) && !guild.roles.filter((role) => role.name.toLowerCase() === `dj`).map((role) => role.id).some((role) => ctx.interaction.member.roles.includes(role))) {
+                                    void ctx.error(`You must have the DJ role to use that command.`);
+                                    return false;
+                                }
                             }
                         }
                     }
+                    catch (error) {
+                        discord_utils_1.logError(error);
+                    }
                 }
                 ctx.worker.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild ID: ${ctx.interaction.guild_id}`);
-                await ctx.typing().catch(() => void ctx.error(`Unable to send thinking response.`));
+                await ctx.typing().catch((error) => {
+                    discord_utils_1.logError(error);
+                    void ctx.error(`Unable to send thinking response.`);
+                });
                 return true;
             }
         });
         this.on(`READY`, async () => {
             if (!this.available) {
-                await this.lavalink.init();
+                await this.lavalink.init().catch((error) => discord_utils_1.logError(error));
                 await this.mongoClient.connect().catch((error) => discord_utils_1.logError(error));
                 this.log(`Connected to MongoDB`);
                 this.available = true;

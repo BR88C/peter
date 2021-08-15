@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
+const discord_utils_1 = require("@br88c/discord-utils");
 exports.default = {
     command: `vote`,
     allowButton: true,
@@ -14,6 +15,9 @@ exports.default = {
             .title(`Vote Link:`)
             .description(Constants_1.Constants.VOTE_LINK)
             .send()
-            .catch(() => void ctx.error(`Unable to send the response message.`));
+            .catch((error) => {
+            discord_utils_1.logError(error);
+            void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+        });
     }
 };

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
+const discord_utils_1 = require("@br88c/discord-utils");
 exports.default = {
     command: `sfx`,
     mustHaveConnectedPlayer: true,
@@ -125,7 +126,7 @@ exports.default = {
             }
         ]
     },
-    exec: async (ctx) => {
+    exec: (ctx) => {
         if (ctx.options.bassboost) {
             if (ctx.options.bassboost.value < 0)
                 return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
@@ -136,21 +137,45 @@ exports.default = {
                     }))) });
             if (!newFilters.equalizer?.length)
                 delete newFilters.equalizer;
-            await ctx.player.setFilters(newFilters);
-            ctx.embed
-                .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
-                .title(ctx.player.filters.equalizer?.find((v) => v.band === 0) ? `Set the bassboost effect to \`+${Math.round((ctx.player.filters.equalizer?.find((v) => v.band === 0)?.gain ?? 0) / Constants_1.Constants.BASSBOOST_INTENSITY_MULTIPLIER)}\`` : `Turned off the bassboost effect.`)
-                .send()
-                .catch((error) => void ctx.error(error));
+            ctx.player.setFilters(newFilters)
+                .then(() => {
+                ctx.embed
+                    .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
+                    .title(ctx.player.filters.equalizer?.find((v) => v.band === 0) ? `Set the bassboost effect to \`+${Math.round((ctx.player.filters.equalizer?.find((v) => v.band === 0)?.gain ?? 0) / Constants_1.Constants.BASSBOOST_INTENSITY_MULTIPLIER)}\`` : `Turned off the bassboost effect.`)
+                    .send()
+                    .catch((error) => {
+                    discord_utils_1.logError(error);
+                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                });
+            })
+                .catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
+            });
         }
         else if (ctx.options.clear) {
-            await ctx.player.setFilters({});
-            await ctx.player.setVolume(100);
-            ctx.embed
-                .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
-                .title(`Cleared all effects`)
-                .send()
-                .catch((error) => void ctx.error(error));
+            ctx.player.setFilters({})
+                .then(() => {
+                ctx.player.setVolume(100)
+                    .then(() => {
+                    ctx.embed
+                        .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
+                        .title(`Cleared all effects`)
+                        .send()
+                        .catch((error) => {
+                        discord_utils_1.logError(error);
+                        void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                    });
+                })
+                    .catch((error) => {
+                    discord_utils_1.logError(error);
+                    void ctx.error(`An unknown error occurred while setting the volume. Please submit an issue in our support server.`);
+                });
+            })
+                .catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
+            });
         }
         else if (ctx.options.list) {
             ctx.embed
@@ -158,7 +183,10 @@ exports.default = {
                 .title(`Active SFX`)
                 .description(ctx.worker.lavalink.filtersString(ctx.player))
                 .send()
-                .catch((error) => void ctx.error(error));
+                .catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
         }
         else if (ctx.options.pitch) {
             if (ctx.options.pitch.value <= 0)
@@ -168,12 +196,21 @@ exports.default = {
                 delete newFilters.timescale.pitch;
             if (!Object.keys(newFilters.timescale ?? {}).length)
                 delete newFilters.timescale;
-            await ctx.player.setFilters(newFilters);
-            ctx.embed
-                .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
-                .title(ctx.player.filters.timescale?.pitch ? `Set the pitch to \`${Math.round(ctx.player.filters.timescale.pitch * 100)}%\`` : `Turned off the pitch effect.`)
-                .send()
-                .catch((error) => void ctx.error(error));
+            ctx.player.setFilters(newFilters)
+                .then(() => {
+                ctx.embed
+                    .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
+                    .title(ctx.player.filters.timescale?.pitch ? `Set the pitch to \`${Math.round(ctx.player.filters.timescale.pitch * 100)}%\`` : `Turned off the pitch effect.`)
+                    .send()
+                    .catch((error) => {
+                    discord_utils_1.logError(error);
+                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                });
+            })
+                .catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
+            });
         }
         else if (ctx.options.rotation) {
             if (ctx.options.rotation.value < 0)
@@ -181,12 +218,21 @@ exports.default = {
             const newFilters = Object.assign(ctx.player.filters, { rotation: { rotationHz: ctx.options.rotation.value } });
             if (newFilters.rotation?.rotationHz === 0)
                 delete newFilters.rotation;
-            await ctx.player.setFilters(newFilters);
-            ctx.embed
-                .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
-                .title(typeof newFilters.rotation?.rotationHz === `number` ? `Set the rotation frequency to \`${newFilters.rotation.rotationHz} Hz\`` : `Turned off the rotation effect.`)
-                .send()
-                .catch((error) => void ctx.error(error));
+            ctx.player.setFilters(newFilters)
+                .then(() => {
+                ctx.embed
+                    .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
+                    .title(typeof newFilters.rotation?.rotationHz === `number` ? `Set the rotation frequency to \`${newFilters.rotation.rotationHz} Hz\`` : `Turned off the rotation effect.`)
+                    .send()
+                    .catch((error) => {
+                    discord_utils_1.logError(error);
+                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                });
+            })
+                .catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
+            });
         }
         else if (ctx.options.speed) {
             if (ctx.options.speed.value <= 0)
@@ -196,12 +242,21 @@ exports.default = {
                 delete newFilters.timescale.speed;
             if (!Object.keys(newFilters.timescale ?? {}).length)
                 delete newFilters.timescale;
-            await ctx.player.setFilters(newFilters);
-            ctx.embed
-                .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
-                .title(ctx.player.filters.timescale?.speed ? `Set the speed to \`${Math.round(ctx.player.filters.timescale.speed * 100)}%\`` : `Turned off the speed effect.`)
-                .send()
-                .catch((error) => void ctx.error(error));
+            ctx.player.setFilters(newFilters)
+                .then(() => {
+                ctx.embed
+                    .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
+                    .title(ctx.player.filters.timescale?.speed ? `Set the speed to \`${Math.round(ctx.player.filters.timescale.speed * 100)}%\`` : `Turned off the speed effect.`)
+                    .send()
+                    .catch((error) => {
+                    discord_utils_1.logError(error);
+                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                });
+            })
+                .catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
+            });
         }
         else if (ctx.options.treble) {
             if (ctx.options.treble.value < 0)
@@ -213,12 +268,21 @@ exports.default = {
                     }))) });
             if (!newFilters.equalizer?.length)
                 delete newFilters.equalizer;
-            await ctx.player.setFilters(newFilters);
-            ctx.embed
-                .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
-                .title(ctx.player.filters.equalizer?.find((v) => v.band === Constants_1.Constants.EQ_BAND_COUNT - 1) ? `Set the treble to \`+${Math.round((ctx.player.filters.equalizer?.find((v) => v.band === Constants_1.Constants.EQ_BAND_COUNT - 1)?.gain ?? 0) / Constants_1.Constants.TREBLE_INTENSITY_MULTIPLIER)}\`` : `Turned off the treble effect.`)
-                .send()
-                .catch((error) => void ctx.error(error));
+            ctx.player.setFilters(newFilters)
+                .then(() => {
+                ctx.embed
+                    .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
+                    .title(ctx.player.filters.equalizer?.find((v) => v.band === Constants_1.Constants.EQ_BAND_COUNT - 1) ? `Set the treble to \`+${Math.round((ctx.player.filters.equalizer?.find((v) => v.band === Constants_1.Constants.EQ_BAND_COUNT - 1)?.gain ?? 0) / Constants_1.Constants.TREBLE_INTENSITY_MULTIPLIER)}\`` : `Turned off the treble effect.`)
+                    .send()
+                    .catch((error) => {
+                    discord_utils_1.logError(error);
+                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                });
+            })
+                .catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
+            });
         }
         else if (ctx.options.tremolo) {
             if (ctx.options.tremolo.value < 0)
@@ -230,12 +294,21 @@ exports.default = {
                 } });
             if (newFilters.tremolo?.depth === 0)
                 delete newFilters.tremolo;
-            await ctx.player.setFilters(newFilters);
-            ctx.embed
-                .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
-                .title(newFilters.tremolo?.depth ? `Set the tremolo to \`${Math.round(newFilters.tremolo.depth * 100)}%\`` : `Turned off the tremolo effect.`)
-                .send()
-                .catch((error) => void ctx.error(error));
+            ctx.player.setFilters(newFilters)
+                .then(() => {
+                ctx.embed
+                    .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
+                    .title(newFilters.tremolo?.depth ? `Set the tremolo to \`${Math.round(newFilters.tremolo.depth * 100)}%\`` : `Turned off the tremolo effect.`)
+                    .send()
+                    .catch((error) => {
+                    discord_utils_1.logError(error);
+                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                });
+            })
+                .catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
+            });
         }
         else if (ctx.options.vibrato) {
             if (ctx.options.vibrato.value < 0)
@@ -247,24 +320,42 @@ exports.default = {
                 } });
             if (newFilters.vibrato?.depth === 0)
                 delete newFilters.vibrato;
-            await ctx.player.setFilters(newFilters);
-            ctx.embed
-                .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
-                .title(newFilters.vibrato?.depth ? `Set the vibrato to \`${Math.round(newFilters.vibrato.depth * 100)}%\`` : `Turned off the vibrato effect.`)
-                .send()
-                .catch((error) => void ctx.error(error));
+            ctx.player.setFilters(newFilters)
+                .then(() => {
+                ctx.embed
+                    .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
+                    .title(newFilters.vibrato?.depth ? `Set the vibrato to \`${Math.round(newFilters.vibrato.depth * 100)}%\`` : `Turned off the vibrato effect.`)
+                    .send()
+                    .catch((error) => {
+                    discord_utils_1.logError(error);
+                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                });
+            })
+                .catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
+            });
         }
         else if (ctx.options.volume) {
             if (ctx.options.volume.value < 0)
                 return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
             if (ctx.options.volume.value > 1e3)
                 return void ctx.error(`Invalid value. Please specify a value lower than or equal to 1000.`);
-            await ctx.player.setVolume(ctx.options.volume.value);
-            ctx.embed
-                .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
-                .title(`Set the volume to \`${ctx.player.volume}%\``)
-                .send()
-                .catch((error) => void ctx.error(error));
+            ctx.player.setVolume(ctx.options.volume.value)
+                .then(() => {
+                ctx.embed
+                    .color(Constants_1.Constants.SET_SFX_EMBED_COLOR)
+                    .title(`Set the volume to \`${ctx.player.volume}%\``)
+                    .send()
+                    .catch((error) => {
+                    discord_utils_1.logError(error);
+                    void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+                });
+            })
+                .catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`An unknown error occurred while setting the volume. Please submit an issue in our support server.`);
+            });
         }
     }
 };

@@ -27,6 +27,9 @@ exports.default = {
             .description(description)
             .footer(`Requested by ${ctx.player.currentTrack.requester}`)
             .send()
-            .catch(() => void ctx.error(`Unable to send the response message.`));
+            .catch((error) => {
+            discord_utils_1.logError(error);
+            void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+        });
     }
 };

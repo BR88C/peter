@@ -97,8 +97,8 @@ class LavalinkManager extends lavalink_1.LavalinkManager {
     async init() {
         this.worker.log(`Spawning Lavalink Nodes`);
         const lavalinkStart = Date.now();
-        const lavalinkSpawnResult = await this.connectNodes();
-        this.worker.log(`Spawned ${lavalinkSpawnResult.filter((r) => r.status === `fulfilled`).length}/${this.options.nodeOptions.length} Lavalink Nodes after ${Math.round((Date.now() - lavalinkStart) / 10) / 100}s`);
+        const lavalinkSpawnResult = await this.connectNodes().catch((error) => discord_utils_1.logError(error));
+        this.worker.log(`Spawned ${lavalinkSpawnResult ? lavalinkSpawnResult.filter((r) => r.status === `fulfilled`).length : 0}/${this.options.nodeOptions.length} Lavalink Nodes after ${Math.round((Date.now() - lavalinkStart) / 10) / 100}s`);
         if (!this.nodes.size)
             this.worker.log(`\x1b[33mWARNING: Worker has no available lavalink nodes`);
         this.worker.on(`VOICE_STATE_UPDATE`, async (data) => {
@@ -109,7 +109,7 @@ class LavalinkManager extends lavalink_1.LavalinkManager {
             if (voiceState?.users.has(this.worker.user.id) && voiceState.users.size <= Config_1.Config.maxUncheckedVoiceStateUsers) {
                 let nonBots = 0;
                 for (const [id] of voiceState.users)
-                    nonBots += (await this.worker.api.users.get(id)).bot ? 0 : 1;
+                    nonBots += (await this.worker.api.users.get(id).catch((error) => discord_utils_1.logError(error)))?.bot ? 0 : 1;
                 if (nonBots === 0)
                     void player.destroy(`No other users in the voice channel`);
             }

@@ -9,8 +9,12 @@ exports.default = {
         description: `Get information about the server.`
     },
     exec: async (ctx) => {
-        const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id, true);
-        const owner = await ctx.worker.api.users.get(guild.owner_id);
+        const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id, true).catch((error) => discord_utils_1.logError(error));
+        if (!guild)
+            return void ctx.error(`Unable to get information about this server. Please try again.`);
+        const owner = await ctx.worker.api.users.get(guild.owner_id).catch((error) => discord_utils_1.logError(error));
+        if (!owner)
+            return void ctx.error(`Unable to get information about this server. Please try again.`);
         const iconURL = `${discord_utils_1.DiscordConstants.DISCORD_CDN}/icons/${guild.id}/${guild.icon}.${guild.icon?.startsWith(`a_`) ? `gif` : `png`}`;
         ctx.embed
             .color(Constants_1.Constants.SERVER_INFO_EMBED_COLOR)
@@ -24,6 +28,9 @@ exports.default = {
             .field(`Boosts`, `Number of boosts: ${guild.premium_subscription_count}\nServer Level: ${guild.premium_tier}`, true)
             .thumbnail(iconURL)
             .send()
-            .catch(() => void ctx.error(`Unable to send the response message.`));
+            .catch((error) => {
+            discord_utils_1.logError(error);
+            void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+        });
     }
 };

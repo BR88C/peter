@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Constants_1 = require("../../config/Constants");
 const collection_1 = require("@discordjs/collection");
 const discord_rose_1 = require("discord-rose");
+const discord_utils_1 = require("@br88c/discord-utils");
 exports.default = {
     command: `debug`,
     allowButton: true,
@@ -36,13 +37,18 @@ exports.default = {
                 .footer(`Guild ID: ${ctx.interaction.guild_id}`)
                 .timestamp()
                 .send()
-                .catch(() => void ctx.error(`Unable to send the response message.`));
+                .catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
         }
         else {
-            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id);
-            const member = await ctx.worker.api.members.get(guild.id, ctx.worker.user.id);
+            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id).catch((error) => discord_utils_1.logError(error));
+            const member = await ctx.worker.api.members.get(ctx.interaction.guild_id, ctx.worker.user.id).catch((error) => discord_utils_1.logError(error));
+            const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch((error) => discord_utils_1.logError(error));
+            if (!guild || !member || !textChannel)
+                return void ctx.error(`Unable to get the bot's permissions. Please try again.`);
             const roles = guild.roles.reduce((p, c) => p.set(c.id, c), new collection_1.Collection());
-            const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch(() => { });
             const guildPermissions = discord_rose_1.PermissionsUtils.combine({
                 guild,
                 member,
@@ -65,14 +71,18 @@ exports.default = {
                 .footer(`❗ = Missing essential permission, ❕ = Missing non-essential permission`);
             const player = ctx.worker.lavalink.players.get(guild.id);
             if (player) {
-                const playerTextChannel = await ctx.worker.api.channels.get(player.options.textChannelId);
+                const playerTextChannel = await ctx.worker.api.channels.get(player.options.textChannelId).catch((error) => discord_utils_1.logError(error));
+                if (!playerTextChannel)
+                    return void ctx.error(`Unable to get the bot's permission for the music player's text channel. Please try again.`);
                 const playerTextChannelPermissions = discord_rose_1.PermissionsUtils.combine({
                     guild,
                     member,
                     overwrites: playerTextChannel.permission_overwrites,
                     roleList: roles
                 });
-                const playerVoiceChannel = await ctx.worker.api.channels.get(player.options.voiceChannelId);
+                const playerVoiceChannel = await ctx.worker.api.channels.get(player.options.voiceChannelId).catch((error) => discord_utils_1.logError(error));
+                if (!playerVoiceChannel)
+                    return void ctx.error(`Unable to get the bot's permission for the music player's text channel. Please try again.`);
                 const playerVoiceChannelPermissions = discord_rose_1.PermissionsUtils.combine({
                     guild,
                     member,
@@ -84,7 +94,10 @@ exports.default = {
             }
             else
                 debugEmbed.field(`Music Player`, `*No player found.*`, false);
-            ctx.send(debugEmbed).catch(() => void ctx.error(`Unable to send the response message.`));
+            ctx.send(debugEmbed).catch((error) => {
+                discord_utils_1.logError(error);
+                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
+            });
         }
     }
 };
