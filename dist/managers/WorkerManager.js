@@ -47,6 +47,10 @@ class WorkerManager extends discord_rose_1.Worker {
                 }
             }
             else {
+                await ctx.typing().catch((error) => {
+                    discord_utils_1.logError(error);
+                    void ctx.error(`Unable to send thinking response.`);
+                });
                 ctx.player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
                 ctx.voiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
                 if (!ctx.command.allowButton && ctx.interaction.type === 3) {
@@ -123,10 +127,6 @@ class WorkerManager extends discord_rose_1.Worker {
                     }
                 }
                 ctx.worker.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild ID: ${ctx.interaction.guild_id}`);
-                await ctx.typing().catch((error) => {
-                    discord_utils_1.logError(error);
-                    void ctx.error(`Unable to send thinking response.`);
-                });
                 return true;
             }
         });
