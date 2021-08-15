@@ -76,6 +76,11 @@ export class WorkerManager extends Worker {
                     }
                 }
             } else { // If the received event is an interaction.
+                await ctx.typing().catch((error) => {
+                    logError(error);
+                    void ctx.error(`Unable to send thinking response.`);
+                });
+
                 ctx.player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
                 ctx.voiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
                 // @ts-expect-error This condition will always return 'true' since the types 'InteractionType.ApplicationCommand' and '3' have no overlap.
@@ -154,10 +159,6 @@ export class WorkerManager extends Worker {
                 }
         
                 ctx.worker.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild ID: ${ctx.interaction.guild_id}`);
-                await ctx.typing().catch((error) => {
-                    logError(error);
-                    void ctx.error(`Unable to send thinking response.`);
-                });
                 return true;
             }
         });
