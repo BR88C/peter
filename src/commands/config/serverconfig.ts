@@ -52,9 +52,10 @@ export default {
                 if (ctx.options.dj.useroverride === 1) ctx.options.dj.useroverride = 0;
 
                 try {
-                    const guildDocument = await ctx.worker.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
+                    const db = ctx.worker.mongoClient.db(Config.mongo.dbName).collection(`Guilds`)
+                    const guildDocument = await db.findOne({ id: ctx.interaction.guild_id });
                     if (!guildDocument) {
-                        await ctx.worker.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).insertOne({
+                        await db.insertOne({
                             id: ctx.interaction.guild_id,
                             premium: false,
                             djCommands: ctx.options.dj.command ? [ctx.options.dj.command.toLowerCase()] : [],
@@ -63,7 +64,7 @@ export default {
                     } else {
                         let newArray: string[] | undefined;
                         if (ctx.options.dj.command) newArray = guildDocument.djCommands.includes(ctx.options.dj.command.toLowerCase()) ? guildDocument.djCommands.filter((command) => command !== ctx.options.dj.command.toLowerCase()) : guildDocument.djCommands.concat(ctx.options.dj.command.toLowerCase());
-                        await ctx.worker.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).updateOne({ id: ctx.interaction.guild_id }, { $set: {
+                        await db.updateOne({ id: ctx.interaction.guild_id }, { $set: {
                             djCommands: newArray ?? guildDocument.djCommands, djOverride: ctx.options.dj.useroverride ?? guildDocument.djOverride
                         } });
                     }
