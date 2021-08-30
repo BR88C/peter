@@ -1,5 +1,5 @@
 import { Worker } from 'discord-rose';
 
-export class ButtonManager {
+export default class ButtonManager {
     constructor (public worker: Worker) {}
 }

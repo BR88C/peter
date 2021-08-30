@@ -1,5 +1,5 @@
-import { Config } from '../../config/Config';
-import { Constants } from '../../config/Constants';
+import Config from '../../config/Config';
+import Constants from '../../config/Constants';
 
 // Import modules.
 import { Collection } from '@discordjs/collection';

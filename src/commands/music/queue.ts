@@ -1,4 +1,4 @@
-import { Constants } from '../../config/Constants';
+import Constants from '../../config/Constants';
 
 // Import modules.
 import { cleanseMarkdown, logError, timestamp } from '@br88c/discord-utils';

@@ -1,4 +1,4 @@
-import { Constants } from '../../config/Constants';
+import Constants from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';

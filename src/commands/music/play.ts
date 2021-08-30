@@ -1,4 +1,4 @@
-import { Constants } from '../../config/Constants';
+import Constants from '../../config/Constants';
 import { ExtendedPlayer } from '../../managers/LavalinkManager';
 
 // Import modules.

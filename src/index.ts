@@ -14,9 +14,9 @@
  * @license
  */
 
-import { Config } from './config/Config';
+import Config from './config/Config';
 import runMaster from './managers/run/runMaster';
-import { TextArt } from './config/TextArt';
+import TextArt from './config/TextArt';
 
 // Import modules.
 import { config } from 'dotenv';

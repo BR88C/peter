@@ -1,4 +1,4 @@
-import { MasterManager } from '../MasterManager';
+import MasterManager from '../MasterManager';
 
 /**
  * Starts a master manager process.

@@ -1,4 +1,4 @@
-import { Config } from '../../config/Config';
+import Config from '../../config/Config';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';

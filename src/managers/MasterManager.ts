@@ -1,4 +1,4 @@
-import { Config } from '../config/Config';
+import Config from '../config/Config';
 
 // Import modules.
 import { Api } from '@top-gg/sdk';
@@ -12,7 +12,7 @@ import { statsCheckup } from '@br88c/discord-utils';
  * @class
  * @extends Master
  */
-export class MasterManager extends Master {
+export default class MasterManager extends Master {
     /**
      * The topgg API client.
      */
@@ -25,7 +25,7 @@ export class MasterManager extends Master {
     constructor () {
         super(resolve(__dirname, `./run/runWorker.js`), {
             cache: Config.cache,
-            cacheControl: Config.cacheControl,
+            cacheControl: Config.cacheControl as any,
             log: log,
             rest: { version: 9 },
             shards: Config.shards[process.env.NODE_ENV ?? `dev`],

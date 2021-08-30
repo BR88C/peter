@@ -1,7 +1,7 @@
 /**
  * Text art to be used for the logging header.
  */
-export const TextArt: string = [
+export default [
     `                                                                      `,
     `                            .:/+oooo+/--//:::.                        `,
     `                        \`/oyyyysssooooysoooosyho\`                     `,

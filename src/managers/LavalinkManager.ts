@@ -1,5 +1,5 @@
-import { Config } from '../config/Config';
-import { Constants } from '../config/Constants';
+import Config from '../config/Config';
+import Constants from '../config/Constants';
 
 // Import modules.
 import { cleanseMarkdown, logError } from '@br88c/discord-utils';
@@ -15,7 +15,7 @@ export class ExtendedPlayer extends Player {
     twentyfourseven: boolean
 }
 
-export class LavalinkManager extends Manager {
+export default class LavalinkManager extends Manager {
     constructor(worker: Worker) {
         super({
             defaultSource: `youtube`,

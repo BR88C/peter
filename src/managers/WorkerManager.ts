@@ -1,8 +1,8 @@
-import { ButtonManager } from './ButtonManager';
-import { Config } from '../config/Config';
-import { Constants } from '../config/Constants';
-import { LavalinkManager } from './LavalinkManager';
-import { Presences } from '../config/Presences';
+import ButtonManager from './ButtonManager';
+import Config from '../config/Config';
+import Constants from '../config/Constants';
+import LavalinkManager from './LavalinkManager';
+import Presences from '../config/Presences';
 
 // Import modules.
 import { Collection } from '@discordjs/collection';
@@ -17,7 +17,7 @@ import { resolve } from 'path';
  * @class
  * @extends Worker
  */
-export class WorkerManager extends Worker {
+export default class WorkerManager extends Worker {
     /**
      * If the worker is available.
      */
@@ -43,8 +43,8 @@ export class WorkerManager extends Worker {
         super();
 
         // Set presence, and change it at an interval specified in config.
-        setRandomPresence(this, Presences);
-        setInterval(() => setRandomPresence(this, Presences), Config.presenceInterval);
+        setRandomPresence(this, Presences as any);
+        setInterval(() => setRandomPresence(this, Presences as any), Config.presenceInterval);
 
         // Set prefix.
         this.commands.prefix(Config.developerPrefix);
