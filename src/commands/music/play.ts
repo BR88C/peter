@@ -1,11 +1,11 @@
 import Constants from '../../config/Constants';
-import { ExtendedPlayer } from '../../managers/LavalinkManager';
+import { ExtendedPlayer } from '../../managers/Lavalink';
 
 // Import modules.
-import { cleanseMarkdown, logError } from '@br88c/discord-utils';
 import { Collection } from '@discordjs/collection';
 import { CommandOptions, Embed, PermissionsUtils } from 'discord-rose';
 import { PlayerState } from '@discord-rose/lavalink';
+import { Utils } from '@br88c/discord-utils';
 
 export default {
     command: `play`,
@@ -30,13 +30,13 @@ export default {
             .title(`:mag_right:  Searching...`)
             .send(true, false, true)
             .catch((error) => {
-                logError(error);
+                Utils.logError(error);
                 void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
             });
 
         const requesterTag = `${ctx.author.username}#${ctx.author.discriminator}`;
 
-        const search = await ctx.worker.lavalink.search(ctx.options.query, ctx.member.nick ? `${ctx.member.nick} (${requesterTag})` : requesterTag).catch((error) => logError(error));
+        const search = await ctx.worker.lavalink.search(ctx.options.query, ctx.member.nick ? `${ctx.member.nick} (${requesterTag})` : requesterTag).catch((error) => Utils.logError(error));
         if (!search) return void ctx.error(`An unknown search error occurred. Please submit an issue in our support server.`);
         if (search.exception) {
             ctx.worker.log(`\x1b[31mSearch Error | Error: ${search.exception.message} | Severity: ${search.exception.severity} | Guild ID: ${ctx.interaction.guild_id}`);
@@ -47,10 +47,10 @@ export default {
         let player: ExtendedPlayer;
         if (ctx.player) player = ctx.player;
         else {
-            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!).catch((error) => logError(error));
-            const botMember = await ctx.worker.api.members.get(ctx.interaction.guild_id!, ctx.worker.user.id).catch((error) => logError(error));
-            const voiceChannel = await ctx.worker.api.channels.get(ctx.voiceState!.channel_id).catch((error) => logError(error));
-            const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch((error) => logError(error));
+            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!).catch((error) => Utils.logError(error));
+            const botMember = await ctx.worker.api.members.get(ctx.interaction.guild_id!, ctx.worker.user.id).catch((error) => Utils.logError(error));
+            const voiceChannel = await ctx.worker.api.channels.get(ctx.voiceState!.channel_id).catch((error) => Utils.logError(error));
+            const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch((error) => Utils.logError(error));
             if (!guild || !botMember || !voiceChannel || !textChannel) return ctx.error(`Unable to check channel permissions. Please try again.`);
             const voicePermissions = PermissionsUtils.combine({
                 member: botMember,
@@ -84,7 +84,7 @@ export default {
             player.twentyfourseven = false;
         }
 
-        if (player.state === PlayerState.DISCONNECTED) await player.connect().catch((error) => logError(error));
+        if (player.state === PlayerState.DISCONNECTED) await player.connect().catch((error) => Utils.logError(error));
         if (player.state < PlayerState.CONNECTED) return void ctx.error(`Unable to connect to the voice channel.`);
 
         if (search.loadType === `PLAYLIST_LOADED`) {
@@ -93,7 +93,7 @@ export default {
                 .title(`:mag_right:  Found a playlist, adding it to the queue...`)
                 .send(true, false, true)
                 .catch((error) => {
-                    logError(error);
+                    Utils.logError(error);
                     void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                 });
         } else {
@@ -102,7 +102,7 @@ export default {
                 .title(`:mag_right:  Found ${search.tracks.length} result${search.tracks.length > 1 ? `s, queuing the first one` : `, adding it to the queue`}...`)
                 .send(true, false, true)
                 .catch((error) => {
-                    logError(error);
+                    Utils.logError(error);
                     void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                 });
         }
@@ -117,23 +117,23 @@ export default {
                         .footer(`Requested by ${search.tracks[0].requester}`)
                         .timestamp()
                     ).catch((error) => {
-                        logError(error);
+                        Utils.logError(error);
                         void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                     });
                 } else {
                     ctx.worker.api.messages.send(ctx.interaction.channel_id, new Embed()
                         .color(Constants.ADDED_TO_QUEUE_EMBED_COLOR)
-                        .title(`Added "${cleanseMarkdown(search.tracks[0].title)}" to the queue`)
+                        .title(`Added "${Utils.cleanseMarkdown(search.tracks[0].title)}" to the queue`)
                         .footer(`Requested by ${search.tracks[0].requester}`)
                         .timestamp()
                     ).catch((error) => {
-                        logError(error);
+                        Utils.logError(error);
                         void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                     });
                 }
             })
             .catch((error) => {
-                logError(error);
+                Utils.logError(error);
                 void ctx.error(`An unknown error occurred while starting or queuing music. Please try again.`);
             });
     }

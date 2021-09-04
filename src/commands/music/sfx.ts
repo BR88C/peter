@@ -3,7 +3,7 @@ import Constants from '../../config/Constants';
 // Import modules.
 import { CommandOptions } from 'discord-rose';
 import { Filters } from '@discord-rose/lavalink';
-import { logError } from '@br88c/discord-utils';
+import { Utils } from '@br88c/discord-utils';
 
 export default {
     command: `sfx`,
@@ -146,12 +146,12 @@ export default {
                         .title(ctx.player!.filters.equalizer?.find((v) => v.band === 0) ? `Set the bassboost effect to \`+${Math.round((ctx.player!.filters.equalizer?.find((v) => v.band === 0)?.gain ?? 0) / Constants.BASSBOOST_INTENSITY_MULTIPLIER)}\`` : `Turned off the bassboost effect.`)
                         .send()
                         .catch((error) => {
-                            logError(error);
+                            Utils.logError(error);
                             void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                         });
                 })
                 .catch((error) => {
-                    logError(error);
+                    Utils.logError(error);
                     void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
                 });
         } else if (ctx.options.clear) {
@@ -164,17 +164,17 @@ export default {
                             .title(`Cleared all effects`)
                             .send()
                             .catch((error) => {
-                                logError(error);
+                                Utils.logError(error);
                                 void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                             });
                     })
                     .catch((error) => {
-                        logError(error);
+                        Utils.logError(error);
                         void ctx.error(`An unknown error occurred while setting the volume. Please submit an issue in our support server.`);
                     });
                 })
                 .catch((error) => {
-                    logError(error);
+                    Utils.logError(error);
                     void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
                 });
         } else if (ctx.options.list) {
@@ -184,7 +184,7 @@ export default {
                 .description(ctx.worker.lavalink.filtersString(ctx.player!))
                 .send()
                 .catch((error) => {
-                    logError(error);
+                    Utils.logError(error);
                     void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                 });
         } else if (ctx.options.pitch) {
@@ -200,12 +200,12 @@ export default {
                         .title(ctx.player!.filters.timescale?.pitch ? `Set the pitch to \`${Math.round(ctx.player!.filters.timescale.pitch * 100)}%\`` : `Turned off the pitch effect.`)
                         .send()
                         .catch((error) => {
-                            logError(error);
+                            Utils.logError(error);
                             void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                         });
                 })
                 .catch((error) => {
-                    logError(error);
+                    Utils.logError(error);
                     void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
                 });
         } else if (ctx.options.rotation) {
@@ -220,12 +220,12 @@ export default {
                         .title(typeof newFilters.rotation?.rotationHz === `number` ? `Set the rotation frequency to \`${newFilters.rotation.rotationHz} Hz\`` : `Turned off the rotation effect.`)
                         .send()
                         .catch((error) => {
-                            logError(error);
+                            Utils.logError(error);
                             void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                         });
                 })
                 .catch((error) => {
-                    logError(error);
+                    Utils.logError(error);
                     void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
                 });
         } else if (ctx.options.speed) {
@@ -241,12 +241,12 @@ export default {
                         .title(ctx.player!.filters.timescale?.speed ? `Set the speed to \`${Math.round(ctx.player!.filters.timescale.speed * 100)}%\`` : `Turned off the speed effect.`)
                         .send()
                         .catch((error) => {
-                            logError(error);
+                            Utils.logError(error);
                             void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                         });
                 })
                 .catch((error) => {
-                    logError(error);
+                    Utils.logError(error);
                     void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
                 });
         } else if (ctx.options.treble) {
@@ -265,12 +265,12 @@ export default {
                         .title(ctx.player!.filters.equalizer?.find((v) => v.band === Constants.EQ_BAND_COUNT - 1) ? `Set the treble to \`+${Math.round((ctx.player!.filters.equalizer?.find((v) => v.band === Constants.EQ_BAND_COUNT - 1)?.gain ?? 0) / Constants.TREBLE_INTENSITY_MULTIPLIER)}\`` : `Turned off the treble effect.`)
                         .send()
                         .catch((error) => {
-                            logError(error);
+                            Utils.logError(error);
                             void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                         });
                 })
                 .catch((error) => {
-                    logError(error);
+                    Utils.logError(error);
                     void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
                 });
         } else if (ctx.options.tremolo) {
@@ -288,12 +288,12 @@ export default {
                         .title(newFilters.tremolo?.depth ? `Set the tremolo to \`${Math.round(newFilters.tremolo.depth * 100)}%\`` : `Turned off the tremolo effect.`)
                         .send()
                         .catch((error) => {
-                            logError(error);
+                            Utils.logError(error);
                             void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                         });
                 })
                 .catch((error) => {
-                    logError(error);
+                    Utils.logError(error);
                     void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
                 });
         } else if (ctx.options.vibrato) {
@@ -311,12 +311,12 @@ export default {
                         .title(newFilters.vibrato?.depth ? `Set the vibrato to \`${Math.round(newFilters.vibrato.depth * 100)}%\`` : `Turned off the vibrato effect.`)
                         .send()
                         .catch((error) => {
-                            logError(error);
+                            Utils.logError(error);
                             void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                         });
                 })
                 .catch((error) => {
-                    logError(error);
+                    Utils.logError(error);
                     void ctx.error(`An unknown error occurred while setting SFX. Please submit an issue in our support server.`);
                 });
         } else if (ctx.options.volume) {
@@ -330,12 +330,12 @@ export default {
                         .title(`Set the volume to \`${ctx.player!.volume}%\``)
                         .send()
                         .catch((error) => {
-                            logError(error);
+                            Utils.logError(error);
                             void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                         });
                 })
                 .catch((error) => {
-                    logError(error);
+                    Utils.logError(error);
                     void ctx.error(`An unknown error occurred while setting the volume. Please submit an issue in our support server.`);
                 });
         }

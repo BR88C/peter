@@ -1,8 +1,8 @@
-import { WorkerManager } from './managers/WorkerManager';
+import LavalinkManager, { ExtendedPlayer } from './managers/Lavalink';
+import { WorkerManager } from './managers/Worker';
 
 // Import modules.
 import { CachedVoiceState, Snowflake } from 'discord-rose';
-import { ExtendedPlayer, LavalinkManager } from './managers/LavalinkManager';
 
 declare module 'discord-rose/dist/typings/lib' { // eslint-disable-line quotes
     type worker = WorkerManager
@@ -11,10 +11,6 @@ declare module 'discord-rose/dist/typings/lib' { // eslint-disable-line quotes
          * The command's category.
          */
         category: string
-        /**
-         * If the command can be executed from a button.
-         */
-        allowButton: boolean
         /**
          * If the player should specifically be in a PAUSED state.
          */

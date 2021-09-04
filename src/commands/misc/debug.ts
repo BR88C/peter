@@ -1,14 +1,14 @@
+import Config from '../../config/Config';
 import Constants from '../../config/Constants';
 
 // Import modules.
 import { Collection } from '@discordjs/collection';
 import { CommandOptions, Embed, PermissionsUtils } from 'discord-rose';
-import { logError } from '@br88c/discord-utils';
 import { Track } from '@discord-rose/lavalink';
+import { Utils } from '@br88c/discord-utils';
 
 export default {
     command: `debug`,
-    allowButton: true,
     interaction: {
         name: `debug`,
         description: `Used to easily troubleshoot common issues.`,
@@ -39,13 +39,13 @@ export default {
                 .timestamp()
                 .send()
                 .catch((error) => {
-                    logError(error);
+                    Utils.logError(error);
                     void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                 });
         } else {
-            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!).catch((error) => logError(error));
-            const member = await ctx.worker.api.members.get(ctx.interaction.guild_id!, ctx.worker.user.id).catch((error) => logError(error));
-            const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch((error) => logError(error));
+            const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!).catch((error) => Utils.logError(error));
+            const member = await ctx.worker.api.members.get(ctx.interaction.guild_id!, ctx.worker.user.id).catch((error) => Utils.logError(error));
+            const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch((error) => Utils.logError(error));
             if (!guild || !member || !textChannel) return void ctx.error(`Unable to get the bot's permissions. Please try again.`);
             const roles = guild.roles.reduce((p, c) => p.set(c.id, c), new Collection());
 
@@ -66,14 +66,14 @@ export default {
             const debugEmbed = new Embed()
                 .color(Constants.DEBUG_EMBED_COLOR)
                 .title(`Debug`)
-                .description(`Peter's support server: ${Constants.SUPPORT_SERVER}\n**Thread ID:** \`${ctx.worker.comms.id}\``)
+                .description(`Peter's support server: ${Config.supportServer}\n**Thread ID:** \`${ctx.worker.comms.id}\``)
                 .field(`Server`, `**ID:** \`${guild.id}\`\n**Permissions:** \`${guildPermissions}\`\n${PermissionsUtils.has(guildPermissions, `viewChannel`) ? `:white_check_mark:` : `:exclamation:`} View Channels\n${PermissionsUtils.has(guildPermissions, `connect`) ? `:white_check_mark:` : `:exclamation:`} Connect To Voice\n${PermissionsUtils.has(guildPermissions, `speak`) ? `:white_check_mark:` : `:exclamation:`} Speak\n${PermissionsUtils.has(guildPermissions, `requestToSpeak`) ? `:white_check_mark:` : `:grey_exclamation:`} Request To Speak\n${PermissionsUtils.has(guildPermissions, `mute`) ? `:white_check_mark:` : `:grey_exclamation:`} Server Mute\n${PermissionsUtils.has(guildPermissions, `sendMessages`) ? `:white_check_mark:` : `:exclamation:`} Send Messages\n${PermissionsUtils.has(guildPermissions, `embed`) ? `:white_check_mark:` : `:exclamation:`} Embed Links\n${PermissionsUtils.has(guildPermissions, `usePublicThreads`) ? `:white_check_mark:` : `:grey_exclamation:`} Use Public Threads\n${PermissionsUtils.has(guildPermissions, `usePrivateThreads`) ? `:white_check_mark:` : `:grey_exclamation:`} Use Private Threads`, true)
                 .field(`This Channel`, `**ID:** \`${ctx.interaction.channel_id}\`\n**Permissions:** \`${textChannelPermissions}\`\n${PermissionsUtils.has(textChannelPermissions, `viewChannel`) ? `:white_check_mark:` : `:exclamation:`} View Channel\n${PermissionsUtils.has(textChannelPermissions, `sendMessages`) ? `:white_check_mark:` : `:exclamation:`} Send Messages\n${PermissionsUtils.has(textChannelPermissions, `embed`) ? `:white_check_mark:` : `:exclamation:`} Embed Links\n${PermissionsUtils.has(textChannelPermissions, `usePublicThreads`) ? `:white_check_mark:` : `:grey_exclamation:`} Use Public Threads\n${PermissionsUtils.has(textChannelPermissions, `usePrivateThreads`) ? `:white_check_mark:` : `:grey_exclamation:`} Use Private Threads`, true)
                 .footer(`❗ = Missing essential permission, ❕ = Missing non-essential permission`);
 
             const player = ctx.worker.lavalink.players.get(guild.id);
             if (player) {
-                const playerTextChannel = await ctx.worker.api.channels.get(player.options.textChannelId).catch((error) => logError(error));
+                const playerTextChannel = await ctx.worker.api.channels.get(player.options.textChannelId).catch((error) => Utils.logError(error));
                 if (!playerTextChannel) return void ctx.error(`Unable to get the bot's permission for the music player's text channel. Please try again.`);
                 const playerTextChannelPermissions = PermissionsUtils.combine({
                     guild,
@@ -82,7 +82,7 @@ export default {
                     roleList: roles as any
                 });
 
-                const playerVoiceChannel = await ctx.worker.api.channels.get(player.options.voiceChannelId).catch((error) => logError(error));
+                const playerVoiceChannel = await ctx.worker.api.channels.get(player.options.voiceChannelId).catch((error) => Utils.logError(error));
                 if (!playerVoiceChannel) return void ctx.error(`Unable to get the bot's permission for the music player's text channel. Please try again.`);
                 const playerVoiceChannelPermissions = PermissionsUtils.combine({
                     guild,
@@ -96,7 +96,7 @@ export default {
             } else debugEmbed.field(`Music Player`, `*No player found.*`, false);
 
             ctx.send(debugEmbed).catch((error) => {
-                logError(error);
+                Utils.logError(error);
                 void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
             });
         }

@@ -1,6 +1,9 @@
+// Import modules.
+import { Presence } from '@br88c/discord-utils';
+
 /**
  * An array of presences for the bot to randomly use.
- * The interval at which the bot's presence is changed is set in config.js
+ * The interval at which the bot's presence is changed is set in config.js.
  */
 export default [
     {
@@ -18,4 +21,4 @@ export default [
         name: `peters.guidetothe.net`,
         status: `online`
     }
-];
+] as Presence[];

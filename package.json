@@ -21,23 +21,24 @@
   ],
   "author": "BR88C",
   "license": "GPL-3.0",
-  "homepage": "https://peter.badfirmware.com",
+  "homepage": "https://peters.guidetothe.net",
   "dependencies": {
-    "@br88c/discord-utils": "^1.0.3",
+    "@br88c/discord-utils": "github:br88c/discord-utils#build",
     "@discord-rose/lavalink": "^0.1.3",
     "@discordjs/collection": "^0.2.1",
+    "@influxdata/influxdb-client": "^1.17.0",
     "@top-gg/sdk": "^3.1.2",
-    "discord-rose": "^1.5.1",
+    "discord-rose": "^1.5.2",
     "dotenv": "^10.0.0",
-    "mongodb": "^4.1.0"
+    "mongodb": "^4.1.1"
   },
   "devDependencies": {
     "@br88c/eslint-config": "^1.0.4",
-    "@types/node": "^16.6.1",
-    "@typescript-eslint/eslint-plugin": "^4.29.1",
-    "@typescript-eslint/parser": "^4.29.1",
+    "@types/node": "^16.7.10",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
     "eslint": "^7.32.0",
-    "typescript": "^4.3.5"
+    "typescript": "^4.4.2"
   },
   "engines": {
     "node": ">=16.0.0",

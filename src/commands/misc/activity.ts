@@ -2,7 +2,7 @@ import Constants from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { DiscordConstants, logError } from '@br88c/discord-utils';
+import { DiscordConstants, Utils } from '@br88c/discord-utils';
 
 export default {
     command: `activity`,
@@ -47,7 +47,7 @@ export default {
         ]
     },
     exec: async (ctx) => {
-        const channel = await ctx.worker.api.channels.get(ctx.options.channel).catch((error) => logError(error));
+        const channel = await ctx.worker.api.channels.get(ctx.options.channel).catch((error) => Utils.logError(error));
         if (!channel) return void ctx.error(`Unable to get information about the specified channel. Please try again.`);
         if (channel.type !== 2) return void ctx.error(`You must specify a voice channel.`);
         const invite = await ctx.worker.api.channels.createInvite(channel.id, {
@@ -56,14 +56,14 @@ export default {
             target_application_id: ctx.options.type,
             target_type: 2,
             temporary: false
-        }).catch((error) => logError(error));
+        }).catch((error) => Utils.logError(error));
         if (!invite) return ctx.error(`Unable to generate an invite link to start the activity. Make sure to check the bot's permissions.`);
         ctx.embed
             .color(Constants.ACTIVITY_EMBED_COLOR)
             .title(`Click to start the activity`, `https://discord.gg/${invite.code}`)
             .send()
             .catch((error) => {
-                logError(error);
+                Utils.logError(error);
                 void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
             });
     }

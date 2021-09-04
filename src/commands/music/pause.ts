@@ -2,11 +2,10 @@ import Constants from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { logError } from '@br88c/discord-utils';
+import { Utils } from '@br88c/discord-utils';
 
 export default {
     command: `pause`,
-    allowButton: true,
     mustHaveConnectedPlayer: true,
     mustHaveTracksInQueue: true,
     mustBePlaying: true,
@@ -23,12 +22,12 @@ export default {
                     .title(`:pause_button:  Paused the music`)
                     .send()
                     .catch((error) => {
-                        logError(error);
+                        Utils.logError(error);
                         void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                     });
             })
             .catch((error) => {
-                logError(error);
+                Utils.logError(error);
                 void ctx.error(`An unknown error occurred while pausing the music. Please submit an issue in our support server.`);
             });
     }

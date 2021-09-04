@@ -2,11 +2,10 @@ import Constants from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { logError } from '@br88c/discord-utils';
+import { Utils } from '@br88c/discord-utils';
 
 export default {
     command: `247`,
-    allowButton: true,
     mustHaveConnectedPlayer: true,
     userMustBeInSameVC: true,
     voteLocked: true,
@@ -23,7 +22,7 @@ export default {
             .title(`:clock2:  24/7 is now \`${ctx.player!.twentyfourseven ? `On` : `Off`}\``)
             .send()
             .catch((error) => {
-                logError(error);
+                Utils.logError(error);
                 void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
             });
     }

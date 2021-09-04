@@ -2,12 +2,11 @@ import Constants from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { logError } from '@br88c/discord-utils';
 import { Track } from '@discord-rose/lavalink';
+import { Utils } from '@br88c/discord-utils';
 
 export default {
     command: `replay`,
-    allowButton: true,
     mustHaveConnectedPlayer: true,
     mustHaveTracksInQueue: true,
     mustBePausedOrPlaying: true,
@@ -25,12 +24,12 @@ export default {
                     .title(`:rewind:  Seeked to the beginning of the song`)
                     .send()
                     .catch((error) => {
-                        logError(error);
+                        Utils.logError(error);
                         void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                     });
             })
             .catch((error) => {
-                logError(error);
+                Utils.logError(error);
                 void ctx.error(`An unknown error occurred while seeking to the beginning of the song. Please submit an issue in our support server.`);
             });
     }

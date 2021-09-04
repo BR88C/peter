@@ -2,11 +2,10 @@ import Constants from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { logError } from '@br88c/discord-utils';
+import { Utils } from '@br88c/discord-utils';
 
 export default {
     command: `leave`,
-    allowButton: true,
     mustHavePlayer: true,
     userMustBeInSameVC: true,
     interaction: {
@@ -21,7 +20,7 @@ export default {
             .title(`:wave:  Left the voice channel`)
             .send()
             .catch((error) => {
-                logError(error);
+                Utils.logError(error);
                 void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
             });
     }

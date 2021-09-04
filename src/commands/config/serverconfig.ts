@@ -4,7 +4,7 @@ import Constants from '../../config/Constants';
 // Import modules.
 import { Collection } from '@discordjs/collection';
 import { CommandOptions, PermissionsUtils } from 'discord-rose';
-import { logError } from '@br88c/discord-utils';
+import { Utils } from '@br88c/discord-utils';
 
 export default {
     command: `serverconfig`,
@@ -36,7 +36,7 @@ export default {
     exec: async (ctx) => {
         if (ctx.options.dj) {
             if (ctx.options.dj.command || typeof ctx.options.dj.useroverride === `number`) {
-                const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!).catch((error) => logError(error));
+                const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id!).catch((error) => Utils.logError(error));
                 if (!guild) return void ctx.error(`An error occurred while checking if you have permission to use this command. Please try again.`);
                 if (!PermissionsUtils.has(PermissionsUtils.combine({
                     guild,
@@ -52,7 +52,7 @@ export default {
                 if (ctx.options.dj.useroverride === 1) ctx.options.dj.useroverride = 0;
 
                 try {
-                    const db = ctx.worker.mongoClient.db(Config.mongo.dbName).collection(`Guilds`)
+                    const db = ctx.worker.mongoClient.db(Config.mongo.dbName).collection(`Guilds`);
                     const guildDocument = await db.findOne({ id: ctx.interaction.guild_id });
                     if (!guildDocument) {
                         await db.insertOne({
@@ -77,7 +77,7 @@ export default {
                         .title(newSettings.join(` and `))
                         .send(true, false, true)
                         .catch((error) => {
-                            logError(error);
+                            Utils.logError(error);
                             void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                         });
                 } catch (error) {
@@ -98,12 +98,12 @@ export default {
                             .footer(`🔒 = DJ only, 🌎 = Public`)
                             .send()
                             .catch((error) => {
-                                logError(error);
+                                Utils.logError(error);
                                 void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                             });
                     })
                     .catch((error) => {
-                        logError(error);
+                        Utils.logError(error);
                         void ctx.error(`An unknown error occurred while getting your server's config. Please submit an issue in our support server.`);
                     });
             }

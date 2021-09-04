@@ -2,8 +2,8 @@ import Constants from '../../config/Constants';
 
 // Import modules.
 import { CommandOptions } from 'discord-rose';
-import { logError, timestamp } from '@br88c/discord-utils';
 import { Track } from '@discord-rose/lavalink';
+import { Utils } from '@br88c/discord-utils';
 
 export default {
     command: `seek`,
@@ -30,15 +30,15 @@ export default {
             .then(() => {
                 ctx.embed
                     .color(Constants.SEEK_EMBED_COLOR)
-                    .title(`:fast_forward:  Seeked to ${timestamp(ctx.options.time * 1e3)}`)
+                    .title(`:fast_forward:  Seeked to ${Utils.timestamp(ctx.options.time * 1e3)}`)
                     .send()
                     .catch((error) => {
-                        logError(error);
+                        Utils.logError(error);
                         void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                     });
             })
             .catch((error) => {
-                logError(error);
+                Utils.logError(error);
                 void ctx.error(`An unknown error occurred while seeking. Please submit an issue in our support server.`);
             });
     }

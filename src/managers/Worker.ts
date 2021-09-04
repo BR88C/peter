@@ -1,33 +1,20 @@
-import ButtonManager from './ButtonManager';
 import Config from '../config/Config';
 import Constants from '../config/Constants';
-import LavalinkManager from './LavalinkManager';
+import { defaultTokenArray } from '../utils/Tokens';
+import LavalinkManager from './Lavalink';
 import Presences from '../config/Presences';
 
 // Import modules.
 import { Collection } from '@discordjs/collection';
-import { errorFunction, loadCommands, logError, setRandomPresence } from '@br88c/discord-utils';
 import { MongoClient } from 'mongodb';
-import { PermissionsUtils, Worker } from 'discord-rose';
+import { PermissionsUtils } from 'discord-rose';
 import { PlayerState } from '@discord-rose/lavalink';
 import { resolve } from 'path';
+import { Utils, WorkerManager as Worker } from '@br88c/discord-utils';
 
-/**
- * The Worker manager class.
- * @class
- * @extends Worker
- */
 export default class WorkerManager extends Worker {
     /**
-     * If the worker is available.
-     */
-    public available = false
-    /**
-     * The worker's button manager.
-     */
-    public buttons: ButtonManager = new ButtonManager(this)
-    /**
-     * The worker's lavalink manager.
+     * The worker's MongoDB client.
      */
     public lavalink: LavalinkManager = new LavalinkManager(this)
     /**
@@ -35,54 +22,42 @@ export default class WorkerManager extends Worker {
      */
     public mongoClient: MongoClient = new MongoClient(Config.mongo.url)
 
-    /**
-     * Create the Worker manager.
-     * @constructor
-     */
     constructor () {
-        super();
+        super({
+            commandHandler: {
+                allowedTypes: {
+                    interactions: `all`,
+                    prefix: `devs`
+                },
+                devs: Config.devs.IDs,
+                errorEmbedColor: Constants.ERROR_EMBED_COLOR,
+                location: resolve(__dirname, `../commands`),
+                prefix: Config.developerPrefix
+            },
+            presence: {
+                interval: Config.presenceInterval,
+                presences: Presences
+            },
+            readyCallback: async () => {
+                // Initiate lavalink.
+                await this.lavalink.init().catch((error) => Utils.logError(error));
 
-        // Set presence, and change it at an interval specified in config.
-        setRandomPresence(this, Presences as any);
-        setInterval(() => setRandomPresence(this, Presences as any), Config.presenceInterval);
+                // Connect to Mongo DB.
+                await this.mongoClient.connect().catch((error) => Utils.logError(error));
+                this.log(`Connected to MongoDB`);
+            },
+            tokenFilter: defaultTokenArray
+        });
 
-        // Set prefix.
-        this.commands.prefix(Config.developerPrefix);
-        this.log(`Using developer prefix ${Config.developerPrefix}`);
-
-        // Load commands.
-        loadCommands(this, resolve(__dirname, `../commands`));
-
-        // Custom command error response.
-        this.commands.error((ctx, error) => errorFunction(ctx, error, this, Config.defaultTokenArray, Constants.ERROR_EMBED_COLOR, Constants.SUPPORT_SERVER));
-
-        // Create command middleware.
         this.commands.middleware(async (ctx) => {
-            if (!ctx.worker.available) { // If the worker is not available.
-                void ctx.error(`The bot is still starting; please wait to run a command!`);
-                return false;
-            }
-            if (!ctx.isInteraction) { // If the received event is not an interaction.
-                if (!Config.devs.IDs.includes(ctx.author.id)) { // If the user is not a dev, return an error.
-                    void ctx.error(`Peter's prefix commands (sudo) have been replaced by slash commands. For more information, join our support server!`);
-                    return false;
-                } else { // If the user is a dev.
-                    if (ctx.command.interaction) { // If the command is a slash command, return.
-                        void ctx.error(`That's an interaction command, not a developer command silly!`);
-                        return false;
-                    } else { // If the command is not a slash command, execute it.
-                        ctx.worker.log(`\x1b[32mReceived Dev Command | Command: ${ctx.command.command} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message.guild_id ? ` | Guild ID: ${ctx.message.guild_id}` : ``}`);
-                        return true;
-                    }
-                }
-            } else { // If the received event is an interaction.
+            ctx.player = ctx.worker.lavalink.players.get((ctx.isInteraction ? ctx.interaction : ctx.message).guild_id);
+            ctx.voiceState = ctx.worker.voiceStates.find((state) => state.guild_id === (ctx.isInteraction ? ctx.interaction : ctx.message).guild_id && state.users.has(ctx.author.id));
+            
+            if (ctx.isInteraction) {
                 await ctx.typing().catch((error) => {
-                    logError(error);
+                    Utils.logError(error);
                     void ctx.error(`Unable to send thinking response.`);
                 });
-
-                ctx.player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id!);
-                ctx.voiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
                 // @ts-expect-error This condition will always return 'true' since the types 'InteractionType.ApplicationCommand' and '3' have no overlap.
                 if (!ctx.command.allowButton && ctx.interaction.type === 3) {
                     void ctx.error(`An internal button error occured. Please submit an issue in our support server.`);
@@ -121,21 +96,21 @@ export default class WorkerManager extends Worker {
                     return false;
                 }
                 if (ctx.command.voteLocked && !(await ctx.worker.comms.sendCommand(`CHECK_VOTE`, ctx.author.id).catch((error) => {
-                    logError(error);
+                    Utils.logError(error);
                     return true;
                 }))) {
                     await ctx.embed
                         .color(Constants.ERROR_EMBED_COLOR)
                         .title(`You must vote to use this command! Please vote by going to the link below.`)
-                        .description(Constants.VOTE_LINK)
+                        .description(Config.voteLink)
                         .send(true, false, true)
                         .catch((error) => {
-                            logError(error);
+                            Utils.logError(error);
                             void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                         });
                     return false;
                 }
-        
+
                 if (ctx.command.category === `music`) { // If the interaction is a music command.
                     try {
                         const guildDocument = await ctx.worker.mongoClient.db(Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
@@ -154,31 +129,12 @@ export default class WorkerManager extends Worker {
                             }
                         }
                     } catch (error) {
-                        logError(error);
+                        Utils.logError(error);
                     }
                 }
-        
-                ctx.worker.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild ID: ${ctx.interaction.guild_id}`);
-                return true;
-            }
-        });
-
-        // On ready.
-        this.on(`READY`, async () => {
-            if (!this.available) {
-                // Initiate lavalink.
-                await this.lavalink.init().catch((error) => logError(error));
-
-                // Connect to Mongo DB.
-                await this.mongoClient.connect().catch((error) => logError(error));
-                this.log(`Connected to MongoDB`);
-
-                // Set worker to available.
-                this.available = true;
             }
 
-            // Log worker up.
-            this.log(`\x1b[35mWorker up since ${new Date().toLocaleString()}`);
+            return true;
         });
     }
 }

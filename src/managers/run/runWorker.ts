@@ -1,3 +1,3 @@
-import WorkerManager from '../WorkerManager';
+import WorkerManager from '../Worker';
 
-void new WorkerManager();
+new WorkerManager();
