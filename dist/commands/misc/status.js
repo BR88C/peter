@@ -1,22 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = require("../../config/Constants");
 const discord_utils_1 = require("@br88c/discord-utils");
 exports.default = {
     command: `status`,
-    exec: (ctx) => {
-        if (!discord_utils_1.DiscordConstants.PRESENCE_TYPES.includes(ctx.args[0]))
-            void ctx.error(`Invalid status type.`);
-        else {
-            ctx.worker.setStatus(ctx.args[0], ctx.args.slice(1).join(` `), `online`);
-            ctx.embed
-                .color(Constants_1.Constants.STATUS_EMBED_COLOR)
-                .title(`Updated status successfully`)
-                .send()
-                .catch((error) => {
-                discord_utils_1.logError(error);
-                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
-            });
-        }
-    }
+    exec: (ctx) => discord_utils_1.Commands.status(ctx)
 };

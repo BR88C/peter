@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = require("../../config/Constants");
+const Constants_1 = __importDefault(require("../../config/Constants"));
 const discord_utils_1 = require("@br88c/discord-utils");
 exports.default = {
     command: `remove`,
@@ -25,16 +28,16 @@ exports.default = {
         ctx.player.remove(ctx.options.index - 1)
             .then((removedTrack) => {
             ctx.embed
-                .color(Constants_1.Constants.REMOVED_TRACK_EMBED_COLOR)
+                .color(Constants_1.default.REMOVED_TRACK_EMBED_COLOR)
                 .title(`:x:  Removed "${removedTrack.title}" from the queue`)
                 .send()
                 .catch((error) => {
-                discord_utils_1.logError(error);
+                discord_utils_1.Utils.logError(error);
                 void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
             });
         })
             .catch((error) => {
-            discord_utils_1.logError(error);
+            discord_utils_1.Utils.logError(error);
             void ctx.error(`An unknown error occurred while removing music from the queue. Please submit an issue in our support server.`);
         });
     }

@@ -1,29 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Config = void 0;
-exports.Config = {
+exports.default = {
+    botName: `Peter!`,
+    inviteLink: `https://discord.com/oauth2/authorize?client_id=744694015630245949&scope=bot%20applications.commands&permissions=3525696&redirect_uri=https%3A%2F%2Fdiscord.gg%2FE2JsYPPJYN&response_type=code`,
+    supportServer: `https://discord.gg/E2JsYPPJYN`,
+    voteLink: `https://top.gg/bot/744694015630245949/vote`,
+    website: `https://peters.guidetothe.net`,
     developerPrefix: `sudo`,
     devs: {
         IDs: [`342275771546599425`],
         tags: [`BR88C#0001`]
-    },
-    presenceInterval: 6e5,
-    cache: {
-        channels: false,
-        guilds: true,
-        members: false,
-        messages: false,
-        roles: false,
-        self: false,
-        users: false,
-        voiceStates: true
-    },
-    cacheControl: {
-        guilds: [`member_count`], voiceStates: []
-    },
-    mongo: {
-        url: `mongodb://localhost:27017`,
-        dbName: `peter`
     },
     lavalinkNodes: [
         {
@@ -36,33 +22,22 @@ exports.Config = {
             retryDelay: 15e3
         }
     ],
-    defaultTokenArray: [
-        {
-            token: process.env.BOT_TOKEN ?? `%bot_token%`, replacement: `%bot_token%`
+    mongo: {
+        url: `mongodb://localhost:27017`,
+        dbName: `peter`
+    },
+    influx: {
+        bucket: `GTTN`,
+        defaultTags: {
+            application: `Peter!`
         },
-        {
-            token: process.env.SPOTIFY_ID ?? `%spotify_id%`, replacement: `%spotify_id%`
-        },
-        {
-            token: process.env.SPOTIFY_SECRET ?? `%spotify_secret%`, replacement: `%spotify_secret%`
-        },
-        {
-            token: process.env.TOPGG_TOKEN ?? `%topgg_token%`, replacement: `%topgg_token%`
-        }
-    ].concat(JSON.parse(process.env.LAVALINK_PASSWORDS ?? `[]`).map((password, i) => ({
-        token: password, replacement: `%lavalink_password_${i}%`
-    }))),
+        org: `Guide to the Net`,
+        url: `http://localhost:8086`
+    },
     maxUncheckedVoiceStateUsers: 5,
-    shards: {
-        dev: 1,
-        prod: 1
-    },
-    shardsPerCluster: {
-        dev: 1,
-        prod: 1
-    },
+    presenceInterval: 6e5,
     statsCheckupInterval: {
-        dev: 3e4,
+        dev: 5e3,
         prod: 3e5
     }
 };

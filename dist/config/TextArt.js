@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TextArt = void 0;
-exports.TextArt = [
+exports.default = [
     `                                                                      `,
     `                            .:/+oooo+/--//:::.                        `,
     `                        \`/oyyyysssooooysoooosyho\`                     `,

@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Presences = void 0;
-exports.Presences = [
+exports.default = [
     {
         type: `playing`,
         name: `with new Slash Commands!`,

@@ -1,58 +1,53 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WorkerManager = void 0;
-const ButtonManager_1 = require("./ButtonManager");
-const Config_1 = require("../config/Config");
-const Constants_1 = require("../config/Constants");
-const LavalinkManager_1 = require("./LavalinkManager");
-const Presences_1 = require("../config/Presences");
+const Config_1 = __importDefault(require("../config/Config"));
+const Constants_1 = __importDefault(require("../config/Constants"));
+const Tokens_1 = require("../utils/Tokens");
+const Lavalink_1 = __importDefault(require("./Lavalink"));
+const Presences_1 = __importDefault(require("../config/Presences"));
 const collection_1 = require("@discordjs/collection");
-const discord_utils_1 = require("@br88c/discord-utils");
 const mongodb_1 = require("mongodb");
 const discord_rose_1 = require("discord-rose");
 const lavalink_1 = require("@discord-rose/lavalink");
 const path_1 = require("path");
-class WorkerManager extends discord_rose_1.Worker {
+const discord_utils_1 = require("@br88c/discord-utils");
+class WorkerManager extends discord_utils_1.WorkerManager {
     constructor() {
-        super();
-        this.available = false;
-        this.buttons = new ButtonManager_1.ButtonManager(this);
-        this.lavalink = new LavalinkManager_1.LavalinkManager(this);
-        this.mongoClient = new mongodb_1.MongoClient(Config_1.Config.mongo.url);
-        discord_utils_1.setRandomPresence(this, Presences_1.Presences);
-        setInterval(() => discord_utils_1.setRandomPresence(this, Presences_1.Presences), Config_1.Config.presenceInterval);
-        this.commands.prefix(Config_1.Config.developerPrefix);
-        this.log(`Using developer prefix ${Config_1.Config.developerPrefix}`);
-        discord_utils_1.loadCommands(this, path_1.resolve(__dirname, `../commands`));
-        this.commands.error((ctx, error) => discord_utils_1.errorFunction(ctx, error, this, Config_1.Config.defaultTokenArray, Constants_1.Constants.ERROR_EMBED_COLOR, Constants_1.Constants.SUPPORT_SERVER));
+        super({
+            commandHandler: {
+                allowedTypes: {
+                    interactions: `all`,
+                    prefix: `devs`
+                },
+                devs: Config_1.default.devs.IDs,
+                errorEmbedColor: Constants_1.default.ERROR_EMBED_COLOR,
+                location: (0, path_1.resolve)(__dirname, `../commands`),
+                prefix: Config_1.default.developerPrefix
+            },
+            presence: {
+                interval: Config_1.default.presenceInterval,
+                presences: Presences_1.default
+            },
+            readyCallback: async () => {
+                await this.lavalink.init().catch((error) => discord_utils_1.Utils.logError(error));
+                await this.mongoClient.connect().catch((error) => discord_utils_1.Utils.logError(error));
+                this.log(`Connected to MongoDB`);
+            },
+            tokenFilter: Tokens_1.defaultTokenArray
+        });
+        this.lavalink = new Lavalink_1.default(this);
+        this.mongoClient = new mongodb_1.MongoClient(Config_1.default.mongo.url);
         this.commands.middleware(async (ctx) => {
-            if (!ctx.worker.available) {
-                void ctx.error(`The bot is still starting; please wait to run a command!`);
-                return false;
-            }
-            if (!ctx.isInteraction) {
-                if (!Config_1.Config.devs.IDs.includes(ctx.author.id)) {
-                    void ctx.error(`Peter's prefix commands (sudo) have been replaced by slash commands. For more information, join our support server!`);
-                    return false;
-                }
-                else {
-                    if (ctx.command.interaction) {
-                        void ctx.error(`That's an interaction command, not a developer command silly!`);
-                        return false;
-                    }
-                    else {
-                        ctx.worker.log(`\x1b[32mReceived Dev Command | Command: ${ctx.command.command} | User: ${ctx.author.username}#${ctx.author.discriminator}${ctx.message.guild_id ? ` | Guild ID: ${ctx.message.guild_id}` : ``}`);
-                        return true;
-                    }
-                }
-            }
-            else {
+            ctx.player = ctx.worker.lavalink.players.get((ctx.isInteraction ? ctx.interaction : ctx.message).guild_id);
+            ctx.voiceState = ctx.worker.voiceStates.find((state) => state.guild_id === (ctx.isInteraction ? ctx.interaction : ctx.message).guild_id && state.users.has(ctx.author.id));
+            if (ctx.isInteraction) {
                 await ctx.typing().catch((error) => {
-                    discord_utils_1.logError(error);
+                    discord_utils_1.Utils.logError(error);
                     void ctx.error(`Unable to send thinking response.`);
                 });
-                ctx.player = ctx.worker.lavalink.players.get(ctx.interaction.guild_id);
-                ctx.voiceState = ctx.worker.voiceStates.find((state) => state.guild_id === ctx.interaction.guild_id && state.users.has(ctx.author.id));
                 if (!ctx.command.allowButton && ctx.interaction.type === 3) {
                     void ctx.error(`An internal button error occured. Please submit an issue in our support server.`);
                     return false;
@@ -90,23 +85,23 @@ class WorkerManager extends discord_rose_1.Worker {
                     return false;
                 }
                 if (ctx.command.voteLocked && !(await ctx.worker.comms.sendCommand(`CHECK_VOTE`, ctx.author.id).catch((error) => {
-                    discord_utils_1.logError(error);
+                    discord_utils_1.Utils.logError(error);
                     return true;
                 }))) {
                     await ctx.embed
-                        .color(Constants_1.Constants.ERROR_EMBED_COLOR)
+                        .color(Constants_1.default.ERROR_EMBED_COLOR)
                         .title(`You must vote to use this command! Please vote by going to the link below.`)
-                        .description(Constants_1.Constants.VOTE_LINK)
+                        .description(Config_1.default.voteLink)
                         .send(true, false, true)
                         .catch((error) => {
-                        discord_utils_1.logError(error);
+                        discord_utils_1.Utils.logError(error);
                         void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                     });
                     return false;
                 }
                 if (ctx.command.category === `music`) {
                     try {
-                        const guildDocument = await ctx.worker.mongoClient.db(Config_1.Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
+                        const guildDocument = await ctx.worker.mongoClient.db(Config_1.default.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id });
                         if (guildDocument?.djCommands.includes(ctx.command.interaction.name.toLowerCase())) {
                             const voiceChannel = ctx.worker.lavalink.players.get(ctx.interaction.guild_id)?.options.voiceChannelId ?? ctx.voiceState?.channel_id;
                             if (voiceChannel && (ctx.worker.voiceStates.get(voiceChannel)?.users.size ?? 1) - 1 >= guildDocument.djOverride) {
@@ -123,22 +118,12 @@ class WorkerManager extends discord_rose_1.Worker {
                         }
                     }
                     catch (error) {
-                        discord_utils_1.logError(error);
+                        discord_utils_1.Utils.logError(error);
                     }
                 }
-                ctx.worker.log(`Received Interaction | Command: ${ctx.ran} | User: ${ctx.author.username}#${ctx.author.discriminator} | Guild ID: ${ctx.interaction.guild_id}`);
-                return true;
             }
-        });
-        this.on(`READY`, async () => {
-            if (!this.available) {
-                await this.lavalink.init().catch((error) => discord_utils_1.logError(error));
-                await this.mongoClient.connect().catch((error) => discord_utils_1.logError(error));
-                this.log(`Connected to MongoDB`);
-                this.available = true;
-            }
-            this.log(`\x1b[35mWorker up since ${new Date().toLocaleString()}`);
+            return true;
         });
     }
 }
-exports.WorkerManager = WorkerManager;
+exports.default = WorkerManager;

@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = require("../../config/Constants");
+const Constants_1 = __importDefault(require("../../config/Constants"));
 const discord_utils_1 = require("@br88c/discord-utils");
 exports.default = {
     command: `seek`,
@@ -28,16 +31,16 @@ exports.default = {
         ctx.player.seek(ctx.options.time * 1e3)
             .then(() => {
             ctx.embed
-                .color(Constants_1.Constants.SEEK_EMBED_COLOR)
-                .title(`:fast_forward:  Seeked to ${discord_utils_1.timestamp(ctx.options.time * 1e3)}`)
+                .color(Constants_1.default.SEEK_EMBED_COLOR)
+                .title(`:fast_forward:  Seeked to ${discord_utils_1.Utils.timestamp(ctx.options.time * 1e3)}`)
                 .send()
                 .catch((error) => {
-                discord_utils_1.logError(error);
+                discord_utils_1.Utils.logError(error);
                 void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
             });
         })
             .catch((error) => {
-            discord_utils_1.logError(error);
+            discord_utils_1.Utils.logError(error);
             void ctx.error(`An unknown error occurred while seeking. Please submit an issue in our support server.`);
         });
     }

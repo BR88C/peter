@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Config_1 = require("../../config/Config");
-const Constants_1 = require("../../config/Constants");
+const Config_1 = __importDefault(require("../../config/Config"));
+const Constants_1 = __importDefault(require("../../config/Constants"));
 const collection_1 = require("@discordjs/collection");
 const discord_rose_1 = require("discord-rose");
 const discord_utils_1 = require("@br88c/discord-utils");
@@ -35,7 +38,7 @@ exports.default = {
     exec: async (ctx) => {
         if (ctx.options.dj) {
             if (ctx.options.dj.command || typeof ctx.options.dj.useroverride === `number`) {
-                const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id).catch((error) => discord_utils_1.logError(error));
+                const guild = await ctx.worker.api.guilds.get(ctx.interaction.guild_id).catch((error) => discord_utils_1.Utils.logError(error));
                 if (!guild)
                     return void ctx.error(`An error occurred while checking if you have permission to use this command. Please try again.`);
                 if (!discord_rose_1.PermissionsUtils.has(discord_rose_1.PermissionsUtils.combine({
@@ -55,7 +58,7 @@ exports.default = {
                 if (ctx.options.dj.useroverride === 1)
                     ctx.options.dj.useroverride = 0;
                 try {
-                    const db = ctx.worker.mongoClient.db(Config_1.Config.mongo.dbName).collection(`Guilds`);
+                    const db = ctx.worker.mongoClient.db(Config_1.default.mongo.dbName).collection(`Guilds`);
                     const guildDocument = await db.findOne({ id: ctx.interaction.guild_id });
                     if (!guildDocument) {
                         await db.insertOne({
@@ -79,11 +82,11 @@ exports.default = {
                     if (typeof ctx.options.dj.useroverride === `number`)
                         newSettings.push(`Set the amount of users needed in a voice channel to restrict commands to DJ only to \`${ctx.options.dj.useroverride}\``);
                     ctx.embed
-                        .color(Constants_1.Constants.CONFIG_EMBED_COLOR)
+                        .color(Constants_1.default.CONFIG_EMBED_COLOR)
                         .title(newSettings.join(` and `))
                         .send(true, false, true)
                         .catch((error) => {
-                        discord_utils_1.logError(error);
+                        discord_utils_1.Utils.logError(error);
                         void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                     });
                 }
@@ -94,11 +97,11 @@ exports.default = {
             else {
                 if (!ctx.worker.commands.commands)
                     return void ctx.error(`Unable to get the command list. Please try again.`);
-                ctx.worker.mongoClient.db(Config_1.Config.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id })
+                ctx.worker.mongoClient.db(Config_1.default.mongo.dbName).collection(`Guilds`).findOne({ id: ctx.interaction.guild_id })
                     .then((guildDocument) => {
                     const commands = ctx.worker.commands.commands.filter((command) => !!command.interaction && command.category === `music`).map((command) => `${guildDocument?.djCommands.includes(command.interaction.name) ? `:lock:` : `:earth_americas:`} \`${command.interaction.name}\``);
                     ctx.embed
-                        .color(Constants_1.Constants.CONFIG_EMBED_COLOR)
+                        .color(Constants_1.default.CONFIG_EMBED_COLOR)
                         .title(`DJ Config`)
                         .description(`Peter's DJ configuration works by toggling individual commands to be public or DJ only, allowing for total control over what non-DJs can and cannot access. You can toggle commands by specifying a value for the \`command\` option. Defaults to all commands being public.\n\nAdditionally, you can set the amount of users needed in a voice channel to restrict commands to DJ only with the \`useroverride\` option, allowing for users that are alone or with a few people in a voice channel to not be restricted by DJ locked commands. A value of 0 or 1 will always enforce DJ only commands. Peter is not included in the user count. Defaults to 0.\n\nTo make someone a DJ, simply give them a role named "DJ". Users with the "Manage Server" or "Administrator" permissions are also considered DJs.`)
                         .field(`Amount of users needed in a voice channel to restrict commands to DJ only`, `\`${guildDocument?.djOverride ?? 0}\``, false)
@@ -107,12 +110,12 @@ exports.default = {
                         .footer(`🔒 = DJ only, 🌎 = Public`)
                         .send()
                         .catch((error) => {
-                        discord_utils_1.logError(error);
+                        discord_utils_1.Utils.logError(error);
                         void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
                     });
                 })
                     .catch((error) => {
-                    discord_utils_1.logError(error);
+                    discord_utils_1.Utils.logError(error);
                     void ctx.error(`An unknown error occurred while getting your server's config. Please submit an issue in our support server.`);
                 });
             }

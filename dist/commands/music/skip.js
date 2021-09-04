@@ -1,10 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = require("../../config/Constants");
+const Constants_1 = __importDefault(require("../../config/Constants"));
 const discord_utils_1 = require("@br88c/discord-utils");
 exports.default = {
     command: `skip`,
-    allowButton: true,
     mustHaveConnectedPlayer: true,
     mustHaveTracksInQueue: true,
     userMustBeInSameVC: true,
@@ -27,16 +29,16 @@ exports.default = {
         ctx.player.skip(index)
             .then(() => {
             ctx.embed
-                .color(Constants_1.Constants.SKIP_EMBED_COLOR)
+                .color(Constants_1.default.SKIP_EMBED_COLOR)
                 .title(`:track_next:  Skipped to ${typeof index === `number` ? `song ${index + 1}` : `the next song`}`)
                 .send()
                 .catch((error) => {
-                discord_utils_1.logError(error);
+                discord_utils_1.Utils.logError(error);
                 void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
             });
         })
             .catch((error) => {
-            discord_utils_1.logError(error);
+            discord_utils_1.Utils.logError(error);
             void ctx.error(`An unknown error occurred while skipping. Please submit an issue in our support server.`);
         });
     }
