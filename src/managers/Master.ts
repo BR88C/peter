@@ -50,6 +50,14 @@ export default class MasterManager extends Master {
         if (process.env.TOPGG_TOKEN) {
             this.topgg = new Api(process.env.TOPGG_TOKEN);
             this.log(`Connected to Top.gg`);
+
+            let topggPostInterval = 0;
+            this.stats.on(`STATS`, (data) => {
+                topggPostInterval++;
+                if (topggPostInterval % Config.topggPostInterval === 0) this.topgg!.postStats({serverCount: data.shards.reduce((p, c) => p + c.guilds, 0)})
+                    .then(() => this.log(`Posted stats to Top.gg`))
+                    .catch((error) => Utils.logError(error));
+            });
         } else this.log(`No Top.gg token provided, skipping initialization`);
 
         // Check vote command.
@@ -57,15 +65,5 @@ export default class MasterManager extends Master {
             Utils.logError(error);
             return true;
         }) : true));
-
-        // let topggPostInterval = 0;
-        // this.stats.on(`STATS`, (data) => {
-        //     if (this.topgg) {
-        //         topggPostInterval++;
-        //         if (topggPostInterval % Config.topggPostInterval === 0) this.topgg.postStats({serverCount: data.shards.reduce((p, c) => p + c.guilds, 0)})
-        //             .then(() => this.log(`Posted stats to Top.gg`))
-        //             .catch((error) => Utils.logError(error));
-        //     }
-        // });
     }
 }
