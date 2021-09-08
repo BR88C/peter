@@ -41,9 +41,6 @@ export default class MasterManager extends Master {
             },
             statsOptions: {
                 influx: process.env.INFLUX_TOKEN ? Object.assign(Config.influx, { 
-                    extraStatsCallback: async () => {
-                        return [];
-                    },
                     token: process.env.INFLUX_TOKEN
                 }) : undefined,
                 interval: Config.statsCheckupInterval[process.env.NODE_ENV ?? `dev`]
