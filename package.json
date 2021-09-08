@@ -1,6 +1,6 @@
 {
   "name": "peter",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "A feature rich Discord music bot that offers features such as 24/7 and audio effects for free.",
   "main": "./dist/index.js",
   "scripts": {
@@ -28,15 +28,15 @@
     "@discordjs/collection": "^0.2.1",
     "@influxdata/influxdb-client": "^1.17.0",
     "@top-gg/sdk": "^3.1.2",
-    "discord-rose": "^1.5.2",
+    "discord-rose": "^1.5.3",
     "dotenv": "^10.0.0",
     "mongodb": "^4.1.1"
   },
   "devDependencies": {
     "@br88c/eslint-config": "^1.0.4",
-    "@types/node": "^16.7.10",
-    "@typescript-eslint/eslint-plugin": "^4.30.0",
-    "@typescript-eslint/parser": "^4.30.0",
+    "@types/node": "^16.7.13",
+    "@typescript-eslint/eslint-plugin": "^4.31.0",
+    "@typescript-eslint/parser": "^4.31.0",
     "eslint": "^7.32.0",
     "typescript": "^4.4.2"
   },

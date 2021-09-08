@@ -28,11 +28,9 @@ exports.default = {
     },
     influx: {
         bucket: `GTTN`,
-        defaultTags: {
-            application: `Peter!`
-        },
-        org: `Guide to the Net`,
-        url: `http://localhost:8086`
+        defaultTags: { application: `Peter!` },
+        org: `GTTN`,
+        url: `https://influx.br88c.dev`
     },
     maxUncheckedVoiceStateUsers: 5,
     presenceInterval: 6e5,
