@@ -45,6 +45,14 @@ class MasterManager extends discord_utils_1.MasterManager {
         if (process.env.TOPGG_TOKEN) {
             this.topgg = new sdk_1.Api(process.env.TOPGG_TOKEN);
             this.log(`Connected to Top.gg`);
+            let topggPostInterval = 0;
+            this.stats.on(`STATS`, (data) => {
+                topggPostInterval++;
+                if (topggPostInterval % Config_1.default.topggPostInterval === 0)
+                    this.topgg.postStats({ serverCount: data.shards.reduce((p, c) => p + c.guilds, 0) })
+                        .then(() => this.log(`Posted stats to Top.gg`))
+                        .catch((error) => discord_utils_1.Utils.logError(error));
+            });
         }
         else
             this.log(`No Top.gg token provided, skipping initialization`);

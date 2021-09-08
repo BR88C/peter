@@ -34,9 +34,9 @@ exports.default = {
     },
     maxUncheckedVoiceStateUsers: 5,
     presenceInterval: 6e5,
-    topggPostInterval: 360,
+    topggPostInterval: 180,
     statsCheckupInterval: {
         dev: 5e3,
-        prod: 5e3
+        prod: 1e4
     }
 };
