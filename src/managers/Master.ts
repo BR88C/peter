@@ -40,9 +40,7 @@ export default class MasterManager extends Master {
                 token: process.env.BOT_TOKEN!
             },
             statsOptions: {
-                influx: process.env.INFLUX_TOKEN ? Object.assign(Config.influx, { 
-                    token: process.env.INFLUX_TOKEN
-                }) : undefined,
+                influx: process.env.INFLUX_TOKEN ? Object.assign(Config.influx, {token: process.env.INFLUX_TOKEN}) : undefined,
                 interval: Config.statsCheckupInterval[process.env.NODE_ENV ?? `dev`]
             },
             workerFile: resolve(__dirname, `./run/runWorker.js`)
@@ -60,10 +58,14 @@ export default class MasterManager extends Master {
             return true;
         }) : true));
 
+        let topggPostInterval = 0;
         this.stats.on(`STATS`, (data) => {
-            if (this.topgg) this.topgg.postStats({serverCount: data.shards.reduce((p, c) => p + c.guilds, 0)})
-                .then(() => this.log(`Posted stats to Top.gg`))
-                .catch((error) => Utils.logError(error));
+            if (this.topgg) {
+                topggPostInterval++;
+                if (topggPostInterval % Config.topggPostInterval === 0) this.topgg.postStats({serverCount: data.shards.reduce((p, c) => p + c.guilds, 0)})
+                    .then(() => this.log(`Posted stats to Top.gg`))
+                    .catch((error) => Utils.logError(error));
+            }
         });
     }
 }
