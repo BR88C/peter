@@ -38,9 +38,6 @@ class MasterManager extends discord_utils_1.MasterManager {
             },
             statsOptions: {
                 influx: process.env.INFLUX_TOKEN ? Object.assign(Config_1.default.influx, {
-                    extraStatsCallback: async () => {
-                        return [];
-                    },
                     token: process.env.INFLUX_TOKEN
                 }) : undefined,
                 interval: Config_1.default.statsCheckupInterval[process.env.NODE_ENV ?? `dev`]

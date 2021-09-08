@@ -36,6 +36,6 @@ exports.default = {
     presenceInterval: 6e5,
     statsCheckupInterval: {
         dev: 5e3,
-        prod: 3e5
+        prod: 5e3
     }
 };
