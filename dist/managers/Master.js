@@ -52,16 +52,6 @@ class MasterManager extends discord_utils_1.MasterManager {
             discord_utils_1.Utils.logError(error);
             return true;
         }) : true));
-        let topggPostInterval = 0;
-        this.stats.on(`STATS`, (data) => {
-            if (this.topgg) {
-                topggPostInterval++;
-                if (topggPostInterval % Config_1.default.topggPostInterval === 0)
-                    this.topgg.postStats({ serverCount: data.shards.reduce((p, c) => p + c.guilds, 0) })
-                        .then(() => this.log(`Posted stats to Top.gg`))
-                        .catch((error) => discord_utils_1.Utils.logError(error));
-            }
-        });
     }
 }
 exports.default = MasterManager;
