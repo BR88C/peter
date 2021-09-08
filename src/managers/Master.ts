@@ -58,14 +58,14 @@ export default class MasterManager extends Master {
             return true;
         }) : true));
 
-        let topggPostInterval = 0;
-        this.stats.on(`STATS`, (data) => {
-            if (this.topgg) {
-                topggPostInterval++;
-                if (topggPostInterval % Config.topggPostInterval === 0) this.topgg.postStats({serverCount: data.shards.reduce((p, c) => p + c.guilds, 0)})
-                    .then(() => this.log(`Posted stats to Top.gg`))
-                    .catch((error) => Utils.logError(error));
-            }
-        });
+        // let topggPostInterval = 0;
+        // this.stats.on(`STATS`, (data) => {
+        //     if (this.topgg) {
+        //         topggPostInterval++;
+        //         if (topggPostInterval % Config.topggPostInterval === 0) this.topgg.postStats({serverCount: data.shards.reduce((p, c) => p + c.guilds, 0)})
+        //             .then(() => this.log(`Posted stats to Top.gg`))
+        //             .catch((error) => Utils.logError(error));
+        //     }
+        // });
     }
 }
