@@ -33,6 +33,7 @@ npm i --also=dev
 The bot also requires some sensitive variables, stored in a `.env` file. In the same directory as `package.json`, create a file named `.env` with the following text:
 ```
 BOT_TOKEN="<Your Discord API Bot Token>"
+INFLUX_TOKEN="<Your InfluxDB Token>" // Optional.
 LAVALINK_PASSWORDS=["<Lavalink server passwords>"...]
 SPOTIFY_ID="<Your Spotify App ID>"
 SPOTIFY_SECRET="<Your Spotify App Secret>"
