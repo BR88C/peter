@@ -35,11 +35,9 @@ export default {
 
     influx: {
         bucket: `GTTN`,
-        defaultTags: {
-            application: `Peter!`  
-        },
-        org: `Guide to the Net`,
-        url: `http://localhost:8086`
+        defaultTags: {application: `Peter!`},
+        org: `GTTN`,
+        url: `https://influx.br88c.dev`
     } as Omit<Required<StatsControllerOptions>[`influx`], `token` | `extraStatsCallback`>,
 
     maxUncheckedVoiceStateUsers: 5,
