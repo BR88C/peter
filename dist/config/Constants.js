@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = {
     BASSBOOST_INTENSITY_MULTIPLIER: 0.15,
     EQ_BAND_COUNT: 15,
+    MAX_SFX: 10000,
     TREBLE_INTENSITY_MULTIPLIER: 0.15,
     TREMOLO_VIBRATO_FREQUENCY: 5,
     ACTIVITY_EMBED_COLOR: 0xBFBFBF,
