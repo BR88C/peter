@@ -132,6 +132,7 @@ export default {
     exec: (ctx) => {
         if (ctx.options.bassboost) {
             if (ctx.options.bassboost.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
+            if (ctx.options.bassboost.value > Constants.MAX_SFX) return void ctx.error(`Invalid value. Please specify a value less than or equal to ${Constants.MAX_SFX}.`);
 
             const newFilters: Filters = Object.assign(ctx.player!.filters, { equalizer: (ctx.player!.filters.equalizer?.filter((v) => v.band > 2) ?? []).concat(ctx.options.bassboost.value === 0
                 ? []
@@ -189,6 +190,7 @@ export default {
                 });
         } else if (ctx.options.pitch) {
             if (ctx.options.pitch.value <= 0) return void ctx.error(`Invalid value. Please specify a value greater than 0.`);
+            if (ctx.options.pitch.value > Constants.MAX_SFX) return void ctx.error(`Invalid value. Please specify a value less than or equal to ${Constants.MAX_SFX}.`);
 
             const newFilters: Filters = Object.assign(ctx.player!.filters, { timescale: Object.assign(ctx.player!.filters.timescale ?? {}, { pitch: ctx.options.pitch.value / 100 }) });
             if (newFilters.timescale?.pitch === 1) delete newFilters.timescale.pitch;
@@ -210,6 +212,7 @@ export default {
                 });
         } else if (ctx.options.rotation) {
             if (ctx.options.rotation.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
+            if (ctx.options.rotation.value > Constants.MAX_SFX) return void ctx.error(`Invalid value. Please specify a value less than or equal to ${Constants.MAX_SFX}.`);
 
             const newFilters: Filters = Object.assign(ctx.player!.filters, { rotation: { rotationHz: ctx.options.rotation.value } });
             if (newFilters.rotation?.rotationHz === 0) delete newFilters.rotation;
@@ -230,6 +233,7 @@ export default {
                 });
         } else if (ctx.options.speed) {
             if (ctx.options.speed.value <= 0) return void ctx.error(`Invalid value. Please specify a value greater than 0.`);
+            if (ctx.options.speed.value > Constants.MAX_SFX) return void ctx.error(`Invalid value. Please specify a value less than or equal to ${Constants.MAX_SFX}.`);
 
             const newFilters: Filters = Object.assign(ctx.player!.filters, { timescale: Object.assign(ctx.player!.filters.timescale ?? {}, { speed: ctx.options.speed.value / 100 }) });
             if (newFilters.timescale?.speed === 1) delete newFilters.timescale.speed;
@@ -251,6 +255,7 @@ export default {
                 });
         } else if (ctx.options.treble) {
             if (ctx.options.treble.value < 0) return void ctx.error(`Invalid value. Please specify a value greater than or equal to 0.`);
+            if (ctx.options.treble.value > Constants.MAX_SFX) return void ctx.error(`Invalid value. Please specify a value less than or equal to ${Constants.MAX_SFX}.`);
 
             const newFilters: Filters = Object.assign(ctx.player!.filters, { equalizer: (ctx.player!.filters.equalizer?.filter((v) => v.band < Constants.EQ_BAND_COUNT - 3) ?? []).concat(ctx.options.treble.value === 0
                 ? []
