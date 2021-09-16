@@ -35,7 +35,7 @@ export default {
 
     influx: {
         bucket: `GTTN`,
-        defaultTags: {application: `Peter!`},
+        defaultTags: { application: `Peter!` },
         org: `GTTN`,
         url: `https://influx.br88c.dev`
     } as Omit<Required<StatsControllerOptions>[`influx`], `token` | `extraStatsCallback`>,

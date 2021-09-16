@@ -7,9 +7,9 @@ import { Commands } from '@br88c/discord-utils';
 
 export default {
     command: `eval`,
-    exec: async (ctx) => await Commands.eval(ctx, Config.devs.IDs, {tokens: ctx.worker.lavalink.spotifyToken
+    exec: async (ctx) => await Commands.eval(ctx, Config.devs.IDs, { tokens: ctx.worker.lavalink.spotifyToken
         ? defaultTokenArray.concat({
             token: ctx.worker.lavalink.spotifyToken, replacement: `%spotify_token%`
         })
-        : defaultTokenArray})
+        : defaultTokenArray })
 } as CommandOptions;
