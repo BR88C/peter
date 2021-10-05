@@ -48,10 +48,6 @@ class WorkerManager extends discord_utils_1.WorkerManager {
                     discord_utils_1.Utils.logError(error);
                     void ctx.error(`Unable to send thinking response.`);
                 });
-                if (!ctx.command.allowButton && ctx.interaction.type === 3) {
-                    void ctx.error(`An internal button error occured. Please submit an issue in our support server.`);
-                    return false;
-                }
                 if (ctx.command.mustBePaused && ctx.player?.state !== lavalink_1.PlayerState.PAUSED) {
                     void ctx.error(`The music must be paused to run the "${ctx.command.interaction.name}" command.`);
                     return false;
@@ -76,7 +72,7 @@ class WorkerManager extends discord_utils_1.WorkerManager {
                     void ctx.error(`There must be music in the queue to run the "${ctx.command.interaction.name}" command.`);
                     return false;
                 }
-                if (ctx.command.userMustBeInSameVC && (!ctx.player || ctx.voiceState?.channel_id !== ctx.player.options.voiceChannelId)) {
+                if (ctx.command.userMustBeInSameVC && !ctx.voiceState?.users.has(this.user.id)) {
                     void ctx.error(`You must be in the same voice channel as the bot to run the "${ctx.command.interaction.name}" command.`);
                     return false;
                 }

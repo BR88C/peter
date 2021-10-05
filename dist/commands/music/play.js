@@ -24,7 +24,7 @@ exports.default = {
         ]
     },
     exec: async (ctx) => {
-        if (ctx.player && ctx.voiceState.channel_id !== ctx.player.options.voiceChannelId)
+        if (ctx.player && !ctx.voiceState?.users.has(ctx.worker.user.id))
             return void ctx.error(`You must be in the same voice channel as the bot to run the "${ctx.command.interaction.name}" command.`);
         await ctx.embed
             .color(Constants_1.default.PROCESSING_QUERY_EMBED_COLOR)
@@ -40,7 +40,7 @@ exports.default = {
             return void ctx.error(`An unknown search error occurred. Please submit an issue in our support server.`);
         if (search.exception) {
             ctx.worker.log(`\x1b[31mSearch Error | Error: ${search.exception.message} | Severity: ${search.exception.severity} | Guild ID: ${ctx.interaction.guild_id}`);
-            return void ctx.error(`An unknown search error occurred. Please submit an issue in our support server.`);
+            return void ctx.error(search.exception.severity === `COMMON` ? search.exception.message : `An unknown search error occurred. Please submit an issue in our support server.`);
         }
         if (!search.tracks[0] || search.loadType === `LOAD_FAILED` || search.loadType === `NO_MATCHES`)
             return void ctx.error(`Unable to find any results based on the provided query.`);
@@ -53,7 +53,7 @@ exports.default = {
             const voiceChannel = await ctx.worker.api.channels.get(ctx.voiceState.channel_id).catch((error) => discord_utils_1.Utils.logError(error));
             const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch((error) => discord_utils_1.Utils.logError(error));
             if (!guild || !botMember || !voiceChannel || !textChannel)
-                return ctx.error(`Unable to check channel permissions. Please try again.`);
+                return void ctx.error(`Unable to check channel permissions. Please try again.`);
             const voicePermissions = discord_rose_1.PermissionsUtils.combine({
                 member: botMember,
                 guild,
@@ -67,15 +67,15 @@ exports.default = {
                 overwrites: textChannel.permission_overwrites
             });
             if (!discord_rose_1.PermissionsUtils.has(voicePermissions, `connect`))
-                return ctx.error(`The bot must have the "Connect" permission in your voice channel to play music.`);
+                return void ctx.error(`The bot must have the "Connect" permission in your voice channel to play music.`);
             if (!discord_rose_1.PermissionsUtils.has(voicePermissions, `speak`))
-                return ctx.error(`The bot must have the "Speak" permission in your voice channel to play music.`);
+                return void ctx.error(`The bot must have the "Speak" permission in your voice channel to play music.`);
             if (voiceChannel.type === 13 && !discord_rose_1.PermissionsUtils.has(voicePermissions, `requestToSpeak`) && !discord_rose_1.PermissionsUtils.has(voicePermissions, `mute`))
-                return ctx.error(`The bot must have the "Request To Speak" or "Mute Members" permission in your voice channel to play music.`);
+                return void ctx.error(`The bot must have the "Request To Speak" or "Mute Members" permission in your voice channel to play music.`);
             if (!discord_rose_1.PermissionsUtils.has(textPermissions, `sendMessages`))
-                return ctx.error(`The bot must have the "Send Messages" permission in this text channel to play music.`);
+                return void ctx.error(`The bot must have the "Send Messages" permission in this text channel to play music.`);
             if (!discord_rose_1.PermissionsUtils.has(textPermissions, `embed`))
-                return ctx.error(`The bot must have the "Embed Links" permission in this text channel to play music.`);
+                return void ctx.error(`The bot must have the "Embed Links" permission in this text channel to play music.`);
             player = ctx.worker.lavalink.createPlayer({
                 becomeSpeaker: true,
                 connectionTimeout: 15e3,

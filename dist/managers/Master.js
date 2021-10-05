@@ -31,9 +31,10 @@ class MasterManager extends discord_utils_1.MasterManager {
                 cacheControl: {
                     guilds: [`member_count`], voiceStates: []
                 },
+                intents: [`GUILDS`, `GUILD_MESSAGES`, `GUILD_VOICE_STATES`],
                 rest: { version: 9 },
                 shards: `auto`,
-                shardsPerCluster: 1,
+                shardsPerCluster: 5,
                 token: process.env.BOT_TOKEN
             },
             statsOptions: {

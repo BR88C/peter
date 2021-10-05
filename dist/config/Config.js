@@ -32,7 +32,6 @@ exports.default = {
         org: `GTTN`,
         url: `https://influx.br88c.dev`
     },
-    maxUncheckedVoiceStateUsers: 5,
     presenceInterval: 6e5,
     topggPostInterval: 180,
     statsCheckupInterval: {

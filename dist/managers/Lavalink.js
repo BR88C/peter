@@ -108,13 +108,9 @@ class LavalinkManager extends lavalink_1.LavalinkManager {
             const player = data.guild_id ? this.players.get(data.guild_id) : undefined;
             if (!player || player.twentyfourseven)
                 return;
-            const voiceState = this.worker.voiceStates.get(player.options.voiceChannelId);
-            if (voiceState?.users.has(this.worker.user.id) && voiceState.users.size <= Config_1.default.maxUncheckedVoiceStateUsers) {
-                let nonBots = 0;
-                for (const [id] of voiceState.users)
-                    nonBots += (await this.worker.api.users.get(id).catch((error) => discord_utils_1.Utils.logError(error)))?.bot ? 0 : 1;
-                if (nonBots === 0)
-                    void player.destroy(`No other users in the voice channel`);
+            const voiceState = this.worker.voiceStates.get(data.channel_id ?? player.options.voiceChannelId);
+            if (voiceState?.users.has(this.worker.user.id) && voiceState.users.size <= 1) {
+                void player.destroy(`No other users in the voice channel`);
             }
         });
     }
