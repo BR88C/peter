@@ -23,7 +23,7 @@ export default {
         ]
     },
     exec: async (ctx) => {
-        if (ctx.player && ctx.voiceState!.channel_id !== ctx.player.options.voiceChannelId) return void ctx.error(`You must be in the same voice channel as the bot to run the "${ctx.command.interaction!.name}" command.`);
+        if (ctx.player && !ctx.voiceState?.users.has(ctx.worker.user.id)) return void ctx.error(`You must be in the same voice channel as the bot to run the "${ctx.command.interaction!.name}" command.`);
 
         await ctx.embed
             .color(Constants.PROCESSING_QUERY_EMBED_COLOR)
@@ -40,7 +40,7 @@ export default {
         if (!search) return void ctx.error(`An unknown search error occurred. Please submit an issue in our support server.`);
         if (search.exception) {
             ctx.worker.log(`\x1b[31mSearch Error | Error: ${search.exception.message} | Severity: ${search.exception.severity} | Guild ID: ${ctx.interaction.guild_id}`);
-            return void ctx.error(`An unknown search error occurred. Please submit an issue in our support server.`);
+            return void ctx.error(search.exception.severity === `COMMON` ? search.exception.message : `An unknown search error occurred. Please submit an issue in our support server.`);
         }
         if (!search.tracks[0] || search.loadType === `LOAD_FAILED` || search.loadType === `NO_MATCHES`) return void ctx.error(`Unable to find any results based on the provided query.`);
 
@@ -51,7 +51,7 @@ export default {
             const botMember = await ctx.worker.api.members.get(ctx.interaction.guild_id!, ctx.worker.user.id).catch((error) => Utils.logError(error));
             const voiceChannel = await ctx.worker.api.channels.get(ctx.voiceState!.channel_id).catch((error) => Utils.logError(error));
             const textChannel = await ctx.worker.api.channels.get(ctx.interaction.channel_id).catch((error) => Utils.logError(error));
-            if (!guild || !botMember || !voiceChannel || !textChannel) return ctx.error(`Unable to check channel permissions. Please try again.`);
+            if (!guild || !botMember || !voiceChannel || !textChannel) return void ctx.error(`Unable to check channel permissions. Please try again.`);
             const voicePermissions = PermissionsUtils.combine({
                 member: botMember,
                 guild,
@@ -64,11 +64,11 @@ export default {
                 roleList: guild.roles.reduce((p, c) => p.set(c.id, c), new Collection()) as any,
                 overwrites: textChannel.permission_overwrites
             });
-            if (!PermissionsUtils.has(voicePermissions, `connect`)) return ctx.error(`The bot must have the "Connect" permission in your voice channel to play music.`);
-            if (!PermissionsUtils.has(voicePermissions, `speak`)) return ctx.error(`The bot must have the "Speak" permission in your voice channel to play music.`);
-            if (voiceChannel.type === 13 && !PermissionsUtils.has(voicePermissions, `requestToSpeak`) && !PermissionsUtils.has(voicePermissions, `mute`)) return ctx.error(`The bot must have the "Request To Speak" or "Mute Members" permission in your voice channel to play music.`);
-            if (!PermissionsUtils.has(textPermissions, `sendMessages`)) return ctx.error(`The bot must have the "Send Messages" permission in this text channel to play music.`);
-            if (!PermissionsUtils.has(textPermissions, `embed`)) return ctx.error(`The bot must have the "Embed Links" permission in this text channel to play music.`);
+            if (!PermissionsUtils.has(voicePermissions, `connect`)) return void ctx.error(`The bot must have the "Connect" permission in your voice channel to play music.`);
+            if (!PermissionsUtils.has(voicePermissions, `speak`)) return void ctx.error(`The bot must have the "Speak" permission in your voice channel to play music.`);
+            if (voiceChannel.type === 13 && !PermissionsUtils.has(voicePermissions, `requestToSpeak`) && !PermissionsUtils.has(voicePermissions, `mute`)) return void ctx.error(`The bot must have the "Request To Speak" or "Mute Members" permission in your voice channel to play music.`);
+            if (!PermissionsUtils.has(textPermissions, `sendMessages`)) return void ctx.error(`The bot must have the "Send Messages" permission in this text channel to play music.`);
+            if (!PermissionsUtils.has(textPermissions, `embed`)) return void ctx.error(`The bot must have the "Embed Links" permission in this text channel to play music.`);
 
             player = ctx.worker.lavalink.createPlayer({
                 becomeSpeaker: true,

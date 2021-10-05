@@ -40,7 +40,6 @@ export default {
         url: `https://influx.br88c.dev`
     } as Omit<Required<StatsControllerOptions>[`influx`], `token` | `extraStatsCallback`>,
 
-    maxUncheckedVoiceStateUsers: 5,
     presenceInterval: 6e5,
     topggPostInterval: 180,
     statsCheckupInterval: {

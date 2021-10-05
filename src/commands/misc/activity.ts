@@ -57,7 +57,7 @@ export default {
             target_type: 2,
             temporary: false
         }).catch((error) => Utils.logError(error));
-        if (!invite) return ctx.error(`Unable to generate an invite link to start the activity. Make sure to check the bot's permissions.`);
+        if (!invite) return void ctx.error(`Unable to generate an invite link to start the activity. Make sure to check the bot's permissions.`);
         ctx.embed
             .color(Constants.ACTIVITY_EMBED_COLOR)
             .title(`Click to start the activity`, `https://discord.gg/${invite.code}`)

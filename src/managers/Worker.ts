@@ -58,11 +58,6 @@ export default class WorkerManager extends Worker {
                     Utils.logError(error);
                     void ctx.error(`Unable to send thinking response.`);
                 });
-                // @ts-expect-error This condition will always return 'true' since the types 'InteractionType.ApplicationCommand' and '3' have no overlap.
-                if (!ctx.command.allowButton && ctx.interaction.type === 3) {
-                    void ctx.error(`An internal button error occured. Please submit an issue in our support server.`);
-                    return false;
-                }
                 if (ctx.command.mustBePaused && ctx.player?.state !== PlayerState.PAUSED) {
                     void ctx.error(`The music must be paused to run the "${ctx.command.interaction!.name}" command.`);
                     return false;
@@ -87,7 +82,7 @@ export default class WorkerManager extends Worker {
                     void ctx.error(`There must be music in the queue to run the "${ctx.command.interaction!.name}" command.`);
                     return false;
                 }
-                if (ctx.command.userMustBeInSameVC && (!ctx.player || ctx.voiceState?.channel_id !== ctx.player.options.voiceChannelId)) {
+                if (ctx.command.userMustBeInSameVC && !ctx.voiceState?.users.has(this.user.id)) {
                     void ctx.error(`You must be in the same voice channel as the bot to run the "${ctx.command.interaction!.name}" command.`);
                     return false;
                 }
