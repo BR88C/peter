@@ -1,5 +1,5 @@
 import LavalinkManager, { ExtendedPlayer } from './managers/Lavalink';
-import { WorkerManager } from './managers/Worker';
+import WorkerManager from './managers/Worker';
 
 // Import modules.
 import { CachedVoiceState, Snowflake } from 'discord-rose';

@@ -50,7 +50,7 @@ export default class WorkerManager extends Worker {
         });
 
         this.commands.middleware(async (ctx) => {
-            ctx.player = ctx.worker.lavalink.players.get((ctx.isInteraction ? ctx.interaction : ctx.message).guild_id);
+            ctx.player = ctx.worker.lavalink.players.get((ctx.isInteraction ? ctx.interaction : ctx.message).guild_id!);
             ctx.voiceState = ctx.worker.voiceStates.find((state) => state.guild_id === (ctx.isInteraction ? ctx.interaction : ctx.message).guild_id && state.users.has(ctx.author.id));
             
             if (ctx.isInteraction) {
@@ -82,12 +82,12 @@ export default class WorkerManager extends Worker {
                     void ctx.error(`There must be music in the queue to run the "${ctx.command.interaction!.name}" command.`);
                     return false;
                 }
-                if (ctx.command.userMustBeInSameVC && !ctx.voiceState?.users.has(this.user.id)) {
-                    void ctx.error(`You must be in the same voice channel as the bot to run the "${ctx.command.interaction!.name}" command.`);
+                if ((ctx.command.userMustBeInVC || ctx.command.userMustBeInSameVC) && !ctx.voiceState) {
+                    void ctx.error(`You must be in a voice channel to run the "${ctx.command.interaction!.name}" command.`);
                     return false;
                 }
-                if (ctx.command.userMustBeInVC && !ctx.voiceState) {
-                    void ctx.error(`You must be in a voice channel to run the "${ctx.command.interaction!.name}" command.`);
+                if (ctx.command.userMustBeInSameVC && !ctx.voiceState?.users.has(this.user.id)) {
+                    void ctx.error(`You must be in the same voice channel as the bot to run the "${ctx.command.interaction!.name}" command.`);
                     return false;
                 }
                 if (ctx.command.voteLocked && !(await ctx.worker.comms.sendCommand(`CHECK_VOTE`, ctx.author.id).catch((error) => {
