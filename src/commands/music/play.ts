@@ -23,7 +23,7 @@ export default {
         ]
     },
     exec: async (ctx) => {
-        if (ctx.player && !ctx.voiceState?.users.has(ctx.worker.user.id)) return void ctx.error(`You must be in the same voice channel as the bot to run the "${ctx.command.interaction!.name}" command.`);
+        if (ctx.player && ctx.voiceState?.channel_id !== ctx.player.options.voiceChannelId) return void ctx.error(`You must be in the same voice channel as the bot to run the "${ctx.command.interaction!.name}" command.`);
 
         await ctx.embed
             .color(Constants.PROCESSING_QUERY_EMBED_COLOR)
