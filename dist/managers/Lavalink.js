@@ -109,7 +109,7 @@ class LavalinkManager extends lavalink_1.LavalinkManager {
             if (!player || player.twentyfourseven)
                 return;
             const voiceState = this.worker.voiceStates.get(data.channel_id ?? player.options.voiceChannelId);
-            if (voiceState?.users.has(this.worker.user.id) && voiceState.users.size <= 1) {
+            if (voiceState?.channel_id === player.options.voiceChannelId && voiceState.users.size <= 1) {
                 void player.destroy(`No other users in the voice channel`);
             }
         });

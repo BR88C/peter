@@ -76,7 +76,7 @@ class WorkerManager extends discord_utils_1.WorkerManager {
                     void ctx.error(`You must be in a voice channel to run the "${ctx.command.interaction.name}" command.`);
                     return false;
                 }
-                if (ctx.command.userMustBeInSameVC && !ctx.voiceState?.users.has(this.user.id)) {
+                if (ctx.command.userMustBeInSameVC && ctx.voiceState?.channel_id !== ctx.player?.options.voiceChannelId) {
                     void ctx.error(`You must be in the same voice channel as the bot to run the "${ctx.command.interaction.name}" command.`);
                     return false;
                 }
