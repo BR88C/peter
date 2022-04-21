@@ -1,47 +1,50 @@
 {
   "name": "peter",
-  "version": "2.3.3",
+  "version": "3.0.0",
   "description": "A feature rich Discord music bot that offers features such as 24/7 and audio effects for free.",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "npm install && tsc",
+    "build": "rm -rf ./dist && tsc",
+    "build:install": "npm i --also=dev && npm run build",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
-    "start": "node ./dist/index.js"
+    "lint:install": "npm i --also=dev && npm run lint",
+    "start": "node ./dist/index.js",
+    "test:build": "npm run build:install",
+    "test:lint": "npm run lint:install"
   },
+  "keywords": [
+    "bot",
+    "discord",
+    "discord-api",
+    "discord-bot",
+    "music",
+    "peter"
+  ],
+  "homepage": "https://guidetothe.net",
+  "bugs": {
+    "url": "https://github.com/BR88C/peter/issues"
+  },
+  "license": "GPL-3.0",
+  "author": "BR88C",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BR88C/peter.git"
   },
-  "keywords": [
-    "peter",
-    "discord",
-    "bot",
-    "musicbot"
-  ],
-  "author": "BR88C",
-  "license": "GPL-3.0",
-  "homepage": "https://peters.guidetothe.net",
   "dependencies": {
-    "@br88c/discord-utils": "^2.1.1",
-    "@discord-rose/lavalink": "^0.1.3",
-    "@discordjs/collection": "^0.2.1",
-    "@influxdata/influxdb-client": "^1.18.0",
-    "@top-gg/sdk": "^3.1.2",
-    "discord-rose": "^1.5.3",
-    "dotenv": "^10.0.0",
-    "mongodb": "^4.1.2"
+    "@br88c/node-utils": "^1.1.3",
+    "@distype/cmd": "^0.1.0",
+    "distype": "^0.10.0"
   },
   "devDependencies": {
-    "@br88c/eslint-config": "^1.1.0",
-    "@types/node": "^16.10.2",
-    "@typescript-eslint/eslint-plugin": "^4.32.0",
-    "@typescript-eslint/parser": "^4.32.0",
-    "eslint": "^7.32.0",
-    "typescript": "^4.4.3"
+    "@br88c/eslint-config": "^1.4.0",
+    "@types/node": "^16.11.27",
+    "eslint": "^8.13.0",
+    "typescript": "^4.6.3"
   },
   "engines": {
-    "node": ">=16.6.0",
-    "npm": ">=7.19.1"
-  }
+    "node": ">=16.13.0",
+    "npm": ">=8.1.0"
+  },
+  "private": true
 }

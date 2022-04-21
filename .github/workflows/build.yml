@@ -2,10 +2,12 @@ name: Build
 
 on:
   push:
+    branches:
+      - 'main'
 
 jobs:
-  build-test:
-    name: Build Test
+  push-build:
+    name: Push Build
     runs-on: ubuntu-latest
 
     strategy:
@@ -13,11 +15,9 @@ jobs:
         node: [16]
 
     steps:
-      # Checkout repository.
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Cache node modules.
       - name: Cache node modules
         uses: actions/cache@v2
         env:
@@ -30,64 +30,15 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      # Setup node.
       - name: Setup node
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
           registry-url: https://registry.npmjs.org/
 
-      # Install packages.
-      - name: Install packages
-        run: npm i --also=dev
-
-      # Run build.
       - name: Run build
-        run: npm run build
+        run: npm run build:install
 
-  build:
-    name: Build
-    needs: build-test
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node: [16]
-
-    steps:
-      # Checkout repository.
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      # Cache node modules.
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      # Setup node.
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node }}
-          registry-url: https://registry.npmjs.org/
-
-      # Install packages.
-      - name: Install packages
-        run: npm i --also=dev
-
-      # Run build.
-      - name: Run build
-        run: npm run build
-
-      # Push build.
       - name: Push build
         run: |
           REPO="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
@@ -107,4 +58,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.BUILD_TOKEN }}
           GITHUB_ACTOR: BR88C
-          GITHUB_EMAIL: br88c@badfirmware.com
+          GITHUB_EMAIL: br88c@br88c.dev

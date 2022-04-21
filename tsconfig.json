@@ -2,17 +2,21 @@
   "include": ["./src/**/*"],
   "exclude": [],
   "compilerOptions": {
-    "esModuleInterop": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
     "declaration": false,
+    "esModuleInterop": true,
     "lib": ["ES2021"],
     "module": "commonjs",
     "moduleResolution": "node",
+    "newLine": "lf",
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "outDir": "dist",
     "removeComments": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "strictNullChecks": true,
+    "strict": true,
     "target": "ES2021"
   }
 }

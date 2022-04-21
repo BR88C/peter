@@ -1,8 +1,6 @@
 dist/
 lavalink/
 node_modules/
-.vscode/
-.VSCodeCounter/
-package-lock.json
+
 .env
-.jsbeautifyrc
+package-lock.json
