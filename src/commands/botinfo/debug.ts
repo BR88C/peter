@@ -1,0 +1,97 @@
+import { ChatCommand, DiscordColors, Embed } from '@distype/cmd';
+import { LavalinkConstants } from '@distype/lavalink';
+import { ChannelType } from 'discord-api-types/v10';
+import { DiscordConstants, PermissionsUtils } from 'distype';
+
+export default new ChatCommand()
+    .setName(`debug`)
+    .setDescription(`Troubleshoot issues`)
+    .addChannelParameter(false, `channel`, `Get information about a channel`)
+    .setExecute(async (ctx) => {
+        if (!ctx.guildId) return ctx.error(`This command only works in servers`);
+
+        if (!ctx.parameters.channel) {
+            const guildPerms = await ctx.client.getSelfPermissions(ctx.guildId);
+            const channelPerms = await ctx.client.getSelfPermissions(ctx.guildId, ctx.channelId);
+
+            const missingGuildPerms = [...Object.values(LavalinkConstants.REQUIRED_PERMISSIONS).reduce((p, c) => new Set([...p, ...c]), new Set<keyof typeof DiscordConstants.PERMISSION_FLAGS>())].filter((perm) => !PermissionsUtils.hasPerms(guildPerms, perm)).map((perm) => `${LavalinkConstants.REQUIRED_PERMISSIONS.STAGE_BECOME_SPEAKER.includes(perm as any) || LavalinkConstants.REQUIRED_PERMISSIONS.STAGE_REQUEST.includes(perm as any) ? `:grey_exclamation:` : `:exclamation:`} ${perm.charAt(0)}${perm.replaceAll(`_`, ` `).toLowerCase().slice(1)}`).join(`\n`);
+            const missingChannelPerms = LavalinkConstants.REQUIRED_PERMISSIONS.TEXT.filter((perm) => !PermissionsUtils.hasPerms(channelPerms, perm)).map((perm) => `:exclamation: ${perm.charAt(0)}${perm.replaceAll(`_`, ` `).toLowerCase().slice(1)}`).join(`\n`);
+
+            await ctx.send(
+                new Embed()
+                    .setColor(DiscordColors.BLURPLE)
+                    .setTitle(`Debug`)
+                    .setDescription(`Support Server: ${process.env.SUPPORT_SERVER ?? `Support Server Unavailable`}`)
+                    .setFields(
+                        {
+                            name: `Server Information`,
+                            value: [
+                                `**ID:** \`${ctx.guildId}\``,
+                                `**Permissions:** \`${Number(guildPerms)}\``,
+                                ``,
+                                missingGuildPerms.length ? `**MISSING PERMISSIONS**\n${missingGuildPerms}` : `*No Missing Permissions*`
+                            ].join(`\n`),
+                            inline: true
+                        },
+                        {
+                            name: `This Channel`,
+                            value: [
+                                `**ID:** \`${ctx.channelId}\``,
+                                `**Permissions:** \`${Number(channelPerms)}\``,
+                                ``,
+                                missingChannelPerms.length ? `**MISSING PERMISSIONS**\n${missingChannelPerms}` : `*No Missing Permissions*`
+                            ].join(`\n`),
+                            inline: true
+                        },
+                        {
+                            name: `\u200b`,
+                            value: `\u200b`
+                        }
+                    )
+                    .setFooter(`❗ = Missing essential permission, ❕ = Missing non-essential permission`)
+            );
+        } else {
+            const channelPerms = await ctx.client.getSelfPermissions(ctx.guildId, ctx.parameters.channel.id);
+
+            const missingChannelPerms = [
+                ...new Set(
+                    (ctx.parameters.channel.type === ChannelType.GuildVoice
+                        ? [
+                            ...LavalinkConstants.REQUIRED_PERMISSIONS.VOICE,
+                            ...LavalinkConstants.REQUIRED_PERMISSIONS.VOICE_MOVED
+                        ]
+                        : (
+                            ctx.parameters.channel.type === ChannelType.GuildStageVoice
+                                ? [
+                                    ...LavalinkConstants.REQUIRED_PERMISSIONS.STAGE_BECOME_SPEAKER,
+                                    ...LavalinkConstants.REQUIRED_PERMISSIONS.STAGE_REQUEST,
+                                    ...LavalinkConstants.REQUIRED_PERMISSIONS.VOICE,
+                                    ...LavalinkConstants.REQUIRED_PERMISSIONS.VOICE_MOVED
+                                ]
+                                : LavalinkConstants.REQUIRED_PERMISSIONS.TEXT
+                        )
+                    ) as Array<keyof typeof DiscordConstants.PERMISSION_FLAGS>
+                )
+            ].filter((perm) => !PermissionsUtils.hasPerms(channelPerms, perm)).map((perm) => `${LavalinkConstants.REQUIRED_PERMISSIONS.STAGE_BECOME_SPEAKER.includes(perm as any) || LavalinkConstants.REQUIRED_PERMISSIONS.STAGE_REQUEST.includes(perm as any) ? `:grey_exclamation:` : `:exclamation:`} ${perm.charAt(0)}${perm.replaceAll(`_`, ` `).toLowerCase().slice(1)}`).join(`\n`);
+
+            await ctx.send(
+                new Embed()
+                    .setColor(DiscordColors.BLURPLE)
+                    .setTitle(`Debug`)
+                    .setDescription([
+                        `Support Server: ${process.env.SUPPORT_SERVER ?? `Support Server Unavailable`}`,
+                        ``,
+                        `**Channel:** <#${ctx.parameters.channel.id}>`,
+                        `**ID:** \`${ctx.parameters.channel.id}\``,
+                        `**Permissions:** \`${Number(channelPerms)}\``,
+                        ``,
+                        missingChannelPerms.length ? `**MISSING PERMISSIONS**\n${missingChannelPerms}` : `*No Missing Permissions*`
+                    ].join(`\n`))
+                    .setFields({
+                        name: `\u200b`,
+                        value: `\u200b`
+                    })
+                    .setFooter(`❗ = Missing essential permission, ❕ = Missing non-essential permission`)
+            );
+        }
+    });

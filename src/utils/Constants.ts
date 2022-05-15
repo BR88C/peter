@@ -1,0 +1,10 @@
+/**
+ * Constants.
+ */
+export const Constants = {
+    BASSBOOST_INTENSITY_MULTIPLIER: 0.15,
+    DEFAULT_MAX_SFX: 10000,
+    EQ_BAND_COUNT: 15,
+    TREBLE_INTENSITY_MULTIPLIER: 0.15,
+    TREMOLO_VIBRATO_FREQUENCY: 5
+} as const;
