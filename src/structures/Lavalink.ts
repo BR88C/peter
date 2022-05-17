@@ -16,7 +16,7 @@ export class Lavalink extends Manager {
                 this.client.rest.createMessage(player.textChannel, { embeds: [
                     new Embed()
                         .setColor(DiscordColors.BRANDING_RED)
-                        .setTitle(`:outbox_tray:  Disconnected from the voice channel${reason !== `Disconnected from the voice channel` ? `: ${reason}` : ``}`)
+                        .setTitle(`:outbox_tray:  ${reason}`)
                         .getRaw()
                 ] }).catch((error) => {
                     this.client.logger.log(`Error sending player destroyed message: ${(error?.message ?? error) ?? `Unknown reason`}`, {
