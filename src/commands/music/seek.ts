@@ -15,7 +15,7 @@ export default new ChatCommand()
 
         if (!player.currentTrack) return ctx.error(`There are currently no tracks playing`);
 
-        if (player.currentTrack.isStream) return ctx.error(`The current track is not seekable`);
+        if (!player.currentTrack.isSeekable) return ctx.error(`The current track is not seekable`);
 
         await player.seek(ctx.parameters.time * 1000);
 
