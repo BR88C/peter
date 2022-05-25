@@ -29,6 +29,8 @@ export default new ChatCommand()
         const search = await ctx.client.lavalink.search(ctx.parameters.query, `${ctx.user.username}#${ctx.user.discriminator}`);
         if (search.exception) return ctx.error(search.exception.message);
 
+        if (!search.tracks.length) return ctx.error(`No tracks found for query "${cleanseMarkdown(ctx.parameters.query)}"`);
+
         await player.play(search.loadType === `PLAYLIST_LOADED` ? search.tracks : search.tracks[0]);
 
         if (search.loadType === `PLAYLIST_LOADED`) {
