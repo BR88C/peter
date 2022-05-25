@@ -16,6 +16,7 @@ export default new ChatCommand()
         await ctx.defer();
 
         const player = ctx.client.lavalink.players.get(ctx.guildId) ?? await ctx.client.lavalink.preparePlayer(ctx.guildId, ctx.channelId, voiceState.channel_id);
+        player.voiceTimeout = null;
 
         if (player.voiceChannel !== voiceState.channel_id) return ctx.error(`You must be in the same channel as the bot to play a track`);
 

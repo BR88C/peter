@@ -24,3 +24,13 @@ declare module 'distype' { // eslint-disable-line quotes
         public init (): Promise<void>
     }
 }
+
+declare module '@distype/lavalink' { // eslint-disable-line quotes
+    // @ts-expect-error 2323
+    class Player {
+        /**
+         * The active voice timeout.
+         */
+        public voiceTimeout: NodeJS.Timeout | null;
+    }
+}

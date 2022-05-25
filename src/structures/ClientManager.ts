@@ -1,9 +1,11 @@
 import { Lavalink } from './Lavalink';
 
+import { Constants } from '../utils/Constants';
 import { tokenFilters } from '../utils/tokenFilters';
 
 import { Logger, LoggerRawFormats, sanitizeTokens } from '@br88c/node-utils';
 import { CommandHandler, DiscordColors, Embed } from '@distype/cmd';
+import { PlayerState } from '@distype/lavalink';
 import { ComponentType } from 'discord-api-types/v10';
 import { Client } from 'distype';
 import { resolve } from 'node:path';
@@ -91,6 +93,26 @@ export class ClientManager extends Client {
                 }
             })
             .load(resolve(__dirname, `../commands`));
+
+        this.gateway.on(`VOICE_STATE_UPDATE`, ({ d }) => {
+            if (!d.guild_id) return;
+
+            const player = this.lavalink.players.get(d.guild_id);
+            if (!player || player.state === PlayerState.DISCONNECTED) return;
+
+            const channelStates = this.cache.voiceStates?.get(d.guild_id)?.filter((voiceState) => voiceState.channel_id === player.voiceChannel && voiceState.user_id !== this.gateway.user?.id);
+
+            if ((channelStates?.size ?? 0) === 0) {
+                if (!player.voiceTimeout) {
+                    player.voiceTimeout = setTimeout(() => {
+                        player.destroy(`No active users in the voice channel`);
+                    }, Constants.VOICE_TIMEOUT).unref();
+                }
+            } else if (player.voiceTimeout) {
+                clearTimeout(player.voiceTimeout);
+                player.voiceTimeout = null;
+            }
+        });
 
         await this.gateway.connect();
 
