@@ -16,22 +16,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'typescript' ]
+        language: ['typescript']
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v1
+        uses: github/codeql-action/init@v2
         with:
           languages: ${{ matrix.language }}
 
       - name: CodeQL Autobuild
-        uses: github/codeql-action/autobuild@v1
+        uses: github/codeql-action/autobuild@v2
 
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v1
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
 
   build-test:
     name: Build Test
@@ -42,32 +43,24 @@ jobs:
         node: [16]
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - name: Setup node
-        uses: actions/setup-node@v2
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           registry-url: https://registry.npmjs.org/
 
-      - name: Run build test
-        run: npm run test:build
+      - name: Install Node Modules
+        run: npm i --also=dev
 
-  lint:
-    name: Lint
+      - name: Run Build Test
+        run: npm run build
+
+
+  lint-test:
+    name: Lint Test
     runs-on: ubuntu-latest
 
     strategy:
@@ -75,26 +68,17 @@ jobs:
         node: [16]
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - name: Setup node
-        uses: actions/setup-node@v2
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           registry-url: https://registry.npmjs.org/
 
-      - name: Run lint
-        run: npm run test:lint
+      - name: Install Node Modules
+        run: npm i --also=dev
+
+      - name: Run Lint Test
+        run: npm run lint

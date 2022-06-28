@@ -1,9 +1,8 @@
 <div align="center">
     <br>
-    <img src="https://raw.githubusercontent.com/BR88C/peter/master/assets/avatar/peter_transparent.png" align="center" width="256" height="256">
+    <img src="https://cdn.discordapp.com/avatars/744694015630245949/a9a709d8de1bb769c3473243796d10b7.png?quality=lossless&size=512" align="center" width="256" height="256">
     <br>
     <h1>Peter!</h1>
-    <br><br>
     <p>
         <a href="https://github.com/BR88C/peter/releases"><img src="https://img.shields.io/github/v/release/BR88C/peter?include_prereleases&style=for-the-badge"></a>
         <a href="https://github.com/BR88C/peter/actions/workflows/build.yml"><img src="https://img.shields.io/github/workflow/status/BR88C/peter/Build?style=for-the-badge&logo=github"><a>
