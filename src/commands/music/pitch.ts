@@ -6,13 +6,12 @@ import { PlayerFilters } from '@distype/lavalink';
 export default new ChatCommand()
     .setName(`pitch`)
     .setDescription(`Changes the pitch of the audio`)
+    .setDmPermission(false)
     .addIntegerParameter(true, `value`, `The pitch to set the audio to, as a percent; the default is 100`, {
         min: 1,
         max: Constants.DEFAULT_MAX_SFX
     })
     .setExecute(async (ctx) => {
-        if (!ctx.guildId) return ctx.error(`This command only works in servers`);
-
         const player = ctx.client.lavalink.players.get(ctx.guildId);
         if (!player) return ctx.error(`The bot must be connected to a voice channel to use this command`);
 

@@ -3,9 +3,8 @@ import { ChatCommand, DiscordColors, Embed } from '@distype/cmd';
 export default new ChatCommand()
     .setName(`listfilters`)
     .setDescription(`Displays the active filters (bassboost, speed, pitch, etc)`)
+    .setDmPermission(false)
     .setExecute(async (ctx) => {
-        if (!ctx.guildId) return ctx.error(`This command only works in servers`);
-
         const player = ctx.client.lavalink.players.get(ctx.guildId);
         if (!player) return ctx.error(`The bot must be connected to a voice channel to use this command`);
 

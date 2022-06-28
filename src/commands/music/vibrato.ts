@@ -6,6 +6,7 @@ import { PlayerFilters } from '@distype/lavalink';
 export default new ChatCommand()
     .setName(`vibrato`)
     .setDescription(`Adds a vibrato filter to the audio`)
+    .setDmPermission(false)
     .addIntegerParameter(true, `value`, `The vibrato depth (the amount of pitch to fluctuate), as a percent; the default is 0`, {
         min: 0,
         max: 100
@@ -15,8 +16,6 @@ export default new ChatCommand()
         max: 14
     })
     .setExecute(async (ctx) => {
-        if (!ctx.guildId) return ctx.error(`This command only works in servers`);
-
         const player = ctx.client.lavalink.players.get(ctx.guildId);
         if (!player) return ctx.error(`The bot must be connected to a voice channel to use this command`);
 

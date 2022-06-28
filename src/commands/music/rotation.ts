@@ -6,13 +6,12 @@ import { PlayerFilters } from '@distype/lavalink';
 export default new ChatCommand()
     .setName(`rotation`)
     .setDescription(`Adds a rotation (audio panning) filter to the audio`)
+    .setDmPermission(false)
     .addNumberParameter(true, `value`, `The frequency to rotate at (small values like 0.1 create an "8D audio" effect); the default is 0`, {
         min: 0,
         max: Constants.DEFAULT_MAX_SFX
     })
     .setExecute(async (ctx) => {
-        if (!ctx.guildId) return ctx.error(`This command only works in servers`);
-
         const player = ctx.client.lavalink.players.get(ctx.guildId);
         if (!player) return ctx.error(`The bot must be connected to a voice channel to use this command`);
 

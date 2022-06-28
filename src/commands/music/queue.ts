@@ -4,9 +4,8 @@ import { Button, ButtonStyle, ChatCommand, cleanseMarkdown, DiscordColors, Embed
 export default new ChatCommand()
     .setName(`queue`)
     .setDescription(`Displays the tracks in the queue`)
+    .setDmPermission(false)
     .setExecute(async (ctx) => {
-        if (!ctx.guildId) return ctx.error(`This command only works in servers`);
-
         const player = ctx.client.lavalink.players.get(ctx.guildId);
         if (!player) return ctx.error(`The bot must be connected to a voice channel to show the queue`);
 

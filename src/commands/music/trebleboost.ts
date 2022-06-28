@@ -6,13 +6,12 @@ import { PlayerFilters } from '@distype/lavalink';
 export default new ChatCommand()
     .setName(`trebleboost`)
     .setDescription(`Boosts the audio's treble`)
+    .setDmPermission(false)
     .addIntegerParameter(true, `value`, `The value to trebleboost by; the default is 0`, {
         min: 0,
         max: Constants.DEFAULT_MAX_SFX
     })
     .setExecute(async (ctx) => {
-        if (!ctx.guildId) return ctx.error(`This command only works in servers`);
-
         const player = ctx.client.lavalink.players.get(ctx.guildId);
         if (!player) return ctx.error(`The bot must be connected to a voice channel to use this command`);
 

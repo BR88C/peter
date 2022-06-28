@@ -3,13 +3,12 @@ import { ChatCommand, DiscordColors, Embed } from '@distype/cmd';
 export default new ChatCommand()
     .setName(`volume`)
     .setDescription(`Sets the volume of the audio`)
+    .setDmPermission(false)
     .addIntegerParameter(true, `value`, `The volume to use, as a percent; the default is 100`, {
         min: 0,
         max: 1000
     })
     .setExecute(async (ctx) => {
-        if (!ctx.guildId) return ctx.error(`This command only works in servers`);
-
         const player = ctx.client.lavalink.players.get(ctx.guildId);
         if (!player) return ctx.error(`The bot must be connected to a voice channel to use this command`);
 

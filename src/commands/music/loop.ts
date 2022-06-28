@@ -3,6 +3,7 @@ import { ChatCommand, DiscordColors, Embed } from '@distype/cmd';
 export default new ChatCommand()
     .setName(`loop`)
     .setDescription(`Modifies the looping behavior of the queue`)
+    .setDmPermission(false)
     .addStringParameter(true, `type`, `The type of loop behavior to use`, [
         {
             name: `Queue - Once the end of the queue is reached, it will loop back to the first track`,
@@ -18,8 +19,6 @@ export default new ChatCommand()
         }
     ])
     .setExecute(async (ctx) => {
-        if (!ctx.guildId) return ctx.error(`This command only works in servers`);
-
         const player = ctx.client.lavalink.players.get(ctx.guildId);
         if (!player) return ctx.error(`The bot must be connected to a voice channel to use this command`);
 

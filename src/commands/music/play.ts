@@ -3,10 +3,9 @@ import { ChatCommand, cleanseMarkdown, DiscordColors, Embed } from '@distype/cmd
 export default new ChatCommand()
     .setName(`play`)
     .setDescription(`Plays a specified song or video, or adds it to the queue`)
+    .setDmPermission(false)
     .addStringParameter(true, `query`, `A YouTube / Soundcloud / Spotify / mp3 link, or the name of a song / video`)
     .setExecute(async (ctx) => {
-        if (!ctx.guildId) return ctx.error(`This command only works in servers`);
-
         const voiceState = ctx.client.cache.voiceStates?.get(ctx.guildId)?.get(ctx.user.id);
         if (!voiceState?.channel_id) {
             if (!ctx.client.cache.guilds?.has(ctx.guildId)) return ctx.error(`Cannot determine if you are connected to a voice channel; the bot is most likely in the process of starting`);
@@ -15,8 +14,9 @@ export default new ChatCommand()
 
         await ctx.defer();
 
-        const player = ctx.client.lavalink.players.get(ctx.guildId) ?? await ctx.client.lavalink.preparePlayer(ctx.guildId, ctx.channelId, voiceState.channel_id);
-        player.voiceTimeout = null;
+        const player = await ctx.client.lavalink.preparePlayer(ctx.guildId, voiceState.channel_id);
+        player.voiceTimeout ??= null;
+        player.textChannel ??= ctx.channelId;
 
         if (player.voiceChannel !== voiceState.channel_id) return ctx.error(`You must be in the same channel as the bot to play a track`);
 

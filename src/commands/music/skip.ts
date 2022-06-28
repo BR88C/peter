@@ -3,10 +3,9 @@ import { ChatCommand, cleanseMarkdown, DiscordColors, Embed } from '@distype/cmd
 export default new ChatCommand()
     .setName(`skip`)
     .setDescription(`Skips to a specified track or to the next track in the queue`)
+    .setDmPermission(false)
     .addIntegerParameter(false, `index`, `The index of the queue to skip to`)
     .setExecute(async (ctx) => {
-        if (!ctx.guildId) return ctx.error(`This command only works in servers`);
-
         const player = ctx.client.lavalink.players.get(ctx.guildId);
         if (!player) return ctx.error(`The bot must be connected to a voice channel to use this command`);
 
