@@ -6,11 +6,10 @@ export default new ChatCommand()
     .setDmPermission(false)
     .addAttachmentParameter(true, `file`, `The file to play`)
     .setExecute(async (ctx) => {
+        if (!ctx.client.cache.guilds?.has(ctx.guildId) || ctx.client.cache.guilds?.get(ctx.guildId)?.unavailable === true) return ctx.error(`The bot is starting, or there is a Discord outage; please wait a moment then try again`);
+
         const voiceState = ctx.client.cache.voiceStates?.get(ctx.guildId)?.get(ctx.user.id);
-        if (!voiceState?.channel_id) {
-            if (!ctx.client.cache.guilds?.has(ctx.guildId)) return ctx.error(`Cannot determine if you are connected to a voice channel; the bot is most likely in the process of starting`);
-            else return ctx.error(`You must be connected to a voice channel to play a track`);
-        }
+        if (!voiceState?.channel_id) return ctx.error(`You must be connected to a voice channel to play a track`);
 
         await ctx.defer();
 
