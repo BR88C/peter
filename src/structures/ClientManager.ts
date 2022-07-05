@@ -103,7 +103,7 @@ export class ClientManager extends Client {
 
             const channelStates = this.cache.voiceStates?.get(d.guild_id)?.filter((voiceState) => voiceState.channel_id === player.voiceChannel && voiceState.user_id !== this.gateway.user?.id);
 
-            if ((channelStates?.size ?? 0) === 0) {
+            if (!player.twentyfourseven && (channelStates?.size ?? 0) === 0) {
                 if (!player.voiceTimeout) {
                     player.voiceTimeout = setTimeout(() => {
                         player.destroy(`No active users in the voice channel`);
