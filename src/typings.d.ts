@@ -2,8 +2,7 @@ import { Lavalink } from './structures/Lavalink';
 
 import { Logger } from '@br88c/node-utils';
 import { CommandHandler } from '@distype/cmd';
-import { Api } from '@top-gg/sdk';
-import { Snowflake } from 'distype';
+import { RestMethod, RestRequestData, RestRoute, Snowflake } from 'distype';
 
 declare module 'distype' { // eslint-disable-line quotes
     // @ts-expect-error 2323
@@ -24,10 +23,7 @@ declare module 'distype' { // eslint-disable-line quotes
          * Initialize the client manager.
          */
         public init (): Promise<void>
-        /**
-         * The top.gg client.
-         */
-        public topgg?: Api;
+        public topggRequest (method: RestMethod, route: RestRoute, options?: RestRequestData): Promise<any>
     }
 }
 

@@ -6,10 +6,10 @@ import { tokenFilters } from '../utils/tokenFilters';
 import { Logger, LoggerRawFormats, sanitizeTokens } from '@br88c/node-utils';
 import { CommandHandler, DiscordColors, Embed } from '@distype/cmd';
 import { PlayerState } from '@distype/lavalink';
-import { Api } from '@top-gg/sdk';
 import { ComponentType } from 'discord-api-types/v10';
-import { Client } from 'distype';
+import { Client, RestMethod, RestRequestData, RestRoute } from 'distype';
 import { resolve } from 'node:path';
+import { request } from 'undici';
 
 /**
  * The client manager.
@@ -116,14 +116,11 @@ export class ClientManager extends Client {
         });
 
         if (process.env.TOPGG_TOKEN) {
-            this.topgg = new Api(process.env.TOPGG_TOKEN);
-            this.logger.log(`Connected to Top.gg`, { system: `Top.gg` });
-
             setInterval(() => {
-                this.topgg!.postStats({
-                    serverCount: this.cache.guilds?.size,
-                    shardCount: this.gateway.shards.size
-                })
+                this.topggRequest(`POST`, `/bots/$stats`, { body: {
+                    server_count: this.cache.guilds?.size,
+                    shard_count: this.gateway.shards.size
+                } })
                     .then(() => this.logger.log(`Posted stats to Top.gg`, { system: `Top.gg` }))
                     .catch((error) => {
                         this.logger.log(error.name, {
@@ -142,5 +139,23 @@ export class ClientManager extends Client {
 
         await this.lavalink.spawnNodes();
         await this.commandHandler.push();
+    }
+
+    /**
+     * Makes a Top.gg API request,
+     * @param method The request's method.
+     * @param route The requests's route, relative to the base Top.gg API URL.
+     * @param options Request options.
+     * @returns The response body.
+     */
+    public async topggRequest (method: RestMethod, route: RestRoute, options?: RestRequestData): Promise<any> {
+        if (!process.env.TOPGG_TOKEN) throw new Error(`TOPGG_TOKEN is undefined`);
+
+        return (await this.rest.make(method, route, {
+            authHeader: process.env.TOPGG_TOKEN,
+            customBaseURL: `https://top.gg/api`,
+            forceHeaders: true,
+            ...options
+        })).body;
     }
 }
