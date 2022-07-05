@@ -6,6 +6,7 @@ import { tokenFilters } from '../utils/tokenFilters';
 import { Logger, LoggerRawFormats, sanitizeTokens } from '@br88c/node-utils';
 import { CommandHandler, DiscordColors, Embed } from '@distype/cmd';
 import { PlayerState } from '@distype/lavalink';
+import { Api } from '@top-gg/sdk';
 import { ComponentType } from 'discord-api-types/v10';
 import { Client } from 'distype';
 import { resolve } from 'node:path';
@@ -26,7 +27,7 @@ export class ClientManager extends Client {
         super(process.env.BOT_TOKEN!, {
             cache: {
                 channels: [`permission_overwrites`, `type`],
-                guilds: [`owner_id`, `roles`],
+                guilds: [`owner_id`, `roles`, `unavailable`],
                 members: [`communication_disabled_until`, `roles`],
                 roles: [`permissions`],
                 voiceStates: [`channel_id`]
@@ -78,7 +79,7 @@ export class ClientManager extends Client {
                     new Embed()
                         .setColor(DiscordColors.BRANDING_RED)
                         .setTitle(`Error`)
-                        .setDescription(`\`\`\`\n${sanitizeTokens(error.message, tokenFilter)}\n\`\`\``)
+                        .setDescription(`\`\`\`\n${sanitizeTokens(error.message, tokenFilter)}\n\`\`\`\n*Support Server: ${process.env.SUPPORT_SERVER ?? `\`Support Server Unavailable\``}*`)
                         .setFooter(`Error ID: ${errorId}`)
                         .setTimestamp()
                 );
@@ -113,6 +114,29 @@ export class ClientManager extends Client {
                 player.voiceTimeout = null;
             }
         });
+
+        if (process.env.TOPGG_TOKEN) {
+            this.topgg = new Api(process.env.TOPGG_TOKEN);
+            this.logger.log(`Connected to Top.gg`, { system: `Top.gg` });
+
+            setInterval(() => {
+                this.topgg!.postStats({
+                    serverCount: this.cache.guilds?.size,
+                    shardCount: this.gateway.shards.size
+                })
+                    .then(() => this.logger.log(`Posted stats to Top.gg`, { system: `Top.gg` }))
+                    .catch((error) => {
+                        this.logger.log(error.name, {
+                            level: `ERROR`, system: `Top.gg`
+                        });
+                        console.error(`\n${LoggerRawFormats.RED}${error.stack}${LoggerRawFormats.RESET}\n`);
+                    });
+            }, Constants.TOP_GG_POST_INTERVAL).unref();
+        } else {
+            this.logger.log(`No Top.gg token provided, skipping initialization`, {
+                level: `WARN`, system: `Top.gg`
+            });
+        }
 
         await this.gateway.connect();
 

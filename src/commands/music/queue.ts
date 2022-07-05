@@ -27,8 +27,7 @@ export default new ChatCommand()
                     return false;
                 }
             })
-            .setExecute(async (ctx) => {
-                await ctx.editParentDefer();
+            .setExecute(async () => {
                 await changePage(-1);
             });
 
@@ -52,8 +51,7 @@ export default new ChatCommand()
                     return false;
                 }
             })
-            .setExecute(async (ctx) => {
-                await ctx.editParentDefer();
+            .setExecute(async () => {
                 await changePage(1);
             });
 
@@ -117,7 +115,7 @@ export default new ChatCommand()
                     },
                     {
                         name: `Loop`,
-                        value: `\`${player.loop.charAt(0).toUpperCase()}${player.loop.slice(1)}\``,
+                        value: `\`${player.loop.charAt(0).toUpperCase()}${player.loop.slice(1)}\`${player.twentyfourseven ? ` (24/7 On)` : ``}`,
                         inline: true
                     },
                     {

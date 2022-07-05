@@ -2,6 +2,7 @@ import { Lavalink } from './structures/Lavalink';
 
 import { Logger } from '@br88c/node-utils';
 import { CommandHandler } from '@distype/cmd';
+import { Api } from '@top-gg/sdk';
 import { Snowflake } from 'distype';
 
 declare module 'distype' { // eslint-disable-line quotes
@@ -23,6 +24,10 @@ declare module 'distype' { // eslint-disable-line quotes
          * Initialize the client manager.
          */
         public init (): Promise<void>
+        /**
+         * The top.gg client.
+         */
+        public topgg?: Api;
     }
 }
 
@@ -33,6 +38,10 @@ declare module '@distype/lavalink' { // eslint-disable-line quotes
          * The player's text channel.
          */
         public textChannel: Snowflake;
+        /**
+         * If the player has 24/7 enabled.
+         */
+        public twentyfourseven: boolean;
         /**
          * The active voice timeout.
          */
