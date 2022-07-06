@@ -9,7 +9,6 @@ import { PlayerState } from '@distype/lavalink';
 import { ComponentType } from 'discord-api-types/v10';
 import { Client, RestMethod, RestRequestData, RestRoute } from 'distype';
 import { resolve } from 'node:path';
-import { request } from 'undici';
 
 /**
  * The client manager.
@@ -148,7 +147,7 @@ export class ClientManager extends Client {
      * @param options Request options.
      * @returns The response body.
      */
-    public async topggRequest (method: RestMethod, route: RestRoute, options?: RestRequestData): Promise<any> {
+    public override async topggRequest (method: RestMethod, route: RestRoute, options?: RestRequestData): Promise<any> {
         if (!process.env.TOPGG_TOKEN) throw new Error(`TOPGG_TOKEN is undefined`);
 
         return (await this.rest.make(method, route, {
