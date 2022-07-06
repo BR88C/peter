@@ -127,7 +127,7 @@ export class ClientManager extends Client {
                         });
                         console.error(`\n${LoggerRawFormats.RED}${error.stack}${LoggerRawFormats.RESET}\n`);
                     });
-            }, Constants.TOP_GG_POST_INTERVAL).unref();
+            }, Constants.TOPGG_POST_INTERVAL).unref();
         } else {
             this.logger.log(`No Top.gg token provided, skipping initialization`, {
                 level: `WARN`, system: `Top.gg`
