@@ -1,5 +1,5 @@
 import { timestamp } from '@br88c/node-utils';
-import { Button, ButtonStyle, ChatCommand, cleanseMarkdown, DiscordColors, Embed } from '@distype/cmd';
+import { Button, ButtonContext, ButtonStyle, ChatCommand, cleanseMarkdown, DiscordColors, Embed } from '@distype/cmd';
 
 export default new ChatCommand()
     .setName(`queue`)
@@ -27,8 +27,8 @@ export default new ChatCommand()
                     return false;
                 }
             })
-            .setExecute(async () => {
-                await changePage(-1);
+            .setExecute(async (bCtx) => {
+                await changePage(-1, bCtx);
             });
 
         const pageDisplay = new Button()
@@ -51,8 +51,8 @@ export default new ChatCommand()
                     return false;
                 }
             })
-            .setExecute(async () => {
-                await changePage(1);
+            .setExecute(async (bCtx) => {
+                await changePage(1, bCtx);
             });
 
         let currentPage = Math.floor((player.queuePosition ?? 0) / 10);
@@ -62,8 +62,9 @@ export default new ChatCommand()
         /**
          * Change the page.
          * @param page The amount to change the page by.
+         * @param bCtx The button's context.
          */
-        const changePage = async (page: number): Promise<void> => {
+        const changePage = async (page: number, bCtx?: ButtonContext): Promise<void> => {
             if (expired.every((v) => v)) {
                 ctx.commandHandler.unbindButton(`queue_${ctx.interaction.id}_left`).unbindButton(`queue_${ctx.interaction.id}_right`);
 
@@ -134,8 +135,8 @@ export default new ChatCommand()
 
             if (!ctx.responded) {
                 await ctx.send(embed, [left, pageDisplay, right]);
-            } else {
-                await ctx.edit(`@original`, embed, [left, pageDisplay, right]);
+            } else if (bCtx) {
+                await bCtx.editParent(embed, [left, pageDisplay, right], false);
             }
         };
 
