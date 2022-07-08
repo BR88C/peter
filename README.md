@@ -17,9 +17,9 @@ A feature rich Discord music bot that offers features such as 24/7 and audio eff
 
 ### Links
 
-- [GitHub](https://github.com/BR88C/distype)
-- [Support Server](https://discord.gg/E2JsYPPJYN)
-- [Invite](https://discord.com/oauth2/authorize?client_id=744694015630245949&scope=bot%20applications.commands&permissions=3525696)
+- **[GitHub](https://github.com/BR88C/distype)**
+- **[Support Server](https://discord.gg/E2JsYPPJYN)**
+- **[Invite](https://discord.com/oauth2/authorize?client_id=744694015630245949&scope=bot%20applications.commands&permissions=3525696)**
 
 ### Prerequisites
 
