@@ -1,48 +1,120 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = __importDefault(require("../../config/Constants"));
-const lavalink_1 = require("@discord-rose/lavalink");
-const discord_utils_1 = require("@br88c/discord-utils");
-exports.default = {
-    command: `queue`,
-    mustHaveConnectedPlayer: true,
-    interaction: {
-        name: `queue`,
-        description: `Get the current queue.`
-    },
-    exec: async (ctx) => {
-        const voiceChannel = await ctx.worker.api.channels.get(ctx.player.options.voiceChannelId).catch((error) => discord_utils_1.Utils.logError(error));
-        if (!voiceChannel)
-            return void ctx.error(`Unable to get information about the queue. Please try again.`);
-        const sendEmbed = async (page) => {
-            const trackTitles = [];
-            ctx.player.queue.forEach((track, i) => trackTitles.push(`${i === ctx.player.queuePosition ? `↳ ` : ``}**${i + 1}.** ${track.uri ? `[` : ``}${discord_utils_1.Utils.cleanseMarkdown(track.title)}${track.uri ? `](${track.uri})` : ``} ${track.length ? ` - [${discord_utils_1.Utils.timestamp(track.length)}]` : ``}`));
-            const pages = [];
-            for (const [i, title] of trackTitles.entries())
-                pages[Math.floor(i / 10)] = `${pages[Math.floor(i / 10)] ?? ``}${title}\n`;
-            const queueLength = ctx.player.queue.reduce((p, c) => p + (c.length ?? 0), 0);
-            const trackTimeLeft = ctx.player.currentTrack instanceof lavalink_1.Track ? (ctx.player.currentTrack.length ?? 0) - (ctx.player.position ?? (ctx.player.currentTrack.length ?? 0)) : 0;
-            await ctx.embed
-                .color(Constants_1.default.QUEUE_EMBED_COLOR)
-                .title(ctx.player.currentTrack ? `**Now Playing:** ${ctx.player.currentTrack.title} ${ctx.player.currentTrack.length ? `[${discord_utils_1.Utils.timestamp(trackTimeLeft)} remaining]` : ``}` : `**No music playing**`)
-                .thumbnail(ctx.player.currentTrack instanceof lavalink_1.Track ? ctx.player.currentTrack.thumbnail(`mqdefault`) ?? `` : ``)
-                .description(pages.length ? `${pages[page]}\n*Page ${page + 1}/${pages.length}*` : `**No music in the queue.**`)
-                .field(`Queue Size`, `\`${ctx.player.queue.length}\``, true)
-                .field(`Queue Length`, `\`${discord_utils_1.Utils.timestamp(queueLength)}\``, true)
-                .field(`Time Left`, `\`${ctx.player.queuePosition !== null ? discord_utils_1.Utils.timestamp(queueLength - (ctx.player.queue.slice(0, ctx.player.queuePosition).reduce((p, c) => p + (c.length ?? 0), 0) + (ctx.player.position ?? 0))) : `N/A`}\``, true)
-                .field(`Voice Channel`, `\`${voiceChannel.name}\`` ?? `N/A`, true)
-                .field(`Loop`, `\`${ctx.player.loop.charAt(0).toUpperCase()}${ctx.player.loop.slice(1)}\``, true)
-                .field(`24/7`, `\`${ctx.player.twentyfourseven ? `On` : `Off`}\``, true)
-                .field(`Active Effects`, ctx.worker.lavalink.filtersString(ctx.player), false)
-                .send()
-                .catch((error) => {
-                discord_utils_1.Utils.logError(error);
-                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
-            });
-        };
-        await sendEmbed(Math.floor((ctx.player.queuePosition ?? 0) / 10));
-    }
-};
+const node_utils_1 = require("@br88c/node-utils");
+const cmd_1 = require("@distype/cmd");
+exports.default = new cmd_1.ChatCommand()
+    .setName(`queue`)
+    .setDescription(`Displays the tracks in the queue`)
+    .setDmPermission(false)
+    .setExecute(async (ctx) => {
+    const player = ctx.client.lavalink.players.get(ctx.guildId);
+    if (!player)
+        return ctx.error(`The bot must be connected to a voice channel to show the queue`);
+    const expired = [false, false];
+    let acknowledgedExpired = false;
+    const left = new cmd_1.Button()
+        .setId(`queue_${ctx.interaction.id}_left`)
+        .setStyle(cmd_1.ButtonStyle.PRIMARY)
+        .setLabel(`<`)
+        .setExpire(30000, async () => {
+        expired[0] = true;
+        if (!acknowledgedExpired && expired.every((v) => v)) {
+            acknowledgedExpired = true;
+            await changePage(0);
+            return true;
+        }
+        else {
+            return false;
+        }
+    })
+        .setExecute(async (bCtx) => {
+        await changePage(-1, bCtx);
+    });
+    const pageDisplay = new cmd_1.Button()
+        .setId(`queue_${ctx.interaction.id}_page_display`)
+        .setStyle(cmd_1.ButtonStyle.PRIMARY)
+        .setDisabled(true);
+    const right = new cmd_1.Button()
+        .setId(`queue_${ctx.interaction.id}_right`)
+        .setStyle(cmd_1.ButtonStyle.PRIMARY)
+        .setLabel(`>`)
+        .setExpire(30000, async () => {
+        expired[1] = true;
+        if (!acknowledgedExpired && expired.every((v) => v)) {
+            acknowledgedExpired = true;
+            await changePage(0);
+            return true;
+        }
+        else {
+            return false;
+        }
+    })
+        .setExecute(async (bCtx) => {
+        await changePage(1, bCtx);
+    });
+    let currentPage = Math.floor((player.queuePosition ?? 0) / 10);
+    const embed = new cmd_1.Embed().setColor(cmd_1.DiscordColors.ROLE_SEA_GREEN);
+    const changePage = async (page, bCtx) => {
+        if (expired.every((v) => v)) {
+            ctx.commandHandler.unbindButton(`queue_${ctx.interaction.id}_left`).unbindButton(`queue_${ctx.interaction.id}_right`);
+            left.setDisabled(true);
+            right.setDisabled(true);
+            await ctx.edit(`@original`, embed, [left, pageDisplay, right]);
+            return;
+        }
+        currentPage += page;
+        const maxPage = Math.floor(player.queue.length / 10);
+        if (currentPage > maxPage)
+            currentPage = 0;
+        else if (currentPage < 0)
+            currentPage = maxPage;
+        const trackTitles = player.queue.length
+            ? player.queue.slice(currentPage * 10, (currentPage + 1) * 10).map((track, i) => `${(i + (currentPage * 10)) === player.queuePosition ? `↳ ` : ``}**${i + (currentPage * 10) + 1}.** ${track.uri ? `[` : ``}${(0, cmd_1.cleanseMarkdown)(track.title)}${track.uri ? `](${track.uri})` : ``} ${track.length ? ` [${(0, node_utils_1.timestamp)(track.length)}]` : ``}`).join(`\n`)
+            : `**No tracks in the queue.**`;
+        const queueLength = player.queue.reduce((p, c) => p + c.length, 0);
+        embed
+            .setTitle(player.currentTrack ? `**Now Playing:** ${player.currentTrack.title} ${player.currentTrack.length ? `[${(0, node_utils_1.timestamp)(player.currentTrack ? (player.currentTrack.length ?? 0) - (player.trackPosition ?? (player.currentTrack.length ?? 0)) : 0)} remaining]` : ``}` : `**Nothing is currently playing**`)
+            .setDescription(trackTitles)
+            .setFields({
+            name: `Queue Size`,
+            value: `\`${player.queue.length}\``,
+            inline: true
+        }, {
+            name: `Queue Length`,
+            value: `\`${(0, node_utils_1.timestamp)(queueLength)}\``,
+            inline: true
+        }, {
+            name: `Time Left`,
+            value: `\`${player.queuePosition !== null ? (0, node_utils_1.timestamp)(queueLength - (player.queue.slice(0, player.queuePosition).reduce((p, c) => p + (c.length ?? 0), 0) + (player.trackPosition ?? 0))) : `N/A`}\``,
+            inline: true
+        }, {
+            name: `Voice Channel`,
+            value: `<#${player.voiceChannel}>`,
+            inline: true
+        }, {
+            name: `Text Channel`,
+            value: `<#${player.textChannel}>`,
+            inline: true
+        }, {
+            name: `Loop`,
+            value: `\`${player.loop.charAt(0).toUpperCase()}${player.loop.slice(1)}\`${player.twentyfourseven ? ` (24/7 On)` : ``}`,
+            inline: true
+        }, {
+            name: `Active Filters`,
+            value: ctx.client.lavalink.filtersString(player),
+            inline: false
+        });
+        if (player.currentTrack?.thumbnail(`mqdefault`))
+            embed.setThumbnail(player.currentTrack.thumbnail(`mqdefault`));
+        pageDisplay.setLabel(`Page ${currentPage + 1}/${maxPage + 1}`);
+        expired[0] = false;
+        expired[1] = false;
+        if (!ctx.responded) {
+            await ctx.send(embed, [left, pageDisplay, right]);
+        }
+        else if (bCtx) {
+            await bCtx.editParent(embed, [left, pageDisplay, right], false);
+        }
+    };
+    await changePage(0);
+});

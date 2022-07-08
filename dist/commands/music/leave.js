@@ -1,27 +1,18 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = __importDefault(require("../../config/Constants"));
-const discord_utils_1 = require("@br88c/discord-utils");
-exports.default = {
-    command: `leave`,
-    mustHavePlayer: true,
-    userMustBeInSameVC: true,
-    interaction: {
-        name: `leave`,
-        description: `Disconnect the bot from the voice channel and destroy the queue.`
-    },
-    exec: (ctx) => {
-        ctx.player.destroy();
-        ctx.embed
-            .color(Constants_1.default.LEAVE_EMBED_COLOR)
-            .title(`:wave:  Left the voice channel`)
-            .send()
-            .catch((error) => {
-            discord_utils_1.Utils.logError(error);
-            void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
-        });
-    }
-};
+const cmd_1 = require("@distype/cmd");
+exports.default = new cmd_1.ChatCommand()
+    .setName(`leave`)
+    .setDescription(`Disconnects the bot from the voice channel and destroys the queue`)
+    .setDmPermission(false)
+    .setExecute(async (ctx) => {
+    const player = ctx.client.lavalink.players.get(ctx.guildId);
+    if (!player)
+        return ctx.error(`The bot must be connected to a voice channel to use this command`);
+    if (player.voiceChannel !== ctx.client.getVoiceStateData(ctx.guildId, ctx.user.id, `channel_id`).channel_id)
+        return ctx.error(`You must be in the same voice channel as the bot to use this command`);
+    player.destroy(`/leave`);
+    await ctx.send(new cmd_1.Embed()
+        .setColor(cmd_1.DiscordColors.BRANDING_RED)
+        .setTitle(`:wave:  Left the voice channel`));
+});

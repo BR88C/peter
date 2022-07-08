@@ -1,47 +1,24 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = __importDefault(require("../../config/Constants"));
-const discord_utils_1 = require("@br88c/discord-utils");
-exports.default = {
-    command: `seek`,
-    mustHaveConnectedPlayer: true,
-    mustHaveTracksInQueue: true,
-    mustBePausedOrPlaying: true,
-    userMustBeInSameVC: true,
-    interaction: {
-        name: `seek`,
-        description: `Seek to a position in the song.`,
-        options: [
-            {
-                type: 4,
-                name: `time`,
-                description: `The time in seconds to seek to.`,
-                required: true
-            }
-        ]
-    },
-    exec: (ctx) => {
-        if (!ctx.player.queue[ctx.player.queuePosition ?? 0].isSeekable || ctx.player.queue[ctx.player.queuePosition ?? 0].isStream)
-            return void ctx.error(`The current song does not support seeking.`);
-        if (ctx.options.time < 0)
-            return void ctx.error(`Invalid value to seek to.`);
-        ctx.player.seek(ctx.options.time * 1e3)
-            .then(() => {
-            ctx.embed
-                .color(Constants_1.default.SEEK_EMBED_COLOR)
-                .title(`:fast_forward:  Seeked to ${discord_utils_1.Utils.timestamp(ctx.options.time * 1e3)}`)
-                .send()
-                .catch((error) => {
-                discord_utils_1.Utils.logError(error);
-                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
-            });
-        })
-            .catch((error) => {
-            discord_utils_1.Utils.logError(error);
-            void ctx.error(`An unknown error occurred while seeking. Please submit an issue in our support server.`);
-        });
-    }
-};
+const node_utils_1 = require("@br88c/node-utils");
+const cmd_1 = require("@distype/cmd");
+exports.default = new cmd_1.ChatCommand()
+    .setName(`seek`)
+    .setDescription(`Seeks to a specified position in the track`)
+    .setDmPermission(false)
+    .addIntegerParameter(true, `time`, `The time in seconds to seek to`)
+    .setExecute(async (ctx) => {
+    const player = ctx.client.lavalink.players.get(ctx.guildId);
+    if (!player)
+        return ctx.error(`The bot must be connected to a voice channel to use this command`);
+    if (player.voiceChannel !== ctx.client.getVoiceStateData(ctx.guildId, ctx.user.id, `channel_id`).channel_id)
+        return ctx.error(`You must be in the same voice channel as the bot to use this command`);
+    if (!player.currentTrack)
+        return ctx.error(`There are currently no tracks playing`);
+    if (!player.currentTrack.isSeekable)
+        return ctx.error(`The current track is not seekable`);
+    await player.seek(ctx.parameters.time * 1000);
+    await ctx.send(new cmd_1.Embed()
+        .setColor(cmd_1.DiscordColors.ROLE_BLUE)
+        .setTitle(`:fast_forward:  Seeked to \`${(0, node_utils_1.timestamp)(ctx.parameters.time * 1000)}\``));
+});

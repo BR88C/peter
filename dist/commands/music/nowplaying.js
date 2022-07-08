@@ -1,37 +1,27 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = __importDefault(require("../../config/Constants"));
-const lavalink_1 = require("@discord-rose/lavalink");
-const discord_utils_1 = require("@br88c/discord-utils");
-exports.default = {
-    command: `nowplaying`,
-    mustHaveConnectedPlayer: true,
-    mustHaveTracksInQueue: true,
-    mustBePausedOrPlaying: true,
-    interaction: {
-        name: `nowplaying`,
-        description: `Get the current music playing.`
-    },
-    exec: (ctx) => {
-        let description;
-        if (ctx.player.currentTrack.isStream)
-            description = `🔴  **LIVE**`;
-        else
-            description = `\`\`\`\n${ctx.player.state === lavalink_1.PlayerState.PAUSED ? `⏸` : `▶`} ${discord_utils_1.Utils.timestamp(ctx.player.position ?? 0)} ${discord_utils_1.Utils.progressBar((ctx.player.position ?? 0) / (ctx.player.currentTrack.length ?? (ctx.player.position ?? 0)), 25)} ${discord_utils_1.Utils.timestamp(ctx.player.currentTrack.length ?? (ctx.player.position ?? 0))}\n\`\`\``;
-        ctx.embed
-            .color(Constants_1.default.NOW_PLAYING_EMBED_COLOR)
-            .author(`Currently playing:`)
-            .title(discord_utils_1.Utils.cleanseMarkdown(ctx.player.currentTrack.title), ctx.player.currentTrack.uri)
-            .thumbnail(ctx.player.currentTrack.thumbnail(`mqdefault`) ?? ``)
-            .description(description)
-            .footer(`Requested by ${ctx.player.currentTrack.requester}`)
-            .send()
-            .catch((error) => {
-            discord_utils_1.Utils.logError(error);
-            void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
-        });
-    }
-};
+const node_utils_1 = require("@br88c/node-utils");
+const cmd_1 = require("@distype/cmd");
+exports.default = new cmd_1.ChatCommand()
+    .setName(`nowplaying`)
+    .setDescription(`Displays the currently playing track`)
+    .setDmPermission(false)
+    .setExecute(async (ctx) => {
+    const player = ctx.client.lavalink.players.get(ctx.guildId);
+    if (!player)
+        return ctx.error(`The bot must be connected to a voice channel to use this command`);
+    if (!player.currentTrack)
+        return ctx.error(`There are currently no tracks playing`);
+    const dashCount = Math.floor((player.currentTrack.isStream ? 0 : (player.trackPosition ?? 0) / player.currentTrack.length) * 18);
+    const embed = new cmd_1.Embed()
+        .setColor(cmd_1.DiscordColors.ROLE_SEA_GREEN)
+        .setAuthor(`Currently playing:`)
+        .setTitle((0, cmd_1.cleanseMarkdown)(player.currentTrack.title))
+        .setURL(player.currentTrack.uri)
+        .setDescription(player.currentTrack.isStream ? `:red_circle:  **LIVE**` : `\`\`\`\n${player.paused ? `⏸` : `▶️`} ${(0, node_utils_1.timestamp)(player.trackPosition ?? 0)} ${`─`.repeat(dashCount)}🔘${`─`.repeat(18 - dashCount)} ${(0, node_utils_1.timestamp)(player.currentTrack.length)}\n\`\`\``);
+    if (player.currentTrack.thumbnail(`mqdefault`))
+        embed.setThumbnail(player.currentTrack.thumbnail(`mqdefault`));
+    if (player.currentTrack.requester)
+        embed.setFooter(`Requested by ${player.currentTrack.requester}`);
+    await ctx.send(embed);
+});

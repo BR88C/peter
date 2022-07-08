@@ -1,44 +1,21 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = __importDefault(require("../../config/Constants"));
-const discord_utils_1 = require("@br88c/discord-utils");
-exports.default = {
-    command: `remove`,
-    mustHaveConnectedPlayer: true,
-    mustHaveTracksInQueue: true,
-    userMustBeInSameVC: true,
-    interaction: {
-        name: `remove`,
-        description: `Remove a song from the queue.`,
-        options: [
-            {
-                type: 4,
-                name: `index`,
-                description: `The song's index in the queue.`,
-                required: true
-            }
-        ]
-    },
-    exec: (ctx) => {
-        if (ctx.options.index < 1 || ctx.options.index > ctx.player.queue.length)
-            return void ctx.error(`Please specify a valid index of the queue.`);
-        ctx.player.remove(ctx.options.index - 1)
-            .then((removedTrack) => {
-            ctx.embed
-                .color(Constants_1.default.REMOVED_TRACK_EMBED_COLOR)
-                .title(`:x:  Removed "${removedTrack.title}" from the queue`)
-                .send()
-                .catch((error) => {
-                discord_utils_1.Utils.logError(error);
-                void ctx.error(`Unable to send a response message. Make sure to check the bot's permissions.`);
-            });
-        })
-            .catch((error) => {
-            discord_utils_1.Utils.logError(error);
-            void ctx.error(`An unknown error occurred while removing music from the queue. Please submit an issue in our support server.`);
-        });
-    }
-};
+const cmd_1 = require("@distype/cmd");
+exports.default = new cmd_1.ChatCommand()
+    .setName(`remove`)
+    .setDescription(`Removes a track from the queue`)
+    .setDmPermission(false)
+    .addIntegerParameter(true, `index`, `The track's index in the queue`)
+    .setExecute(async (ctx) => {
+    const player = ctx.client.lavalink.players.get(ctx.guildId);
+    if (!player)
+        return ctx.error(`The bot must be connected to a voice channel to use this command`);
+    if (player.voiceChannel !== ctx.client.getVoiceStateData(ctx.guildId, ctx.user.id, `channel_id`).channel_id)
+        return ctx.error(`You must be in the same voice channel as the bot to use this command`);
+    if (ctx.parameters.index < 1 || ctx.parameters.index > player.queue.length)
+        return void ctx.error(`Invalid queue index; must be a value of 1-${player.queue.length}`);
+    const removedTrack = await player.remove(ctx.parameters.index - 1);
+    await ctx.send(new cmd_1.Embed()
+        .setColor(cmd_1.DiscordColors.ROLE_ORANGE)
+        .setTitle(`:wastebasket:  Removed "${(0, cmd_1.cleanseMarkdown)(removedTrack?.title ?? `Unknown track`)}" from the queue`));
+});

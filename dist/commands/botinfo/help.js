@@ -1,19 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const discord_utils_1 = require("@br88c/discord-utils");
-exports.default = {
-    command: `help`,
-    interaction: {
-        name: `help`,
-        description: `Get help using the bot.`,
-        options: [
-            {
-                type: 3,
-                name: `command`,
-                description: `The name of the command.`,
-                required: false
-            }
-        ]
-    },
-    exec: async (ctx) => await discord_utils_1.Commands.help(ctx)
-};
+const cmd_1 = require("@distype/cmd");
+exports.default = new cmd_1.ChatCommand()
+    .setName(`help`)
+    .setDescription(`Get Help`)
+    .setExecute(async (ctx) => {
+    await ctx.send(new cmd_1.Embed()
+        .setColor(cmd_1.DiscordColors.BLURPLE)
+        .setTitle(`Help`)
+        .setDescription([
+        `Support Server: ${process.env.SUPPORT_SERVER ?? `\`Support Server Unavailable\``}`,
+        `\`\`\``,
+        `Commands:`,
+        ctx.commandHandler.commands.map((command) => command.getRaw().name).join(`, `),
+        `\`\`\``
+    ].join(`\n`)));
+});
