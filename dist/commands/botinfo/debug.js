@@ -19,7 +19,7 @@ exports.default = new cmd_1.ChatCommand()
         await ctx.send(new cmd_1.Embed()
             .setColor(cmd_1.DiscordColors.BLURPLE)
             .setTitle(`Debug`)
-            .setDescription(`Support Server: ${process.env.SUPPORT_SERVER ?? `\`Support Server Unavailable\``}`)
+            .setDescription(`Support Server: ${process.env.SUPPORT_SERVER?.length ? process.env.SUPPORT_SERVER : `\`Support Server Unavailable\``}`)
             .setFields({
             name: `Server Information`,
             value: [
@@ -65,7 +65,7 @@ exports.default = new cmd_1.ChatCommand()
             .setColor(cmd_1.DiscordColors.BLURPLE)
             .setTitle(`Debug`)
             .setDescription([
-            `Support Server: ${process.env.SUPPORT_SERVER ?? `\`Support Server Unavailable\``}`,
+            `Support Server: ${process.env.SUPPORT_SERVER?.length ? process.env.SUPPORT_SERVER : `\`Support Server Unavailable\``}`,
             ``,
             `**Channel:** <#${ctx.parameters.channel.id}>`,
             `**ID:** \`${ctx.parameters.channel.id}\``,

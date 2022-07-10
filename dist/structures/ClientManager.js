@@ -59,7 +59,7 @@ class ClientManager extends distype_1.Client {
             await ctx.sendEphemeral(new cmd_1.Embed()
                 .setColor(cmd_1.DiscordColors.BRANDING_RED)
                 .setTitle(`Error`)
-                .setDescription(`\`\`\`\n${(0, node_utils_1.sanitizeTokens)(error.message, tokenFilter)}\n\`\`\`\n*Support Server: ${process.env.SUPPORT_SERVER ?? `\`Support Server Unavailable\``}*`)
+                .setDescription(`\`\`\`\n${(0, node_utils_1.sanitizeTokens)(error.message, tokenFilter)}\n\`\`\`\n*Support Server: ${process.env.SUPPORT_SERVER?.length ? process.env.SUPPORT_SERVER : `\`Support Server Unavailable\``}*`)
                 .setFooter(`Error ID: ${errorId}`)
                 .setTimestamp());
         })
