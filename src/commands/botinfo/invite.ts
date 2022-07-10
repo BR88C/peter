@@ -8,6 +8,6 @@ export default new ChatCommand()
             new Embed()
                 .setColor(DiscordColors.BLURPLE)
                 .setTitle(`Invite Link:`)
-                .setDescription(process.env.INVITE_LINK ?? `Invite Link Unavailable`)
+                .setDescription(process.env.INVITE_LINK?.length ? process.env.INVITE_LINK : `Invite Link Unavailable`)
         );
     });
