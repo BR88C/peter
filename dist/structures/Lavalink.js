@@ -7,7 +7,7 @@ const lavalink_1 = require("@distype/lavalink");
 class Lavalink extends lavalink_1.Manager {
     async spawnNodes() {
         this.on(`PLAYER_DESTROYED`, (player, reason) => {
-            if (reason !== `/leave`) {
+            if (reason !== `/leave` && player.textChannel) {
                 this.client.rest.createMessage(player.textChannel, { embeds: [
                         new cmd_1.Embed()
                             .setColor(cmd_1.DiscordColors.BRANDING_RED)
@@ -21,20 +21,22 @@ class Lavalink extends lavalink_1.Manager {
             }
         });
         this.on(`PLAYER_VOICE_MOVED`, (player, newChannel) => {
-            this.client.rest.createMessage(player.textChannel, { embeds: [
-                    new cmd_1.Embed()
-                        .setColor(cmd_1.DiscordColors.ROLE_SEA_GREEN)
-                        .setTitle(`:loud_sound:  Moved`)
-                        .setDescription(`New Channel: <#${newChannel}>`)
-                        .getRaw()
-                ] }).catch((error) => {
-                this.client.logger.log(`Error sending player moved message: ${(error?.message ?? error) ?? `Unknown reason`}`, {
-                    level: `ERROR`, system: this.system
+            if (player.textChannel) {
+                this.client.rest.createMessage(player.textChannel, { embeds: [
+                        new cmd_1.Embed()
+                            .setColor(cmd_1.DiscordColors.ROLE_SEA_GREEN)
+                            .setTitle(`:loud_sound:  Moved`)
+                            .setDescription(`New Channel: <#${newChannel}>`)
+                            .getRaw()
+                    ] }).catch((error) => {
+                    this.client.logger.log(`Error sending player moved message: ${(error?.message ?? error) ?? `Unknown reason`}`, {
+                        level: `ERROR`, system: this.system
+                    });
                 });
-            });
+            }
         });
         this.on(`PLAYER_TRACK_START`, (player, track) => {
-            if (track) {
+            if (track && player.textChannel) {
                 const embed = new cmd_1.Embed()
                     .setColor(cmd_1.DiscordColors.ROLE_SEA_GREEN)
                     .setTitle(`Now Playing: ${(0, cmd_1.cleanseMarkdown)(track.title)}`)
