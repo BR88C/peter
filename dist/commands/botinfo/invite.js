@@ -8,5 +8,5 @@ exports.default = new cmd_1.ChatCommand()
     await ctx.send(new cmd_1.Embed()
         .setColor(cmd_1.DiscordColors.BLURPLE)
         .setTitle(`Invite Link:`)
-        .setDescription(process.env.INVITE_LINK ?? `Invite Link Unavailable`));
+        .setDescription(process.env.INVITE_LINK?.length ? process.env.INVITE_LINK : `Invite Link Unavailable`));
 });
