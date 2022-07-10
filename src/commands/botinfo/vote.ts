@@ -8,6 +8,6 @@ export default new ChatCommand()
             new Embed()
                 .setColor(DiscordColors.BLURPLE)
                 .setTitle(`Vote Link:`)
-                .setDescription(process.env.VOTE_LINK ?? `Vote Link Unavailable`)
+                .setDescription(process.env.VOTE_LINK?.length ? process.env.VOTE_LINK : `Vote Link Unavailable`)
         );
     });

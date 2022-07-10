@@ -10,7 +10,7 @@ export default new ChatCommand()
 
         if (player.voiceChannel !== ctx.client.getVoiceStateData(ctx.guildId, ctx.user.id, `channel_id`).channel_id) return ctx.error(`You must be in the same voice channel as the bot to use this command`);
 
-        if (process.env.VOTE_LINK && !(await ctx.client.topggRequest(`GET`, `/bots/check`, { query: { userId: ctx.user.id } }).then((res) => !!res.voted))) {
+        if (process.env.VOTE_LINK?.length && !(await ctx.client.topggRequest(`GET`, `/bots/check`, { query: { userId: ctx.user.id } }).then((res) => !!res.voted))) {
             await ctx.sendEphemeral(
                 new Embed()
                     .setColor(DiscordColors.BRANDING_RED)
