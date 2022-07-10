@@ -114,7 +114,7 @@ export class ClientManager extends Client {
             }
         });
 
-        if (process.env.TOPGG_TOKEN) {
+        if (process.env.TOPGG_TOKEN?.length) {
             setInterval(() => {
                 this.topggRequest(`POST`, `/bots/$stats`, { body: {
                     server_count: this.cache.guilds?.size,
@@ -148,7 +148,7 @@ export class ClientManager extends Client {
      * @returns The response body.
      */
     public override async topggRequest (method: RestMethod, route: RestRoute, options?: RestRequestData): Promise<any> {
-        if (!process.env.TOPGG_TOKEN) throw new Error(`TOPGG_TOKEN is undefined`);
+        if (!process.env.TOPGG_TOKEN?.length) throw new Error(`TOPGG_TOKEN is undefined`);
 
         return (await this.rest.make(method, route, {
             authHeader: process.env.TOPGG_TOKEN,
