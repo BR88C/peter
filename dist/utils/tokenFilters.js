@@ -11,6 +11,9 @@ function tokenFilters(...additional) {
             token: process.env.LAVALINK_PASSWORD,
             replacement: `%lavalink_password%`
         }
-    ].concat(...additional);
+    ].concat(process.env.TOPGG_TOKEN?.length ? {
+        token: process.env.TOPGG_TOKEN,
+        replacement: `%topgg_token%`
+    } : [], additional);
 }
 exports.tokenFilters = tokenFilters;
