@@ -91,7 +91,7 @@ class ClientManager extends distype_1.Client {
                 player.voiceTimeout = null;
             }
         });
-        if (process.env.TOPGG_TOKEN) {
+        if (process.env.TOPGG_TOKEN?.length) {
             setInterval(() => {
                 this.topggRequest(`POST`, `/bots/$stats`, { body: {
                         server_count: this.cache.guilds?.size,
@@ -116,7 +116,7 @@ class ClientManager extends distype_1.Client {
         await this.commandHandler.push();
     }
     async topggRequest(method, route, options) {
-        if (!process.env.TOPGG_TOKEN)
+        if (!process.env.TOPGG_TOKEN?.length)
             throw new Error(`TOPGG_TOKEN is undefined`);
         return (await this.rest.make(method, route, {
             authHeader: process.env.TOPGG_TOKEN,
