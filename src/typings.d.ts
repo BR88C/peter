@@ -33,7 +33,7 @@ declare module '@distype/lavalink' { // eslint-disable-line quotes
         /**
          * The player's text channel.
          */
-        public textChannel: Snowflake;
+        public textChannel: Snowflake | null;
         /**
          * If the player has 24/7 enabled.
          */

@@ -12,7 +12,7 @@ export class Lavalink extends Manager {
      */
     public override async spawnNodes (): Promise<void> {
         this.on(`PLAYER_DESTROYED`, (player, reason) => {
-            if (reason !== `/leave`) {
+            if (reason !== `/leave` && player.textChannel) {
                 this.client.rest.createMessage(player.textChannel, { embeds: [
                     new Embed()
                         .setColor(DiscordColors.BRANDING_RED)
@@ -27,21 +27,23 @@ export class Lavalink extends Manager {
         });
 
         this.on(`PLAYER_VOICE_MOVED`, (player, newChannel) => {
-            this.client.rest.createMessage(player.textChannel, { embeds: [
-                new Embed()
-                    .setColor(DiscordColors.ROLE_SEA_GREEN)
-                    .setTitle(`:loud_sound:  Moved`)
-                    .setDescription(`New Channel: <#${newChannel}>`)
-                    .getRaw()
-            ] }).catch((error) => {
-                this.client.logger.log(`Error sending player moved message: ${(error?.message ?? error) ?? `Unknown reason`}`, {
-                    level: `ERROR`, system: this.system
+            if (player.textChannel) {
+                this.client.rest.createMessage(player.textChannel, { embeds: [
+                    new Embed()
+                        .setColor(DiscordColors.ROLE_SEA_GREEN)
+                        .setTitle(`:loud_sound:  Moved`)
+                        .setDescription(`New Channel: <#${newChannel}>`)
+                        .getRaw()
+                ] }).catch((error) => {
+                    this.client.logger.log(`Error sending player moved message: ${(error?.message ?? error) ?? `Unknown reason`}`, {
+                        level: `ERROR`, system: this.system
+                    });
                 });
-            });
+            }
         });
 
         this.on(`PLAYER_TRACK_START`, (player, track) => {
-            if (track) {
+            if (track && player.textChannel) {
                 const embed = new Embed()
                     .setColor(DiscordColors.ROLE_SEA_GREEN)
                     .setTitle(`Now Playing: ${cleanseMarkdown(track.title)}`)
