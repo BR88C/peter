@@ -8,5 +8,5 @@ exports.default = new cmd_1.ChatCommand()
     await ctx.send(new cmd_1.Embed()
         .setColor(cmd_1.DiscordColors.BLURPLE)
         .setTitle(`Vote Link:`)
-        .setDescription(process.env.VOTE_LINK ?? `Vote Link Unavailable`));
+        .setDescription(process.env.VOTE_LINK?.length ? process.env.VOTE_LINK : `Vote Link Unavailable`));
 });
