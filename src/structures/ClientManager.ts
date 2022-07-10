@@ -78,7 +78,7 @@ export class ClientManager extends Client {
                     new Embed()
                         .setColor(DiscordColors.BRANDING_RED)
                         .setTitle(`Error`)
-                        .setDescription(`\`\`\`\n${sanitizeTokens(error.message, tokenFilter)}\n\`\`\`\n*Support Server: ${process.env.SUPPORT_SERVER ?? `\`Support Server Unavailable\``}*`)
+                        .setDescription(`\`\`\`\n${sanitizeTokens(error.message, tokenFilter)}\n\`\`\`\n*Support Server: ${process.env.SUPPORT_SERVER?.length ? process.env.SUPPORT_SERVER : `\`Support Server Unavailable\``}*`)
                         .setFooter(`Error ID: ${errorId}`)
                         .setTimestamp()
                 );
