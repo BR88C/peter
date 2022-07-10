@@ -116,7 +116,7 @@ export class ClientManager extends Client {
 
         if (process.env.TOPGG_TOKEN?.length) {
             setInterval(() => {
-                this.topggRequest(`POST`, `/bots/$stats`, { body: {
+                this.topggRequest(`POST`, `/bots/stats`, { body: {
                     server_count: this.cache.guilds?.size,
                     shard_count: this.gateway.shards.size
                 } })
