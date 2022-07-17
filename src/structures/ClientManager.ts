@@ -57,7 +57,7 @@ export class ClientManager extends Client {
      * Initializes the client manager.
      */
     public override async init (): Promise<void> {
-        await this.commandHandler
+        this.commandHandler
             .setError(async (ctx, error, unexpected) => {
                 const errorId = `${Math.round(Math.random() * 1e6).toString(36).padStart(5, `0`)}${Date.now().toString(36)}`.toUpperCase();
 
@@ -91,8 +91,10 @@ export class ClientManager extends Client {
                 if (unexpected) {
                     console.error(`\n${LoggerRawFormats.RED}${error.stack}${LoggerRawFormats.RESET}\n`);
                 }
-            })
-            .load(resolve(__dirname, `../commands`));
+            });
+
+        await this.commandHandler.load(resolve(__dirname, `../commands`));
+        await this.commandHandler.load(resolve(__dirname, `../contextcommands`));
 
         this.gateway.on(`VOICE_STATE_UPDATE`, ({ d }) => {
             if (!d.guild_id) return;
