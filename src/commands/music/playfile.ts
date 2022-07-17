@@ -1,4 +1,7 @@
+import { Constants } from '../../utils/Constants';
+
 import { ChatCommand, cleanseMarkdown, DiscordColors, Embed } from '@distype/cmd';
+import { PermissionsUtils } from 'distype';
 
 export default new ChatCommand()
     .setName(`playfile`)
@@ -14,9 +17,18 @@ export default new ChatCommand()
         await ctx.defer();
 
         const player = await ctx.client.lavalink.preparePlayer(ctx.guildId, voiceState.channel_id);
-        player.textChannel ??= ctx.channelId;
-        player.twentyfourseven = false;
+        player.twentyfourseven ??= false;
         player.voiceTimeout ??= null;
+
+        if (!player.textChannel) {
+            const textMissingPerms = PermissionsUtils.missingPerms(await ctx.client.getSelfPermissions(ctx.guildId, ctx.channelId), ...Constants.TEXT_PERMISSIONS);
+            if (textMissingPerms !== 0n) {
+                player.destroy();
+                return ctx.error(`Missing the following permissions in the text channel: ${PermissionsUtils.toReadable(textMissingPerms).join(`, `)}`);
+            }
+
+            player.textChannel = ctx.channelId;
+        }
 
         if (player.voiceChannel !== voiceState.channel_id) return ctx.error(`You must be in the same channel as the bot to play a track`);
 

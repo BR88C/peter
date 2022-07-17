@@ -1,7 +1,8 @@
-import { ChatCommand, DiscordColors, Embed } from '@distype/cmd';
-import { ChannelType, PermissionFlagsBits } from 'discord-api-types/v10';
-import { DiscordConstants, PermissionsUtils } from 'distype';
 import { Constants } from '../../utils/Constants';
+
+import { ChatCommand, DiscordColors, Embed } from '@distype/cmd';
+import { ChannelType } from 'discord-api-types/v10';
+import { PermissionsUtils } from 'distype';
 
 export default new ChatCommand()
     .setName(`settextchannel`)
@@ -15,9 +16,9 @@ export default new ChatCommand()
         const newChannel = ctx.client.cache.channels?.get(ctx.parameters.channel?.id ?? ctx.channelId);
         if (!newChannel) return ctx.error(`Unable to get information about that channel`);
 
-        const permissions = await ctx.client.getSelfPermissions(ctx.guildId, newChannel.id);
-        if (!PermissionsUtils.hasPerms(permissions, ...Constants.TEXT_PERMISSIONS, newChannel.type === ChannelType.GuildPublicThread || newChannel.type === ChannelType.GuildPrivateThread ? DiscordConstants.PERMISSION_FLAGS.SEND_MESSAGES_IN_THREADS : 0)) {
-           return ctx.error(`Missing one of the following permissions in the voice channel: ${LavalinkConstants.REQUIRED_PERMISSIONS.VOICE.join(`, `)}`, DistypeLavalinkErrorType.PLAYER_MISSING_PERMISSIONS, this.system);
+        const textMissingPerms = PermissionsUtils.missingPerms(await ctx.client.getSelfPermissions(ctx.guildId, newChannel.id), ...Constants.TEXT_PERMISSIONS);
+        if (textMissingPerms !== 0n) {
+            return ctx.error(`Missing the following permissions in the text channel: ${PermissionsUtils.toReadable(textMissingPerms).join(`, `)}`);
         }
 
         await ctx.send(
