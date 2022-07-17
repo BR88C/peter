@@ -26,4 +26,4 @@ A feature rich Discord music bot that offers features such as 24/7 and audio eff
 - **[Node.js >=16.13.0](https://nodejs.org/)**
 - **[NPM >=8.1.0](https://www.npmjs.com/)**
 - **[Java ^13.0.0](https://adoptopenjdk.net/)**
-- **[Lavalink 3.4](https://github.com/freyacodes/Lavalink)**
+- **[Lavalink 3.4 (Or @dev)](https://github.com/freyacodes/Lavalink)**
