@@ -1,6 +1,6 @@
 {
   "name": "peter",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "A feature rich Discord music bot that offers features such as 24/7 and audio effects for free.",
   "main": "./dist/index.js",
   "scripts": {
