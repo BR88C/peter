@@ -14,11 +14,7 @@ export default new ChatCommand()
         const voiceState = ctx.client.cache.voiceStates?.get(ctx.guildId)?.get(ctx.user.id);
         if (!voiceState?.channel_id) return ctx.error(`You must be connected to a voice channel to play a track`);
 
-        const searchingMessage = await ctx.send(
-            new Embed()
-                .setColor(DiscordColors.ROLE_YELLOW)
-                .setTitle(`:mag_right:  Searching for "${cleanseMarkdown(ctx.parameters.query)}"...`)
-        );
+        await ctx.defer();
 
         const player = await ctx.client.lavalink.preparePlayer(ctx.guildId, voiceState.channel_id);
         player.twentyfourseven ??= false;
@@ -44,7 +40,7 @@ export default new ChatCommand()
         await player.play(search.loadType === `PLAYLIST_LOADED` ? search.tracks : search.tracks[0]);
 
         if (search.loadType === `PLAYLIST_LOADED`) {
-            await ctx.edit(searchingMessage,
+            await ctx.send(
                 new Embed()
                     .setColor(DiscordColors.ROLE_GREEN)
                     .setTitle(`Successfully queued ${search.tracks.length} track${search.tracks.length > 1 ? `s` : ``}`)
@@ -52,7 +48,7 @@ export default new ChatCommand()
                     .setFooter(`Requested by ${search.tracks[0].requester}`)
             );
         } else {
-            await ctx.edit(searchingMessage,
+            await ctx.send(
                 new Embed()
                     .setColor(DiscordColors.ROLE_GREEN)
                     .setTitle(`Added "${cleanseMarkdown(search.tracks[0].title)}" to the queue`)
