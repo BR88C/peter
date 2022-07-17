@@ -18,7 +18,7 @@ class ClientManager extends distype_1.Client {
         });
         super(process.env.BOT_TOKEN, {
             cache: {
-                channels: [`permission_overwrites`, `type`],
+                channels: [`name`, `permission_overwrites`, `type`],
                 guilds: [`owner_id`, `roles`, `unavailable`],
                 members: [`communication_disabled_until`, `roles`],
                 roles: [`permissions`],
@@ -43,7 +43,7 @@ class ClientManager extends distype_1.Client {
         this.logger = logger;
     }
     async init() {
-        await this.commandHandler
+        this.commandHandler
             .setError(async (ctx, error, unexpected) => {
             const errorId = `${Math.round(Math.random() * 1e6).toString(36).padStart(5, `0`)}${Date.now().toString(36)}`.toUpperCase();
             this.logger.log(`${unexpected ? `Unexpected ` : ``}${error.name} (ID: ${errorId}) when running interaction ${ctx.interaction.id}: ${error.message}`, {
@@ -56,12 +56,16 @@ class ClientManager extends distype_1.Client {
                 token: ctx.interaction.token,
                 replacement: `%interaction_token%`
             });
-            await ctx.sendEphemeral(new cmd_1.Embed()
+            const errorEmbed = new cmd_1.Embed()
                 .setColor(cmd_1.DiscordColors.BRANDING_RED)
                 .setTitle(`Error`)
-                .setDescription(`\`\`\`\n${(0, node_utils_1.sanitizeTokens)(error.message, tokenFilter)}\n\`\`\`\n*Support Server: ${process.env.SUPPORT_SERVER?.length ? process.env.SUPPORT_SERVER : `\`Support Server Unavailable\``}*`)
-                .setFooter(`Error ID: ${errorId}`)
-                .setTimestamp());
+                .setDescription(`\`\`\`\n${(0, node_utils_1.sanitizeTokens)(error.message, tokenFilter)}\n\`\`\`\n*Support Server: ${process.env.SUPPORT_SERVER?.length ? process.env.SUPPORT_SERVER : `\`Support Server Unavailable\``}*`);
+            if (unexpected) {
+                errorEmbed
+                    .setFooter(`Error ID: ${errorId}`)
+                    .setTimestamp();
+            }
+            await ctx.sendEphemeral(errorEmbed);
         })
             .setExpireError((ctx, error, unexpected) => {
             this.logger.log(`${unexpected ? `Unexpected ` : ``}${error.name} when running expire callback for component "${ctx.component.customId}" (${v10_1.ComponentType[ctx.component.type]})`, {
@@ -70,8 +74,9 @@ class ClientManager extends distype_1.Client {
             if (unexpected) {
                 console.error(`\n${node_utils_1.LoggerRawFormats.RED}${error.stack}${node_utils_1.LoggerRawFormats.RESET}\n`);
             }
-        })
-            .load((0, node_path_1.resolve)(__dirname, `../commands`));
+        });
+        await this.commandHandler.load((0, node_path_1.resolve)(__dirname, `../commands`));
+        await this.commandHandler.load((0, node_path_1.resolve)(__dirname, `../contextcommands`));
         this.gateway.on(`VOICE_STATE_UPDATE`, ({ d }) => {
             if (!d.guild_id)
                 return;

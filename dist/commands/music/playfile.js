@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const Constants_1 = require("../../utils/Constants");
 const cmd_1 = require("@distype/cmd");
+const distype_1 = require("distype");
 exports.default = new cmd_1.ChatCommand()
     .setName(`playfile`)
     .setDescription(`Plays a file`)
@@ -14,9 +16,16 @@ exports.default = new cmd_1.ChatCommand()
         return ctx.error(`You must be connected to a voice channel to play a track`);
     await ctx.defer();
     const player = await ctx.client.lavalink.preparePlayer(ctx.guildId, voiceState.channel_id);
-    player.textChannel ??= ctx.channelId;
-    player.twentyfourseven = false;
+    player.twentyfourseven ??= false;
     player.voiceTimeout ??= null;
+    if (!player.textChannel) {
+        const textMissingPerms = distype_1.PermissionsUtils.missingPerms(await ctx.client.getSelfPermissions(ctx.guildId, ctx.channelId), ...Constants_1.Constants.TEXT_PERMISSIONS);
+        if (textMissingPerms !== 0n) {
+            player.destroy();
+            return ctx.error(`Missing the following permissions in the text channel: ${distype_1.PermissionsUtils.toReadable(textMissingPerms).join(`, `)}`);
+        }
+        player.textChannel = ctx.channelId;
+    }
     if (player.voiceChannel !== voiceState.channel_id)
         return ctx.error(`You must be in the same channel as the bot to play a track`);
     const search = await ctx.client.lavalink.search(ctx.parameters.file.url, `${ctx.user.username}#${ctx.user.discriminator}`);

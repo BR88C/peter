@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const Constants_1 = require("../../utils/Constants");
 const cmd_1 = require("@distype/cmd");
 const v10_1 = require("discord-api-types/v10");
+const distype_1 = require("distype");
 exports.default = new cmd_1.ChatCommand()
     .setName(`settextchannel`)
     .setDescription(`Sets the text channel the bot sends messages in`)
@@ -11,8 +13,14 @@ exports.default = new cmd_1.ChatCommand()
     const player = ctx.client.lavalink.players.get(ctx.guildId);
     if (!player)
         return ctx.error(`The bot must be connected to a voice channel to use this command`);
-    player.textChannel = ctx.parameters.channel?.id ?? null;
+    const newChannel = ctx.client.cache.channels?.get(ctx.parameters.channel?.id ?? ctx.channelId);
+    if (!newChannel)
+        return ctx.error(`Unable to get information about that channel`);
+    const textMissingPerms = distype_1.PermissionsUtils.missingPerms(await ctx.client.getSelfPermissions(ctx.guildId, newChannel.id), ...Constants_1.Constants.TEXT_PERMISSIONS);
+    if (textMissingPerms !== 0n) {
+        return ctx.error(`Missing the following permissions in the text channel: ${distype_1.PermissionsUtils.toReadable(textMissingPerms).join(`, `)}`);
+    }
     await ctx.send(new cmd_1.Embed()
         .setColor(cmd_1.DiscordColors.ROLE_BLUE)
-        .setTitle(`:scroll:  ${ctx.parameters.channel ? `Now sending messages to \`${ctx.parameters.channel.name}\`` : `Turned off sending messages`}`));
+        .setTitle(`:scroll: ${newChannel.name ? `Now sending messages to \`${newChannel.name}\`` : `Changed the channel to send messages to`}`));
 });

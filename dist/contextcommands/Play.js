@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = require("../../utils/Constants");
+const Constants_1 = require("../utils/Constants");
 const cmd_1 = require("@distype/cmd");
 const distype_1 = require("distype");
-exports.default = new cmd_1.ChatCommand()
-    .setName(`play`)
-    .setDescription(`Plays a specified song or video, or adds it to the queue`)
+exports.default = new cmd_1.ContextMenuCommand()
+    .setType(`message`)
+    .setName(`Play`)
     .setDmPermission(false)
-    .addStringParameter(true, `query`, `A YouTube / Soundcloud / Spotify / mp3 link, or the name of a song / video`)
     .setExecute(async (ctx) => {
     if (!ctx.client.cache.guilds?.has(ctx.guildId) || ctx.client.cache.guilds?.get(ctx.guildId)?.unavailable === true)
         return ctx.error(`The bot is starting, or there is a Discord outage; please wait a moment then try again`);
@@ -28,17 +27,20 @@ exports.default = new cmd_1.ChatCommand()
     }
     if (player.voiceChannel !== voiceState.channel_id)
         return ctx.error(`You must be in the same channel as the bot to play a track`);
-    const search = await ctx.client.lavalink.search(ctx.parameters.query, `${ctx.user.username}#${ctx.user.discriminator}`);
+    const query = ctx.target.attachments.length ? ctx.target.attachments[0].url : ctx.target.content;
+    if (!query.length)
+        return ctx.error(`Unable to find content in the targeted message`);
+    const search = await ctx.client.lavalink.search(query, `${ctx.user.username}#${ctx.user.discriminator}`);
     if (search.exception)
         return ctx.error(search.exception.message);
     if (!search.tracks.length)
-        return ctx.error(`No tracks found for query "${(0, cmd_1.cleanseMarkdown)(ctx.parameters.query)}"`);
+        return ctx.error(`No tracks found for query "${(0, cmd_1.cleanseMarkdown)(query)}"`);
     await player.play(search.loadType === `PLAYLIST_LOADED` ? search.tracks : search.tracks[0]);
     if (search.loadType === `PLAYLIST_LOADED`) {
         await ctx.send(new cmd_1.Embed()
             .setColor(cmd_1.DiscordColors.ROLE_GREEN)
             .setTitle(`Successfully queued ${search.tracks.length} track${search.tracks.length > 1 ? `s` : ``}`)
-            .setDescription(`**Link:** ${(0, cmd_1.cleanseMarkdown)(ctx.parameters.query)}\n\`\`\`\n${search.tracks.slice(0, 8).map((track, i) => `${i + 1}. ${(0, cmd_1.cleanseMarkdown)(track.title)}`).join(`\n`)}${search.tracks.length > 8 ? `\n\n${search.tracks.length - 8} more...` : ``}\n\`\`\``)
+            .setDescription(`**Link:** ${(0, cmd_1.cleanseMarkdown)(query)}\n\`\`\`\n${search.tracks.slice(0, 8).map((track, i) => `${i + 1}. ${(0, cmd_1.cleanseMarkdown)(track.title)}`).join(`\n`)}${search.tracks.length > 8 ? `\n\n${search.tracks.length - 8} more...` : ``}\n\`\`\``)
             .setFooter(`Requested by ${search.tracks[0].requester}`));
     }
     else {
