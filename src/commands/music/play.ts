@@ -21,7 +21,7 @@ export default new ChatCommand()
         );
 
         const player = await ctx.client.lavalink.preparePlayer(ctx.guildId, voiceState.channel_id);
-        player.twentyfourseven = false;
+        player.twentyfourseven ??= false;
         player.voiceTimeout ??= null;
 
         if (!player.textChannel) {
