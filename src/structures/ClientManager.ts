@@ -74,14 +74,18 @@ export class ClientManager extends Client {
                     replacement: `%interaction_token%`
                 });
 
-                await ctx.sendEphemeral(
-                    new Embed()
-                        .setColor(DiscordColors.BRANDING_RED)
-                        .setTitle(`Error`)
-                        .setDescription(`\`\`\`\n${sanitizeTokens(error.message, tokenFilter)}\n\`\`\`\n*Support Server: ${process.env.SUPPORT_SERVER?.length ? process.env.SUPPORT_SERVER : `\`Support Server Unavailable\``}*`)
+                const errorEmbed = new Embed()
+                    .setColor(DiscordColors.BRANDING_RED)
+                    .setTitle(`Error`)
+                    .setDescription(`\`\`\`\n${sanitizeTokens(error.message, tokenFilter)}\n\`\`\`\n*Support Server: ${process.env.SUPPORT_SERVER?.length ? process.env.SUPPORT_SERVER : `\`Support Server Unavailable\``}*`);
+
+                if (unexpected) {
+                    errorEmbed
                         .setFooter(`Error ID: ${errorId}`)
-                        .setTimestamp()
-                );
+                        .setTimestamp();
+                }
+
+                await ctx.sendEphemeral(errorEmbed);
             })
             .setExpireError((ctx, error, unexpected) => {
                 this.logger.log(`${unexpected ? `Unexpected ` : ``}${error.name} when running expire callback for component "${ctx.component.customId}" (${ComponentType[ctx.component.type]})`, {
