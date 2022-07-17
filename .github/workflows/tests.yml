@@ -53,7 +53,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - name: Install Node Modules
-        run: npm i --also=dev
+        run: npm i --include=dev
 
       - name: Run Build Test
         run: npm run build
@@ -78,7 +78,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - name: Install Node Modules
-        run: npm i --also=dev
+        run: npm i --include=dev
 
       - name: Run Lint Test
         run: npm run lint

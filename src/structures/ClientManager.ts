@@ -25,7 +25,7 @@ export class ClientManager extends Client {
 
         super(process.env.BOT_TOKEN!, {
             cache: {
-                channels: [`permission_overwrites`, `type`],
+                channels: [`name`, `permission_overwrites`, `type`],
                 guilds: [`owner_id`, `roles`, `unavailable`],
                 members: [`communication_disabled_until`, `roles`],
                 roles: [`permissions`],

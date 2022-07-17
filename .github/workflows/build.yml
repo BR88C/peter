@@ -25,7 +25,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - name: Install Node Modules
-        run: npm i --also=dev
+        run: npm i --include=dev
 
       - name: Run Build
         run: npm run build
