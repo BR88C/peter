@@ -1,105 +1,81 @@
 import { Lavalink } from './Lavalink';
 
 import { Constants } from '../utils/Constants';
-import { tokenFilters } from '../utils/tokenFilters';
+import { tokenFilters } from '../utils/tokens';
 
-import { Logger, LoggerRawFormats, sanitizeTokens } from '@br88c/node-utils';
-import { CommandHandler, DiscordColors, Embed } from '@distype/cmd';
+import { ClientManager as CM } from '@br88c/distype-boilerplate';
 import { PlayerState } from '@distype/lavalink';
-import { ComponentType } from 'discord-api-types/v10';
-import { Client, RestMethod, RestRequestData, RestRoute } from 'distype';
+import { Point } from '@influxdata/influxdb-client';
 import { resolve } from 'node:path';
 
-/**
- * The client manager.
- */
-export class ClientManager extends Client {
-    /**
-     * Create the client manager.
-     */
+export class ClientManager extends CM {
     constructor () {
-        const logger = new Logger({
-            enabledOutput: { log: [`DEBUG`, `INFO`, `WARN`, `ERROR`] },
-            sanitizeTokens: tokenFilters()
-        });
-
-        super(process.env.BOT_TOKEN!, {
-            cache: {
-                channels: [`name`, `permission_overwrites`, `type`],
-                guilds: [`owner_id`, `roles`, `unavailable`],
-                members: [`communication_disabled_until`, `roles`],
-                roles: [`permissions`],
-                voiceStates: [`channel_id`]
+        super(
+            process.env.BOT_TOKEN!,
+            tokenFilters(),
+            {
+                influxDB: {
+                    application: `peter`,
+                    bucket: process.env.INFLUX_BUCKET!,
+                    org: process.env.INFLUX_ORG!,
+                    token: process.env.INFLUX_TOKEN!,
+                    url: process.env.INFLUX_URL!,
+                    reportInterval: 10000
+                },
+                topgg: process.env.TOPGG_TOKEN?.length ? {
+                    postShards: true,
+                    reportInterval: 1800000
+                } : undefined
             },
-            gateway: { intents: [`GUILDS`, `GUILD_VOICE_STATES`] }
-        }, logger.log, logger);
+            {
+                cache: {
+                    channels: [`name`, `permission_overwrites`, `type`],
+                    guilds: [`owner_id`, `roles`, `unavailable`],
+                    members: [`communication_disabled_until`, `roles`],
+                    roles: [`permissions`],
+                    voiceStates: [`channel_id`]
+                },
+                gateway: { intents: [`GUILDS`, `GUILD_VOICE_STATES`] }
+            }
+        );
 
-        this.commandHandler = new CommandHandler(this, logger.log, logger);
+        this.lavalink = new Lavalink(
+            this,
+            {
+                clientName: `peter@${process.env.npm_package_version ?? `0.0.0`}`,
+                nodeOptions: [
+                    {
+                        location: {
+                            host: process.env.LAVALINK_HOST!,
+                            port: parseInt(process.env.LAVALINK_PORT!),
+                            secure: process.env.LAVALINK_SECURE! === `true`
+                        },
+                        password: process.env.LAVALINK_PASSWORD!
+                    }
+                ]
+            },
+            this.logger.log,
+            this.logger
+        );
 
-        this.lavalink = new Lavalink(this, {
-            clientName: `peter@${process.env.npm_package_version ?? `0.0.0`}`,
-            nodeOptions: [
-                {
-                    location: {
-                        host: process.env.LAVALINK_HOST!,
-                        port: parseInt(process.env.LAVALINK_PORT!),
-                        secure: process.env.LAVALINK_SECURE! === `true`
-                    },
-                    password: process.env.LAVALINK_PASSWORD!
-                }
-            ]
-        }, logger.log, logger);
-
-        this.logger = logger;
-    }
-
-    /**
-     * Initializes the client manager.
-     */
-    public override async init (): Promise<void> {
-        this.commandHandler
-            .setError(async (ctx, error, unexpected) => {
-                const errorId = `${Math.round(Math.random() * 1e6).toString(36).padStart(5, `0`)}${Date.now().toString(36)}`.toUpperCase();
-
-                this.logger.log(`${unexpected ? `Unexpected ` : ``}${error.name} (ID: ${errorId}) when running interaction ${ctx.interaction.id}: ${error.message}`, {
-                    level: `ERROR`, system: `Command Handler`
-                });
-
-                if (unexpected) {
-                    console.error(`\n${LoggerRawFormats.RED}${error.stack}${LoggerRawFormats.RESET}\n`);
-                }
-
-                const tokenFilter = tokenFilters({
-                    token: ctx.interaction.token,
-                    replacement: `%interaction_token%`
-                });
-
-                const errorEmbed = new Embed()
-                    .setColor(DiscordColors.BRANDING_RED)
-                    .setTitle(`Error`)
-                    .setDescription(`\`\`\`\n${sanitizeTokens(error.message, tokenFilter)}\n\`\`\`\n*Support Server: ${process.env.SUPPORT_SERVER?.length ? process.env.SUPPORT_SERVER : `\`Support Server Unavailable\``}*`);
-
-                if (unexpected) {
-                    errorEmbed
-                        .setFooter(`Error ID: ${errorId}`)
-                        .setTimestamp();
-                }
-
-                await ctx.sendEphemeral(errorEmbed);
-            })
-            .setExpireError((ctx, error, unexpected) => {
-                this.logger.log(`${unexpected ? `Unexpected ` : ``}${error.name} when running expire callback for component "${ctx.component.customId}" (${ComponentType[ctx.component.type]})`, {
-                    level: `ERROR`, system: `Command Handler`
-                });
-
-                if (unexpected) {
-                    console.error(`\n${LoggerRawFormats.RED}${error.stack}${LoggerRawFormats.RESET}\n`);
-                }
+        this.metrics.setInfluxDBCallback(() => {
+            const lavalinkPoints: Point[] = [];
+            this.lavalink.nodes.forEach((node) => {
+                lavalinkPoints.push(
+                    new Point(`lavalinkNode`)
+                        .tag(`id`, `${node.id}`)
+                        .floatField(`cpu`, node.stats.cpu.lavalinkLoad)
+                        .intField(`memory`, node.stats.memory.used)
+                        .intField(`players`, node.stats.players)
+                        .intField(`activePlayers`, node.stats.playingPlayers)
+                );
             });
 
-        await this.commandHandler.load(resolve(__dirname, `../commands`));
-        await this.commandHandler.load(resolve(__dirname, `../contextcommands`));
+            return lavalinkPoints;
+        });
+    }
 
+    public override async init (): Promise<void> {
         this.gateway.on(`VOICE_STATE_UPDATE`, ({ d }) => {
             if (!d.guild_id) return;
 
@@ -120,47 +96,8 @@ export class ClientManager extends Client {
             }
         });
 
-        if (process.env.TOPGG_TOKEN?.length) {
-            setInterval(() => {
-                this.topggRequest(`POST`, `/bots/stats`, { body: {
-                    server_count: this.cache.guilds?.size,
-                    shard_count: this.gateway.shards.size
-                } })
-                    .then(() => this.logger.log(`Posted stats to Top.gg`, { system: `Top.gg` }))
-                    .catch((error) => {
-                        this.logger.log(error.name, {
-                            level: `ERROR`, system: `Top.gg`
-                        });
-                        console.error(`\n${LoggerRawFormats.RED}${error.stack}${LoggerRawFormats.RESET}\n`);
-                    });
-            }, Constants.TOPGG_POST_INTERVAL).unref();
-        } else {
-            this.logger.log(`No Top.gg token provided, skipping initialization`, {
-                level: `WARN`, system: `Top.gg`
-            });
-        }
-
-        await this.gateway.connect();
-
+        this.setErrorCallbacks(process.env.SUPPORT_SERVER);
+        await super.init(resolve(__dirname, `../commands`), resolve(__dirname, `../contextcommands`));
         await this.lavalink.spawnNodes();
-        await this.commandHandler.push();
-    }
-
-    /**
-     * Makes a Top.gg API request,
-     * @param method The request's method.
-     * @param route The requests's route, relative to the base Top.gg API URL.
-     * @param options Request options.
-     * @returns The response body.
-     */
-    public override async topggRequest (method: RestMethod, route: RestRoute, options?: RestRequestData): Promise<any> {
-        if (!process.env.TOPGG_TOKEN?.length) throw new Error(`TOPGG_TOKEN is undefined`);
-
-        return (await this.rest.make(method, route, {
-            authHeader: process.env.TOPGG_TOKEN,
-            customBaseURL: `https://top.gg/api`,
-            forceHeaders: true,
-            ...options
-        })).body;
     }
 }
