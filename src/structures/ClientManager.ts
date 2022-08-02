@@ -1,7 +1,6 @@
 import { Lavalink } from './Lavalink';
 
 import { Constants } from '../utils/Constants';
-import { tokenFilters } from '../utils/tokens';
 
 import { ClientManager as CM } from '@br88c/distype-boilerplate';
 import { PlayerState } from '@distype/lavalink';
@@ -12,7 +11,24 @@ export class ClientManager extends CM {
     constructor () {
         super(
             process.env.BOT_TOKEN!,
-            tokenFilters(),
+            [
+                {
+                    token: process.env.BOT_TOKEN!,
+                    replacement: `%bot_token%`
+                },
+                {
+                    token: process.env.INFLUX_TOKEN!,
+                    replacement: `%influx_token%`
+                },
+                {
+                    token: process.env.LAVALINK_PASSWORD!,
+                    replacement: `%lavalink_password%`
+                },
+                {
+                    token: process.env.TOPGG_TOKEN?.length ? process.env.TOPGG_TOKEN : `%topgg_token%`,
+                    replacement: `%topgg_token%`
+                }
+            ],
             {
                 influxDB: {
                     application: `peter`,
