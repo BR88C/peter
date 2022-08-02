@@ -3,14 +3,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ClientManager = void 0;
 const Lavalink_1 = require("./Lavalink");
 const Constants_1 = require("../utils/Constants");
-const tokens_1 = require("../utils/tokens");
 const distype_boilerplate_1 = require("@br88c/distype-boilerplate");
 const lavalink_1 = require("@distype/lavalink");
 const influxdb_client_1 = require("@influxdata/influxdb-client");
 const node_path_1 = require("node:path");
 class ClientManager extends distype_boilerplate_1.ClientManager {
     constructor() {
-        super(process.env.BOT_TOKEN, (0, tokens_1.tokenFilters)(), {
+        super(process.env.BOT_TOKEN, [
+            {
+                token: process.env.BOT_TOKEN,
+                replacement: `%bot_token%`
+            },
+            {
+                token: process.env.INFLUX_TOKEN,
+                replacement: `%influx_token%`
+            },
+            {
+                token: process.env.LAVALINK_PASSWORD,
+                replacement: `%lavalink_password%`
+            },
+            {
+                token: process.env.TOPGG_TOKEN?.length ? process.env.TOPGG_TOKEN : `%topgg_token%`,
+                replacement: `%topgg_token%`
+            }
+        ], {
             influxDB: {
                 application: `peter`,
                 bucket: process.env.INFLUX_BUCKET,

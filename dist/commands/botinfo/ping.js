@@ -10,7 +10,7 @@ exports.default = new cmd_1.ChatCommand()
         .setTitle(`Ping`)
         .setDescription([
         `\`\`\``,
-        `Gateway: ${Math.round(ctx.client.gateway.shards.reduce((p, c) => p + c.ping, 0) / ctx.client.gateway.shards.size)}ms`,
+        `Gateway: ${Math.round(await ctx.client.gateway.getAveragePing())}ms`,
         `Lavalink: ${Math.round(await ctx.client.lavalink.averagePing())}ms`,
         `\`\`\``
     ].join(`\n`)));
