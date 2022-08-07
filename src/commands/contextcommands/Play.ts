@@ -1,4 +1,4 @@
-import { Constants } from '../utils/Constants';
+import { Constants } from '../../utils/Constants';
 
 import { cleanseMarkdown, ContextMenuCommand, DiscordColors, Embed } from '@distype/cmd';
 import { PermissionsUtils } from 'distype';
