@@ -61,7 +61,7 @@ class ClientManager extends distype_boilerplate_1.ClientManager {
                     password: process.env.LAVALINK_PASSWORD
                 }
             ]
-        }, this.logger.log, this.logger);
+        });
         this.metrics.setInfluxDBCallback(() => {
             const lavalinkPoints = [];
             this.lavalink.nodes.forEach((node) => {
@@ -96,7 +96,7 @@ class ClientManager extends distype_boilerplate_1.ClientManager {
             }
         });
         this.setErrorCallbacks(process.env.SUPPORT_SERVER);
-        await super.init((0, node_path_1.resolve)(__dirname, `../commands`), (0, node_path_1.resolve)(__dirname, `../contextcommands`));
+        await super.init((0, node_path_1.resolve)(__dirname, `../commands`));
         await this.lavalink.spawnNodes();
     }
 }

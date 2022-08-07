@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = require("../utils/Constants");
+const Constants_1 = require("../../utils/Constants");
 const cmd_1 = require("@distype/cmd");
 const distype_1 = require("distype");
 exports.default = new cmd_1.ContextMenuCommand()
