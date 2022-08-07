@@ -69,9 +69,7 @@ export class ClientManager extends CM {
                         password: process.env.LAVALINK_PASSWORD!
                     }
                 ]
-            },
-            this.logger.log,
-            this.logger
+            }
         );
 
         this.metrics.setInfluxDBCallback(() => {
@@ -113,7 +111,7 @@ export class ClientManager extends CM {
         });
 
         this.setErrorCallbacks(process.env.SUPPORT_SERVER);
-        await super.init(resolve(__dirname, `../commands`), resolve(__dirname, `../contextcommands`));
+        await super.init(resolve(__dirname, `../commands`));
         await this.lavalink.spawnNodes();
     }
 }
