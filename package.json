@@ -28,7 +28,7 @@
     "url": "git+https://github.com/BR88C/peter.git"
   },
   "dependencies": {
-    "@br88c/distype-boilerplate": "^1.0.1",
+    "@br88c/distype-boilerplate": "^1.0.2",
     "@br88c/node-utils": "^1.4.0",
     "@distype/cmd": "^0.8.0",
     "@distype/lavalink": "^0.6.0",
