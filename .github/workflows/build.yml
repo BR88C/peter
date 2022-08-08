@@ -39,6 +39,7 @@ jobs:
           rsync -vaI LICENSE out/
           rsync -vaI package.json out/
           rsync -vaI README.md out/
+          rsync -vaI template.env out/
           rsync -vaI dist/ out/dist
           cd out
           git add --all .
