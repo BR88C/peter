@@ -12,7 +12,6 @@ export default new ChatCommand()
                     `Support Server: ${process.env.SUPPORT_SERVER?.length ? process.env.SUPPORT_SERVER : `\`Support Server Unavailable\``}`,
                     `\`\`\``,
                     `Commands:`,
-                    ctx.commandHandler.commands.map((command) => command.getRaw().name).join(`, `),
                     `\`\`\``
                 ].join(`\n`))
         );

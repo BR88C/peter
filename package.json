@@ -28,13 +28,13 @@
     "url": "git+https://github.com/BR88C/peter.git"
   },
   "dependencies": {
-    "@br88c/distype-boilerplate": "^1.0.2",
+    "@br88c/distype-boilerplate": "^1.1.1",
     "@br88c/node-utils": "^1.4.0",
-    "@distype/cmd": "^0.8.0",
-    "@distype/lavalink": "^0.6.0",
+    "@distype/cmd": "^0.10.1",
+    "@distype/lavalink": "^0.6.1",
     "@influxdata/influxdb-client": "^1.28.0",
-    "discord-api-types": "^0.37.1",
-    "distype": "^1.0.1",
+    "discord-api-types": "^0.37.17",
+    "distype": "^1.2.1",
     "dotenv": "^16.0.1"
   },
   "devDependencies": {

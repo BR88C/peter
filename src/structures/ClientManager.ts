@@ -29,20 +29,21 @@ export class ClientManager extends CM {
                     replacement: `%topgg_token%`
                 }
             ],
-            {
-                influxDB: {
-                    application: `peter`,
-                    bucket: process.env.INFLUX_BUCKET!,
-                    org: process.env.INFLUX_ORG!,
-                    token: process.env.INFLUX_TOKEN!,
-                    url: process.env.INFLUX_URL!,
-                    reportInterval: 10000
-                },
-                topgg: process.env.TOPGG_TOKEN?.length ? {
-                    postShards: true,
-                    reportInterval: 1800000
-                } : undefined
-            },
+            {},
+            // {
+            //     influxDB: {
+            //         application: `peter`,
+            //         bucket: process.env.INFLUX_BUCKET!,
+            //         org: process.env.INFLUX_ORG!,
+            //         token: process.env.INFLUX_TOKEN!,
+            //         url: process.env.INFLUX_URL!,
+            //         reportInterval: 10000
+            //     },
+            //     topgg: process.env.TOPGG_TOKEN?.length ? {
+            //         postShards: true,
+            //         reportInterval: 1800000
+            //     } : undefined
+            // },
             {
                 cache: {
                     channels: [`name`, `permission_overwrites`, `type`],

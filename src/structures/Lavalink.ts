@@ -46,8 +46,7 @@ export class Lavalink extends Manager {
             if (track && player.textChannel) {
                 const embed = new Embed()
                     .setColor(DiscordColors.ROLE_SEA_GREEN)
-                    .setTitle(`Now Playing: ${cleanseMarkdown(track.title)}`)
-                    .setURL(track.uri);
+                    .setTitle(`Now Playing: ${cleanseMarkdown(track.title)}`, track.uri);
 
                 if (track.thumbnail(`mqdefault`)) embed.setImage(track.thumbnail(`mqdefault`)!);
                 if (track.requester) embed.setFooter(`Requested by ${track.requester}`);

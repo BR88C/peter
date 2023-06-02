@@ -8,10 +8,10 @@ import { DiscordConstants, PermissionsUtils } from 'distype';
 export default new ChatCommand()
     .setName(`debug`)
     .setDescription(`Troubleshoot issues`)
-    .setDmPermission(false)
-    .addChannelParameter(false, `channel`, `Get information about a channel`)
+    .setGuildOnly(true)
+    .addChannelOption(false, `channel`, `Get information about a channel`)
     .setExecute(async (ctx) => {
-        if (!ctx.parameters.channel) {
+        if (!ctx.options.channel) {
             const guildPerms = await ctx.client.getSelfPermissions(ctx.guildId);
             const channelPerms = await ctx.client.getSelfPermissions(ctx.guildId, ctx.channelId);
 
@@ -52,17 +52,17 @@ export default new ChatCommand()
                     .setFooter(`❗ = Missing essential permission, ❕ = Missing non-essential permission`)
             );
         } else {
-            const channelPerms = await ctx.client.getSelfPermissions(ctx.guildId, ctx.parameters.channel.id);
+            const channelPerms = await ctx.client.getSelfPermissions(ctx.guildId, ctx.options.channel.id);
 
             const missingChannelPerms = [
                 ...new Set(
-                    (ctx.parameters.channel.type === ChannelType.GuildVoice
+                    (ctx.options.channel.type === ChannelType.GuildVoice
                         ? [
                             ...LavalinkConstants.REQUIRED_PERMISSIONS.VOICE,
                             ...LavalinkConstants.REQUIRED_PERMISSIONS.VOICE_MOVED
                         ]
                         : (
-                            ctx.parameters.channel.type === ChannelType.GuildStageVoice
+                            ctx.options.channel.type === ChannelType.GuildStageVoice
                                 ? [
                                     ...LavalinkConstants.REQUIRED_PERMISSIONS.STAGE_BECOME_SPEAKER,
                                     ...LavalinkConstants.REQUIRED_PERMISSIONS.STAGE_REQUEST,
@@ -82,8 +82,8 @@ export default new ChatCommand()
                     .setDescription([
                         `Support Server: ${process.env.SUPPORT_SERVER?.length ? process.env.SUPPORT_SERVER : `\`Support Server Unavailable\``}`,
                         ``,
-                        `**Channel:** <#${ctx.parameters.channel.id}>`,
-                        `**ID:** \`${ctx.parameters.channel.id}\``,
+                        `**Channel:** <#${ctx.options.channel.id}>`,
+                        `**ID:** \`${ctx.options.channel.id}\``,
                         `**Permissions:** \`${Number(channelPerms)}\``,
                         ``,
                         missingChannelPerms.length ? `**MISSING PERMISSIONS**\n${missingChannelPerms}` : `*No Missing Permissions*`
