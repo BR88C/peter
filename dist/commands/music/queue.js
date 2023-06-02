@@ -5,65 +5,45 @@ const cmd_1 = require("@distype/cmd");
 exports.default = new cmd_1.ChatCommand()
     .setName(`queue`)
     .setDescription(`Displays the tracks in the queue`)
-    .setDmPermission(false)
+    .setGuildOnly(true)
     .setExecute(async (ctx) => {
     const player = ctx.client.lavalink.players.get(ctx.guildId);
     if (!player)
-        return ctx.error(`The bot must be connected to a voice channel to show the queue`);
-    const expired = [false, false];
-    let acknowledgedExpired = false;
+        throw new Error(`The bot must be connected to a voice channel to show the queue`);
     const left = new cmd_1.Button()
         .setId(`queue_${ctx.interaction.id}_left`)
         .setStyle(cmd_1.ButtonStyle.PRIMARY)
         .setLabel(`<`)
-        .setExpire(30000, async () => {
-        expired[0] = true;
-        if (!acknowledgedExpired && expired.every((v) => v)) {
-            acknowledgedExpired = true;
-            await changePage(0);
-            return true;
-        }
-        else {
-            return false;
-        }
-    })
         .setExecute(async (bCtx) => {
         await changePage(-1, bCtx);
+    });
+    const right = new cmd_1.Button()
+        .setId(`queue_${ctx.interaction.id}_right`)
+        .setStyle(cmd_1.ButtonStyle.PRIMARY)
+        .setLabel(`>`)
+        .setExecute(async (bCtx) => {
+        await changePage(1, bCtx);
     });
     const pageDisplay = new cmd_1.Button()
         .setId(`queue_${ctx.interaction.id}_page_display`)
         .setStyle(cmd_1.ButtonStyle.PRIMARY)
         .setDisabled(true);
-    const right = new cmd_1.Button()
-        .setId(`queue_${ctx.interaction.id}_right`)
-        .setStyle(cmd_1.ButtonStyle.PRIMARY)
-        .setLabel(`>`)
-        .setExpire(30000, async () => {
-        expired[1] = true;
-        if (!acknowledgedExpired && expired.every((v) => v)) {
-            acknowledgedExpired = true;
-            await changePage(0);
-            return true;
-        }
-        else {
-            return false;
-        }
-    })
-        .setExecute(async (bCtx) => {
-        await changePage(1, bCtx);
+    let expired = false;
+    const expire = new cmd_1.Expire([left, right], 30000, () => {
+        expired = true;
+        changePage(0).catch(() => { });
     });
     let currentPage = Math.floor((player.queuePosition ?? 0) / 10);
     const embed = new cmd_1.Embed().setColor(cmd_1.DiscordColors.ROLE_SEA_GREEN);
     const changePage = async (page, bCtx) => {
-        if (expired.every((v) => v)) {
-            ctx.commandHandler.unbindButton(`queue_${ctx.interaction.id}_left`).unbindButton(`queue_${ctx.interaction.id}_right`);
+        if (expired) {
             left.setDisabled(true);
             right.setDisabled(true);
             await ctx.edit(`@original`, embed, [left, pageDisplay, right]);
             return;
         }
         currentPage += page;
-        const maxPage = Math.floor(player.queue.length / 10);
+        const maxPage = Math.floor((player.queue.length - 1) / 10);
         if (currentPage > maxPage)
             currentPage = 0;
         else if (currentPage < 0)
@@ -107,13 +87,12 @@ exports.default = new cmd_1.ChatCommand()
         if (player.currentTrack?.thumbnail(`mqdefault`))
             embed.setThumbnail(player.currentTrack.thumbnail(`mqdefault`));
         pageDisplay.setLabel(`Page ${currentPage + 1}/${maxPage + 1}`);
-        expired[0] = false;
-        expired[1] = false;
-        if (!ctx.responded) {
+        if (!ctx._responded) {
             await ctx.send(embed, [left, pageDisplay, right]);
+            expire.bind(ctx.commandHandler);
         }
         else if (bCtx) {
-            await bCtx.editParent(embed, [left, pageDisplay, right], false);
+            await bCtx.editParent(embed, [left, pageDisplay, right]);
         }
     };
     await changePage(0);

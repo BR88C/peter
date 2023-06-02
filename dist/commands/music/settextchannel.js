@@ -7,18 +7,18 @@ const distype_1 = require("distype");
 exports.default = new cmd_1.ChatCommand()
     .setName(`settextchannel`)
     .setDescription(`Sets the text channel the bot sends messages in`)
-    .setDmPermission(false)
-    .addChannelParameter(false, `channel`, `The new channel to use`, [v10_1.ChannelType.GuildText, v10_1.ChannelType.GuildVoice])
+    .setGuildOnly(true)
+    .addChannelOption(false, `channel`, `The new channel to use`, { channel_types: [v10_1.ChannelType.GuildText, v10_1.ChannelType.GuildVoice] })
     .setExecute(async (ctx) => {
     const player = ctx.client.lavalink.players.get(ctx.guildId);
     if (!player)
-        return ctx.error(`The bot must be connected to a voice channel to use this command`);
-    const newChannel = ctx.client.cache.channels?.get(ctx.parameters.channel?.id ?? ctx.channelId);
+        throw new Error(`The bot must be connected to a voice channel to use this command`);
+    const newChannel = ctx.client.cache.channels?.get(ctx.options.channel?.id ?? ctx.channelId);
     if (!newChannel)
-        return ctx.error(`Unable to get information about that channel`);
+        throw new Error(`Unable to get information about that channel`);
     const textMissingPerms = distype_1.PermissionsUtils.missingPerms(await ctx.client.getSelfPermissions(ctx.guildId, newChannel.id), ...Constants_1.Constants.TEXT_PERMISSIONS);
     if (textMissingPerms !== 0n) {
-        return ctx.error(`Missing the following permissions in the text channel: ${distype_1.PermissionsUtils.toReadable(textMissingPerms).join(`, `)}`);
+        throw new Error(`Missing the following permissions in the text channel: ${distype_1.PermissionsUtils.toReadable(textMissingPerms).join(`, `)}`);
     }
     await ctx.send(new cmd_1.Embed()
         .setColor(cmd_1.DiscordColors.ROLE_BLUE)

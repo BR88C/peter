@@ -5,22 +5,22 @@ const cmd_1 = require("@distype/cmd");
 exports.default = new cmd_1.ChatCommand()
     .setName(`pitch`)
     .setDescription(`Changes the pitch of the audio`)
-    .setDmPermission(false)
-    .addIntegerParameter(true, `value`, `The pitch to set the audio to, as a percent; the default is 100`, {
-    min: 1,
-    max: Constants_1.Constants.DEFAULT_MAX_SFX
+    .setGuildOnly(true)
+    .addIntegerOption(true, `value`, `The pitch to set the audio to, as a percent; the default is 100`, {
+    min_value: 1,
+    max_value: Constants_1.Constants.DEFAULT_MAX_SFX
 })
     .setExecute(async (ctx) => {
     const player = ctx.client.lavalink.players.get(ctx.guildId);
     if (!player)
-        return ctx.error(`The bot must be connected to a voice channel to use this command`);
+        throw new Error(`The bot must be connected to a voice channel to use this command`);
     if (player.voiceChannel !== ctx.client.getVoiceStateData(ctx.guildId, ctx.user.id, `channel_id`).channel_id)
-        return ctx.error(`You must be in the same voice channel as the bot to use this command`);
+        throw new Error(`You must be in the same voice channel as the bot to use this command`);
     const newFilters = {
         ...player.filters,
         timescale: {
             ...player.filters.timescale,
-            pitch: ctx.parameters.value / 100
+            pitch: ctx.options.value / 100
         }
     };
     if (newFilters.timescale.pitch === 1)
@@ -30,5 +30,5 @@ exports.default = new cmd_1.ChatCommand()
     await player.setFilters(newFilters);
     await ctx.send(new cmd_1.Embed()
         .setColor(cmd_1.DiscordColors.ROLE_PURPLE)
-        .setTitle(ctx.parameters.value !== 100 ? `Set the pitch to \`${ctx.parameters.value}%\`` : `Turned off the pitch filter`));
+        .setTitle(ctx.options.value !== 100 ? `Set the pitch to \`${ctx.options.value}%\`` : `Turned off the pitch filter`));
 });
