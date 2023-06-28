@@ -55,13 +55,15 @@ export class Lavalink extends Manager {
                 if (Date.now() - player.lastMessage > Constants.MESSAGE_FREQUENCY) {
                     this.client.rest.createMessage(player.textChannel, { embeds: [...player.messageQueue.slice(-(DiscordConstants.MESSAGE_LIMITS.EMBEDS - 1)), embed.getRaw()] })
                         .then(() => {
-                            player.lastMessage = Date.now();
                             player.messageQueue = [];
                         })
                         .catch((error) => {
                             this.client.logger.log(`Error sending now playing message: ${(error?.message ?? error) ?? `Unknown reason`}`, {
                                 level: `ERROR`, system: this.system
                             });
+                        })
+                        .finally(() => {
+                            player.lastMessage = Date.now();
                         });
                 } else {
                     player.messageQueue.push(embed.getRaw());
