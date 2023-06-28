@@ -54,7 +54,7 @@ export class Lavalink extends Manager {
 
                 if (Date.now() - player.lastMessage > Constants.MESSAGE_FREQUENCY) {
                     player.lastMessage = Date.now();
-                    this.client.rest.createMessage(player.textChannel, { embeds: [...player.messageQueue.slice(-(DiscordConstants.MESSAGE_LIMITS.EMBEDS - 1)), embed.getRaw()] })
+                    this.client.rest.createMessage(player.textChannel, { embeds: [...player.messageQueue, embed.getRaw()] })
                         .then(() => {
                             player.messageQueue = [];
                         })
@@ -65,6 +65,7 @@ export class Lavalink extends Manager {
                         });
                 } else {
                     player.messageQueue.push(embed.getRaw());
+                    if (player.messageQueue.length >= DiscordConstants.MESSAGE_LIMITS.EMBEDS) player.messageQueue.shift();
                 }
             }
         });
