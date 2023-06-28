@@ -4,6 +4,7 @@ exports.Lavalink = void 0;
 const Constants_1 = require("../utils/Constants");
 const cmd_1 = require("@distype/cmd");
 const lavalink_1 = require("@distype/lavalink");
+const distype_1 = require("distype");
 class Lavalink extends lavalink_1.Manager {
     async spawnNodes() {
         this.on(`PLAYER_DESTROYED`, (player, reason) => {
@@ -44,11 +45,22 @@ class Lavalink extends lavalink_1.Manager {
                     embed.setImage(track.thumbnail(`mqdefault`));
                 if (track.requester)
                     embed.setFooter(`Requested by ${track.requester}`);
-                this.client.rest.createMessage(player.textChannel, { embeds: [embed.getRaw()] }).catch((error) => {
-                    this.client.logger.log(`Error sending now playing message: ${(error?.message ?? error) ?? `Unknown reason`}`, {
-                        level: `ERROR`, system: this.system
+                if (Date.now() - player.lastMessage > Constants_1.Constants.MESSAGE_FREQUENCY) {
+                    console.log([embed.getRaw(), ...player.messageQueue.slice(-(distype_1.DiscordConstants.MESSAGE_LIMITS.EMBEDS - 1))]);
+                    this.client.rest.createMessage(player.textChannel, { embeds: [...player.messageQueue.slice(-(distype_1.DiscordConstants.MESSAGE_LIMITS.EMBEDS - 1)), embed.getRaw()] })
+                        .then(() => {
+                        player.lastMessage = Date.now();
+                        player.messageQueue = [];
+                    })
+                        .catch((error) => {
+                        this.client.logger.log(`Error sending now playing message: ${(error?.message ?? error) ?? `Unknown reason`}`, {
+                            level: `ERROR`, system: this.system
+                        });
                     });
-                });
+                }
+                else {
+                    player.messageQueue.push(embed.getRaw());
+                }
             }
         });
         await super.spawnNodes();

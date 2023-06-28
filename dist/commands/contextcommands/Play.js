@@ -14,6 +14,8 @@ exports.default = new cmd_1.MessageCommand()
         throw new Error(`You must be connected to a voice channel to play a track`);
     await ctx.defer();
     const player = await ctx.client.lavalink.preparePlayer(ctx.guildId, voiceState.channel_id);
+    player.lastMessage ??= -1;
+    player.messageQueue ??= [];
     player.twentyfourseven ??= false;
     player.voiceTimeout ??= null;
     if (!player.textChannel) {
