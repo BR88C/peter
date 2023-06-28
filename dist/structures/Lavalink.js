@@ -47,7 +47,7 @@ class Lavalink extends lavalink_1.Manager {
                     embed.setFooter(`Requested by ${track.requester}`);
                 if (Date.now() - player.lastMessage > Constants_1.Constants.MESSAGE_FREQUENCY) {
                     player.lastMessage = Date.now();
-                    this.client.rest.createMessage(player.textChannel, { embeds: [...player.messageQueue.slice(-(distype_1.DiscordConstants.MESSAGE_LIMITS.EMBEDS - 1)), embed.getRaw()] })
+                    this.client.rest.createMessage(player.textChannel, { embeds: [...player.messageQueue, embed.getRaw()] })
                         .then(() => {
                         player.messageQueue = [];
                     })
@@ -59,6 +59,8 @@ class Lavalink extends lavalink_1.Manager {
                 }
                 else {
                     player.messageQueue.push(embed.getRaw());
+                    if (player.messageQueue.length >= distype_1.DiscordConstants.MESSAGE_LIMITS.EMBEDS)
+                        player.messageQueue.shift();
                 }
             }
         });
