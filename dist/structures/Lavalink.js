@@ -46,7 +46,6 @@ class Lavalink extends lavalink_1.Manager {
                 if (track.requester)
                     embed.setFooter(`Requested by ${track.requester}`);
                 if (Date.now() - player.lastMessage > Constants_1.Constants.MESSAGE_FREQUENCY) {
-                    console.log([embed.getRaw(), ...player.messageQueue.slice(-(distype_1.DiscordConstants.MESSAGE_LIMITS.EMBEDS - 1))]);
                     this.client.rest.createMessage(player.textChannel, { embeds: [...player.messageQueue.slice(-(distype_1.DiscordConstants.MESSAGE_LIMITS.EMBEDS - 1)), embed.getRaw()] })
                         .then(() => {
                         player.lastMessage = Date.now();
