@@ -2,6 +2,7 @@ import { Constants } from '../utils/Constants';
 
 import { cleanseMarkdown, DiscordColors, Embed } from '@distype/cmd';
 import { Manager, Player } from '@distype/lavalink';
+import { DiscordConstants } from 'distype';
 
 /**
  * The Lavalink manager.
@@ -51,11 +52,21 @@ export class Lavalink extends Manager {
                 if (track.thumbnail(`mqdefault`)) embed.setImage(track.thumbnail(`mqdefault`)!);
                 if (track.requester) embed.setFooter(`Requested by ${track.requester}`);
 
-                this.client.rest.createMessage(player.textChannel, { embeds: [embed.getRaw()] }).catch((error) => {
-                    this.client.logger.log(`Error sending now playing message: ${(error?.message ?? error) ?? `Unknown reason`}`, {
-                        level: `ERROR`, system: this.system
-                    });
-                });
+                if (Date.now() - player.lastMessage > Constants.MESSAGE_FREQUENCY) {
+                    console.log([embed.getRaw(), ...player.messageQueue.slice(-(DiscordConstants.MESSAGE_LIMITS.EMBEDS - 1))])
+                    this.client.rest.createMessage(player.textChannel, { embeds: [...player.messageQueue.slice(-(DiscordConstants.MESSAGE_LIMITS.EMBEDS - 1)), embed.getRaw()] })
+                        .then(() => {
+                            player.lastMessage = Date.now();
+                            player.messageQueue = [];
+                        })
+                        .catch((error) => {
+                            this.client.logger.log(`Error sending now playing message: ${(error?.message ?? error) ?? `Unknown reason`}`, {
+                                level: `ERROR`, system: this.system
+                            });
+                        });
+                } else {
+                    player.messageQueue.push(embed.getRaw());
+                }
             }
         });
 
